@@ -1,0 +1,158 @@
+import { motion, Variants } from "framer-motion";
+import { FaStar } from "react-icons/fa6";
+import Image from "next/image";
+import { memo, useMemo } from "react";
+import { MovieTrendsI } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
+import HomeSliderBtns from "../Btns/HomeSliderBtns/HomeSliderBtns";
+import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/Redux/store";
+import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
+
+const imgVariants: Variants = {
+  hidden: { opacity: 0, transform: "scale(0.8)" },
+  visible: {
+    opacity: 1,
+    transform: "scale(1)",
+    transition: { duration: 0.2, ease: "easeOut", delay: 0.2 },
+  },
+};
+
+const childVariants: Variants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.3, ease: "easeOut", delay: 0.2 },
+  },
+};
+
+const HomeSliderContent = ({
+  movie,
+  isActive,
+  genreNames,
+}: {
+  movie: MovieTrendsI;
+  isActive: boolean;
+  genreNames: string[];
+}) => {
+  const genreList = useMemo(() => {
+    return genreNames.map((genre, idx) => (
+      <span
+        key={`${genre}-${idx}`}
+        className="bg-gray-900 text-white px-1 py-0.5 sm:font-semibold"
+      >
+        {genre}
+      </span>
+    ));
+  }, [genreNames]);
+
+  const imgSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.poster_path}`;
+  const backdropSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`;
+
+  const dispatch = useDispatch();
+  const isLoaded = useSelector(
+    (state: RootState) => state.imgPlaceholderReducer.loadedImgs[imgSrc],
+    shallowEqual,
+  );
+
+  return (
+    <>
+      {/* Background image with overlay */}
+      <div className="min-h-screen absolute top-0 w-full 4xl:py-40 -z-10">
+        <div className="absolute inset-0">
+          <Image
+            src={backdropSrc}
+            alt={movie.original_title ?? "Backdrop"}
+            fill
+            priority={isActive}
+            sizes="100vw"
+            className="object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-black/80" />
+          <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-black to-transparent" />
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <section className="px-3 sm:px-7 md:max-w-screen-sm lg:max-w-screen-xl mx-auto">
+        <div
+          className="flex min-h-screen xs:pt-10 4xl:min-h-[unset] items-center justify-center
+            xl:justify-around relative gap-6 4xl:pt-48"
+        >
+          {/* Left Text Content */}
+          <motion.div
+            variants={childVariants}
+            initial="hidden"
+            animate={isActive ? "visible" : "hidden"}
+            className="flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
+              lg:max-w-screen-sm 2xl:max-w-screen-md transform-gpu"
+          >
+            <h2
+              className="flex gap-3 items-center text-3xl sm:text-4xl font-righteous border-s-4
+                border-blue-700 ps-2 !line-clamp-2"
+            >
+              {movie?.original_title}
+            </h2>
+            <h6 className="flex items-center gap-2 text-sm sm:text-lg flex-wrap justify-center">
+              <FaStar className="text-yellow-500" />
+              {movie.vote_average.toFixed(1)}
+              <span className="text-gray-400">|</span>
+              {movie.release_date.split("-")[0]}
+              <span className="text-gray-400">|</span>
+              {genreList}
+            </h6>
+
+            <div>
+              {movie?.overview && (
+                <p className="tracking-wide leading-relaxed text-gray-200 text-sm line-clamp-3 sm:line-clamp-5">
+                  {movie.overview}
+                </p>
+              )}
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
+              <div>
+                <HomeSliderBtns
+                  showType={movie.media_type as "movie" | "tv"}
+                  showId={movie.id}
+                  name={movie.original_title}
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Movie Poster */}
+          <motion.div
+            variants={imgVariants}
+            initial="hidden"
+            animate={isActive ? "visible" : "hidden"}
+            className="sm:w-[300px] sm:h-[450px] flex-none relative hidden lg:block"
+          >
+            {!isLoaded && <BgPlaceholder />}
+            <Image
+              priority={isActive}
+              loading={isActive ? "eager" : "lazy"}
+              src={imgSrc}
+              fill
+              sizes="300px"
+              alt={movie?.original_title ?? ""}
+              className={`rounded-md ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+                transition-[transform,opacity] duration-300 transform-gpu ease-out`}
+              onLoad={() => dispatch(setImageLoaded(imgSrc))}
+            />
+          </motion.div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default memo(HomeSliderContent, (prevProps, nextProps) => {
+  return (
+    prevProps.movie.id === nextProps.movie.id &&
+    prevProps.isActive === nextProps.isActive &&
+    shallowEqual(prevProps.genreNames, nextProps.genreNames)
+  );
+}) as typeof HomeSliderContent;

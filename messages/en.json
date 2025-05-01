@@ -1,0 +1,818 @@
+{
+  "Navbar": {
+    "LogoOne": "Film",
+    "LogoTwo": "O'Clock",
+    "Home": "Home",
+    "Movies": {
+      "Movies": "Movies",
+      "Explore": "Explore",
+      "AllMovies": "Discover Movies",
+      "Trending": "Trending",
+      "Genres": "Genres",
+      "NowPlaying": "Now Playing",
+      "Popular": "Popular",
+      "TopRated": "Top Rated",
+      "Upcoming": "Upcoming"
+    },
+    "TvShows": {
+      "TvShows": "Tv Shows",
+      "Explore": "Explore",
+      "AllTvShows": "Discover TV Shows",
+      "Trending": "Trending",
+      "Genres": "Genres",
+      "AiringToday": "Airing Today",
+      "OnTheAir": "On The Air",
+      "Popular": "Popular",
+      "TopRated": "Top Rated"
+    },
+    "Celebs": {
+      "Celebs": "Celebs",
+      "Popular": "Popular",
+      "Trending": "Trending"
+    },
+    "SearchPlaceholder": "Search for a movie, tv show, person...",
+    "AllSearchResults": "See all results for",
+    "SearchNotFound": "No results found",
+    "SearchMovie": "Movie",
+    "SearchTvShow": "Tv Show",
+    "SearchPerson": "Person",
+    "UserMenu": {
+      "Favorites": "Favorites",
+      "Watchlist": "Watchlist",
+      "Login": "Login",
+      "Register": "Register",
+      "Profile": "Profile",
+      "Logout": "Logout",
+      "LogOutSuccess": "You are logged out!"
+    }
+  },
+
+  "Loader": {
+    "Loading": "Loading..."
+  },
+
+  "HomePage": {
+    "HomeSlider": {
+      "WatchNowBtn": "Watch Now",
+      "WatchTrailerBtn": "Trailer",
+      "DetailsBtn": "More Info"
+    },
+    "WatchHistorySliderTitle": "Your Watch History",
+    "WatchHistorySliderEpisode": "E",
+    "WatchHistorySliderSeason": "S",
+    "PopularCelebritiesSliderTitle": "Popular Celebrities",
+    "TopMoviesSliderTitle": "Top Movies",
+    "LastWatchedTitle": "Last Watched",
+    "LastWatchedEpisode": "Episode",
+    "LastWatchedSeason": "Season",
+    "TrendingTvShowsSliderTitle": "Trending Tv Shows",
+    "LatestTrailersSliderTitle": "Latest Trailers",
+    "UpcomingMoviesSliderTitle": "Upcoming Movies",
+    "TopTvShowsSliderTitle": "Top Tv Shows",
+    "TopGenresSliderTitle": "Top Genres",
+    "WatchlistSection": {
+      "YourWatchlistSliderTitle": "Your Watchlist",
+      "LoggedIn": {
+        "title": "Your watchlist is empty",
+        "description": "Add movies and TV shows to your watchlist to keep track of what you want to watch",
+        "button": "Browse Popular Movies"
+      },
+      "LoggedOut": {
+        "title": "Sign in to access your Watchlist",
+        "description": "Save shows and movies to keep track of what you want to watch.",
+        "button": "Sign in"
+      }
+    }
+  },
+  "CardDropDownMenu": {
+    "AddToWatchlist": "Add to Watchlist",
+    "AddToFavorites": "Add to Favorites",
+    "RemoveFromWatchlist": "Remove from Watchlist",
+    "RemoveFromFavorites": "Remove from Favorites",
+    "Watch": "Watch",
+    "Share": "Share",
+    "ShareTitle": "Explore {title} on FilmO'Clock!",
+    "Share2Title": "Check this out!"
+  },
+
+  "Pagination": {
+    "Previous": "Previous",
+    "Next": "Next"
+  },
+
+  "Explore": {
+    "Movies/Explore": {
+      "title": "Explore Movies",
+      "PopularMovies": "Popular Movies",
+      "LatestTrailers": "Latest Trailers",
+      "ActionMovies": "Action Movies",
+      "ActionGenreName": "Action",
+      "ArabicMovies": "Arabic Movies",
+      "FamilyMovies": "Family Movies",
+      "FamilyGenreName": "Family"
+    },
+    "TvShows/Explore": {
+      "title": "Explore Tv Shows",
+      "PopularTvShows": "Popular Tv Shows",
+      "LatestTrailers": "Latest Trailers",
+      "ActionTvShows": "Action Tv Shows",
+      "ActionGenreName": "Action%20Adventure",
+      "ArabicTvShows": "Arabic Tv Shows",
+      "FamilyTvShows": "Family Tv Shows",
+      "FamilyGenreName": "Family"
+    }
+  },
+
+  "AllShows": {
+    "PageHeaderMovies": "Movies",
+    "PageTitleMovies": "Discover Movies",
+    "PageHeaderTvShows": "Tv Shows",
+    "PageTitleTvShows": "Discover Tv Shows",
+    "Filters": {
+      "SortBy": {
+        "Label": "Sort By",
+        "Options": {
+          "Popularity": "Popularity",
+          "MostVoted": "Most Voted",
+          "TopRated": "Top Rated",
+          "NewToOld": "New To Old",
+          "OldToNew": "Old To New"
+        }
+      },
+      "OriLangs": {
+        "Label": "Language",
+        "Options": {
+          "All": "All",
+          "Arabic": "Arabic",
+          "English": "English",
+          "French": "French",
+          "German": "German",
+          "Italian": "Italian",
+          "Spanish": "Spanish",
+          "Japanese": "Japanese",
+          "Korean": "Korean",
+          "Russian": "Russian"
+        }
+      },
+      "Ratings": {
+        "Label": "Rating",
+        "Options": {
+          "Random": "Random"
+        }
+      },
+      "Years": {
+        "Label": "Year",
+        "Options": {
+          "All": "All"
+        }
+      },
+      "Genres": {
+        "SearchPlaceholder": "Search genres...",
+        "SearchNotFound": "No genres found",
+        "Label": "Genres",
+        "Options": {
+          "All": "All Genres"
+        }
+      }
+    }
+  },
+
+  "Trending": {
+    "MoviesTitle": "Trending Movies",
+    "TvShowsTitle": "Trending Tv Shows",
+    "PeopleTitle": "Trending Celebrities",
+    "ThisWeek": "This Week",
+    "ThisWeekDesc": "What's popular this week",
+    "ThisWeekDescPeople": "Who Is Trending This Week",
+    "Today": "Today",
+    "TodayDesc": "What's popular today",
+    "TodayDescPeople": "Who Is Trending Today"
+  },
+
+  "ExploreByGenres": {
+    "title": "Explore By Genres"
+  },
+
+  "NowPlayingMovies": {
+    "title": "Now Playing Movies"
+  },
+  "Popular": {
+    "PopularMovies": "Popular Movies",
+    "PopularTvShows": "Popular Tv Shows",
+    "PopularCelebrities": "Popular Celebrities"
+  },
+
+  "OnTheAirTvShows": {
+    "title": "Currently Airing TV Shows"
+  },
+
+  "TopRated": {
+    "TopRatedMovies": "Top Rated Movies",
+    "TopRatedTvShows": "Top Rated Tv Shows"
+  },
+
+  "UpcomingMovies": {
+    "title": "Upcoming Movies"
+  },
+
+  "PopularPeople": {
+    "AllStars": "All Stars",
+    "TopOne": {
+      "TopOneTitle": "Most Popular Today",
+      "Popularity": "Popularity",
+      "KnownAs": "Known As",
+      "TotalWorks": "Total Works",
+      "Birthday": "Birthday",
+      "Gender": "Gender",
+      "ViewProfile": "View Profile",
+      "LatestWorks": "Latest Works",
+      "Male": "Male",
+      "Female": "Female"
+    },
+    "featuredCast": {
+      "title": "Featured Cast",
+      "Popularity": "Popularity",
+      "KnownAs": "Known As",
+      "KnownFor": "Known For",
+      "ViewProfile": "View Profile"
+    },
+    "LoadMore": "Load More",
+    "Loading": "Loading",
+    "Person": {
+      "PersonCard": {
+        "Acting": "Acting",
+        "Directing": "Directing",
+        "Producing": "Producing"
+      },
+      "Male": "Male",
+      "Female": "Female"
+    }
+  },
+
+  "Library": {
+    "Watchlist": {
+      "WatchlistName": "watchlist",
+      "title": "Your watchlist items",
+      "ClearBtn": "Clear Watchlist",
+      "Clearing": "Clearing...",
+      "SearchPlaceholder": "Search in your watchlist",
+      "SearchNotFound": "No results found",
+      "EmptyWatchlist": {
+        "title": "Your watchlist is empty",
+        "description": "Add movies and TV shows to your watchlist to keep track of what you want to watch",
+        "MoviesBtn": "Browse Movies",
+        "TvShowsBtn": "Browse TV Shows"
+      },
+      "WlCard": {
+        "Watched": "Watched",
+        "NotWatched": "Mark as watched",
+        "DetailsBtn": "More Info",
+        "Movie": "Movie",
+        "TvShow": "Tv Show"
+      },
+      "Watched": "Watched",
+      "UnWatched": "Mark as watched"
+    },
+
+    "Favourites": {
+      "FavoritesName": "favorites",
+      "title": "Your favourite items",
+      "ClearBtn": "Clear Favourites",
+      "Clearing": "Clearing...",
+      "Movies": "Movies",
+      "TvShows": "Tv Shows",
+      "EmptyFavourites": {
+        "title": "Your favorites is empty",
+        "description": "Movies and TV shows you add to your favorites will appear here",
+        "MoviesBtn": "Browse Movies",
+        "TvShowsBtn": "Browse TV Shows"
+      }
+    },
+
+    "Toasts": {
+      "AddedTo": "Added to ",
+      "RemovedFrom": "Removed from ",
+      "NeedsLogin": "You must be logged in to add to your",
+      "LoginHere": "Login Here",
+      "View": "View",
+      "WatchlistCleared": "Watchlist cleared",
+      "FavoritesCleared": "Favorites cleared",
+      "NoDocumentToUpdate": "This show is not in your library"
+    },
+
+    "AddTo": "Add to",
+    "RemoveFrom": "Remove from"
+  },
+
+  "SearchPage": {
+    "Header": "Search Results",
+    "ResultsFor": "Results for",
+    "NoResultsFound": "No results found",
+    "Movies": "Movies",
+    "TvShows": "Tv Shows",
+    "Celebs": "Celebs"
+  },
+
+  "PersonDetails": {
+    "PageHeader": "Details",
+    "Gender": "Gender",
+    "Male": "Male",
+    "Female": "Female",
+    "Birthday": "Birthday",
+    "PlaceOfBirth": "Place of Birth",
+    "Deathday": "Deathday",
+    "KnownFor": "Known For",
+    "Acting": "Acting",
+    "Directing": "Directing",
+    "Producing": "Producing",
+    "Biography": "Biography",
+    "RecentWorks": "Recent Works",
+    "ViewFullBiography": "View Full Biography",
+    "ShowLess": "Show Less",
+    "Tabs": {
+      "Movies": "Movies",
+      "MoviesTabTitle": "Movies",
+      "TvShows": "Tv Shows",
+      "TvShowsTabTitle": "Tv Shows",
+      "Photos": "Photos"
+    },
+    "NoResultsFound": "No results found"
+  },
+
+  "MovieDetails": {
+    "Overview": "Overview",
+    "Director": "Director",
+    "TopBilledCast": "Top Billed Cast",
+    "Tabs": {
+      "Reviews": "Reviews",
+      "NoReviewsFound": "No reviews found",
+      "Videos": "Videos",
+      "Images": "Images",
+      "NoImagesFound": "No images found"
+    },
+    "Similar": "Similar",
+    "Recommendations": "Recommendations",
+    "ViewLess": "View Less",
+    "ViewMore": "View More"
+  },
+
+  "VideosSelect": {
+    "VideosSelectTitle": "Video Type",
+    "AllVideos": "All Videos",
+    "NoVideosFound": "No videos found"
+  },
+
+  "TvDetails": {
+    "Overview": "Overview",
+    "Creator": "Creator:",
+    "Seasons": "Seasons",
+    "Season": "Season",
+    "Episodes": "Episodes",
+    "FirstAirDate": "First Air Date:",
+    "LastAirDate": "Last Air Date:",
+    "TopBilledCast": "Top Billed Cast",
+    "Status": "Status:",
+    "Ended": "Ended",
+    "ReturningSeries": "Returning Series",
+    "Canceled": "Canceled",
+    "TvShowLanguage": "Language",
+    "Tabs": {
+      "Reviews": "Reviews",
+      "NoReviewsFound": "No reviews found",
+      "Videos": "Videos",
+      "Images": "Images",
+      "NoImagesFound": "No images found",
+      "EpisodeCard": {
+        "NoImage": "No Image",
+        "TheEpisode": "Episode",
+        "Watch": "Watch",
+        "ReadMore": "Read More",
+        "Loading": "Loading"
+      },
+      "Episodes": "Episodes",
+      "TheSeason": "Season",
+      "LoadMoreEpisodes": "Load More Episodes",
+      "EpisodeModal": {
+        "WatchEpisode": "Watch Episode",
+        "Season": "Season",
+        "Episode": "Episode"
+      }
+    },
+    "Similar": "Similar",
+    "Recommendations": "Recommendations",
+    "ViewLess": "View Less",
+    "ViewMore": "View More"
+  },
+
+  "WatchTv": {
+    "Episode": "Episode",
+    "Season": "Season",
+    "Overview": "Overview",
+    "Loading": "Loading...",
+    "GuestStars": "Guest Stars",
+    "ServersWarning": "if you can't watch the video, please try another server",
+    "Servers": "Servers",
+    "NextEpisode": "Next Episode",
+    "FirstEpisode": "First Episode",
+    "PreviousEpisode": "Previous Episode",
+    "LastEpisode": "Last Episode",
+    "TheEpisodes": "Episodes",
+    "Recommendations": "Recommendations",
+    "Similar": "Similar"
+  },
+
+  "WatchMovie": {
+    "Overview": "Overview",
+    "TopBilledCast": "Top Billed Cast",
+    "ServersWarning": "If playback fails, try another server",
+    "Servers": "Servers",
+    "Recommendations": "Recommendations",
+    "Similar": "Similar"
+  },
+
+  "Account": {
+    "PageHeader": "Profile",
+    "DetailsTab": "Details",
+    "DetailsPart": {
+      "ProfileDetails": "Profile Details",
+      "UserInformations": "Details and informations about user.",
+      "UserName": "User name",
+      "EmailAddress": "Email address",
+      "EmailStatus": "Email status",
+      "NotVerified": "Not verified",
+      "Verified": "Verified",
+      "Verify": "Verify",
+      "CreatedAt": "Created at"
+    },
+    "SettingsTab": "Settings",
+    "SettingsPart": {
+      "VerifyAccountTitle": "Verify Account",
+      "VerifyMessage": "Your account is not verified. Please verify your account to access all features of the website.",
+      "VerifyNow": "Verify Now",
+      "UpdateProfileTitle": "Update Profile",
+      "UserName": "User name",
+      "UserNamePlaceholder": "Enter your user name...",
+      "EmailAddress": "Email address",
+      "EmailAddressPlaceholder": "Enter your email address...",
+      "EmailAddressWarning": "to change your email you need to verify your account first .",
+      "NewPassword": "New password",
+      "NewPasswordPlaceholder": "Enter your new password...",
+      "ConfirmPassword": "Confirm password",
+      "ConfirmPasswordPlaceholder": "confirm your new password...",
+      "SaveChanges": "Save changes",
+      "DeleteAccountTitle": "Delete Account",
+      "DeleteAccountWarning": "Proceed with caution!",
+      "DeleteAccountMessage": "We will completely wipe your data. There is no way to access your account after this action.",
+      "DeleteAccount": "Continue with deletion",
+      "ToastsAndMessages": {
+        "VerificationEmailSentSuccessfully": "Verification email sent. Please check your inbox.(including spam folder)",
+        "ProfileUpdatedSuccessfully": "Profile updated successfully!",
+        "ReloginToUpdateError": "Please re-login to update your profile.",
+        "email-already-in-useError": "The email address is already in use by another account.",
+        "VerifyTheNewEmailFirstError": "Please verify the new email before changing email.",
+        "AccountDeletedSuccessfully": "Account deleted successfully.",
+        "ReLoginToDeleteError": "Please re-login to delete your account.",
+        "DefaultDeleteError": "Failed to delete account"
+      },
+      "Validation": {
+        "UserName": {
+          "min": "User name must be at least 3 characters",
+          "max": "User name must be at most 20 characters"
+        },
+        "EmailAddress": {
+          "email": "Invalid email address"
+        },
+        "NewPassword": {
+          "min": "Password must be at least 6 characters"
+        },
+        "ConfirmPassword": {
+          "required": "Please confirm your password",
+          "oneOf": "Passwords must match"
+        }
+      }
+    }
+  },
+
+  "Login": {
+    "ToastsOrMessages": {
+      "LoginSuccessful": "Login successful , welcome back!",
+      "TokenIsExpired": "Please login again.",
+      "InvalidEmailOrPassword": "Invalid email or password.",
+      "WrongPassword": "Wrong password.",
+      "UserNotFound": "User not found.",
+      "LoginFailed": " Login failed"
+    },
+    "Form": {
+      "Title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "Email": "Email address",
+      "Password": "Password",
+      "RememberMe": "Remember me",
+      "ForgotPassword": "Forgot password?",
+      "Login": "Login",
+      "LoggingIn": "Logging In",
+      "Or": "or",
+      "LoginWithGoogle": "Login with Google",
+      "DontHaveAccount": "Don't have an account?",
+      "SignUp": "Sign up"
+    },
+    "Validation": {
+      "EmailAddress": {
+        "email": "Invalid email address",
+        "required": "Email is required"
+      },
+      "Password": {
+        "min": "Password must be at least 6 characters",
+        "required": "Password is required"
+      }
+    }
+  },
+
+  "ForgotPassword": {
+    "Title": "Reset Password",
+    "subtitle": "Enter your email to send a password reset link",
+    "Email": "Email address",
+    "SendEmailBtn": "Send Email",
+    "SendingEmail": "Sending Email",
+    "GoToLogin": "Go to login",
+    "Tryagainin": "Try again in",
+    "Second": "S",
+    "ToastsOrMessages": {
+      "PleaseWait": "Please wait",
+      "InvalidEmailFormat": "Invalid email format",
+      "PasswordResetEmailSentSuccessfully": "Password reset email sent successfully. Check your inbox! (including spam folder)",
+      "PasswordResetEmailSentFailedError": "Failed to send password reset email. Please try again later.",
+      "InvalidEmailError": "Invalid email address.",
+      "NoUserFoundWithTHisEmailError": "No user found with this email address.",
+      "TooManyRequestsError": "Too many requests. Please try again later.",
+      "DefaultError": "Error sending password reset email."
+    }
+  },
+
+  "ResetPassword": {
+    "ExpiredLink": "Invalid or expired reset link. Please try again from the beginning.",
+    "GoBackBtn": "Go Back",
+    "Title": "Reset Password",
+    "Subtitle": "Enter new password for",
+    "yourAccount": "your account",
+    "Form": {
+      "NewPassword": "New Password",
+      "InProgress": "In Progress",
+      "SavePassword": "Save Password"
+    },
+    "ToastsOrMessages": {
+      "PasswordResetSuccessfully": "Password has been reset successfully!"
+    },
+    "Validation": {
+      "NewPassword": {
+        "min": "Password must be at least 6 characters"
+      }
+    }
+  },
+
+  "RecoverEmail": {
+    "Success": "Your email has been restored. Please log in using your previous email.",
+    "ErrorLink": "This recovery link is invalid or expired.",
+    "OobError": "Invalid or expired recovery link. Please try again from the beginning.",
+    "CancelBtn": "Cancel",
+    "Redirecting": "Redirecting you to login...",
+    "BacktoLoginPage": "Back to Login Page"
+  },
+
+  "VerifyEmail": {
+    "ExpiredLink": "Invalid or expired verification link. Please try again from the beginning.",
+    "ContinueBtn": "Continue",
+    "GoBackBtn": "Go back",
+    "Verifying": "Verifying...",
+    "ToastsOrMessages": {
+      "VerifiedSuccessfully": "Email verified successfully!",
+      "Error": "Error verifying email. Please try again later."
+    }
+  },
+
+  "Register": {
+    "Title": "Welcome",
+    "subtitle": "Join the family of",
+    "Form": {
+      "UserName": "User name",
+      "EmailAddress": "Email address",
+      "Password": "Password",
+      "ConfirmPassword": "Confirm password",
+      "SignUp": "Sign up",
+      "SigningUp": "Signing up...",
+      "Or": "or",
+      "SignInWithGoogle": "Sign in with Google",
+      "SigningInWithGoogle": "Signing in...",
+      "AlreadyHaveAccount": "Already have an account?",
+      "Login": "Login"
+    },
+    "ToastsOrMessages": {
+      "RegistrationSuccessful": "Registration successful , welcome!",
+      "RegistrationFailed": "Registration failed. Please try again later.",
+      "EmailALreadyInUseError": "The email address is already in use by another account.",
+      "WeakPasswordError": "Password must be at least 6 characters",
+      "DefaultError": "Registration failed. Please try again later."
+    },
+    "Validation": {
+      "UserName": {
+        "min": "User name must be at least 3 characters",
+        "max": "User name must be at most 20 characters",
+        "required": "User name is required"
+      },
+      "EmailAddress": {
+        "email": "Invalid email address",
+        "required": "Email is required"
+      },
+      "Password": {
+        "min": "Password must be at least 6 characters",
+        "required": "Password is required"
+      },
+      "ConfirmPassword": {
+        "required": "Confirm password is required",
+        "oneOf": "Passwords must match"
+      }
+    }
+  },
+
+  "NotFoundPage": {
+    "Title": "Ops!... this page is not available",
+    "description": "The page you are looking for does not exist. It might have been moved or deleted.",
+    "GoBackBtn": "Go Home"
+  },
+
+  "Footer": {
+    "description1": "Dive into the world of cinema with FilmO'Clock. Explore trending movies, discover TV shows across genres, and never miss upcoming releases. Your entertainment hub, anytime, anywhere.",
+    "description2": "Movies, TV Shows, Streaming, Reviews, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast",
+    "exploreTitle": "Explore",
+    "movies": "Movies",
+    "tvShows": "TV Shows",
+    "celebs": "Celebs",
+    "upcoming": "Upcoming",
+    "genres": "Genres",
+    "quickLinksTitle": "Quick Links",
+    "onTheAir": "On The Air",
+    "bestMovies": "Best Movies",
+    "bestTvShows": "Best TV Shows",
+    "nowPlaying": "Now Playing",
+    "trending": "Trending",
+    "poweredBy": "Powered by",
+    "madeWith": "Made with",
+    "by": "by",
+    "myName": "Mahmoud Fawzy",
+    "LogoName": "FilmO'Clock"
+  },
+
+  "NoConnection": {
+    "Title": "No Internet Connection!",
+    "description": "Please check your internet connection to continue."
+  },
+
+  "adsModal": {
+    "title": "We recommend using ad blockers",
+    "description": "For the best viewing experience, consider using an ad blocker or privacy-focused browser based on your platform.",
+    "chrome": "Chrome Users",
+    "chromeTips": "We recommend these Chrome extensions:",
+    "firefox": "Firefox Users",
+    "firefoxTips": "We recommend these Firefox extensions:",
+    "edge": "Microsoft Edge Users",
+    "edgeTips": "We recommend these Edge extensions:",
+    "android": "Android Users",
+    "androidTips": "We recommend using one of the following browsers:",
+    "ios": "iPhone Users",
+    "iosTips": "We recommend using one of the following browsers:",
+    "gotIt": "Got it"
+  },
+
+  "MetaData": {
+    "Keywords": "Movies, TV Shows, Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast",
+    "Movie": " Movie ",
+    "TvShow": " TV Show ",
+    "MainPage": {
+      "Title": "FilmO'Clock",
+      "Description": "FilmO'Clock is your ultimate movie companion — discover, track, and explore the latest movies and TV shows with stunning visuals, personalized watchlists, and multi-language support. Your next favorite film is just a tick away!"
+    },
+    "Library": {
+      "watchlist": {
+        "Title": "Watchlist | FilmO'Clock",
+        "Description": "Here you will find the Movies and Tv shows you have saved in your watchlist."
+      },
+      "favorites": {
+        "Title": "Favorites | FilmO'Clock",
+        "Description": "Here you will find the Movies and Tv shows you have saved in your favorites."
+      }
+    },
+    "Profile": {
+      "Title": "Profile | FilmO'Clock",
+      "Description": "Here you will find all the information about your account."
+    },
+    "actionUrls": {
+      "resetPassword": {
+        "Title": "Reset Password | FilmO'Clock",
+        "Description": "Reset your password"
+      },
+      "verifyEmail": {
+        "Title": "Activate Account | FilmO'Clock",
+        "Description": "Activate your account"
+      },
+      "recoverEmail": {
+        "Title": "Recover Email | FilmO'Clock",
+        "Description": "Recover your email"
+      }
+    },
+    "Login": {
+      "Title": "Login | FilmO'Clock",
+      "Description": "Sign in to your account"
+    },
+    "Register": {
+      "Title": "Register | FilmO'Clock",
+      "Description": "Create your account"
+    },
+    "ForgotPassword": {
+      "Title": "Reset Password | FilmO'Clock",
+      "Description": "Reset your password"
+    },
+    "Explore": {
+      "Description": "Discover the latest movies and TV shows with stunning visuals, personalized watchlists, and multi-language support.",
+      "Movies": {
+        "Title": "Today's Movies | FilmO'Clock"
+      },
+      "TvShows": {
+        "Title": "Today's TV Shows | FilmO'Clock"
+      }
+    },
+    "GenresPage": {
+      "MoviesTitle": "Movies by Genre | FilmO'Clock",
+      "TvShowsTitle": "TV Shows by Genre | FilmO'Clock",
+      "MoviesDescription": "Discover movies by genre.",
+      "TvShowsDescription": "Discover TV shows by genre."
+    },
+    "AllMovies": {
+      "Title": "Discover Movies | FilmO'Clock",
+      "Description": "Discover All Movies by multiple search filters."
+    },
+    "AllTvShows": {
+      "Title": "Discover TV Shows | FilmO'Clock",
+      "Description": "Discover All TV shows by multiple search filters."
+    },
+    "NowPlayingMovies": {
+      "Title": "Now Playing Movies | FilmO'Clock",
+      "Description": "Discover the latest movies currently in theaters."
+    },
+    "UpcomingMovies": {
+      "Title": "Upcoming Movies | FilmO'Clock",
+      "Description": "Discover upcoming movies."
+    },
+    "PopularPeople": {
+      "Title": "Popular People | FilmO'Clock",
+      "Description": "Discover popular people."
+    },
+    "TrendingPeople": {
+      "Title": "Trending People | FilmO'Clock",
+      "Description": "Discover trending people."
+    },
+    "PopularMovies": {
+      "Title": "Popular Movies | FilmO'Clock",
+      "Description": "Discover popular movies."
+    },
+    "PopularTvShows": {
+      "Title": "Popular TV Shows | FilmO'Clock",
+      "Description": "Discover popular TV shows."
+    },
+    "TopRatedMovies": {
+      "Title": "Top Rated Movies | FilmO'Clock",
+      "Description": "Discover top rated movies."
+    },
+    "TopRatedTvShows": {
+      "Title": "Top Rated TV Shows | FilmO'Clock",
+      "Description": "Discover top rated TV shows."
+    },
+    "TrendingMovies": {
+      "Title": "Trending Movies | FilmO'Clock",
+      "Description": "Discover trending movies."
+    },
+    "TrendingTvShows": {
+      "Title": "Trending TV Shows | FilmO'Clock",
+      "Description": "Discover trending TV shows."
+    },
+    "AiringTodayTvShows": {
+      "Title": "TV Shows Airing Today | FilmO'Clock",
+      "Description": "Discover TV shows airing today."
+    },
+    "OnTheAirTvShows": {
+      "Title": "Currently Airing TV Shows | FilmO'Clock",
+      "Description": "Discover TV shows currently airing."
+    },
+    "WatchTv": {
+      "Title": "{TvName} Season({s}) Episode({e}) (TV Series) | FilmO'Clock"
+    },
+    "WatchMovie": {
+      "Title": "{MovieName} (Movie) | FilmO'Clock"
+    },
+    "SearchResults": {
+      "title": "({query}) Search results | FilmO'Clock",
+      "titleWithPage": "({query}) Search results - page {page} | FilmO'Clock",
+      "description": "Find movies, TV shows, and people related to '{query}'.",
+      "descriptionWithPage": "Page {page} of search results for {query}."
+    }
+  }
+}

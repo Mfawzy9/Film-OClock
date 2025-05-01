@@ -1,0 +1,181 @@
+import MovieDetails from "@/app/_Components/MovieDetails/MovieDetails";
+import PersonDetails from "@/app/_Components/PersonDetails/PersonDetails";
+import TvDetails from "@/app/_Components/TvDetails/TvDetails";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import {
+  MovieDetailsResponse,
+  PersonDetailsResponse,
+  TvDetailsResponse,
+} from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import {
+  MovieTranslationsResponse,
+  TvTranslationsResponse,
+} from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import { getInitialDetailsDataCachedWithMap } from "../../../../../../../../helpers/tmdbRequests";
+import { siteBaseUrl } from "../../../../../../../../helpers/serverBaseUrl";
+import { notFound, redirect } from "next/navigation";
+import { nameToSlug } from "../../../../../../../../helpers/helpers";
+
+type Props = {
+  params: Promise<{
+    locale: "en" | "ar";
+    showId: number;
+    showType: "movie" | "tv" | "person";
+    slug: string;
+  }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, showId, showType } = await params;
+  const t = await getTranslations({ locale, namespace: "MetaData" });
+
+  const { initialData, initialTranslations } =
+    await getInitialDetailsDataCachedWithMap({
+      locale,
+      showId,
+      showType,
+    });
+
+  const description = () => {
+    if (showType === "person")
+      return (initialData as PersonDetailsResponse)?.biography;
+    if (initialData && initialTranslations) {
+      const arabicSaOverview = initialTranslations.translations
+        .find(
+          (translation) =>
+            translation.iso_639_1 === "ar" && translation.iso_3166_1 === "SA",
+        )
+        ?.data?.overview.trim();
+      const arabicAeOverview = initialTranslations.translations
+        .find(
+          (translation) =>
+            translation.iso_639_1 === "ar" && translation.iso_3166_1 === "AE",
+        )
+        ?.data?.overview.trim();
+      return (
+        arabicSaOverview ||
+        arabicAeOverview ||
+        (initialData as MovieDetailsResponse).overview
+      );
+    } else {
+      return (initialData as MovieDetailsResponse).overview;
+    }
+  };
+
+  if (!initialData)
+    return {
+      title: t("MainPage.Title"),
+      description: t("MainPage.Description"),
+    };
+
+  const title =
+    "original_title" in initialData
+      ? initialData?.original_title
+      : "first_air_date" in initialData
+        ? initialData?.original_name
+        : initialData?.name;
+
+  const alternates = {
+    canonical: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(title)}`,
+    languages: {
+      en: `${siteBaseUrl}/en/details/${showType}/${showId}/${nameToSlug(title)}`,
+      ar: `${siteBaseUrl}/ar/details/${showType}/${showId}/${nameToSlug(title)}`,
+    },
+  };
+
+  return {
+    title: `${title ?? t("MainPage.Title")} | FilmO'Clock`,
+    description: description() || t("MainPage.Description"),
+    keywords:
+      (initialData as MovieDetailsResponse | TvDetailsResponse).genres
+        ?.map(({ name }) => name)
+        .join(", ") ||
+      (initialData as PersonDetailsResponse)?.movie_credits?.cast
+        ?.map(({ original_title }) => original_title)
+        .join(", ") ||
+      t("Keywords"),
+    openGraph: {
+      url: `https://filmo-clock.vercel.app/${locale}/details/${showType}/${showId}/${nameToSlug(title)}`,
+      title: title || t("MainPage.Title"),
+      description: description() || t("MainPage.Description"),
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${
+            (initialData as MovieDetailsResponse | TvDetailsResponse)
+              .backdrop_path ||
+            (initialData as MovieDetailsResponse | TvDetailsResponse)
+              .poster_path ||
+            (initialData as PersonDetailsResponse).profile_path
+          }`,
+          width: 1280,
+          height: 720,
+          alt:
+            (initialData as MovieDetailsResponse).original_title ||
+            (initialData as TvDetailsResponse).original_name ||
+            (initialData as PersonDetailsResponse).name,
+        },
+      ],
+    },
+    alternates,
+  };
+}
+
+const Details = async ({ params }: Props) => {
+  const { showId, showType, locale, slug } = await params;
+  const { initialData, initialTranslations } =
+    await getInitialDetailsDataCachedWithMap({
+      locale,
+      showId,
+      showType,
+    });
+
+  const title =
+    initialData &&
+    ("original_title" in initialData
+      ? initialData.original_title
+      : "first_air_date" in initialData
+        ? initialData.original_name
+        : initialData.name);
+
+  const correctSlug = title && nameToSlug(title);
+  const decodedSlug = decodeURIComponent(slug);
+
+  if (decodedSlug !== correctSlug) {
+    redirect(`/${locale}/details/${showType}/${showId}/${correctSlug}`);
+  }
+
+  if (showType !== "movie" && showType !== "tv" && showType !== "person")
+    return notFound();
+
+  return (
+    <>
+      {showType === "movie" && (
+        <MovieDetails
+          showId={showId}
+          showType={showType}
+          initialData={initialData as MovieDetailsResponse}
+          initialTranslations={initialTranslations as MovieTranslationsResponse}
+        />
+      )}
+      {showType === "tv" && (
+        <TvDetails
+          showId={showId}
+          showType={showType}
+          initialData={initialData as TvDetailsResponse}
+          initialTranslations={initialTranslations as TvTranslationsResponse}
+        />
+      )}
+
+      {showType === "person" && (
+        <PersonDetails
+          showId={showId}
+          showType={showType}
+          initialData={initialData as PersonDetailsResponse}
+        />
+      )}
+    </>
+  );
+};
+
+export default Details;

@@ -1,0 +1,819 @@
+{
+  "Navbar": {
+    "LogoOne": "فيلم ",
+    "LogoTwo": "أوكْلوك",
+    "Home": "الرئيسية",
+    "Movies": {
+      "Movies": "أفلام",
+      "Explore": "الاكثر شعبية",
+      "AllMovies": "استكشف",
+      "Trending": "الرائج",
+      "Genres": "الأنواع",
+      "NowPlaying": "يعرض الآن",
+      "Popular": "الأكثر شهرة",
+      "TopRated": "الأعلى تقييمًا",
+      "Upcoming": "القادمة"
+    },
+    "TvShows": {
+      "TvShows": "المسلسلات",
+      "Explore": "الاكثر شعبية",
+      "AllTvShows": "استكشف",
+      "Trending": "الرائج",
+      "Genres": "الأنواع",
+      "AiringToday": "يعرض اليوم",
+      "OnTheAir": "يُعرض حاليًا",
+      "Popular": "الأكثر شهرة",
+      "TopRated": "الأعلى تقييمًا"
+    },
+    "Celebs": {
+      "Celebs": "المشاهير",
+      "Popular": "الأكثر شهرة",
+      "Trending": "الرائج"
+    },
+    "SearchPlaceholder": "ابحث عن فيلم، مسلسل، أو شخص...",
+    "AllSearchResults": "عرض جميع النتائج لـ ",
+    "SearchNotFound": "لم يتم العثور على نتائج",
+    "SearchMovie": "فيلم",
+    "SearchTvShow": "مسلسل",
+    "SearchPerson": "شخص",
+    "UserMenu": {
+      "Favorites": "المفضلة",
+      "Watchlist": "قائمة المشاهدة",
+      "Login": "تسجيل الدخول",
+      "Register": "إنشاء حساب",
+      "Profile": "الملف الشخصي",
+      "Logout": "تسجيل الخروج",
+      "LogOutSuccess": "تم تسجيل الخروج !"
+    }
+  },
+
+  "Loader": {
+    "Loading": "جاري التحميل..."
+  },
+
+  "HomePage": {
+    "HomeSlider": {
+      "WatchNowBtn": "مشاهدة",
+      "WatchTrailerBtn": "الإعلان",
+      "DetailsBtn": "التفاصيل"
+    },
+    "WatchHistorySliderTitle": "سجل المشاهدة",
+    "WatchHistorySliderEpisode": "ح",
+    "WatchHistorySliderSeason": "ج",
+    "PopularCelebritiesSliderTitle": "مشاهير اليوم",
+    "TopMoviesSliderTitle": "أفضل الأفلام",
+    "LastWatchedTitle": "آخر ما شاهدته",
+    "LastWatchedEpisode": "الحلقة",
+    "LastWatchedSeason": "الجزء",
+    "TrendingTvShowsSliderTitle": "المسلسلات الرائجة",
+    "LatestTrailersSliderTitle": "أحدث الإعلانات",
+    "UpcomingMoviesSliderTitle": "الأفلام القادمة",
+    "TopTvShowsSliderTitle": "أفضل المسلسلات",
+    "TopGenresSliderTitle": "تصفح الأقسام",
+    "WatchlistSection": {
+      "YourWatchlistSliderTitle": "قائمة المشاهدة الخاصة بك",
+      "LoggedIn": {
+        "title": "قائمة المشاهدة فارغة",
+        "description": "أضف الأفلام والمسلسلات إلى قائمة المشاهدة لتتبع ما تريد مشاهدته",
+        "button": "تصفح أحدث الأفلام "
+      },
+      "LoggedOut": {
+        "title": "سجل الدخول للوصول إلى قائمة المشاهدة",
+        "description": "احفظ الأفلام والمسلسلات لتتبع ما تريد مشاهدته.",
+        "button": "تسجيل الدخول"
+      }
+    }
+  },
+
+  "CardDropDownMenu": {
+    "AddToWatchlist": "أضف إلى قائمة المشاهدة",
+    "AddToFavorites": "أضف إلى المفضلة",
+    "RemoveFromWatchlist": "إزالة من قائمة المشاهدة",
+    "RemoveFromFavorites": "إزالة من المفضلة",
+    "Watch": "شاهد",
+    "Share": "مشاركة",
+    "ShareTitle": "استكشف {title} في (فيلم أوكْلوك)",
+    "Share2Title": "شاهد هذا!"
+  },
+
+  "Pagination": {
+    "Previous": "السابق",
+    "Next": "التالي"
+  },
+
+  "Explore": {
+    "Movies/Explore": {
+      "title": "استعرض أفلام اليوم",
+      "PopularMovies": "الرائج اليوم",
+      "LatestTrailers": "إعلانات أحدث الأفلام",
+      "ActionMovies": "أكشن",
+      "ActionGenreName": "حركة",
+      "ArabicMovies": "عربي",
+      "FamilyMovies": "عائلي",
+      "FamilyGenreName": "عائلي"
+    },
+    "TvShows/Explore": {
+      "title": "استعرض مسلسلات اليوم",
+      "PopularTvShows": "الرائج اليوم",
+      "LatestTrailers": "إعلانات أحدث المسلسلات",
+      "ActionTvShows": "مسلسلات أكشن",
+      "ActionGenreName": "حركة ومغامرة",
+      "ArabicTvShows": "مسلسلات عربي",
+      "FamilyTvShows": "مسلسلات عائلية",
+      "FamilyGenreName": "عائلي"
+    }
+  },
+
+  "AllShows": {
+    "PageHeaderMovies": "أفلام",
+    "PageTitleMovies": "تصفّح الأفلام",
+    "PageHeaderTvShows": "مسلسلات",
+    "PageTitleTvShows": "تصفّح المسلسلات",
+    "Filters": {
+      "SortBy": {
+        "Label": "الترتيب حسب",
+        "Options": {
+          "Popularity": "الأكثر شهرة",
+          "MostVoted": "الأكثر تصويتًا",
+          "TopRated": "الأعلى تقييمًا",
+          "NewToOld": "من الأحدث إلى الأقدم",
+          "OldToNew": "من الأقدم إلى الأحدث"
+        }
+      },
+      "OriLangs": {
+        "Label": "اللغة",
+        "Options": {
+          "All": "الكل",
+          "Arabic": "عربي",
+          "English": "إنجليزي",
+          "French": "فرنسي",
+          "German": "ألماني",
+          "Italian": "إيطالي",
+          "Spanish": "أسباني",
+          "Japanese": "ياباني",
+          "Korean": "كوري",
+          "Russian": "روسي"
+        }
+      },
+      "Ratings": {
+        "Label": "التقييم",
+        "Options": {
+          "Random": "عشوائي"
+        }
+      },
+      "Years": {
+        "Label": "السنة",
+        "Options": {
+          "All": "الكل"
+        }
+      },
+      "Genres": {
+        "SearchPlaceholder": "ابحث عن نوع...",
+        "SearchNotFound": "لا يوجد نوع بهذا الاسم",
+        "Label": "الأنواع",
+        "Options": {
+          "All": "كل الأنواع"
+        }
+      }
+    }
+  },
+
+  "Trending": {
+    "MoviesTitle": "الافلام الرائجة",
+    "TvShowsTitle": "المسلسلات الرائجة",
+    "PeopleTitle": "الشخصيات الرائجة",
+    "ThisWeek": "هذا الاسبوع",
+    "ThisWeekDesc": "الرائج هذا الاسبوع",
+    "ThisWeekDescPeople": "الشخصيات الرائجة هذا الاسبوع",
+    "Today": "اليوم",
+    "TodayDesc": "الرائج اليوم",
+    "TodayDescPeople": "الشخصيات الرائجة اليوم"
+  },
+  "ExploreByGenres": {
+    "title": "ابحث حسب النوع"
+  },
+
+  "NowPlayingMovies": {
+    "title": "الأفلام المعروضة حاليًا"
+  },
+
+  "Popular": {
+    "PopularMovies": "الأفلام الرائجة اليوم",
+    "PopularTvShows": "المسلسلات والبرامج التلفزيونية الشائعة اليوم"
+  },
+
+  "OnTheAirTvShows": {
+    "title": "المسلسلات والبرامج التلفزيونية المعروضة حاليًا"
+  },
+
+  "TopRated": {
+    "TopRatedMovies": "الأفلام الأعلى تقييمًا",
+    "TopRatedTvShows": "المسلسلات والبرامج التلفزيونية الأعلى تقييمًا"
+  },
+
+  "UpcomingMovies": {
+    "title": "الأفلام القادمة"
+  },
+
+  "PopularPeople": {
+    "AllStars": "جميع المشاهير",
+    "TopOne": {
+      "TopOneTitle": "الأكثر شعبية اليوم",
+      "Popularity": "الشعبية",
+      "KnownAs": "معرّف كـ",
+      "TotalWorks": "عدد الأعمال",
+      "Birthday": "تاريخ الميلاد",
+      "Gender": "النوع",
+      "ViewProfile": "الملف الشخصي",
+      "LatestWorks": "آخر الأعمال",
+      "Male": "ذكر",
+      "Female": "انثى"
+    },
+    "featuredCast": {
+      "title": "أبرز الشخصيات",
+      "Popularity": "الشعبية",
+      "KnownAs": "معرّف كـ",
+      "KnownFor": "أبرز الأعمال",
+      "ViewProfile": "الملف الشخصي"
+    },
+    "LoadMore": "اظهار المزيد",
+    "Loading": "جاري التحميل",
+    "Person": {
+      "PersonCard": {
+        "Acting": "ممثل/ة",
+        "Directing": "مخرج/ة",
+        "Producing": "منتج/ة"
+      },
+      "Male": "ذكر",
+      "Female": "انثى"
+    }
+  },
+
+  "Library": {
+    "Watchlist": {
+      "WatchlistName": "قائمة المشاهدة",
+      "title": "قائمة المشاهدة الخاصة بك",
+      "ClearBtn": "مسح القائمة",
+      "Clearing": "جاري المسح ...",
+      "SearchPlaceholder": "ابحث في قائمة المشاهدة الخاصة بك",
+      "SearchNotFound": "لا يوجد نتائج",
+      "EmptyWatchlist": {
+        "title": "قائمة المشاهدة الخاصة بك فارغة",
+        "description": "أضف الأفلام والمسلسلات إلى قائمة المشاهدة لتتبع ما ترغب في مشاهدته",
+        "MoviesBtn": "تصفح الأفلام",
+        "TvShowsBtn": "تصفح المسلسلات"
+      },
+      "WlCard": {
+        "Watched": "تمت المشاهدة",
+        "NotWatched": "وضع كمشاهد",
+        "DetailsBtn": "التفاصيل",
+        "Movie": "فيلم",
+        "TvShow": "مسلسل"
+      },
+      "Watched": "تمت المشاهدة",
+      "UnWatched": "تحديد على أنّه تمت مشاهدته"
+    },
+
+    "Favourites": {
+      "FavoritesName": "المفضلة",
+      "title": "عناصر المفضلة",
+      "ClearBtn": "مسح المفضلة",
+      "Clearing": "جاري المسح ...",
+      "Movies": "الأفلام",
+      "TvShows": "المسلسلات",
+      "EmptyFavourites": {
+        "title": "قائمة المفضلة الخاصة بك فارغة",
+        "description": "الأفلام والمسلسلات التي تضيفها إلى المفضلة ستظهر هنا",
+        "MoviesBtn": "تصفح الأفلام",
+        "TvShowsBtn": "تصفح المسلسلات"
+      }
+    },
+
+    "Toasts": {
+      "AddedTo": "تمت الإضافة إلى ",
+      "RemovedFrom": "تمت الإزالة من ",
+      "NeedsLogin": "تحتاج إلى تسجيل الدخول لتتمكن من الحفظ إلى",
+      "LoginHere": "تسجيل الدخول",
+      "View": "الذهاب إلى",
+      "WatchlistCleared": "تم مسح قائمة المشاهدة",
+      "FavoritesCleared": "تم مسح قائمة المفضلة",
+      "NoDocumentToUpdate": "هذا العنصر غير موجود في المكتبة الخاصة بك !"
+    },
+
+    "AddTo": "إضافة إلى",
+    "RemoveFrom": "إزالة من"
+  },
+
+  "SearchPage": {
+    "Header": "نتائج البحث",
+    "ResultsFor": "نتائج ",
+    "NoResultsFound": "لم يتم العثور على نتائج",
+    "Movies": "أفلام",
+    "TvShows": "مسلسلات وبرامج تلفزيونية",
+    "Celebs": "فنانين ومشاهير"
+  },
+
+  "PersonDetails": {
+    "PageHeader": "معلومات",
+    "Gender": "الجنس",
+    "Male": "ذكر",
+    "Female": "انثى",
+    "Birthday": "تاريخ الميلاد",
+    "PlaceOfBirth": "مكان الميلاد",
+    "Deathday": "تاريخ الوفاة",
+    "KnownFor": "معرّف كـ",
+    "Acting": "ممثل/ة",
+    "Directing": "مخرج/ة",
+    "Producing": "منتج/ة",
+    "Biography": "السيرة الذاتية",
+    "RecentWorks": "آخر الأعمال",
+    "ViewFullBiography": "اظهار السيرة الذاتية بالكامل",
+    "ShowLess": "اظهار اقل",
+    "Tabs": {
+      "Movies": "أفلام",
+      "MoviesTabTitle": "افلام",
+      "TvShows": "مسلسلات",
+      "TvShowsTabTitle": "مسلسلات",
+      "Photos": "صور"
+    },
+    "NoResultsFound": "لم يتم العثور على نتائج"
+  },
+
+  "MovieDetails": {
+    "Overview": "القصة",
+    "Director": "المخرج",
+    "TopBilledCast": "الممثلين الرئيسيين",
+    "Tabs": {
+      "Reviews": "التقييمات",
+      "NoReviewsFound": "لم يتم العثور على تقييمات",
+      "Videos": "فيديو",
+
+      "Images": "الصور",
+      "NoImagesFound": "لم يتم العثور على صور"
+    },
+    "Similar": "أفلام مشابهة",
+    "Recommendations": "توصيات",
+    "ViewLess": "اظهار اقل",
+    "ViewMore": "اظهار المزيد"
+  },
+
+  "VideosSelect": {
+    "VideosSelectTitle": "نوع الفيديو",
+    "AllVideos": "الكل",
+    "NoVideosFound": "لم يتم العثور على فيديوهات"
+  },
+
+  "TvDetails": {
+    "Overview": "القصة",
+    "Creator": "المخرج:",
+    "Seasons": "أجزاء",
+    "Season": "جزء",
+    "Episodes": "حلقات",
+    "FirstAirDate": "تاريخ أول حلقة:",
+    "LastAirDate": "تاريخ اخر حلقة:",
+    "TopBilledCast": "الممثلين الرئيسيين",
+    "Status": "الحالة:",
+    "Ended": "انتهى",
+    "ReturningSeries": "مستمرة",
+    "Canceled": "ملغاة",
+    "TvShowLanguage": "اللغة",
+    "Tabs": {
+      "Reviews": "التقييمات",
+      "NoReviewsFound": "لم يتم العثور على تقييمات",
+      "Videos": "فيديو",
+      "Images": "الصور",
+      "NoImagesFound": "لم يتم العثور على صور",
+      "EpisodeCard": {
+        "NoImage": "لا يوجد صورة",
+        "TheEpisode": "الحلقة",
+        "Watch": "مشاهدة",
+        "ReadMore": "قراءة المزيد",
+        "Loading": "جاري التحميل"
+      },
+      "Episodes": "حلقات",
+      "TheSeason": "الجزء",
+      "LoadMoreEpisodes": "اظهار المزيد من الحلقات",
+      "EpisodeModal": {
+        "WatchEpisode": "مشاهدة الحلقة",
+        "Season": "الجزء",
+        "Episode": "الحلقة"
+      }
+    },
+    "Similar": "مسلسلات مشابهة",
+    "Recommendations": "توصيات",
+    "ViewLess": "اظهار اقل",
+    "ViewMore": "اظهار المزيد"
+  },
+
+  "WatchTv": {
+    "Episode": "الحلقة",
+    "Season": "الجزء",
+    "Overview": "القصة",
+    "Loading": "جاري التحميل",
+    "GuestStars": "ضيوف الحلقة",
+    "ServersWarning": "إذا كنت تواجه مشكلة في المشاهدة يرجى اختيار سيرفر اخر",
+    "Servers": "سيرفرات المشاهدة",
+    "NextEpisode": "الحلقة التالية",
+    "FirstEpisode": "الحلقة الأولى",
+    "PreviousEpisode": "الحلقة السابقة",
+    "LastEpisode": "الحلقة الأخيرة",
+    "TheEpisodes": "الحلقات",
+    "Recommendations": "توصيات",
+    "Similar": "مسلسلات وبرامج تلفزيونية مشابهة"
+  },
+
+  "WatchMovie": {
+    "Overview": "القصة",
+    "TopBilledCast": "الممثلين الرئيسيين",
+    "ServersWarning": "إذا كنت تواجه مشكلة في المشاهدة يرجى اختيار سيرفر اخر",
+    "Servers": "سيرفرات المشاهدة",
+    "Recommendations": "توصيات",
+    "Similar": "أفلام مشابهة"
+  },
+
+  "Account": {
+    "PageHeader": "الملف الشخصي",
+    "DetailsTab": "التفاصيل",
+    "DetailsPart": {
+      "ProfileDetails": "معلومات الملف الشخصي",
+      "UserInformations": "معلومات الحساب",
+      "UserName": "اسم المستخدم",
+      "EmailAddress": "البريد الالكتروني",
+      "EmailStatus": "حالة البريد الالكتروني",
+      "NotVerified": "لم يتم التحقق",
+      "Verified": "تم التحقق",
+      "Verify": "تفعيل الآن",
+      "CreatedAt": "تاريخ التسجيل"
+    },
+    "SettingsTab": "الإعدادات",
+    "SettingsPart": {
+      "VerifyAccountTitle": "تفعيل الحساب",
+      "VerifyMessage": "حسابك غير مفعّل. يرجى تفعيل حسابك للوصول إلى جميع ميزات الموقع.",
+      "VerifyNow": "تفعيل الآن",
+      "UpdateProfileTitle": "تحديث الملف الشخصي",
+      "UserName": "اسم المستخدم",
+      "UserNamePlaceholder": "ادخل اسم المستخدم...",
+      "EmailAddress": "البريد الإلكتروني",
+      "EmailAddressPlaceholder": "ادخل بريدك الإلكتروني...",
+      "EmailAddressWarning": "لتغيير بريدك الإلكتروني، تحتاج أولاً إلى تفعيل حسابك.",
+      "NewPassword": "كلمة مرور جديدة",
+      "NewPasswordPlaceholder": "ادخل كلمة مرور جديدة...",
+      "ConfirmPassword": "تأكيد كلمة المرور",
+      "ConfirmPasswordPlaceholder": "تأكيد كلمة المرور...",
+      "SaveChanges": "حفظ التغييرات",
+      "DeleteAccountTitle": "حذف الحساب",
+      "DeleteAccountWarning": "تابع بحذر!",
+      "DeleteAccountMessage": "سنقوم بمسح جميع بياناتك بالكامل. لا يمكن الوصول إلى حسابك بعد هذا الإجراء.",
+      "DeleteAccount": "متابعة الحذف",
+      "ToastsAndMessages": {
+        "VerificationEmailSentSuccessfully": "تم إرسال رسالة التحقق. يرجى التحقق من صندوق الوارد (بما في ذلك مجلد البريد العشوائي).",
+        "ProfileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح!",
+        "ReloginToUpdateError": "يرجى تسجيل الدخول مرة أخرى لتحديث الملف الشخصي.",
+        "email-already-in-useError": "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر.",
+        "VerifyTheNewEmailFirstError": "يرجى تأكيد البريد الإلكتروني الجديد قبل تغييره.",
+        "AccountDeletedSuccessfully": "تم حذف الحساب بنجاح.",
+        "ReLoginToDeleteError": "يرجى تسجيل الدخول مرة أخرى لحذف الحساب.",
+        "DefaultDeleteError": "فشل في حذف الحساب"
+      },
+      "Validation": {
+        "UserName": {
+          "min": "يجب أن يكون اسم المستخدم 3 أحرف على الأقل",
+          "max": "يجب ألا يزيد اسم المستخدم عن 20 حرفًا"
+        },
+        "EmailAddress": {
+          "email": "عنوان البريد الإلكتروني غير صالح"
+        },
+        "NewPassword": {
+          "min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+        },
+        "ConfirmPassword": {
+          "required": "يرجى تأكيد كلمة المرور",
+          "oneOf": "يجب أن تتطابق كلمتا المرور"
+        }
+      }
+    }
+  },
+
+  "Login": {
+    "ToastsOrMessages": {
+      "LoginSuccessful": "تم تسجيل الدخول بنجاح، مرحبا بعودتك!",
+      "TokenIsExpired": "يرجى تسجيل الدخول مرة أخرى.",
+      "InvalidEmailOrPassword": "البريد الإلكتروني او كلمة المرور غير صحيحة.",
+      "WrongPassword": "كلمة المرور غير صحيحة.",
+      "UserNotFound": "لم يتم العثور على المستخدم.",
+      "LoginFailed": " فشل في تسجيل الدخول"
+    },
+    "Form": {
+      "Title": "مرحبًا بعودتك",
+      "subtitle": "سجّل حضورك معنا",
+      "Email": "البريد الإلكتروني",
+      "Password": "كلمة المرور",
+      "RememberMe": "تذكرني",
+      "ForgotPassword": "هل نسيت كلمة المرور؟",
+      "Login": "تسجيل الدخول",
+      "LoggingIn": "جارى تسجيل الدخول",
+      "Or": "أو",
+      "LoginWithGoogle": "سجّل دخولك باستخدام جوجل",
+      "DontHaveAccount": "ليس لديك حساب؟",
+      "SignUp": "سجّل الآن"
+    },
+    "Validation": {
+      "EmailAddress": {
+        "email": "عنوان البريد الإلكتروني غير صالح",
+        "required": "البريد الإلكتروني مطلوب"
+      },
+      "Password": {
+        "min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+        "required": "كلمة المرور مطلوبة"
+      }
+    }
+  },
+
+  "ForgotPassword": {
+    "Title": "إعادة تعيين كلمة المرور",
+    "subtitle": "أدخل بريدك الإلكتروني لإرسال رابط إعادة تعيين كلمة المرور",
+    "Email": "عنوان البريد الإلكتروني",
+    "SendEmailBtn": "إرسال",
+    "SendingEmail": "جاري إرسال البريد...",
+    "GoToLogin": "الذهاب لتسجيل الدخول",
+    "Tryagainin": "حاول مرة أخرى خلال",
+    "Second": "ث",
+    "ToastsOrMessages": {
+      "PleaseWait": "يرجى الانتظار",
+      "InvalidEmailFormat": "تنسيق البريد الإلكتروني غير صالح",
+      "PasswordResetEmailSentSuccessfully": "تم إرسال رابط إعادة تعيين كلمة المرور بنجاح. تحقق من صندوق الوارد (بما في ذلك مجلد البريد العشوائي)!",
+      "PasswordResetEmailSentFailedError": "فشل في إرسال بريد إعادة تعيين كلمة المرور. يرجى المحاولة لاحقًا.",
+      "InvalidEmailError": "عنوان البريد الإلكتروني غير صالح.",
+      "NoUserFoundWithTHisEmailError": "لم يتم العثور على مستخدم بهذا البريد الإلكتروني.",
+      "TooManyRequestsError": "طلبات كثيرة جدًا. يرجى المحاولة لاحقًا.",
+      "DefaultError": "حدث خطأ أثناء إرسال بريد إعادة تعيين كلمة المرور."
+    }
+  },
+
+  "ResetPassword": {
+    "ExpiredLink": "رابط إعادة التعيين غير صالح أو منتهي الصلاحية. يُرجى المحاولة من البداية.",
+    "GoBackBtn": "العودة",
+    "Title": "إعادة تعيين كلمة المرور",
+    "Subtitle": "أدخل كلمة مرور جديدة لـ",
+    "yourAccount": "حسابك",
+    "Form": {
+      "NewPassword": "كلمة مرور جديدة",
+      "InProgress": "جارٍ المعالجة",
+      "SavePassword": "حفظ كلمة المرور"
+    },
+    "ToastsOrMessages": {
+      "PasswordResetSuccessfully": "تمت إعادة تعيين كلمة المرور بنجاح!"
+    },
+    "Validation": {
+      "NewPassword": {
+        "min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+      }
+    }
+  },
+
+  "RecoverEmail": {
+    "Success": "تم استعادة البريد الإلكتروني بنجاح. يُرجى تسجيل الدخول باستخدام البريد الإلكتروني السابق.",
+    "ErrorLink": "رابط استعادة غير صالح أو منتهي الصلاحية.",
+    "OobError": "رابط استعادة غير صالح أو منتهي الصلاحية. يُرجى المحاولة من البداية.",
+    "CancelBtn": "الغاء",
+    "Redirecting": "جارٍ التحويل لصفحة تسجيل الدخول...",
+    "BacktoLoginPage": "العودة لصفحة تسجيل الدخول"
+  },
+
+  "VerifyEmail": {
+    "ExpiredLink": "رابط التحقق غير صالح أو منتهي الصلاحية. يُرجى المحاولة من البداية.",
+    "ContinueBtn": "المتابعة",
+    "GoBackBtn": "العودة",
+    "Verifying": "جارٍ التحقق...",
+    "ToastsOrMessages": {
+      "VerifiedSuccessfully": "تم التحقق من البريد الإلكتروني بنجاح!",
+      "Error": "حدث خطأ أثناء التحقق من البريد الإلكتروني. يرجى المحاولة لاحقًا."
+    }
+  },
+
+  "Register": {
+    "Title": "مرحبًا",
+    "subtitle": "إنضم إلى عائلة",
+    "Form": {
+      "UserName": "اسم المستخدم",
+      "EmailAddress": "عنوان البريد الإلكتروني",
+      "Password": "كلمة المرور",
+      "ConfirmPassword": "تأكيد كلمة المرور",
+      "SignUp": "سجّل الآن",
+      "SigningUp": "جارٍ التسجيل...",
+      "Or": "أو",
+      "SignInWithGoogle": "تسجيل الدخول باستخدام جوجل",
+      "SigningInWithGoogle": "جارٍ تسجيل الدخول...",
+      "AlreadyHaveAccount": "لديك حساب بالفعل؟",
+      "Login": "تسجيل الدخول"
+    },
+    "ToastsOrMessages": {
+      "RegistrationSuccessful": "تم التسجيل بنجاح، مرحبًا بك!",
+      "RegistrationFailed": "فشل في التسجيل. يرجى المحاولة لاحقًا.",
+      "EmailALreadyInUseError": "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر.",
+      "WeakPasswordError": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+      "DefaultError": "فشل في التسجيل. يرجى المحاولة لاحقًا."
+    },
+    "Validation": {
+      "UserName": {
+        "min": "يجب أن يكون اسم المستخدم 3 أحرف على الأقل",
+        "max": "يجب ألا يزيد اسم المستخدم عن 20 حرفًا",
+        "required": "اسم المستخدم مطلوب"
+      },
+      "EmailAddress": {
+        "email": "عنوان البريد الإلكتروني غير صالح",
+        "required": "البريد الإلكتروني مطلوب"
+      },
+      "Password": {
+        "min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+        "required": "كلمة المرور مطلوبة"
+      },
+      "ConfirmPassword": {
+        "required": "تأكيد كلمة المرور مطلوب",
+        "oneOf": "يجب أن تتطابق كلمتا المرور"
+      }
+    }
+  },
+
+  "NotFoundPage": {
+    "Title": "عذرًا!... هذه الصفحة غير متوفرة",
+    "description": "الصفحة التي تبحث عنها غير موجودة. قد تكون قد تم نقلها أو حذفها.",
+    "GoBackBtn": "الذهاب للصفحة الرئيسية"
+  },
+
+  "Footer": {
+    "description1": "عالم السينما مع FilmO'Clock. استكشف أحدث الأفلام،والمسلسلات عبر مختلف الأنواع، ولا تفوت أحدث الإصدارات. مركز ترفيهك في أي وقت وأي مكان.",
+    "description2": "أفلام، مسلسلات، بث مباشر، مراجعات، ممثلون، ممثلات، صور، تقييمات، ملخصات، إعلانات ترويجية، لقطات دعائية، طواقم عمل، طاقم التمثيل",
+    "exploreTitle": "استكشاف",
+    "movies": "أفلام",
+    "tvShows": "مسلسلات",
+    "celebs": "مشاهير",
+    "upcoming": "قريبًا",
+    "genres": "تصنيفات",
+    "quickLinksTitle": "روابط سريعة",
+    "onTheAir": "يعرض الآن",
+    "bestMovies": "أفضل الأفلام",
+    "bestTvShows": "أفضل المسلسلات",
+    "nowPlaying": "يعرض حاليًا",
+    "trending": "الأكثر رواجًا",
+    "poweredBy": "بدعم من",
+    "madeWith": "صنع بحب",
+    "by": "بواسطة",
+    "myName": "محمود فوزي",
+    "LogoName": "فيلم أوكْلوك"
+  },
+
+  "NoConnection": {
+    "Title": "لا يوجد إتصال بالإنترنت !",
+    "description": "يرجى التحقق من الاتصال بالإنترنت للمتابعة"
+  },
+
+  "adsModal": {
+    "title": "نوصي بإستخدام أدوات حظر الإعلانات",
+    "description": "للحصول على أفضل تجربة مشاهدة، يُفضل استخدام أداة لحظر الإعلانات أو متصفح يركز على الخصوصية حسب جهازك.",
+    "chrome": "مستخدمي Chrome",
+    "chromeTips": "نوصي بهذه الإضافات لمتصفح Chrome:",
+    "firefox": "مستخدمي Firefox",
+    "firefoxTips": "نوصي بهذه الإضافات لمتصفح Firefox:",
+    "edge": "مستخدمي Microsoft Edge",
+    "edgeTips": "نوصي بهذه الإضافات لمتصفح Edge:",
+    "android": "مستخدمي Android",
+    "androidTips": "نوصي باستخدام أحد المتصفحات التالية:",
+    "ios": "مستخدمي iPhone",
+    "iosTips": "نوصي باستخدام أحد المتصفحات التالية:",
+    "gotIt": "موافق"
+  },
+
+  "MetaData": {
+    "Keywords": "أفلام، برامج تلفزيونية، بث مباشر، مراجعات، ممثلون، ممثلات، صور، تقييمات، ملخص، مقاطع دعائية، تشويقات، شارة النهاية، طاقم العمل",
+    "Movie": " فيلم ",
+    "TvShow": " مسلسل ",
+    "MainPage": {
+      "Title": "فيلم أوكْلوك - FilmO'Clock",
+      "Description": "فيلم أوكْلوك هو رفيقك المثالي لعالم الأفلام — اكتشف، تابع، واستعرض أحدث الأفلام والمسلسلات التلفزيونية مع صور جذابة، قوائم مشاهدة مخصصة، ودعم متعدد اللغات. فيلمك المفضل القادم على بُعد لحظة واحدة فقط!"
+    },
+    "Library": {
+      "watchlist": {
+        "Title": "قائمة المشاهدة | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "هنا ستجد الأفلام والمسلسلات التي قمت بحفظها في قائمة المشاهدة"
+      },
+      "favorites": {
+        "Title": "المفضّلة | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "هنا ستجد الأفلام والمسلسلات التي قمت بحفظها في المفضّلة"
+      }
+    },
+    "Profile": {
+      "Title": "الملف الشخصي | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "هنا ستجد جميع المعلومات حول حسابك"
+    },
+    "actionUrls": {
+      "resetPassword": {
+        "Title": "إعادة تعيين كلمة المرور | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "إعادة تعيين كلمة المرور"
+      },
+      "verifyEmail": {
+        "Title": "تفعيل البريد الإلكتروني | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "تفعيل بريدك الإلكتروني"
+      },
+      "recoverEmail": {
+        "Title": "استرجاع البريد الألكتروني | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "استرجاع البريد الألكتروني"
+      }
+    },
+    "Login": {
+      "Title": "تسجيل الدخول | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تسجيل الدخول إلى حسابك"
+    },
+    "Register": {
+      "Title": "إنشاء حساب | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "انشاء حسابك"
+    },
+    "ForgotPassword": {
+      "Title": "إعادة تعيين كلمة المرور | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "إعادة تعيين كلمة المرور الخاصة بك"
+    },
+    "Explore": {
+      "Description": "استكشف أحدث الأفلام والبرامج التلفزيونية مع صور مذهلة وقوائم مشاهدة مخصصة ودعم متعدد اللغات.",
+      "Movies": {
+        "Title": "أفلام اليوم | فيلم أوكْلوك - FilmO'Clock - FilmO'Clock"
+      },
+      "TvShows": {
+        "Title": "مسلسلات اليوم | فيلم أوكْلوك - FilmO'Clock - FilmO'Clock"
+      }
+    },
+    "GenresPage": {
+      "MoviesTitle": "أنواع الافلام | فيلم أوكْلوك - FilmO'Clock",
+      "TvShowsTitle": "أنواع المسلسلات | فيلم أوكْلوك - FilmO'Clock",
+      "MoviesDescription": "تصفّح الأفلام حسب النوع",
+      "TvShowsDescription": "تصفّح المسلسلات حسب النوع"
+    },
+    "AllMovies": {
+      "Title": "تصفّح الافلام | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "إستكشف كل الأفلام بتحديد فلاتر البحث المتعددة."
+    },
+    "AllTvShows": {
+      "Title": "تصفّح المسلسلات | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "إستكشف كل المسلسلات بإستخدام فلاتر بحث متعددة"
+    },
+    "NowPlayingMovies": {
+      "Title": "المعروض حاليًا | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح الأفلام التي تُعرض الآن بجميع تفاصيلها"
+    },
+    "UpcomingMovies": {
+      "Title": "الافلام القادمة | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح الافلام القادمة"
+    },
+    "PopularPeople": {
+      "Title": "مشاهير اليوم | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح مشاهير اليوم"
+    },
+    "TrendingPeople": {
+      "Title": "المشاهير الرائجة | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح المشاهير الرائجة"
+    },
+    "PopularMovies": {
+      "Title": "افلام اليوم | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح افلام اليوم"
+    },
+    "PopularTvShows": {
+      "Title": "مسلسلات اليوم | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح مسلسلات اليوم"
+    },
+    "TopRatedMovies": {
+      "Title": "الأفلام الأعلى تقييمًا | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح الافلام الاعلى تقييمًا"
+    },
+    "TopRatedTvShows": {
+      "Title": "المسلسلات الأعلى تقييمًا | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح المسلسلات الاعلى تقييمًا"
+    },
+    "TrendingMovies": {
+      "Title": "افلام رائجة | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "استكشف الأفلام الرائجة اليوم"
+    },
+    "TrendingTvShows": {
+      "Title": "مسلسلات رائجة | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "استكشف المسلسلات الرائجة اليوم"
+    },
+    "AiringTodayTvShows": {
+      "Title": "يُعرض اليوم | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح المسلسلات والبرامج التلفزيونية التي تُعرض اليوم"
+    },
+    "OnTheAirTvShows": {
+      "Title": "المسلسلات المعروضة الآن | فيلم أوكْلوك - FilmO'Clock",
+      "Description": "تصفّح المسلسلات والبرامج التلفزيونية المعروضة الآن"
+    },
+    "WatchTv": {
+      "Title": "{TvName} الموسم({s}) الحلقة({e}) مشاهدة مسلسل | FilmO'Clock"
+    },
+    "WatchMovie": {
+      "Title": "{MovieName} مشاهدة فيلم | FilmO'Clock"
+    },
+    "SearchResults": {
+      "title": "({query}) نتائج البحث | FilmO'Clock",
+      "titleWithPage": "({query}) نتائج البحث | صفحة {page} | FilmO'Clock",
+      "description": "ابحث عن الأفلام والبرامج التلفزيونية والأشخاص المرتبطين بـ {query}.",
+      "descriptionWithPage": "صفحة {page} من نتائج البحث عن {query}."
+    }
+  }
+}
