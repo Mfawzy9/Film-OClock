@@ -71,9 +71,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     "original_title" in initialData
-      ? initialData?.original_title
+      ? `${initialData?.original_title} (${initialData?.release_date.split("-")[0]})`
       : "first_air_date" in initialData
-        ? initialData?.original_name
+        ? `${initialData?.original_name} (${initialData?.first_air_date.split("-")[0]})`
         : initialData?.name;
 
   const alternates = {
@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   return {
-    title: `${title ?? t("MainPage.Title")} | FilmO'Clock`,
+    title: `${title ?? t("MainPage.Title")} | ${t("MainPage.Title")}`,
     description: description() || t("MainPage.Description"),
     keywords:
       (initialData as MovieDetailsResponse | TvDetailsResponse).genres
@@ -151,28 +151,93 @@ const Details = async ({ params }: Props) => {
   return (
     <>
       {showType === "movie" && (
-        <MovieDetails
-          showId={showId}
-          showType={showType}
-          initialData={initialData as MovieDetailsResponse}
-          initialTranslations={initialTranslations as MovieTranslationsResponse}
-        />
+        <>
+          {initialData && "original_title" in initialData && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Movie",
+                  name: initialData.original_title,
+                  description: initialData.overview,
+                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                  datePublished: initialData.release_date,
+                  genre: initialData.genres?.map((g) => g.name),
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: initialData.vote_average,
+                    ratingCount: initialData.vote_count,
+                  },
+                }),
+              }}
+            />
+          )}
+
+          <MovieDetails
+            showId={showId}
+            showType={showType}
+            initialData={initialData as MovieDetailsResponse}
+            initialTranslations={
+              initialTranslations as MovieTranslationsResponse
+            }
+          />
+        </>
       )}
       {showType === "tv" && (
-        <TvDetails
-          showId={showId}
-          showType={showType}
-          initialData={initialData as TvDetailsResponse}
-          initialTranslations={initialTranslations as TvTranslationsResponse}
-        />
+        <>
+          {initialData && "original_name" in initialData && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "TVSeries",
+                  name: initialData.original_name,
+                  description: initialData.overview,
+                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                  datePublished: initialData.first_air_date,
+                  genre: initialData.genres?.map((g) => g.name),
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: initialData.vote_average,
+                    ratingCount: initialData.vote_count,
+                  },
+                }),
+              }}
+            />
+          )}
+          <TvDetails
+            showId={showId}
+            showType={showType}
+            initialData={initialData as TvDetailsResponse}
+            initialTranslations={initialTranslations as TvTranslationsResponse}
+          />
+        </>
       )}
 
       {showType === "person" && (
-        <PersonDetails
-          showId={showId}
-          showType={showType}
-          initialData={initialData as PersonDetailsResponse}
-        />
+        <>
+          {initialData && "known_for_department" in initialData && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Person",
+                  name: initialData.name,
+                  description: initialData.biography,
+                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.profile_path}`,
+                }),
+              }}
+            />
+          )}
+          <PersonDetails
+            showId={showId}
+            showType={showType}
+            initialData={initialData as PersonDetailsResponse}
+          />
+        </>
       )}
     </>
   );

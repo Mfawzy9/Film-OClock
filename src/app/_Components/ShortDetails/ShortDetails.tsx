@@ -99,8 +99,9 @@ const ShortDetails = ({
         <Link
           href={`/details/${showType}/${showId}/${nameToSlug(title)}`}
           className="relative flex items-end min-h-[30vh] sm:min-h-[40vh] md:min-h-[60vh]
-            xl:min-h-[70vh] 4xl:min-h-[560px] px-2 sm:px-3 pb-2 rounded-md border-2
-            border-gray-700 overflow-hidden group transition-all duration-300"
+            xl:min-h-[70vh] 2xl:min-h-[75vh] 3xl:min-h-[70vh] 4xl:min-h-[560px] px-2 sm:px-3
+            pb-2 rounded-md border-2 border-gray-700 overflow-hidden group transition-all
+            duration-300"
         >
           {/* episode & season  */}
           {episode && season && (

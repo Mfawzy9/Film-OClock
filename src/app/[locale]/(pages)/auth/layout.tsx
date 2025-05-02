@@ -18,6 +18,7 @@ export default async function AuthLayout({
           className="object-cover object-top"
           quality={80}
           placeholder="blur"
+          priority
         />
         <div className="absolute inset-0 bg-black/80" />
       </div>

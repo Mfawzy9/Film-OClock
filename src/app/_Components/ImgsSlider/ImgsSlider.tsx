@@ -131,10 +131,21 @@ const ImgsSlider = ({ images, name }: ImgsSliderProps) => {
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: direction * 100 }} // Dynamic direction
+                  initial={{ opacity: 0, x: direction * 100 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -direction * 100 }} // Dynamic direction
+                  exit={{ opacity: 0, x: -direction * 100 }}
                   transition={{ duration: 0.2 }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = Math.abs(offset.x) * velocity.x;
+
+                    if (swipe < -1000) {
+                      nextSlide();
+                    } else if (swipe > 1000) {
+                      prevSlide();
+                    }
+                  }}
                   className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 3xl:grid-cols-5
                     gap-4 grid-rows-1 sm:grid-rows-2"
                 >

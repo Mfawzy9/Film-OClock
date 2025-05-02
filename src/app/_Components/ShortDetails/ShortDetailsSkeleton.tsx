@@ -1,8 +1,8 @@
 import PageSection from "../PageSection/PageSection";
 
-const ShortDetailsSkeleton = () => {
+const ShortDetailsSkeleton = ({ className }: { className?: string }) => {
   return (
-    <PageSection className="!py-0 mt-14">
+    <PageSection className={className ?? ""}>
       <main className={"px-2 max-w-screen-2xl mx-auto z-10 rounded-md "}>
         <div className="relative">
           {/* Placeholder for Watchlist/Favorite dropdown */}
@@ -13,8 +13,9 @@ const ShortDetailsSkeleton = () => {
           {/* Main card area */}
           <div
             className="relative flex items-end min-h-[30vh] sm:min-h-[40vh] md:min-h-[60vh]
-              xl:min-h-[70vh] 4xl:min-h-[560px] px-2 sm:px-3 pb-2 rounded-md border-2
-              border-gray-700 overflow-hidden group transition-all duration-300"
+              xl:min-h-[70vh] 2xl:min-h-[75vh] 3xl:min-h-[70vh] 4xl:min-h-[560px] px-2 sm:px-3
+              pb-2 rounded-md border-2 border-gray-700 overflow-hidden group transition-all
+              duration-300"
           >
             {/* Fake background image */}
             <div className="absolute inset-0 bg-gray-800 animate-pulse z-0" />

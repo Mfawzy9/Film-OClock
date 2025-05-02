@@ -30,7 +30,7 @@ const LazyTopRatedMovies = dynamic(
 const LazyLastWatched = dynamic(
   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
   {
-    loading: () => <ShortDetailsSkeleton />,
+    loading: () => <ShortDetailsSkeleton className="!py-0 mt-14" />,
     ssr: false,
   },
 );
@@ -125,7 +125,7 @@ const Home = () => {
       {/* last watched show */}
       <LazyRender
         Component={LazyLastWatched}
-        loading={<ShortDetailsSkeleton />}
+        loading={<ShortDetailsSkeleton className="!py-0 mt-14" />}
       />
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* trending today tv shows */}

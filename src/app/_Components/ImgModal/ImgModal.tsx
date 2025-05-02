@@ -12,6 +12,7 @@ import { useMemo, useState, useCallback } from "react";
 import { SiSpinrilla } from "react-icons/si";
 import throttle from "lodash/throttle";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
 const throttledNavigation = throttle(
   (action: () => ReturnType<AppDispatch>, dispatch: AppDispatch) => {
@@ -22,6 +23,7 @@ const throttledNavigation = throttle(
 );
 
 const ImageModal = () => {
+  const { isArabic } = useIsArabic();
   const dispatch = useDispatch<AppDispatch>();
   const { isOpen, images, selectedIndex } = useSelector(
     (state: RootState) => state.imgModalReducer,
@@ -81,6 +83,18 @@ const ImageModal = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        onDragEnd={(e, { offset, velocity }) => {
+          if (isZoomed) return;
+
+          const swipe = Math.abs(offset.x) * velocity.x;
+          if (swipe < -1000) {
+            throttledNavigation(nextImage, dispatch);
+          } else if (swipe > 1000) {
+            throttledNavigation(prevImage, dispatch);
+          }
+        }}
         className="relative w-full lg:w-3/4 flex justify-center items-center"
       >
         {/* Background Effect */}
@@ -106,32 +120,39 @@ const ImageModal = () => {
       </motion.div>
 
       {/* Navigation Buttons */}
-      <div
-        className="flex -z-10 mt-4 absolute bottom-12 md:bottom-7 lg:bottom-[unset]
-          lg:-translate-y-1/2 lg:top-1/2 w-full px-3 xs:px-5 sm:px-10 justify-between"
+      {/* Previous Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          throttledNavigation(prevImage, dispatch);
+        }}
+        className="bg-black/50 p-3 text-white rounded-full hover:bg-gray-700 shadow-blueGlow
+          absolute start-[5%] bottom-1/4 xs:bottom-[18%] sm:bottom-[10%] md:bottom-2
+          lg:bottom-[unset]"
       >
-        {/* Previous Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            throttledNavigation(prevImage, dispatch);
-          }}
-          className="bg-black/50 p-3 text-white rounded-full hover:bg-gray-700 shadow-blueGlow"
-        >
-          <FaChevronLeft className="text-3xl" />
-        </button>
+        {isArabic ? (
+          <FaChevronRight className="text-3xl 4xl:text-7xl" />
+        ) : (
+          <FaChevronLeft className="text-3xl 4xl:text-7xl" />
+        )}
+      </button>
 
-        {/* Next Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            throttledNavigation(nextImage, dispatch);
-          }}
-          className="bg-black/50 p-3 text-white rounded-full hover:bg-gray-700 shadow-blueGlow"
-        >
-          <FaChevronRight className="text-3xl" />
-        </button>
-      </div>
+      {/* Next Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          throttledNavigation(nextImage, dispatch);
+        }}
+        className="bg-black/50 p-3 text-white rounded-full hover:bg-gray-700 shadow-blueGlow
+          absolute end-[5%] bottom-1/4 xs:bottom-[18%] sm:bottom-[10%] md:bottom-2
+          lg:bottom-[unset]"
+      >
+        {isArabic ? (
+          <FaChevronLeft className="text-3xl 4xl:text-7xl" />
+        ) : (
+          <FaChevronRight className="text-3xl 4xl:text-7xl" />
+        )}
+      </button>
     </div>
   );
 };

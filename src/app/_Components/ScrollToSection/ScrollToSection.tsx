@@ -42,7 +42,7 @@ const ScrollToSection = ({
     <div
       onClick={handleScrollToFirstSection}
       className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 4xl:hidden
-        ${className}`}
+        ${className ?? ""}`}
     >
       <div className="scrolldown">
         <div className="chevrons">

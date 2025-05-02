@@ -32,8 +32,13 @@ import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/transl
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/Redux/store";
 import Image from "next/image";
+import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
+import LazyRender from "../LazyRender/LazyRender";
 
-const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
+const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
+  ssr: false,
+  loading: () => <CardsSkeletonSlider />,
+});
 
 interface WatchMovieProps {
   showType: "movie" | "tv";
@@ -395,19 +400,31 @@ const WatchMovie = ({
         </main>
 
         <div className="flex flex-col gap-6">
-          <CardsSlider
-            theShows={recommendations}
-            showType={showType}
-            sliderType="movies"
-            className="mt-10"
-            title={t("Recommendations")}
+          <LazyRender
+            Component={CardsSlider}
+            props={{
+              theShows: recommendations,
+              showType,
+              sliderType: "movies",
+              className: "mt-10",
+              title: t("Recommendations"),
+            }}
+            rootMargin="0px 0px"
+            loading={
+              <CardsSkeletonSlider arrLength={recommendations?.length} />
+            }
           />
-          <CardsSlider
-            theShows={similarMovies}
-            showType={showType}
-            sliderType="movies"
-            className="mt-10"
-            title={t("Similar")}
+          <LazyRender
+            Component={CardsSlider}
+            props={{
+              theShows: similarMovies,
+              showType,
+              sliderType: "movies",
+              className: "mt-10",
+              title: t("Similar"),
+            }}
+            rootMargin="0px 0px"
+            loading={<CardsSkeletonSlider arrLength={similarMovies?.length} />}
           />
         </div>
       </PageSection>

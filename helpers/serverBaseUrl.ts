@@ -10,4 +10,4 @@ export const getBaseUrl = async () => {
 export const siteBaseUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://film-oclock.vercel.app/";
+    : "https://film-oclock.vercel.app";

@@ -32,7 +32,7 @@ const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
 });
 const ShortDetails = dynamic(
   () => import("@/app/_Components/ShortDetails/ShortDetails"),
-  { loading: () => <ShortDetailsSkeleton /> },
+  { loading: () => <ShortDetailsSkeleton className="!my-0 !py-0" /> },
 );
 const VideosSlider = dynamic(
   () => import("@/app/_Components/VideosSlider/VideosSlider"),
@@ -230,7 +230,7 @@ const Explore = () => {
               showType,
               showId: randomComing.id,
             }}
-            loading={<ShortDetailsSkeleton />}
+            loading={<ShortDetailsSkeleton className="!my-0 !py-0" />}
             rootMargin="0px 0px"
           />
         </PageSection>
@@ -283,7 +283,7 @@ const Explore = () => {
 
       {/* random top rated show */}
       {topRatedLoading ? (
-        <ShortDetailsSkeleton />
+        <ShortDetailsSkeleton className="!my-0 !pt-10 !pb-0" />
       ) : (
         randomTopRatedShow && (
           <PageSection className="!my-0 !pt-10 !pb-0">
@@ -308,7 +308,7 @@ const Explore = () => {
                 showType,
                 showId: randomTopRatedShow.id,
               }}
-              loading={<ShortDetailsSkeleton />}
+              loading={<ShortDetailsSkeleton className="!my-0 !pt-10 !pb-0" />}
               rootMargin="0px 0px"
             />
           </PageSection>

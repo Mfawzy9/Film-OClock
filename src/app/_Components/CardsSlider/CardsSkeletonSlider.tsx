@@ -14,6 +14,7 @@ const CardsSkeletonSlider = ({
       </div>
       <div className="relative">
         <Swiper
+          slidesPerView={1}
           breakpoints={{
             575: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
@@ -21,6 +22,10 @@ const CardsSkeletonSlider = ({
             1280: { slidesPerView: 5 },
             1536: { slidesPerView: 6 },
           }}
+          autoHeight={false}
+          watchSlidesProgress={false}
+          watchOverflow={false}
+          preventInteractionOnTransition={true}
           spaceBetween={10}
           className="pb-5"
         >

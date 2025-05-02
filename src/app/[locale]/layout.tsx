@@ -8,6 +8,7 @@ import { cairo, righteous, roboto } from "@/lib/fonts";
 import { getTranslations } from "next-intl/server";
 import { siteBaseUrl } from "../../../helpers/serverBaseUrl";
 import NoInternetToast from "../_Components/NoInternetToast/NoInternetToast";
+import { WithContext, Organization } from "schema-dts";
 
 import "swiper/css";
 
@@ -20,15 +21,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "MetaData" });
 
   return {
-    title: {
-      default: t("MainPage.Title"),
-      template: `%s | ${t("MainPage.Title")}`,
-    },
+    title: t("MainPage.Title"),
     description: t("MainPage.Description"),
     keywords: t("Keywords")
       .split(",")
       .map((k) => k.trim()),
-    metadataBase: new URL("https://filmoclock.vercel.app/"),
+    metadataBase: new URL(siteBaseUrl),
     alternates: {
       canonical: `${siteBaseUrl}/${locale}/`,
       languages: {
@@ -80,12 +78,50 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  const t = await getTranslations({ locale, namespace: "MetaData" });
+
+  const jsonLd: WithContext<Organization> = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: t("MainPage.Title"),
+    description: t("MainPage.Description"),
+    url: siteBaseUrl,
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteBaseUrl}/logo.webp`,
+      width: {
+        "@type": "QuantitativeValue",
+        value: 512,
+        unitText: "PX",
+      },
+      height: {
+        "@type": "QuantitativeValue",
+        value: 512,
+        unitText: "PX",
+      },
+      alternateName: "FilmO'Clock",
+    },
+    knowsLanguage: locale,
+    "@id": `${siteBaseUrl}/#organization`,
+    keywords: t("Keywords"),
+  };
+
   const isArabic = locale === "ar";
 
   return (
     <html lang={locale} dir={isArabic ? "rtl" : "ltr"} className="dark">
-      {/* favicon */}
-      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <head>
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
+        />
+
+        {/* favicon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
         className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
           ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-50 text-gray-950

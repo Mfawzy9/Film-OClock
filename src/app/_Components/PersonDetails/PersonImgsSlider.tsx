@@ -90,6 +90,17 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -direction * 100 }} // Dynamic direction
                   transition={{ duration: 0.2 }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = Math.abs(offset.x) * velocity.x;
+
+                    if (swipe < -1000) {
+                      moveSlide("right");
+                    } else if (swipe > 1000) {
+                      moveSlide("left");
+                    }
+                  }}
                   className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6
                     3xl:grid-cols-7 gap-4 grid-rows-1 sm:grid-rows-2 place-items-center"
                 >
