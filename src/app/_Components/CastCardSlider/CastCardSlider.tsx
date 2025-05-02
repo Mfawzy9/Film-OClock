@@ -1,9 +1,7 @@
 import { PopularPersonI } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
-import { Autoplay, Navigation, Virtual } from "swiper/modules";
+import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-
 import CastCard from "../CastCard/CastCard";
 import Title from "../Title/Title";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -62,7 +60,7 @@ const CastCardSlider = ({
             onInit={handleSwiper}
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}
-            modules={[Navigation, Virtual, Autoplay]}
+            modules={[Virtual, Autoplay]}
             autoplay={{
               delay: 12000,
               disableOnInteraction: false,

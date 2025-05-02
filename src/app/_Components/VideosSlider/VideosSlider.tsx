@@ -6,10 +6,9 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import PageSection from "../PageSection/PageSection";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Virtual } from "swiper/modules";
+import { Autoplay, Virtual } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { Swiper as SwiperType } from "swiper";
-import "swiper/css";
 import { useLazyGetVideosQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { VideosResults } from "@/app/interfaces/apiInterfaces/videosInterfaces";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
@@ -124,7 +123,7 @@ const VideosSlider = ({
             onInit={handleSwiper}
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}
-            modules={[Navigation, Virtual, Autoplay]}
+            modules={[Virtual, Autoplay]}
             autoplay={{ delay: 12000, disableOnInteraction: false }}
             spaceBetween={20}
             slidesPerView={1}

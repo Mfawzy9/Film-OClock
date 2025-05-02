@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import App from "./App";
 import { Toaster } from "sonner";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -9,6 +8,8 @@ import { cairo, righteous, roboto } from "@/lib/fonts";
 import { getTranslations } from "next-intl/server";
 import { siteBaseUrl } from "../../../helpers/serverBaseUrl";
 import NoInternetToast from "../_Components/NoInternetToast/NoInternetToast";
+
+import "swiper/css";
 
 type Props = {
   params: Promise<{ locale: "en" | "ar" }>;

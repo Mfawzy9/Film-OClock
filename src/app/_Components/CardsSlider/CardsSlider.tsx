@@ -1,9 +1,7 @@
 import { useRef, useMemo, memo, useCallback, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import { Autoplay, Navigation, Virtual } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
+import { Autoplay, Virtual } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import SliderCard from "../SliderCard/SliderCard";
 import Title from "../Title/Title";
@@ -113,7 +111,7 @@ const CardsSlider = ({
           onInit={handleSwiper}
           onSlideChange={handleSlideChange}
           onSwiper={handleSwiper}
-          modules={[Navigation, Virtual, Autoplay]}
+          modules={[Virtual, Autoplay]}
           autoplay={
             autoPlay
               ? {

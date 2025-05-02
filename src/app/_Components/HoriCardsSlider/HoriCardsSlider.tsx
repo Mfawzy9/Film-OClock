@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Autoplay, Navigation, Virtual } from "swiper/modules";
+import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
 import { motion, AnimatePresence } from "framer-motion";
 import { debounce } from "lodash";
 import HoriCard from "../HoriCard/HoriCard";
-import "swiper/css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import PageSection from "../PageSection/PageSection";
 import {
@@ -163,7 +162,7 @@ const HoriCardsSlider = ({
             onInit={handleSwiper}
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}
-            modules={[Navigation, Virtual, Autoplay]}
+            modules={[Virtual, Autoplay]}
             autoplay={{
               delay: 10000,
               disableOnInteraction: false,

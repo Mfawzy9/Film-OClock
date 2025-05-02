@@ -22,7 +22,7 @@ export const useGetGenres = ({
     return (genresIds: number[]) =>
       genresIds?.map((_id) => {
         const genre = data?.genres.find((_genre: genre) => _genre.id === _id);
-        return genre ? genre.name : "Unknown Genre";
+        return genre ? genre.name : "Unknown";
       });
   }, [data]);
 

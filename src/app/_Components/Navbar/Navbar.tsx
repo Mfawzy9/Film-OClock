@@ -138,7 +138,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         isScrolled
           ? "bg-black/90 py-1 shadow-sm shadow-blue-700"
-          : "py-4 xs:py-6"
+          : "py-2 xs:py-6"
         }`}
     >
       <nav className="py-2 flex items-center justify-between px-2 xl:container lg:px-6 relative">

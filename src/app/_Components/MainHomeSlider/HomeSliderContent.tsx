@@ -77,7 +77,7 @@ const HomeSliderContent = ({
       {/* Content Section */}
       <section className="px-3 sm:px-7 md:max-w-screen-sm lg:max-w-screen-xl mx-auto">
         <div
-          className="flex min-h-screen xs:pt-10 4xl:min-h-[unset] items-center justify-center
+          className="flex min-h-screen xs:py-10 4xl:min-h-[unset] items-center justify-center
             xl:justify-around relative gap-6 4xl:pt-48"
         >
           {/* Left Text Content */}
@@ -94,7 +94,7 @@ const HomeSliderContent = ({
             >
               {movie?.original_title}
             </h2>
-            <h6 className="flex items-center gap-2 text-sm sm:text-lg flex-wrap justify-center">
+            <h6 className="flex items-center gap-1.5 xs:gap-2 text-sm flex-wrap justify-center">
               <FaStar className="text-yellow-500" />
               {movie.vote_average.toFixed(1)}
               <span className="text-gray-400">|</span>
@@ -105,21 +105,19 @@ const HomeSliderContent = ({
 
             <div>
               {movie?.overview && (
-                <p className="tracking-wide leading-relaxed text-gray-200 text-sm line-clamp-3 sm:line-clamp-5">
+                <p className="tracking-wide leading-relaxed text-gray-200 text-sm line-clamp-2 sm:line-clamp-5">
                   {movie.overview}
                 </p>
               )}
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
-              <div>
-                <HomeSliderBtns
-                  showType={movie.media_type as "movie" | "tv"}
-                  showId={movie.id}
-                  name={movie.original_title}
-                />
-              </div>
+            <div>
+              <HomeSliderBtns
+                showType={movie.media_type as "movie" | "tv"}
+                showId={movie.id}
+                name={movie.original_title}
+              />
             </div>
           </motion.div>
 

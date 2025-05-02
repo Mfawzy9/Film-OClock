@@ -2,10 +2,9 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 import PageSection from "../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Virtual } from "swiper/modules";
+import { Virtual } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { Swiper as SwiperType } from "swiper";
-import "swiper/css";
 import { genre } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import Image from "next/image";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
@@ -144,7 +143,7 @@ const GenresSlider = ({
             onInit={handleSwiper}
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}
-            modules={[Navigation, Virtual]}
+            modules={[Virtual]}
             spaceBetween={200}
             slidesPerView={1}
             slidesPerGroup={1}
