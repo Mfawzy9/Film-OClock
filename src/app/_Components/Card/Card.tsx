@@ -73,7 +73,7 @@ const Card = ({
       {showType !== "person" && theShow && (
         <WatchlistFavoriteDD
           showId={id}
-          showType={updatedShowType}
+          showType={updatedShowType as "movie" | "tv"}
           theShow={theShow}
         />
       )}
