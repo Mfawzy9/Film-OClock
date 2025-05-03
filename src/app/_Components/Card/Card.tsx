@@ -92,6 +92,7 @@ const Card = ({
             alt={alt}
             width={350}
             height={350}
+            sizes="350px"
             className={`object-cover ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out
               group-hover:scale-105 `}

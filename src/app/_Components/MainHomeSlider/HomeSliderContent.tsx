@@ -31,9 +31,11 @@ const HomeSliderContent = ({
   movie,
   isActive,
   genreNames,
+  isVisible,
 }: {
   movie: MovieTrendsI;
   isActive: boolean;
+  isVisible: boolean;
   genreNames: string[];
 }) => {
   const genreList = useMemo(() => {
@@ -65,7 +67,7 @@ const HomeSliderContent = ({
             src={backdropSrc}
             alt={movie.original_title ?? "Backdrop"}
             fill
-            priority={isActive}
+            priority={isActive && isVisible}
             sizes="100vw"
             className="object-cover object-top"
           />
@@ -84,7 +86,7 @@ const HomeSliderContent = ({
           <motion.div
             variants={childVariants}
             initial="hidden"
-            animate={isActive ? "visible" : "hidden"}
+            animate={isActive && isVisible ? "visible" : "hidden"}
             className="flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
               lg:max-w-screen-sm 2xl:max-w-screen-md transform-gpu"
           >
@@ -125,13 +127,13 @@ const HomeSliderContent = ({
           <motion.div
             variants={imgVariants}
             initial="hidden"
-            animate={isActive ? "visible" : "hidden"}
+            animate={isActive && isVisible ? "visible" : "hidden"}
             className="sm:w-[300px] sm:h-[450px] flex-none relative hidden lg:block"
           >
             {!isLoaded && <BgPlaceholder />}
             <Image
-              priority={isActive}
-              loading={isActive ? "eager" : "lazy"}
+              priority={isActive && isVisible}
+              loading={isActive && isVisible ? "eager" : "lazy"}
               src={imgSrc}
               fill
               sizes="300px"

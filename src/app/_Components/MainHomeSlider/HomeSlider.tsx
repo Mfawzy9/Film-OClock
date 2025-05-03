@@ -66,10 +66,11 @@ const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
               style={{ willChange: "transform" }}
               className="transition-[transform,opacity] transform-gpu"
             >
-              {({ isActive }) => (
+              {({ isActive, isVisible }) => (
                 <HomeSliderContent
                   movie={movie}
                   isActive={isActive}
+                  isVisible={isVisible}
                   genreNames={movie.genreNames}
                 />
               )}

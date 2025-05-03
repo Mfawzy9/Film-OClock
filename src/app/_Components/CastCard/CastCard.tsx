@@ -73,6 +73,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
           alt={person.name}
           width={100}
           height={100}
+          sizes="100px"
           loading="lazy"
           className={`object-fill object-center w-full h-auto
             ${person.profile_path && loadedImgs[person?.profile_path] ? "opacity-100 scale-100" : "opacity-0 scale-90"}
@@ -137,7 +138,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
                       <Image
                         src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${work?.poster_path}`}
                         fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="55px"
                         alt={
                           (work as PopularPersonMovieI)?.original_title ||
                           (work as PopularPersonTvShowI)?.original_name

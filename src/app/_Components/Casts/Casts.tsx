@@ -36,6 +36,7 @@ const CastCard = memo(({ cast, isLoaded, idx, dispatch }: CastCardProps) => {
           src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${cast?.profile_path}`}
           width={200}
           height={300}
+          sizes="200px"
           alt={cast.name}
           className={`rounded-lg w-full ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
             transition-[transform,opacity] duration-300 transform-gpu ease-out`}
