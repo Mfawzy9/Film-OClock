@@ -207,8 +207,8 @@ export const handleShare = async ({
   const title =
     (theShow as Movie).original_title ||
     (theShow as TVShow).original_name ||
-    (theShow as FirestoreTheShowI).title ||
-    (theShow as WatchHistoryItem).title;
+    (theShow as FirestoreTheShowI | WatchHistoryItem).title ||
+    "";
 
   const text = title ? t("ShareTitle", { title }) : t("Share2Title");
 

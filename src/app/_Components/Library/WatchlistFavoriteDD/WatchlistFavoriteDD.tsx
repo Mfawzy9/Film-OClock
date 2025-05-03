@@ -14,28 +14,6 @@ import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryI
 import { useTranslations } from "next-intl";
 import { handleShare, nameToSlug } from "../../../../../helpers/helpers";
 
-// export function getDetailsShareUrl(
-//   show: FirestoreTheShowI | WatchHistoryItem | Movie | TVShow,
-//   showType: string,
-//   showId: number,
-// ) {
-//   const locale =
-//     typeof window !== "undefined"
-//       ? window.location.pathname.split("/")[1]
-//       : "en";
-//   const origin = typeof window !== "undefined" ? window.location.origin : "";
-
-//   const title =
-//     (show as Movie).original_title ||
-//     (show as TVShow).original_name ||
-//     (show as FirestoreTheShowI).title ||
-//     (show as WatchHistoryItem).title ||
-//     "";
-
-//   const slug = nameToSlug(title);
-//   return `${origin}/${locale}/details/${showType}/${showId}/${slug}`;
-// }
-
 const WatchlistFavoriteDD = ({
   showId,
   showType,
@@ -146,36 +124,6 @@ const WatchlistFavoriteDD = ({
       t,
     }).then(() => setDropDownMenu(false));
   };
-
-  // const handleShare = async ({theShow, showType, showId}:{theShow: Movie | TVShow | FirestoreTheShowI | WatchHistoryItem, showType: 'movie' | 'tv', showId: number}) => {
-  //   const shareUrl = getDetailsShareUrl(theShow, showType, showId);
-  //   const title =
-  //     (theShow as Movie).original_title ||
-  //     (theShow as TVShow).original_name ||
-  //     (theShow as FirestoreTheShowI).title ||
-  //     (theShow as WatchHistoryItem).title;
-
-  //   const text = title ? t("ShareTitle", { title }) : t("Share2Title");
-
-  //   try {
-  //     if (navigator.share) {
-  //       await navigator.share({
-  //         title,
-  //         text,
-  //         url: shareUrl,
-  //       });
-  //     } else {
-  //       await navigator.clipboard.writeText(shareUrl);
-  //       toast.success("Link copied to clipboard!");
-  //     }
-  //   } catch (error) {
-  //     if (error === "AbortError") {
-  //       toast.error("Failed to share link");
-  //     }
-  //   } finally {
-  //     setDropDownMenu(false);
-  //   }
-  // };
 
   return (
     <>
