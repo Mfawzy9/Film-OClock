@@ -134,7 +134,9 @@ const WatchTvDetails = ({
         </Link>
         <h6 className="flex items-center gap-2 flex-wrap">
           <FaStar className="text-yellow-500" title="Rating" />
-          {currentEpisode?.vote_average.toFixed(1)}
+          {currentEpisode?.vote_average.toFixed(1) === "0.0"
+            ? tvShow?.vote_average.toFixed(1)
+            : currentEpisode?.vote_average.toFixed(1)}
           <span className="text-gray-400">|</span>
           <FcCalendar title="Last Date" />
           {currentEpisode?.air_date && currentEpisode?.air_date}

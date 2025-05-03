@@ -27,30 +27,18 @@ import HoriSkeletonSlider from "../HoriCardsSlider/HoriSkeletonSlider";
 import GenresSkeletonSlider from "../GenresSlider/GenresSkeletonSlider";
 import ShortDetailsSkeleton from "../ShortDetails/ShortDetailsSkeleton";
 
-const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
-  loading: () => <CardsSkeletonSlider />,
-});
+const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const ShortDetails = dynamic(
   () => import("@/app/_Components/ShortDetails/ShortDetails"),
-  { loading: () => <ShortDetailsSkeleton className="!my-0 !py-0" /> },
 );
 const VideosSlider = dynamic(
   () => import("@/app/_Components/VideosSlider/VideosSlider"),
-  {
-    loading: () => <VideosSkelsetonSlider />,
-  },
 );
 const HoriCardsSlider = dynamic(
   () => import("@/app/_Components/HoriCardsSlider/HoriCardsSlider"),
-  {
-    loading: () => <HoriSkeletonSlider />,
-  },
 );
 const GenresSection = dynamic(
   () => import("@/app/_Components/GenresSection/GenresSection"),
-  {
-    loading: () => <GenresSkeletonSlider />,
-  },
 );
 
 // 🔹 Type guards

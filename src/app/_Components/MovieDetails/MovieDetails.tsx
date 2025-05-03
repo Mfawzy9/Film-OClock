@@ -45,9 +45,7 @@ import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
 
-const Videos = dynamic(() => import("../Videos/Videos"), {
-  loading: () => <VideosDetailsSkeletons />,
-});
+const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
 const Reviews = dynamic(() => import("../Reviews/Reviews"));
 const Casts = dynamic(() => import("../Casts/Casts"));
@@ -167,7 +165,7 @@ const MovieDetails = ({
                 length={
                   movie?.videos?.results?.filter(
                     (video) => video.type === "Trailer",
-                  )?.length || 4
+                  )?.length
                 }
               />
             }

@@ -4,6 +4,9 @@ import {
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { SearchPerson } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
+import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
+import { toast } from "sonner";
+import { TFunction } from "../global";
 
 export const minutesToHours = (minutes: number, isArabic: boolean) => {
   const hours = Math.floor(minutes / 60);
@@ -142,7 +145,7 @@ export const instagramLink = (id: string) => `https://www.instagram.com/${id}/`;
 export const twitterLink = (id: string) => `https://x.com/${id}/`;
 export const facebookLink = (id: string) => `https://www.facebook.com/${id}/`;
 export const tiktokLink = (id: string) => `https://www.tiktok.com/@${id}/`;
-export const imdbLink = (id: string) => `https://www.imdb.com/name/${id}/`;
+export const imdbLink = (id: string) => `https://www.imdb.com/title/${id}/`;
 
 // scroll to top
 export const scrollToTop = () => {
@@ -152,7 +155,7 @@ export const scrollToTop = () => {
   });
 };
 
-// This utility function can be reused anywhere to removeDuplicatesById
+// utility function can be reused anywhere to removeDuplicatesById
 export const removeDuplicatesById = ({
   items,
 }: {
@@ -165,3 +168,64 @@ export const removeDuplicatesById = ({
 
 export const nameToSlug = (name: string) =>
   name?.replace(/&/g, "and").replace(/\s+/g, "-").toLowerCase();
+
+// handle share movie or tvshow
+export function getDetailsShareUrl(
+  show: FirestoreTheShowI | WatchHistoryItem | Movie | TVShow,
+  showType: string,
+  showId: number,
+) {
+  const locale =
+    typeof window !== "undefined"
+      ? window.location.pathname.split("/")[1]
+      : "en";
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+
+  const title =
+    (show as Movie).original_title ||
+    (show as TVShow).original_name ||
+    (show as FirestoreTheShowI).title ||
+    (show as WatchHistoryItem).title ||
+    "";
+
+  const slug = nameToSlug(title);
+  return `${origin}/${locale}/details/${showType}/${showId}/${slug}`;
+}
+
+export const handleShare = async ({
+  theShow,
+  showType,
+  showId,
+  t,
+}: {
+  theShow: Movie | TVShow | FirestoreTheShowI | WatchHistoryItem;
+  showType: "movie" | "tv";
+  showId: number;
+  t: TFunction;
+}) => {
+  const shareUrl = getDetailsShareUrl(theShow, showType, showId);
+  const title =
+    (theShow as Movie).original_title ||
+    (theShow as TVShow).original_name ||
+    (theShow as FirestoreTheShowI).title ||
+    (theShow as WatchHistoryItem).title;
+
+  const text = title ? t("ShareTitle", { title }) : t("Share2Title");
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title,
+        text,
+        url: shareUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success("Link copied to clipboard!");
+    }
+  } catch (error) {
+    if (error === "AbortError") {
+      toast.error("Failed to share link");
+    }
+  }
+};

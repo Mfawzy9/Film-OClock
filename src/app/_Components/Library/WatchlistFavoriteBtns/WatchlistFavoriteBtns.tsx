@@ -12,6 +12,8 @@ import {
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { useTranslations } from "next-intl";
+import { handleShare } from "../../../../../helpers/helpers";
+import { FiShare2 } from "react-icons/fi";
 
 const WatchlistFavoriteBtns = ({
   showId,
@@ -26,6 +28,7 @@ const WatchlistFavoriteBtns = ({
     theShow,
     dropDownMenu: true,
   });
+  const showType = "original_title" in theShow ? "movie" : "tv";
 
   const renderButton = (
     library: "watchlist" | "favorites",
@@ -97,6 +100,29 @@ const WatchlistFavoriteBtns = ({
         <FaHeartCirclePlus className="text-3xl" />,
         <FaHeartCircleCheck className="text-3xl text-green-600" />,
       )}
+
+      <button
+        onClick={() =>
+          handleShare({
+            showId,
+            showType,
+            theShow: theShow as Movie | TVShow,
+            t,
+          })
+        }
+        className="relative group cursor-pointer hover:text-blue-500 disabled:cursor-not-allowed
+          disabled:opacity-70 disabled:hover:text-white"
+      >
+        <FiShare2 className="text-3xl" />
+        <span
+          className="absolute block opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8
+            left-1/2 transition-all duration-300 transform -translate-x-1/2 bg-gray-800
+            text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none
+            capitalize"
+        >
+          {t("Share")}
+        </span>
+      </button>
     </div>
   );
 };

@@ -21,38 +21,27 @@ import ShortDetailsSkeleton from "@/app/_Components/ShortDetails/ShortDetailsSke
 
 const LazyPopularPpl = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyPopularPpl"),
-  { loading: () => <CardsSkeletonSlider />, ssr: false },
 );
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
-  { loading: () => <HoriSkeletonSlider />, ssr: false },
 );
 const LazyLastWatched = dynamic(
   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
-  {
-    loading: () => <ShortDetailsSkeleton className="!py-0 mt-14" />,
-    ssr: false,
-  },
 );
 const LazyTrendingTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
-  { loading: () => <CardsSkeletonSlider />, ssr: false },
 );
 const LazyLatestTrailers = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyLatestTrailers"),
-  { loading: () => <VideosSkelsetonSlider />, ssr: false },
 );
 const LazyUpcomingMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
-  { loading: () => <CardsSkeletonSlider />, ssr: false },
 );
 const LazyMostVotedTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
-  { loading: () => <HoriSkeletonSlider />, ssr: false },
 );
 const LazyGenres = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyGenres"),
-  { loading: () => <GenresSkeletonSlider />, ssr: false },
 );
 
 const Home = () => {

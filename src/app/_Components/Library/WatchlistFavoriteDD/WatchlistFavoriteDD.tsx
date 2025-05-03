@@ -10,32 +10,31 @@ import {
 import { PiSpinnerGapBold } from "react-icons/pi";
 import useLibrary, { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import { FiShare2 } from "react-icons/fi";
-import { toast } from "sonner";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
-import { nameToSlug } from "../../../../../helpers/helpers";
+import { handleShare, nameToSlug } from "../../../../../helpers/helpers";
 
-export function getDetailsShareUrl(
-  show: FirestoreTheShowI | WatchHistoryItem | Movie | TVShow,
-  showType: string,
-  showId: number,
-) {
-  const locale =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/")[1]
-      : "en";
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
+// export function getDetailsShareUrl(
+//   show: FirestoreTheShowI | WatchHistoryItem | Movie | TVShow,
+//   showType: string,
+//   showId: number,
+// ) {
+//   const locale =
+//     typeof window !== "undefined"
+//       ? window.location.pathname.split("/")[1]
+//       : "en";
+//   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
-  const title =
-    (show as Movie).original_title ||
-    (show as TVShow).original_name ||
-    (show as FirestoreTheShowI).title ||
-    (show as WatchHistoryItem).title ||
-    "";
+//   const title =
+//     (show as Movie).original_title ||
+//     (show as TVShow).original_name ||
+//     (show as FirestoreTheShowI).title ||
+//     (show as WatchHistoryItem).title ||
+//     "";
 
-  const slug = nameToSlug(title);
-  return `${origin}/${locale}/details/${showType}/${showId}/${slug}`;
-}
+//   const slug = nameToSlug(title);
+//   return `${origin}/${locale}/details/${showType}/${showId}/${slug}`;
+// }
 
 const WatchlistFavoriteDD = ({
   showId,
@@ -45,7 +44,7 @@ const WatchlistFavoriteDD = ({
   season,
 }: {
   showId: number;
-  showType: string;
+  showType: "movie" | "tv";
   theShow: Movie | TVShow | FirestoreTheShowI | WatchHistoryItem;
   episode?: number;
   season?: number;
@@ -139,35 +138,44 @@ const WatchlistFavoriteDD = ({
       ? `/watch/movie/${showId}/${slug}`
       : `/watch/tv/${showId}/${slug}?season=${season || 1}&episode=${episode || 1}`;
 
-  const handleShare = async () => {
-    const shareUrl = getDetailsShareUrl(theShow, showType, showId);
-    const title =
-      (theShow as Movie).original_title ||
-      (theShow as TVShow).original_name ||
-      (theShow as FirestoreTheShowI).title ||
-      (theShow as WatchHistoryItem).title;
-
-    const text = title ? t("ShareTitle", { title }) : t("Share2Title");
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title,
-          text,
-          url: shareUrl,
-        });
-      } else {
-        await navigator.clipboard.writeText(shareUrl);
-        toast.success("Link copied to clipboard!");
-      }
-    } catch (error) {
-      if (error === "AbortError") {
-        toast.error("Failed to share link");
-      }
-    } finally {
-      setDropDownMenu(false);
-    }
+  const handleShareClick = async () => {
+    await handleShare({
+      showId,
+      showType,
+      theShow: theShow as Movie | TVShow,
+      t,
+    }).then(() => setDropDownMenu(false));
   };
+
+  // const handleShare = async ({theShow, showType, showId}:{theShow: Movie | TVShow | FirestoreTheShowI | WatchHistoryItem, showType: 'movie' | 'tv', showId: number}) => {
+  //   const shareUrl = getDetailsShareUrl(theShow, showType, showId);
+  //   const title =
+  //     (theShow as Movie).original_title ||
+  //     (theShow as TVShow).original_name ||
+  //     (theShow as FirestoreTheShowI).title ||
+  //     (theShow as WatchHistoryItem).title;
+
+  //   const text = title ? t("ShareTitle", { title }) : t("Share2Title");
+
+  //   try {
+  //     if (navigator.share) {
+  //       await navigator.share({
+  //         title,
+  //         text,
+  //         url: shareUrl,
+  //       });
+  //     } else {
+  //       await navigator.clipboard.writeText(shareUrl);
+  //       toast.success("Link copied to clipboard!");
+  //     }
+  //   } catch (error) {
+  //     if (error === "AbortError") {
+  //       toast.error("Failed to share link");
+  //     }
+  //   } finally {
+  //     setDropDownMenu(false);
+  //   }
+  // };
 
   return (
     <>
@@ -219,7 +227,7 @@ const WatchlistFavoriteDD = ({
             </li>
             <li onClick={handleItemClick}>
               <button
-                onClick={handleShare}
+                onClick={handleShareClick}
                 className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
                   hover:bg-blue-700 hover:shadow-blueGlow cursor-pointer w-full"
               >

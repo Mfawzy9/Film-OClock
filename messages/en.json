@@ -301,7 +301,10 @@
     },
 
     "AddTo": "Add to",
-    "RemoveFrom": "Remove from"
+    "RemoveFrom": "Remove from",
+    "Share": "Share",
+    "ShareTitle": "Explore {title} on FilmO'Clock!",
+    "Share2Title": "Check this out!"
   },
 
   "SearchPage": {

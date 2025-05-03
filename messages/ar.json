@@ -301,7 +301,10 @@
     },
 
     "AddTo": "إضافة إلى",
-    "RemoveFrom": "إزالة من"
+    "RemoveFrom": "إزالة من",
+    "Share": "مشاركة",
+    "ShareTitle": "استكشف {title} في (فيلم أوكْلوك)",
+    "Share2Title": "شاهد هذا!"
   },
 
   "SearchPage": {
