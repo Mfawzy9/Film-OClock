@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import CardsSkeletons from "../Card/CardsSkeletons";
+import { useRouter } from "@/i18n/navigation";
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
@@ -21,6 +22,7 @@ type TrendingShowsProps = {
 };
 
 const TrendingShows = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = Number(searchParams.get("page"));
   const { showType } = useParams<TrendingShowsProps>();
@@ -48,6 +50,7 @@ const TrendingShows = () => {
 
   const handleWeekOrDay = (query: "day" | "week") => {
     setPage(1);
+    router.push(`?page=${1}`, { scroll: false });
     setDayOrWeek(query);
   };
 

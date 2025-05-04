@@ -1,3 +1,5 @@
+import { useRouter } from "@/i18n/navigation";
+
 interface SelectCompProps {
   items: { query: string; name: string }[];
   activeSelect: { query: string; name: string };
@@ -17,10 +19,14 @@ const SelectComp = ({
   setSeasonNumber,
   setPage,
 }: SelectCompProps) => {
+  const router = useRouter();
   const handleSelectOption = (query: string, name: string) => {
     setActiveSelect({ query, name });
     if (setSeasonNumber) setSeasonNumber(Number(query.split(" ")[1]));
-    if (setPage) setPage(1);
+    if (setPage) {
+      setPage(1);
+      router.push(`?page=${1}`, { scroll: false });
+    }
   };
 
   return (

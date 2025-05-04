@@ -5,6 +5,7 @@ import PageSection from "@/app/_Components/PageSection/PageSection";
 import Pagination from "@/app/_Components/Pagination/Pagination";
 import Title from "@/app/_Components/Title/Title";
 import { PplTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
+import { useRouter } from "@/i18n/navigation";
 import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
@@ -15,6 +16,7 @@ const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 const TrendingPpl = () => {
   const t = useTranslations("Trending");
+  const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = Number(searchParams.get("page"));
   const [page, setPage] = useState(pageParam || 1);
@@ -37,6 +39,7 @@ const TrendingPpl = () => {
 
   const handleWeekOrDay = (id: "day" | "week") => {
     setPage(1);
+    router.push(`?page=${1}`, { scroll: false });
     setDayOrWeek(id);
   };
 

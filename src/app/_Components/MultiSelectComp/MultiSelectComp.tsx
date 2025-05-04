@@ -1,3 +1,4 @@
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { IoClose, IoSearch } from "react-icons/io5";
@@ -26,6 +27,7 @@ const MultiSelectComp = ({
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   // Memoize filtered items to prevent unnecessary recalculations
   const filteredItems = useMemo(() => {
@@ -62,12 +64,12 @@ const MultiSelectComp = ({
       } else {
         setActiveSelect([...activeSelect, { query, name }]);
       }
-
+      router.push(`?page=${1}`, { scroll: false });
       setPage?.(1);
       setSearchTerm("");
       inputRef.current?.focus();
     },
-    [activeSelect, activeSelectQueries, setActiveSelect, setPage],
+    [activeSelect, activeSelectQueries, setActiveSelect, setPage, router],
   );
 
   // Memoized handler for removing selected items
