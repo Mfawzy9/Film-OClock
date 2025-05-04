@@ -130,19 +130,21 @@ const Details = async ({ params }: Props) => {
       showType,
     });
 
-  const title =
-    initialData &&
-    ("original_title" in initialData
-      ? initialData.original_title
-      : "first_air_date" in initialData
-        ? initialData.original_name
-        : initialData.name);
+  if (showType !== "person") {
+    const title =
+      initialData &&
+      ("original_title" in initialData
+        ? initialData.original_title
+        : "first_air_date" in initialData
+          ? initialData.original_name
+          : initialData.name);
 
-  const correctSlug = title && nameToSlug(title);
-  const decodedSlug = decodeURIComponent(slug);
+    const correctSlug = title && nameToSlug(title);
+    const decodedSlug = decodeURIComponent(slug);
 
-  if (decodedSlug !== correctSlug) {
-    redirect(`/${locale}/details/${showType}/${showId}/${correctSlug}`);
+    if (decodedSlug !== correctSlug) {
+      redirect(`/${locale}/details/${showType}/${showId}/${correctSlug}`);
+    }
   }
 
   if (showType !== "movie" && showType !== "tv" && showType !== "person")
