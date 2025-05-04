@@ -57,8 +57,8 @@ const WlCard = ({
               src={posterSrc}
               alt={show.title}
               loading="lazy"
-              className={`h-auto w-auto rounded-md transform -translate-y-4 border-4 border-gray-400 block
-                mx-auto ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+              className={` rounded-md transform -translate-y-4 border-4 border-gray-400 block mx-auto
+                ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={() => dispatch(setImageLoaded(posterSrc))}
             />
@@ -105,9 +105,9 @@ const WlCard = ({
               {show.releaseDate.split("-")[0]}
             </p>
             <h5
-              className="absolute bottom-1 xs:bottom-16 xs:end-1 end-1/2 translate-x-1/2 xs:translate-x-0
-                rotate-12 px-4 py-1 font-semibold rounded-full bg-gradient-to-r from-green-950
-                via-sky-950 to-red-950 text-gray-50"
+              className="absolute left-1/2 xs:left-2 -translate-x-1/2 bottom-1 xs:bottom-14
+                xs:translate-x-0 flex-none rotate-12 px-4 py-1 font-semibold rounded-full
+                bg-gradient-to-r from-green-950 via-sky-950 to-red-950 text-gray-50"
             >
               {show.showType === "movie"
                 ? t("WlCard.Movie")
