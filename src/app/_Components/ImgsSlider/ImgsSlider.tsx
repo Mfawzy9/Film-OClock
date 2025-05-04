@@ -45,8 +45,10 @@ const ImgCard = memo(
           height={300}
           src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${img.file_path}`}
           alt={`Backdrop from ${name}`}
-          className={`object-cover w-full h-auto aspect-video rounded-lg transition-all
-            hover:scale-110 duration-300 `}
+          className={`object-cover w-full h-auto aspect-video rounded-lg
+            ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+            transition-[transform,opacity] duration-300 transform-gpu ease-out
+            hover:scale-110 `}
           priority={index < 3}
           loading={index < 3 ? "eager" : "lazy"}
           onLoad={() => {
