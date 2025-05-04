@@ -7,5 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: "https://film-oclock.vercel.app/sitemap.xml",
+    host: "https://film-oclock.vercel.app",
   };
 }

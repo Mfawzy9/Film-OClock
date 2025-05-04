@@ -130,7 +130,6 @@ const Details = async ({ params }: Props) => {
       showType,
     });
 
-  // if (showType !== "person") {
   if (initialData) {
     const title =
       "original_title" in initialData
@@ -147,8 +146,6 @@ const Details = async ({ params }: Props) => {
       redirect(`/${locale}/details/${showType}/${showId}/${encodedSlug}`);
     }
   }
-
-  // }
 
   if (showType !== "movie" && showType !== "tv" && showType !== "person")
     return notFound();

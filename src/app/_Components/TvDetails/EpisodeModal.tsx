@@ -159,8 +159,8 @@ const EpisodeModal = ({
             </Link>
           </div>
           <h6 className="flex items-center gap-2 flex-wrap mt-2">
-            {t("Tabs.EpisodeModal.Episode")} {episode?.season_number} |{" "}
-            {t("Tabs.EpisodeModal.Season")} {episode?.episode_number}
+            {t("Tabs.EpisodeModal.Episode")} {episode?.episode_number} |{" "}
+            {t("Tabs.EpisodeModal.Season")} {episode?.season_number}
           </h6>
           <h2 className="mt-4 text-lg sm:text-xl font-bold text-blue-300">
             {episode.name}
