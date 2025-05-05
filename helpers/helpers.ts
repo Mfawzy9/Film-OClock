@@ -6,7 +6,6 @@ import {
 import { SearchPerson } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { toast } from "sonner";
-import { TFunction } from "../global";
 
 export const minutesToHours = (minutes: number, isArabic: boolean) => {
   const hours = Math.floor(minutes / 60);
@@ -201,7 +200,7 @@ export const handleShare = async ({
   theShow: Movie | TVShow | FirestoreTheShowI | WatchHistoryItem;
   showType: "movie" | "tv";
   showId: number;
-  t: TFunction;
+  t: any;
 }) => {
   const shareUrl = getDetailsShareUrl(theShow, showType, showId);
   const title =
