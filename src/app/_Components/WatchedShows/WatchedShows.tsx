@@ -31,7 +31,6 @@ const WatchedShows = () => {
   useEffect(() => {
     if (watchdShowsData) {
       dispatch(setWatchedShows(watchdShowsData));
-      console.log("watchdShowsDatsa", watchdShowsData);
     }
   }, [dispatch, watchdShowsData]);
 

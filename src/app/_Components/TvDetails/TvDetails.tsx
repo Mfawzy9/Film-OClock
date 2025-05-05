@@ -47,6 +47,7 @@ import LazyRender from "../LazyRender/LazyRender";
 import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import EpisodesSkeletons from "./EpisodesSkeletons";
+import WatchedBtn from "../WatchedBtn/WatchedBtn";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -261,6 +262,11 @@ const TvDetails = ({
           {/* Tvshow Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
             {!isImgLoaded && <BgPlaceholder />}
+            <WatchedBtn
+              showId={showId}
+              showName={tvShow?.original_name || ""}
+              theShow={tvShow}
+            />
             <Image
               src={imgSrc}
               width={300}

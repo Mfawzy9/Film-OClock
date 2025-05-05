@@ -221,8 +221,9 @@ const WatchTv = ({
         durationRef.current = duration;
         updateWatchedHistory({ watched, duration });
       } else if (
-        (event.origin === "https://vidlink.pro" ||
-          event.origin === "https://www.vidsrc.wtf") &&
+        ["https://vidlink.pro", "https://www.vidsrc.wtf"].includes(
+          event.origin,
+        ) &&
         event.data?.type === "MEDIA_DATA"
       ) {
         const mediaData = event.data.data;

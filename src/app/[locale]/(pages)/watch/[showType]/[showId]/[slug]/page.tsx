@@ -105,7 +105,7 @@ export async function generateMetadata({
 
 const WatchPage = async ({ params, searchParams }: WatchParams) => {
   const { showId, showType, locale } = await params;
-  const extraParams = await searchParams;
+  const { episode, season } = await searchParams;
 
   const { initialData, initialTranslations } =
     await getInitialDetailsDataCachedWithMap({
@@ -134,8 +134,8 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
         <WatchTv
           showId={showId}
           showType={showType}
-          episode={Number(extraParams?.episode) ?? 1}
-          season={Number(extraParams?.season) ?? 1}
+          episode={Number(episode) ?? 1}
+          season={Number(season) ?? 1}
           initialData={initialData as TvDetailsResponse}
           initialTranslations={initialTranslations as TvTranslationsResponse}
         />
