@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetLibraryQuery,
@@ -19,8 +19,6 @@ const LibraryInit = () => {
     { userId: user?.uid || "" },
     {
       skip: !user?.uid,
-      refetchOnMountOrArgChange: false,
-      refetchOnFocus: false,
     },
   );
 
@@ -28,8 +26,6 @@ const LibraryInit = () => {
     { library: "watchlist", userId: user?.uid || "" },
     {
       skip: !user?.uid,
-      refetchOnMountOrArgChange: false,
-      refetchOnFocus: false,
     },
   );
 
@@ -37,19 +33,14 @@ const LibraryInit = () => {
     { library: "favorites", userId: user?.uid || "" },
     {
       skip: !user?.uid,
-      refetchOnMountOrArgChange: false,
-      refetchOnFocus: false,
     },
   );
 
-  const hasSynced = useRef(false);
-
   useEffect(() => {
-    if (!hasSynced.current && user && watchlist && favorites && watchedShows) {
+    if (user && watchlist && favorites && watchedShows) {
       dispatch(setWatchlist(watchlist));
       dispatch(setFavorites(favorites));
       dispatch(setWatchedShows(watchedShows));
-      hasSynced.current = true; // prevent re-running
     }
   }, [user, watchlist, favorites, dispatch, watchedShows]);
 
