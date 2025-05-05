@@ -327,7 +327,7 @@
       "TvShows": "Tv Shows",
       "EmptyWatchedList": {
         "title": "Your watched List is empty",
-        "description": "Movies and TV shows you have been watched will appear here",
+        "description": "Movies and TV shows you've marked as watched will appear here.",
         "MoviesBtn": "Browse Movies",
         "TvShowsBtn": "Browse TV Shows"
       },

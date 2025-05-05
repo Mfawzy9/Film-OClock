@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 const EmptyFav = () => {
   const t = useTranslations("Library.Favourites");
   return (
-    <PageSection>
+    <PageSection className="min-h-[60vh] flex items-center justify-center">
       <div className="flex flex-col items-center justify-start gap-3">
         <BsBookmarkPlus className="text-8xl" />
 
