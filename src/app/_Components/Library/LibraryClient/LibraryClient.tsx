@@ -114,12 +114,13 @@ const LibraryClient = () => {
                 <WlSearch
                   setSearchTerm={setSearchTerm}
                   searchTerm={searchTerm}
+                  libraryWord="Watchlist"
                 />
               )}
               <main className="grid place-items-center sm:place-items-start gap-y-10">
                 {filteredWatchlist.map((show: FirestoreTheShowI) => (
                   <motion.div key={`${libraryType}-${show.id}`} layout>
-                    <WlCard show={show} isFetching={isFetching} />
+                    <WlCard show={show} />
                   </motion.div>
                 ))}
               </main>

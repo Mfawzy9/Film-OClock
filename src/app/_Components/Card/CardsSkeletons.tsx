@@ -1,15 +1,21 @@
 import PageSection from "../PageSection/PageSection";
 import Title from "../Title/Title";
 
-const CardsSkeletons = ({ title }: { title: string }) => {
+const CardsSkeletons = ({
+  title,
+  length = 20,
+}: {
+  title: string;
+  length?: number;
+}) => {
   return (
     <PageSection>
       <Title title={title} />
       <main
         className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4
-          lg:grid-cols-5 gap-4 place-items-center min-h-screen relative"
+          lg:grid-cols-5 gap-4 place-items-center relative"
       >
-        {[...Array(20)].map((_, idx) => (
+        {[...Array(length)].map((_, idx) => (
           <div
             key={idx}
             className="relative w-full rounded overflow-hidden pb-1 animate-pulse"

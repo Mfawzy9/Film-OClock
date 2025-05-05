@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type LibraryState = {
   watchlist: FirestoreTheShowI[];
   favorites: FirestoreTheShowI[];
+  watchedShows: FirestoreTheShowI[];
 };
 
 const initialState: LibraryState = {
   watchlist: [],
   favorites: [],
+  watchedShows: [],
 };
 
 const librarySlice = createSlice({
@@ -21,11 +23,17 @@ const librarySlice = createSlice({
     setFavorites: (state, action: PayloadAction<FirestoreTheShowI[]>) => {
       state.favorites = action.payload;
     },
+    setWatchedShows: (state, action: PayloadAction<FirestoreTheShowI[]>) => {
+      state.watchedShows = action.payload;
+    },
     addToWatchlist: (state, action: PayloadAction<FirestoreTheShowI>) => {
       state.watchlist.push(action.payload);
     },
     addToFavorites: (state, action: PayloadAction<FirestoreTheShowI>) => {
       state.favorites.push(action.payload);
+    },
+    addToWatchedShows: (state, action: PayloadAction<FirestoreTheShowI>) => {
+      state.watchedShows.push(action.payload);
     },
     removeFromWatchlist: (state, action: PayloadAction<FirestoreTheShowI>) => {
       state.watchlist = state.watchlist.filter(
@@ -37,11 +45,22 @@ const librarySlice = createSlice({
         (item) => item.id !== action.payload.id,
       );
     },
+    removeFromWatchedShows: (
+      state,
+      action: PayloadAction<FirestoreTheShowI>,
+    ) => {
+      state.watchedShows = state.watchedShows.filter(
+        (item) => item.id !== action.payload.id,
+      );
+    },
     clearWatchlist: (state) => {
       state.watchlist = [];
     },
     clearFavorites: (state) => {
       state.favorites = [];
+    },
+    clearWatchedShows: (state) => {
+      state.watchedShows = [];
     },
   },
 });
@@ -49,12 +68,16 @@ const librarySlice = createSlice({
 export const {
   setWatchlist,
   setFavorites,
+  setWatchedShows,
   addToWatchlist,
   addToFavorites,
+  addToWatchedShows,
   removeFromWatchlist,
   removeFromFavorites,
+  removeFromWatchedShows,
   clearWatchlist,
   clearFavorites,
+  clearWatchedShows,
 } = librarySlice.actions;
 
 export const libraryReducer = librarySlice.reducer;

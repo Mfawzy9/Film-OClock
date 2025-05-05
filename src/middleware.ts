@@ -5,8 +5,8 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-const AUTH_ROUTES = ["/auth/login", "/auth/signup", "/auth/forgotPassword"];
-const PROTECTED_ROUTES = ["/library", "/profile"];
+const AUTH_ROUTES = ["/auth"];
+const PROTECTED_ROUTES = ["/library", "/profile", "/watchedShows"];
 const supportedLocales = ["en", "ar"];
 
 export async function middleware(request: NextRequest) {

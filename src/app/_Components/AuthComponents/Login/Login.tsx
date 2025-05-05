@@ -15,9 +15,9 @@ import { LoginFormFields, loginSchema } from "@/app/validation/loginValidation";
 import { auth } from "@/lib/firebase/config";
 import LoginForm from "@/app/_Components/AuthComponents/LoginForm/LoginForm";
 import { toast } from "sonner";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { isTokenExpired } from "../../../../../helpers/checkToken";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const t = useTranslations("Login");
@@ -38,7 +38,8 @@ const Login = () => {
       const res = await signInWithEmailAndPassword(auth, email, password);
       const user = res.user;
       toast.success(t("ToastsOrMessages.LoginSuccessful"));
-      router.push("/");
+      const previousRoute = sessionStorage.getItem("previousRoute");
+      router.push(previousRoute || "/");
 
       const updatedUser = sanitizeFirebaseUser(user as unknown as User);
       dispatch(setUser(updatedUser));

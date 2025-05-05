@@ -15,7 +15,6 @@ import {
 } from "@/lib/Redux/localSlices/authSlice";
 import { useFormik } from "formik";
 import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
-import { useRouter } from "@/i18n/navigation";
 import RegisterFrom from "@/app/_Components/AuthComponents/RegisterFrom/RegisterFrom";
 import { useEffect } from "react";
 import {
@@ -24,6 +23,7 @@ import {
 } from "@/app/validation/registerValidation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const t = useTranslations("Register");
@@ -49,7 +49,8 @@ const Signup = () => {
       const updatedUser = sanitizeFirebaseUser(user as unknown as User);
       if (updatedUser) {
         dispatch(setUser(updatedUser));
-        router.push("/");
+        const previousRoute = sessionStorage.getItem("previousRoute");
+        router.push(previousRoute || "/");
         formik.resetForm();
       }
 

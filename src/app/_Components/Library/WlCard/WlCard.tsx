@@ -13,16 +13,9 @@ import BgPlaceholder from "../../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import WatchUnwatch from "./WatchUnwatch";
 import { nameToSlug } from "../../../../../helpers/helpers";
 
-const WlCard = ({
-  show,
-  isFetching,
-}: {
-  show: FirestoreTheShowI;
-  isFetching: boolean;
-}) => {
+const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
   const t = useTranslations("Library.Watchlist");
   const { isArabic } = useIsArabic();
   const posterSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${show.posterPath}`;
@@ -91,12 +84,6 @@ const WlCard = ({
               <TrailerBtn showType={show.showType} showId={show.id} />
             </div>
           </div>
-
-          <WatchUnwatch
-            isWatched={show.isWatched}
-            showId={show.id}
-            isFetching={isFetching}
-          />
           <hr className="border-gray-600 mt-auto" data-content />
           {/* date and rating */}
           <div className="flex items-center justify-between relative">
@@ -105,7 +92,7 @@ const WlCard = ({
               {show.releaseDate.split("-")[0]}
             </p>
             <h5
-              className="absolute left-1/2 xs:left-2 -translate-x-1/2 bottom-1 xs:bottom-14
+              className="absolute end-1/2 xs:end-2 -translate-x-1/2 bottom-1 xs:bottom-14
                 xs:translate-x-0 flex-none rotate-12 px-4 py-1 font-semibold rounded-full
                 bg-gradient-to-r from-green-950 via-sky-950 to-red-950 text-gray-50"
             >

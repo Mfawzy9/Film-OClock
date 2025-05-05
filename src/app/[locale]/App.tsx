@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { listenToAuthChanges } from "@/lib/firebase/authService";
 import BackToTop from "../_Components/BackToTop/BackToTop";
 import LibraryInit from "../_Components/Library/LibraryInit/LibraryInit";
+import RouteTracker from "../_Components/RouteTracker/RouteTracker";
 
 const App = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const App = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <Provider store={store}>
+      <RouteTracker />
       <LibraryInit />
       <BackToTop />
       <ImgModal />

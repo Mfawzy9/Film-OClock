@@ -31,7 +31,7 @@ interface ErrorResponse {
 export const firestoreApi = createApi({
   reducerPath: "firestoreApi",
   baseQuery: fakeBaseQuery(),
-  tagTypes: ["Watchlist", "Favorites", "WatchlistItem"],
+  tagTypes: ["Watchlist", "Favorites", "WatchlistItem", "WatchedShows"],
   endpoints: (builder) => ({
     // --- GET WATCHLIST / FAVORITES ---
     getLibrary: builder.query<
@@ -195,6 +195,7 @@ export const firestoreApi = createApi({
         },
       ],
     }),
+    // --- MARK AS WATCHED ---
     markAsWatchedStatus: builder.mutation<
       SuccessResponse | ErrorResponse,
       { userId: string; showId: number; isWatched: boolean }
@@ -225,6 +226,109 @@ export const firestoreApi = createApi({
         { type: "WatchlistItem", id: `${userId}-${showId}` }, // Invalidate specific item
       ],
     }),
+    // --- get watched list ---
+    getWatched: builder.query<TheShowType[], { userId: string }>({
+      async queryFn({ userId }) {
+        try {
+          const querySnapshot = await getDocs(
+            collection(db, "users", userId, "watched"),
+          );
+          const data = querySnapshot.docs.map((docSnap) => ({
+            ...docSnap.data(),
+            id: Number(docSnap.id),
+          })) as TheShowType[];
+          return { data };
+        } catch (error) {
+          return {
+            error: {
+              message: error instanceof Error ? error.message : "Unknown error",
+              code: (error as any)?.code,
+            },
+          };
+        }
+      },
+      providesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
+      ],
+    }),
+
+    // --- Add to watched list ---
+    addToWatched: builder.mutation<
+      SuccessResponse | ErrorResponse,
+      { userId: string; theShow: TheShowType }
+    >({
+      async queryFn({ userId, theShow }) {
+        try {
+          await setDoc(
+            doc(db, "users", userId, "watched", String(theShow.id)),
+            theShow,
+          );
+          return {
+            data: {
+              success: true,
+              message: "Item added successfully",
+            },
+          };
+        } catch (error) {
+          return {
+            error: {
+              message: error instanceof Error ? error.message : "Unknown error",
+              code: (error as any)?.code,
+            },
+          };
+        }
+      },
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
+      ],
+    }),
+    // --- remove from watched list ---
+    removeFromWatched: builder.mutation<
+      SuccessResponse | ErrorResponse,
+      { userId: string; showId: number }
+    >({
+      async queryFn({ userId, showId }) {
+        try {
+          await deleteDoc(doc(db, "users", userId, "watched", String(showId)));
+          return {
+            data: {
+              success: true,
+              message: "Item removed successfully",
+            },
+          };
+        } catch (error) {
+          return {
+            error: {
+              message: error instanceof Error ? error.message : "Unknown error",
+              code: (error as any)?.code,
+            },
+          };
+        }
+      },
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
+      ],
+    }),
+    //--- check if item exists in watched list ---
+    isInWatched: builder.query<boolean, { userId: string; showId: number }>({
+      async queryFn({ userId, showId }) {
+        try {
+          const docRef = doc(db, "users", userId, "watched", String(showId));
+          const docSnap = await getDoc(docRef);
+          return { data: docSnap.exists() };
+        } catch (error) {
+          return {
+            error: {
+              message: error instanceof Error ? error.message : "Unknown error",
+              code: (error as any)?.code,
+            },
+          };
+        }
+      },
+      providesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
+      ],
+    }),
   }),
 });
 
@@ -237,4 +341,10 @@ export const {
   useLazyGetLibraryQuery,
   useLazyIsInLibraryQuery,
   useMarkAsWatchedStatusMutation,
+
+  useGetWatchedQuery,
+  useAddToWatchedMutation,
+  useRemoveFromWatchedMutation,
+  useIsInWatchedQuery,
+  useLazyIsInWatchedQuery,
 } = firestoreApi;

@@ -7,12 +7,17 @@ import { FaXmark } from "react-icons/fa6";
 interface WlSearchProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   searchTerm: string;
+  libraryWord: "Watchlist" | "Favourites" | "WatchedList";
 }
 
-const WlSearch = ({ setSearchTerm, searchTerm }: WlSearchProps) => {
-  const t = useTranslations("Library.Watchlist");
+const WlSearch = ({
+  setSearchTerm,
+  searchTerm,
+  libraryWord,
+}: WlSearchProps) => {
+  const t = useTranslations("Library");
   return (
-    <form className="relative max-w-sm my-5 mx-auto flex items-center">
+    <form className="relative max-w-sm my-6 mx-auto flex items-center">
       <FaSearch className="absolute top-1/2 transform -translate-y-1/2 start-3" />
       {searchTerm.length > 0 && (
         <FaXmark
@@ -30,7 +35,7 @@ const WlSearch = ({ setSearchTerm, searchTerm }: WlSearchProps) => {
           focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-black
           dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
           dark:focus:ring-blue-500 dark:focus:border-blue-500 focus-visible:outline-none"
-        placeholder={t("SearchPlaceholder")}
+        placeholder={t(`${libraryWord}.SearchPlaceholder`)}
         value={searchTerm}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearchTerm(e.target.value)

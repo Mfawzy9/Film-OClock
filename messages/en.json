@@ -39,6 +39,7 @@
     "UserMenu": {
       "Favorites": "Favorites",
       "Watchlist": "Watchlist",
+      "WatchedShows": "Watched Shows",
       "Login": "Login",
       "Register": "Register",
       "Profile": "Profile",
@@ -279,6 +280,8 @@
       "title": "Your favourite items",
       "ClearBtn": "Clear Favourites",
       "Clearing": "Clearing...",
+      "SearchPlaceholder": "Search in your favourites",
+      "SearchNotFound": "No results found",
       "Movies": "Movies",
       "TvShows": "Tv Shows",
       "EmptyFavourites": {
@@ -304,7 +307,41 @@
     "RemoveFrom": "Remove from",
     "Share": "Share",
     "ShareTitle": "Explore {title} on FilmO'Clock!",
-    "Share2Title": "Check this out!"
+    "Share2Title": "Check this out!",
+
+    "WatchedList": {
+      "AM": "AM",
+      "PM": "PM",
+      "PageHeader": "Watched Shows",
+      "Watched": "Watched",
+      "NotWatched": "Mark as watched",
+      "AddToWatchedList": "Add to Watched List",
+      "RemoveFromWatchedList": "Remove from Watched List",
+      "FavoritesName": "watched List",
+      "title": "Your watched items",
+      "ClearBtn": "Clear Watched List",
+      "Clearing": "Clearing...",
+      "SearchPlaceholder": "Search in your watched list",
+      "SearchNotFound": "No results found",
+      "Movies": "Movies",
+      "TvShows": "Tv Shows",
+      "EmptyWatchedList": {
+        "title": "Your watched List is empty",
+        "description": "Movies and TV shows you have been watched will appear here",
+        "MoviesBtn": "Browse Movies",
+        "TvShowsBtn": "Browse TV Shows"
+      },
+
+      "Toasts": {
+        "AddedToWatchedList": "({title}) Added to Watched List",
+        "RemovedFromWatchedList": "({title}) Removed from Watched List",
+        "NeedsLogin": "You must be logged in to mark ({title}) as watched",
+        "LoginHere": "Login Here",
+        "ViewWatchedList": "View Watched List",
+        "WatchedListCleared": "Watched List cleared",
+        "NoDocumentToUpdate": "This show is not in your Watched List"
+      }
+    }
   },
 
   "SearchPage": {
@@ -702,6 +739,10 @@
       "favorites": {
         "Title": "Favorites | FilmO'Clock",
         "Description": "Here you will find the Movies and Tv shows you have saved in your favorites."
+      },
+      "WatchedList": {
+        "Title": "Watched List | FilmO'Clock",
+        "Description": "Here you will find the Movies and Tv shows you have watched."
       }
     },
     "Profile": {

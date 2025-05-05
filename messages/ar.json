@@ -39,6 +39,7 @@
     "UserMenu": {
       "Favorites": "المفضلة",
       "Watchlist": "قائمة المشاهدة",
+      "WatchedShows": "العروض التي تمت مشاهدتها",
       "Login": "تسجيل الدخول",
       "Register": "إنشاء حساب",
       "Profile": "الملف الشخصي",
@@ -279,6 +280,8 @@
       "title": "عناصر المفضلة",
       "ClearBtn": "مسح المفضلة",
       "Clearing": "جاري المسح ...",
+      "SearchPlaceholder": "ابحث في المفضلة الخاصة بك",
+      "SearchNotFound": "لا يوجد نتائج",
       "Movies": "الأفلام",
       "TvShows": "المسلسلات",
       "EmptyFavourites": {
@@ -304,7 +307,40 @@
     "RemoveFrom": "إزالة من",
     "Share": "مشاركة",
     "ShareTitle": "استكشف {title} في (فيلم أوكْلوك)",
-    "Share2Title": "شاهد هذا!"
+    "Share2Title": "شاهد هذا!",
+
+    "WatchedList": {
+      "AM": "ص",
+      "PM": "م",
+      "PageHeader": "العروض التي شاهدتها",
+      "Watched": "تمت المشاهدة",
+      "NotWatched": "تحديد على أنّه تمت مشاهدته",
+      "AddToWatchedList": "أضف إلى قائمة المشاهدة",
+      "RemoveFromWatchedList": "إزالة من قائمة المشاهدة",
+      "FavoritesName": "قائمة المشاهدة",
+      "title": "العناصر التي أتممت مشاهدتها",
+      "ClearBtn": "مسح قائمة المشاهدة",
+      "Clearing": "جاري المسح...",
+      "SearchPlaceholder": "ابحث في قائمة العروض التي تمت مشاهدتها",
+      "SearchNotFound": "لا يوجد نتائج",
+      "Movies": "الأفلام",
+      "TvShows": "المسلسلات",
+      "EmptyWatchedList": {
+        "title": "قائمة المشاهدة فارغة",
+        "description": "الأفلام والمسلسلات التي شاهدتها ستظهر هنا",
+        "MoviesBtn": "تصفح الأفلام",
+        "TvShowsBtn": "تصفح المسلسلات"
+      },
+      "Toasts": {
+        "AddedToWatchedList": "تم تحديد ({title}) على أنه تمت مشاهدته",
+        "RemovedFromWatchedList": "تمت إزالة ({title}) من قائمة العروض التي قمت بمشاهدتها",
+        "NeedsLogin": "تحتاج إلى تسجيل الدخول لتتمكن من تحديد ({title}) على أنه تمت مشاهدته",
+        "LoginHere": "تسجيل الدخول",
+        "ViewWatchedList": "الذهاب إلى قائمة العروض التي قمت بمشاهدتها",
+        "WatchedListCleared": "تم مسح قائمة العروض التي قمت بمشاهدتها",
+        "NoDocumentToUpdate": "هذا العنصر غير موجود في قائمة العروض التي قمت بمشاهدتها !"
+      }
+    }
   },
 
   "SearchPage": {
@@ -703,6 +739,10 @@
       "favorites": {
         "Title": "المفضّلة | فيلم أوكْلوك - FilmO'Clock",
         "Description": "هنا ستجد الأفلام والمسلسلات التي قمت بحفظها في المفضّلة"
+      },
+      "WatchedList": {
+        "Title": "العروض التي تمت مشاهدتها | فيلم أوكْلوك - FilmO'Clock",
+        "Description": "هنا ستجد الأفلام والمسلسلات التي قمت بمشاهدتها"
       }
     },
     "Profile": {

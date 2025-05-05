@@ -1,4 +1,5 @@
 import useLibrary from "@/app/hooks/useLibrary";
+import useWatchedList from "@/app/hooks/useWatchedList";
 import { UserMenuLinksI } from "@/app/interfaces/localInterfaces/userMenuLinksI";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { signOutUser } from "@/lib/firebase/authService";
@@ -14,6 +15,7 @@ import {
   FaUserCog,
   FaUserPlus,
 } from "react-icons/fa";
+import { FaEye } from "react-icons/fa6";
 import { VscSignIn, VscSignOut } from "react-icons/vsc";
 
 interface UserMenuProps {
@@ -36,6 +38,7 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const { favorites, watchlist } = useLibrary({ dropDownMenu: false });
+  const { watchedShows } = useWatchedList({});
   const t = useTranslations("Navbar.UserMenu");
 
   const menuLinks = useMemo(() => {
@@ -51,6 +54,13 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
         name: t("Watchlist"),
         href: "/library/watchlist",
         icon: <FaClipboardList className="text-xl" />,
+        badge: true,
+        show: !!user,
+      },
+      {
+        name: t("WatchedShows"),
+        href: "/watchedShows",
+        icon: <FaEye className="text-xl" />,
         badge: true,
         show: !!user,
       },
@@ -78,7 +88,7 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
   }, [t, user]);
 
   const handleLogout = () => {
-    const protectedPaths = ["watchlist", "favorite", "profile"];
+    const protectedPaths = ["watchlist", "favorite", "profile", "watchedShows"];
     if (protectedPaths.some((path) => pathname.includes(path))) {
       router.push("/");
     }
@@ -129,6 +139,9 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
                   )}
                   {name === t("Favorites") && favorites.length > 0 && (
                     <Badge count={favorites.length} />
+                  )}
+                  {name === t("WatchedShows") && watchedShows.length > 0 && (
+                    <Badge count={watchedShows.length} />
                   )}
                 </>
               )}

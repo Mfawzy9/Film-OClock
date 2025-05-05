@@ -45,12 +45,14 @@ export interface FirestoreTheShowI {
   overview: string;
   arOverview: string;
   showType: "movie" | "tv";
-  isWatched: boolean;
+  watchedAtDate?: string;
+  watchedAtTime?: string;
 }
 
 export const updatedTheShow = (
   theShow: Movie | MovieDetailsResponse | TVShow | TvDetailsResponse,
   arabicTranslation?: { data?: { arTitle: string; arOverview: string } },
+  watchedAt?: { watchedAtDate: string; watchedAtTime: string },
 ): FirestoreTheShowI => ({
   title: (theShow as Movie).original_title || (theShow as TVShow).original_name,
   arTitle: arabicTranslation?.data?.arTitle || "",
@@ -63,7 +65,8 @@ export const updatedTheShow = (
   overview: theShow.overview,
   arOverview: arabicTranslation?.data?.arOverview || "",
   showType: "title" in theShow ? "movie" : "tv",
-  isWatched: false,
+  watchedAtDate: watchedAt?.watchedAtDate || "",
+  watchedAtTime: watchedAt?.watchedAtTime || "",
 });
 
 const useLibrary = ({
@@ -227,7 +230,7 @@ const useLibrary = ({
         }
         const updatedShow =
           "showType" in theShow
-            ? { ...theShow, arTitle, arOverview, isWatched: false }
+            ? { ...theShow, arTitle, arOverview }
             : updatedTheShow(theShow, { data: { arTitle, arOverview } });
 
         await addToLibrary({

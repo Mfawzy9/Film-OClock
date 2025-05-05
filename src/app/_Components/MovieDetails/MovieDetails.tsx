@@ -44,6 +44,7 @@ import LazyRender from "../LazyRender/LazyRender";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
+import WatchedBtn from "../WatchedBtn/WatchedBtn";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -248,13 +249,18 @@ const MovieDetails = ({
           {/* Movie Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
             {!isImgLoaded && <BgPlaceholder />}
+            <WatchedBtn
+              showId={showId}
+              showName={movie?.original_title || ""}
+              theShow={movie}
+            />
             <Image
               src={imgSrc}
               width={300}
               height={450}
               alt={`${movie?.original_title || "Movie"} Poster`}
               priority
-              className={`sm:w-[300px] sm:h-[450px] rounded-md
+              className={`sm:w-[300px] sm:h-[450px] rounded-b-md
                 ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
