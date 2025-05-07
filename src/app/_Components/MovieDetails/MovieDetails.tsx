@@ -392,7 +392,7 @@ const MovieDetails = ({
 
         {/* collection */}
         {movie?.belongs_to_collection && (
-          <MovieCollectionBanner movie={movie} t={t} />
+          <MovieCollectionBanner movie={movie} className="my-10" />
         )}
 
         {/* Recommendations & Similar Movies */}

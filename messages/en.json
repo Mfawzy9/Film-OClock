@@ -393,13 +393,14 @@
     "Similar": "Similar",
     "Recommendations": "Recommendations",
     "ViewLess": "View Less",
-    "ViewMore": "View More",
-    "Collections": {
-      "header": "Collections",
-      "title": "this movie belongs to {collectionName}",
-      "description": "discover more movies related to this collection",
-      "button": "View Collection"
-    }
+    "ViewMore": "View More"
+  },
+
+  "Collections": {
+    "header": "Collections",
+    "title": "this movie belongs to {collectionName}",
+    "description": "discover more movies related to this collection",
+    "button": "View Collection"
   },
 
   "VideosSelect": {

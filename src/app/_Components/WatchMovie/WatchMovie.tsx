@@ -34,6 +34,7 @@ import { AppDispatch } from "@/lib/Redux/store";
 import Image from "next/image";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import LazyRender from "../LazyRender/LazyRender";
+import MovieCollectionBanner from "../MovieDetails/MovieCollectionBanner";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   ssr: false,
@@ -399,6 +400,8 @@ const WatchMovie = ({
             title={movie?.original_title || "movie"}
           />
         </main>
+
+        <MovieCollectionBanner movie={movie} />
 
         <div className="flex flex-col gap-6">
           <LazyRender

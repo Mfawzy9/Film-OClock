@@ -3,18 +3,20 @@ import Title from "../Title/Title";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { useTranslations } from "next-intl";
 
 const MovieCollectionBanner = ({
   movie,
-  t,
+  className,
 }: {
   movie: MovieDetailsResponse;
-  t: any;
+  className?: string;
 }) => {
+  const t = useTranslations("Collections");
   if (!movie?.belongs_to_collection) return null;
   return (
-    <div className="my-10">
-      <Title title={t("Collections.header")} />
+    <div className={className ?? ""}>
+      <Title title={t("header")} />
       <div className="relative w-full h-80 rounded-lg overflow-hidden block border border-gray-800">
         {/* backdrop */}
         <Image
@@ -31,12 +33,12 @@ const MovieCollectionBanner = ({
         >
           <div>
             <h2 className="text-2xl font-bold">
-              {t("Collections.title", {
+              {t("title", {
                 collectionName: movie?.belongs_to_collection?.name,
               })}
             </h2>
             <p className="text-gray-300 mt-1.5">
-              {t("Collections.description", {
+              {t("description", {
                 collectionName: movie?.belongs_to_collection?.name,
               })}
             </p>
@@ -47,7 +49,7 @@ const MovieCollectionBanner = ({
               hover:bg-gray-800/50 hover:border hover:border-blue-500 rounded-full
               font-semibold transition-colors duration-200"
           >
-            {t("Collections.button")}
+            {t("button")}
           </Link>
         </div>
       </div>
