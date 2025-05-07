@@ -45,6 +45,7 @@ import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
+import MovieCollectionBanner from "./MovieCollectionBanner";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -249,22 +250,25 @@ const MovieDetails = ({
           {/* Movie Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
             {!isImgLoaded && <BgPlaceholder />}
-            <WatchedBtn
-              showId={showId}
-              showName={movie?.original_title || ""}
-              theShow={movie}
-            />
+
             <Image
               src={imgSrc}
               width={300}
               height={450}
               alt={`${movie?.original_title || "Movie"} Poster`}
               priority
-              className={`sm:w-[300px] sm:h-[450px] rounded-b-md
+              className={`sm:w-[300px] sm:h-[450px] rounded-t-md
                 ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
+            {+movie?.release_date.split("-")[0] < new Date().getFullYear() && (
+              <WatchedBtn
+                showId={showId}
+                showName={movie?.original_title || ""}
+                theShow={movie}
+              />
+            )}
             <div className="flex justify-center">
               <SocialLinks externalIds={movie?.external_ids as PExternalIds} />
             </div>
@@ -343,11 +347,14 @@ const MovieDetails = ({
 
             {/* Buttons */}
             <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
-              <WatchBtn
-                showType={showType as "movie" | "tv"}
-                showId={showId}
-                name={movie?.original_title}
-              />
+              {+movie?.release_date.split("-")[0] <
+                new Date().getFullYear() && (
+                <WatchBtn
+                  showType={showType as "movie" | "tv"}
+                  showId={showId}
+                  name={movie?.original_title}
+                />
+              )}
               <TrailerBtn
                 showType={showType as "movie" | "tv"}
                 showId={showId}
@@ -381,6 +388,11 @@ const MovieDetails = ({
         {/* Tabs (Videos, Images, Reviews) */}
         {movie && (
           <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+        )}
+
+        {/* collection */}
+        {movie?.belongs_to_collection && (
+          <MovieCollectionBanner movie={movie} t={t} />
         )}
 
         {/* Recommendations & Similar Movies */}

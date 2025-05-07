@@ -38,7 +38,7 @@ export interface SpokenLanguage {
 export interface MovieDetailsResponse {
   adult: boolean;
   backdrop_path: string | null;
-  belongs_to_collection: null | object;
+  belongs_to_collection: null | BelongsToCollection;
   budget: number;
   genres: MovieDetailsGenre[];
   homepage: string;
@@ -70,6 +70,13 @@ export interface MovieDetailsResponse {
   recommendations: MovieRecommendationsResponse;
   similar: MovieSimilarsResponse;
   reviews: Omit<MovieReviewsResponse, "id">;
+}
+
+export interface BelongsToCollection {
+  id: number;
+  name: string;
+  poster_path: string;
+  backdrop_path: string;
 }
 
 // TV --------------------------------------------------------------

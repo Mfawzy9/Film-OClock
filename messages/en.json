@@ -393,7 +393,13 @@
     "Similar": "Similar",
     "Recommendations": "Recommendations",
     "ViewLess": "View Less",
-    "ViewMore": "View More"
+    "ViewMore": "View More",
+    "Collections": {
+      "header": "Collections",
+      "title": "this movie belongs to {collectionName}",
+      "description": "discover more movies related to this collection",
+      "button": "View Collection"
+    }
   },
 
   "VideosSelect": {
@@ -724,12 +730,12 @@
   },
 
   "MetaData": {
-    "Keywords": "Film O'Clock, Movies, TV Shows, Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast",
+    "Keywords": "Film O'Clock, Movies, TV Shows, Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast,film oclock , film clock",
     "Movie": " Movie ",
     "TvShow": " TV Show ",
     "MainPage": {
       "Title": "FilmO'Clock",
-      "Description": "FilmO'Clock is your ultimate movie companion — discover, track, and explore the latest movies and TV shows with stunning visuals, personalized watchlists, and multi-language support. Your next favorite film is just a tick away!"
+      "Description": "Film OClock is your ultimate movie companion — discover, track, and explore the latest movies and TV shows with stunning visuals, personalized watchlists, and multi-language support. Your next favorite film is just a tick away!"
     },
     "Library": {
       "watchlist": {

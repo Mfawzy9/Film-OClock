@@ -89,8 +89,8 @@ export async function generateMetadata({
       description: description() || t("MainPage.Description"),
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${
-            initialData.backdrop_path || initialData.poster_path
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${
+            initialData.backdrop_path
           }`,
           width: 1280,
           height: 720,

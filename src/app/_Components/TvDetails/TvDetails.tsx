@@ -262,21 +262,21 @@ const TvDetails = ({
           {/* Tvshow Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
             {!isImgLoaded && <BgPlaceholder />}
-            <WatchedBtn
-              showId={showId}
-              showName={tvShow?.original_name || ""}
-              theShow={tvShow}
-            />
             <Image
               src={imgSrc}
               width={300}
               height={450}
               alt={`${tvShow?.original_name || "Tv Show"} Poster`}
               priority
-              className={`sm:w-[300px] sm:h-[450px] rounded-md
+              className={`sm:w-[300px] sm:h-[450px] rounded-t-md
                 ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
+            />
+            <WatchedBtn
+              showId={showId}
+              showName={tvShow?.original_name || ""}
+              theShow={tvShow}
             />
             <div className="flex justify-center">
               <SocialLinks externalIds={tvShow?.external_ids as PExternalIds} />

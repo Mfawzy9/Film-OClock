@@ -58,10 +58,10 @@ const WatchlistFavoriteBtns = ({
           <>
             {addIcon}
             <span
-              className="absolute block opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8
-                left-1/2 transition-all duration-300 transform -translate-x-1/2 bg-gray-800
-                text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none
-                capitalize"
+              className="absolute opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8 left-1/2
+                transition-all duration-300 transform -translate-x-1/2 bg-gray-800 text-white
+                text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none capitalize
+                hidden xs:block"
             >
               {t("AddTo")} {libraryName}
             </span>
@@ -70,10 +70,10 @@ const WatchlistFavoriteBtns = ({
           <>
             {removeIcon}
             <span
-              className="absolute block opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8
-                left-1/2 transition-all duration-300 transform -translate-x-1/2 bg-gray-800
-                text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none
-                capitalize"
+              className="absolute opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8 left-1/2
+                transition-all duration-300 transform -translate-x-1/2 bg-gray-800 text-white
+                text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none capitalize
+                hidden xs:block"
             >
               {t("RemoveFrom")} {libraryName}
             </span>
@@ -115,10 +115,10 @@ const WatchlistFavoriteBtns = ({
       >
         <FiShare2 className="text-3xl" />
         <span
-          className="absolute block opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8
-            left-1/2 transition-all duration-300 transform -translate-x-1/2 bg-gray-800
-            text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none
-            capitalize"
+          className="absolute opacity-0 group-hover:opacity-100 top-0 group-hover:-top-8 left-1/2
+            transition-all duration-300 transform -translate-x-1/2 bg-gray-800 text-white
+            text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none capitalize
+            hidden xs:block"
         >
           {t("Share")}
         </span>

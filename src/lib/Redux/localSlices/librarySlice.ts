@@ -62,6 +62,11 @@ const librarySlice = createSlice({
     clearWatchedShows: (state) => {
       state.watchedShows = [];
     },
+    clearLibrary: (state) => {
+      state.watchlist = [];
+      state.favorites = [];
+      state.watchedShows = [];
+    },
   },
 });
 
@@ -78,6 +83,7 @@ export const {
   clearWatchlist,
   clearFavorites,
   clearWatchedShows,
+  clearLibrary,
 } = librarySlice.actions;
 
 export const libraryReducer = librarySlice.reducer;

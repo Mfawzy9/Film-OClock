@@ -51,6 +51,8 @@ export const mainApiSlice = createApi({
     "MovieTranslations",
     "TvTranslations",
     "EpisodeTranslations",
+    "MovieCollection",
+    "CollectionTranslations",
   ],
 
   endpoints: () => ({}),

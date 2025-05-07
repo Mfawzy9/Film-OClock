@@ -393,7 +393,13 @@
     "Similar": "أفلام مشابهة",
     "Recommendations": "توصيات",
     "ViewLess": "اظهار اقل",
-    "ViewMore": "اظهار المزيد"
+    "ViewMore": "اظهار المزيد",
+    "Collections": {
+      "header": "سلسلة الأفلام",
+      "title": "هذا الفيلم ينتمي إلى {collectionName}",
+      "description": "إستكشف الأفلام المتعلقة بهذه السلسلة",
+      "button": "إظهار السلسلة"
+    }
   },
 
   "VideosSelect": {

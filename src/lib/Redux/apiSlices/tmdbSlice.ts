@@ -108,6 +108,11 @@ import {
   EpisodeTranslationQueryParams,
   EpisodeTranslationsResponse,
 } from "@/app/interfaces/apiInterfaces/episodeTranslationsInterfaces";
+import {
+  MovieCollectionQueryParams,
+  MovieCollectionResponse,
+} from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
+import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 
 const tmdbApi = mainApiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -534,6 +539,30 @@ const tmdbApi = mainApiSlice.injectEndpoints({
     }),
     //-----------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------
+    // ! get movie collections
+    getMovieCollection: builder.query<
+      MovieCollectionResponse,
+      MovieCollectionQueryParams
+    >({
+      query: ({ lang = "en", collectionId }) => ({
+        url: `?path=collection/${collectionId}&language=${lang}`,
+        method: "GET",
+      }),
+      providesTags: ["MovieCollection"],
+    }),
+    //-----------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
+    // ! collection translations
+    getCollectionTranslations: builder.query<
+      MovieCollectionTranslationsResponse,
+      { collectionId: string }
+    >({
+      query: ({ collectionId }) => ({
+        url: `?path=collection/${collectionId}/translations`,
+        method: "GET",
+      }),
+      providesTags: ["CollectionTranslations"],
+    }),
   }),
 });
 
@@ -569,4 +598,5 @@ export const {
   useGetMTDetailsQuery,
   useLazyGetMTDetailsQuery,
   useGetCreditsQuery,
+  useGetMovieCollectionQuery,
 } = tmdbApi;

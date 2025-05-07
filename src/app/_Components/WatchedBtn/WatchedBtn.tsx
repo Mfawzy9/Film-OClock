@@ -27,9 +27,9 @@ const WatchedBtn = ({
   return (
     <button
       disabled={isLoading}
-      className={`bg-gray-800 hover:bg-gray-900 text-blue-400 transition-colors duration-200 -mb-4
-        rounded-t-md flex items-center justify-center text-sm py-2 gap-1 ${ className ??
-        "" } disabled:opacity-70 disabled:cursor-not-allowed`}
+      className={`bg-gray-900 hover:bg-gray-800 text-blue-400 hover:text-white transition-colors
+        duration-200 -mt-4 rounded-b-md flex items-center justify-center text-sm py-2
+        gap-1 ${className ?? ""} disabled:opacity-70 disabled:cursor-not-allowed`}
       onClick={() => handleClick({ showName, showId, theShow })}
     >
       {isLoading ? (

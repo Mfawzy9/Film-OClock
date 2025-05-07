@@ -3,6 +3,8 @@ import {
   PersonDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
+import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 import {
   TvTranslationsResponse,
   MovieTranslationsResponse,
@@ -213,3 +215,65 @@ export const getSearchResultsCached = ({
   getOrSet(`${locale}-${query}-${page}`, () =>
     getSearchResults({ locale, query, page }),
   );
+
+// get movie collection
+export const getMovieCollectionWithReactCache = reactCache(
+  async ({
+    collectionId,
+    locale,
+  }: {
+    collectionId: string;
+    locale: "en" | "ar";
+  }) => {
+    // collection details
+    const fetchCollectionDetails = async () => {
+      const res = await fetch(
+        `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}`,
+        { next: { revalidate: 3600 } },
+      );
+
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data as MovieCollectionResponse;
+    };
+
+    // collection translations
+    const fetchCollectionTranslations = async () => {
+      console.log("asdasdasdasdasdasdsa");
+      const res = await fetch(
+        `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
+        { next: { revalidate: 3600 } },
+      );
+
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data as MovieCollectionTranslationsResponse;
+    };
+
+    const collectionDetails = await fetchCollectionDetails();
+    let collectionTranslations = null;
+    if (locale === "ar")
+      collectionTranslations = await fetchCollectionTranslations();
+
+    return { collectionDetails, collectionTranslations };
+  },
+);
+
+// get movie collection with next cache
+export const getMovieCollectionWithNextCache = ({
+  collectionId,
+  locale,
+}: {
+  collectionId: string;
+  locale: "en" | "ar";
+}) => {
+  const cachedFn = nextCache(
+    getMovieCollectionWithReactCache,
+    [`collection-app-${collectionId}`],
+    {
+      revalidate: 3600,
+    },
+  );
+
+  return cachedFn({ collectionId, locale });
+};

@@ -21,6 +21,7 @@ import {
 import store from "../Redux/store";
 import { toast } from "sonner";
 import { TFunction } from "../../../global";
+import { clearLibrary } from "../Redux/localSlices/librarySlice";
 
 const auth = getAuth(app);
 
@@ -133,6 +134,7 @@ export const signOutUser = async (t: TFunction) => {
     await signOut(auth);
     toast.success(t("LogOutSuccess"));
     store.dispatch(logout()); // Clear user in Redux
+    store.dispatch(clearLibrary());
   } catch (error) {
     const errorMessage = getErrorMessage(error);
     store.dispatch(setError(errorMessage));

@@ -104,6 +104,23 @@ export default async function LocaleLayout({
     knowsLanguage: locale,
     "@id": `${siteBaseUrl}/#organization`,
     keywords: t("Keywords"),
+    foundingDate: "2025",
+    legalName: "FilmO'Clock",
+    image: {
+      "@type": "ImageObject",
+      url: `${siteBaseUrl}/logoImg.png`,
+      width: {
+        "@type": "QuantitativeValue",
+        value: 512,
+        unitText: "PX",
+      },
+      height: {
+        "@type": "QuantitativeValue",
+        value: 512,
+        unitText: "PX",
+      },
+      alternateName: "FilmO'Clock",
+    },
   };
 
   const isArabic = locale === "ar";

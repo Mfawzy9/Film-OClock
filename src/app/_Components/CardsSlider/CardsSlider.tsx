@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useMemo, memo, useCallback, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
