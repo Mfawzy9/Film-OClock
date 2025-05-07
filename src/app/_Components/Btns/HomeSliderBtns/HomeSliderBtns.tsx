@@ -12,7 +12,10 @@ const HomeSliderBtns = ({
   showId,
   name,
   className,
-}: VideosQueryParams & { name: string } & { className?: string }) => {
+  releaseDate,
+}: VideosQueryParams & { name: string } & { className?: string } & {
+  releaseDate: string;
+}) => {
   const t = useTranslations("HomePage");
   const detailsLink = `/details/${showType}/${showId}/${nameToSlug(name)}`;
   return (
@@ -36,7 +39,9 @@ const HomeSliderBtns = ({
         </Link>
       </div>
 
-      <WatchBtn showType={showType} showId={showId} name={name} />
+      {new Date(releaseDate) <= new Date() && (
+        <WatchBtn showType={showType} showId={showId} name={name} />
+      )}
 
       <TrailerBtn showType={showType} showId={showId} />
     </div>

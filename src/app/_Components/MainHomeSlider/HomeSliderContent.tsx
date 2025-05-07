@@ -119,6 +119,7 @@ const HomeSliderContent = ({
                 showType={movie.media_type as "movie" | "tv"}
                 showId={movie.id}
                 name={movie.original_title}
+                releaseDate={movie.release_date}
               />
             </div>
           </motion.div>

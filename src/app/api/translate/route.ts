@@ -70,39 +70,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Translation failed." }, { status: 500 });
   }
 }
-
-// import { NextResponse } from "next/server";
-
-// export async function POST(req: Request) {
-//   const body = await req.json();
-
-//   const { q, from = "en", to = "ar" } = body;
-
-//   const rapidApiKey = process.env.RAPIDAPI_KEY;
-
-//   if (!rapidApiKey) {
-//     return NextResponse.json(
-//       { error: "Missing RapidAPI Key" },
-//       { status: 500 },
-//     );
-//   }
-
-//   const response = await fetch("https://google-translator9.p.rapidapi.com/v2", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "x-rapidapi-host": "google-translator9.p.rapidapi.com",
-//       "x-rapidapi-key": rapidApiKey,
-//     },
-//     body: JSON.stringify({
-//       q,
-//       source: from,
-//       target: to,
-//       format: "text",
-//     }),
-//   });
-
-//   const data = await response.json();
-
-//   return NextResponse.json(data);
-// }

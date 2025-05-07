@@ -65,6 +65,7 @@ const MovieCollectionBanner = ({
             </p>
           </div>
           <Link
+            scroll
             href={`/collection/${movie?.belongs_to_collection?.id}/${nameToSlug(movie?.belongs_to_collection?.name)}`}
             className="px-4 py-2 border border-transparent text-blue-500 bg-gray-800
               hover:bg-gray-800/50 hover:border hover:border-blue-500 rounded-full

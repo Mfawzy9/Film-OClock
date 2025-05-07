@@ -265,7 +265,7 @@ const MovieDetails = ({
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
-            {+movie?.release_date.split("-")[0] < new Date().getFullYear() && (
+            {new Date(movie?.release_date) <= new Date() && (
               <WatchedBtn
                 showId={showId}
                 showName={movie?.original_title || ""}
@@ -350,8 +350,7 @@ const MovieDetails = ({
 
             {/* Buttons */}
             <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
-              {+movie?.release_date.split("-")[0] <
-                new Date().getFullYear() && (
+              {new Date(movie?.release_date) <= new Date() && (
                 <WatchBtn
                   showType={showType as "movie" | "tv"}
                   showId={showId}
