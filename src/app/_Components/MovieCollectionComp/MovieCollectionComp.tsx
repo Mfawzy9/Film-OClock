@@ -4,6 +4,7 @@ import Image from "next/image";
 import PageSection from "../PageSection/PageSection";
 import CardsSlider from "../CardsSlider/CardsSlider";
 import { Movie } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import ScrollToSection from "../ScrollToSection/ScrollToSection";
 
 interface MovieCollectionCompProps {
   collectionDetails: MovieCollectionResponse | null;
@@ -50,9 +51,9 @@ const MovieCollectionComp = ({
         <div className="absolute inset-0 bg-black/80" />
       </div>
       {/* content */}
-      <PageSection className="!py-0">
+      <PageSection className="md:!py-0">
         <div
-          className={`flex flex-col min-h-screen 3xl:min-h-[unset] md:flex-row items-center
+          className={`flex flex-col min-h-screen 4xl:min-h-[unset] md:flex-row items-center
             justify-center relative md:pt-32 gap-6 4xl:pt-48`}
         >
           {/* collection Poster */}
@@ -80,8 +81,8 @@ const MovieCollectionComp = ({
 
             {finalOverview() && (
               <div>
-                <h4 className="font-bold text-xl">
-                  {locale === "en" ? "Overview" : "ملخص"}
+                <h4 className="font-bold text-xl mb-1">
+                  {locale === "en" ? "Overview" : "الملخص"}
                 </h4>
                 <p
                   className={
@@ -93,6 +94,10 @@ const MovieCollectionComp = ({
               </div>
             )}
           </div>
+          <ScrollToSection
+            reference={null}
+            className="hidden md:block 4xl:hidden"
+          />
         </div>
 
         {collectionDetails?.parts && collectionDetails.parts.length > 0 && (

@@ -6,12 +6,12 @@ const ScrollToSection = ({
   reference,
   className,
 }: {
-  reference: RefObject<HTMLDivElement | null>;
+  reference: RefObject<HTMLDivElement | null> | null;
   className?: string;
 }) => {
   const handleScrollToFirstSection = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (reference.current) {
+    if (reference && reference.current) {
       const targetPosition = reference.current.offsetTop;
       const startPosition = window.scrollY;
       const distance = targetPosition - startPosition;
@@ -42,7 +42,7 @@ const ScrollToSection = ({
     <div
       onClick={handleScrollToFirstSection}
       className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 4xl:hidden
-        ${className ?? ""}`}
+        ${className ?? ""} ${reference ? "cursor-pointer" : "cursor-default"}`}
     >
       <div className="scrolldown">
         <div className="chevrons">
