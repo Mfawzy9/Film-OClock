@@ -34,12 +34,12 @@ import { AppDispatch } from "@/lib/Redux/store";
 import Image from "next/image";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import LazyRender from "../LazyRender/LazyRender";
-import MovieCollectionBanner from "../MovieDetails/MovieCollectionBanner";
+import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
 
-const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
-  ssr: false,
-  loading: () => <CardsSkeletonSlider />,
-});
+const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
+const MovieCollectionBanner = dynamic(
+  () => import("../MovieCollectionBanner/MovieCollectionBanner"),
+);
 
 interface WatchMovieProps {
   showType: "movie" | "tv";
@@ -401,7 +401,12 @@ const WatchMovie = ({
           />
         </main>
 
-        <MovieCollectionBanner movie={movie} />
+        <LazyRender
+          Component={MovieCollectionBanner}
+          props={{ movie }}
+          rootMargin="0px 0px"
+          loading={<SkeletonMovieCollectionBanner />}
+        />
 
         <div className="flex flex-col gap-6">
           <LazyRender

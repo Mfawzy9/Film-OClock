@@ -45,7 +45,7 @@ import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
-import MovieCollectionBanner from "./MovieCollectionBanner";
+import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -53,6 +53,9 @@ const Reviews = dynamic(() => import("../Reviews/Reviews"));
 const Casts = dynamic(() => import("../Casts/Casts"));
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const Tabs = dynamic(() => import("../Tabs/Tabs"));
+const MovieCollectionBanner = dynamic(
+  () => import("../MovieCollectionBanner/MovieCollectionBanner"),
+);
 
 interface props extends DetailsQueryParams {
   initialData: MovieDetailsResponse | null;
@@ -392,7 +395,13 @@ const MovieDetails = ({
 
         {/* collection */}
         {movie?.belongs_to_collection && (
-          <MovieCollectionBanner movie={movie} className="my-10" />
+          // <MovieCollectionBanner movie={movie} className="my-10" />
+          <LazyRender
+            Component={MovieCollectionBanner}
+            props={{ movie, className: "my-10" }}
+            rootMargin="0px 0px"
+            loading={<SkeletonMovieCollectionBanner className="my-10" />}
+          />
         )}
 
         {/* Recommendations & Similar Movies */}
