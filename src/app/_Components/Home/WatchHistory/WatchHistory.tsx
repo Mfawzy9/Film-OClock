@@ -150,9 +150,12 @@ const WatchHistory = () => {
                       {secondsToHMS(show?.progress?.watched)}
                     </span>
                     <span className="text-xs text-gray-400">
-                      {minutesToHMS(
-                        (show.movieRuntime ?? 0) || (show.episodeRuntime ?? 0),
-                      )}
+                      {secondsToHMS(show?.progress?.duration) === "00:00:00"
+                        ? minutesToHMS(
+                            (show.movieRuntime ?? 0) ||
+                              (show.episodeRuntime ?? 0),
+                          )
+                        : secondsToHMS(show?.progress?.duration)}
                     </span>
                   </div>
                   {/* time */}

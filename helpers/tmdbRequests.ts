@@ -239,7 +239,6 @@ export const getMovieCollectionWithReactCache = reactCache(
 
     // collection translations
     const fetchCollectionTranslations = async () => {
-      console.log("asdasdasdasdasdasdsa");
       const res = await fetch(
         `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
         { next: { revalidate: 3600 } },
