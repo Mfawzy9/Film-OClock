@@ -23,6 +23,10 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  if (pathname === "/sitemap.xml") {
+    return NextResponse.next();
+  }
+
   const pathLocale = pathname.split("/")[1];
   const locale = supportedLocales.includes(pathLocale)
     ? pathLocale
@@ -127,5 +131,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
+  matcher: [
+    "/((?!api|trpc|_next|_vercel|sitemap.xml|robots.txt|favicon.ico|.*\\..*).*)",
+  ],
 };
