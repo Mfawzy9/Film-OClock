@@ -55,7 +55,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: `${baseUrl}/${locale}/${path}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
-        priority: 0.7,
+        priority: path === "" ? 1 : 0.8,
+        alternates: {
+          languages: {
+            "en-US": `${baseUrl}/en/${path}`,
+            "ar-EG": `${baseUrl}/ar/${path}`,
+          },
+        },
       });
     });
   });

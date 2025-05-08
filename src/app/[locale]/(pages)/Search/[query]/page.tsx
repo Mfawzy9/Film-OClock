@@ -83,7 +83,7 @@ export async function generateMetadata({
     openGraph: {
       title: title,
       description: description,
-      url: `${metadataBase}${canonicalUrl}`,
+      url: `${metadataBase}/${canonicalUrl}`,
       siteName: "FilmO'Clock",
       locale,
       images: [
