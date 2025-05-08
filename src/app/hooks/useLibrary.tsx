@@ -54,7 +54,11 @@ export const updatedTheShow = (
   arabicTranslation?: { data?: { arTitle: string; arOverview: string } },
   watchedAt?: { watchedAtDate: string; watchedAtTime: string },
 ): FirestoreTheShowI => ({
-  title: (theShow as Movie).original_title || (theShow as TVShow).original_name,
+  title:
+    (theShow as Movie).title ||
+    (theShow as Movie).original_title ||
+    (theShow as TVShow).name ||
+    (theShow as TVShow).original_name,
   arTitle: arabicTranslation?.data?.arTitle || "",
   posterPath: (theShow as Movie | TVShow).poster_path,
   backdropPath: (theShow as Movie | TVShow).backdrop_path,
@@ -221,7 +225,9 @@ const useLibrary = ({
 
             arTitle =
               data?.translatedTitle ??
-              ((theShow as MovieDetailsResponse | Movie).original_title ||
+              ((theShow as MovieDetailsResponse | Movie).title ||
+                (theShow as MovieDetailsResponse | Movie).original_title ||
+                (theShow as TvDetailsResponse | TVShow).name ||
                 (theShow as TvDetailsResponse | TVShow).original_name ||
                 (theShow as WatchHistoryItem | FirestoreTheShowI).title ||
                 "");

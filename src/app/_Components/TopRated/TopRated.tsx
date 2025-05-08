@@ -52,7 +52,9 @@ const DynamicTopRatedShows = () => {
             if (!show.poster_path) return null;
 
             const name =
-              "title" in show ? show.original_title : show.original_name;
+              "title" in show
+                ? (show.title ?? show.original_title)
+                : (show.name ?? show.original_name);
 
             const releaseDate =
               "title" in show ? show.release_date : show.first_air_date;

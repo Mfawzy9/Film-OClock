@@ -54,7 +54,7 @@ const WatchTvPlayer = ({
         allowFullScreen
         width="100%"
         className="aspect-video shadow-blueGlow rounded-md bg-gray-500"
-        title={`${tvShow?.original_name || "Show"} - Season ${season} Episode ${episode}`}
+        title={`${tvShow?.name || tvShow?.original_name || "Show"} - Season ${season} Episode ${episode}`}
       />
     </>
   );

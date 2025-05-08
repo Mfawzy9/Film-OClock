@@ -182,7 +182,9 @@ export function getDetailsShareUrl(
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
   const title =
+    (show as Movie).title ||
     (show as Movie).original_title ||
+    (show as TVShow).name ||
     (show as TVShow).original_name ||
     (show as FirestoreTheShowI).title ||
     (show as WatchHistoryItem).title ||
@@ -205,7 +207,9 @@ export const handleShare = async ({
 }) => {
   const shareUrl = getDetailsShareUrl(theShow, showType, showId);
   const title =
+    (theShow as Movie).title ||
     (theShow as Movie).original_title ||
+    (theShow as TVShow).name ||
     (theShow as TVShow).original_name ||
     (theShow as FirestoreTheShowI | WatchHistoryItem).title ||
     "";

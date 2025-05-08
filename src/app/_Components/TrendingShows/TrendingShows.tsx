@@ -96,7 +96,9 @@ const TrendingShows = () => {
         >
           {trendingData?.results.map((item, idx) => {
             const name =
-              "title" in item ? item.original_title : item.original_name;
+              "title" in item
+                ? (item.title ?? item.original_title)
+                : (item.name ?? item.original_name);
             const releaseDate =
               "release_date" in item ? item.release_date : item.first_air_date;
 

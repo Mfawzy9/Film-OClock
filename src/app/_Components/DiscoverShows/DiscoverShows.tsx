@@ -50,8 +50,8 @@ const CardRenderer = memo(
   }) => {
     const name =
       showType === "movie"
-        ? (show as Movie).original_title
-        : (show as TVShow).original_name;
+        ? ((show as Movie).title ?? (show as Movie).original_title)
+        : ((show as TVShow).name ?? (show as TVShow).original_name);
 
     const date =
       showType === "movie"

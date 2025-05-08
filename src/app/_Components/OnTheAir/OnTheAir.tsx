@@ -39,9 +39,9 @@ const OnTheAir = () => {
               <Card
                 theShow={tvShow}
                 key={tvShow.id}
-                alt={tvShow.original_name}
+                alt={tvShow.name || tvShow.original_name}
                 id={tvShow.id}
-                name={tvShow.original_name}
+                name={tvShow.name || tvShow.original_name}
                 src={baseImgUrl + tvShow.poster_path}
                 rating={tvShow.vote_average}
                 release_date={tvShow.first_air_date}

@@ -44,9 +44,9 @@ const UpcomingMovies = () => {
                 theShow={movie}
                 idx={idx}
                 key={movie.id}
-                alt={movie.original_title || movie.title}
+                alt={movie.title || movie.original_title}
                 id={movie.id}
-                name={movie.original_title || movie.title}
+                name={movie.title || movie.original_title}
                 src={baseImgUrl + movie.poster_path}
                 rating={movie.vote_average}
                 release_date={movie.release_date}

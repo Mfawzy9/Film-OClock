@@ -166,7 +166,9 @@ const CardsSlider = ({
 
             const name =
               ("showType" in item && (item as FirestoreTheShowI).title) ||
+              (item as Movie).title ||
               (item as Movie).original_title ||
+              (item as TVShow).name ||
               (item as TVShow | SearchPerson).original_name ||
               "";
 

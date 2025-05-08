@@ -162,7 +162,10 @@ const MovieDetails = ({
         content: (
           <LazyRender
             Component={Videos}
-            props={{ name: movie?.original_title, videos: movie?.videos }}
+            props={{
+              name: movie?.title ?? movie?.original_title,
+              videos: movie?.videos,
+            }}
             rootMargin="0px 0px"
             persistKey={`videos-${showId}-${showType}`}
             loading={
@@ -182,7 +185,7 @@ const MovieDetails = ({
         icon: <FaImages />,
         content: (
           <ImgsSlider
-            name={movie?.original_title}
+            name={movie?.title ?? movie?.original_title}
             images={movieImages as MovieImagesResponse}
           />
         ),
@@ -234,7 +237,7 @@ const MovieDetails = ({
       <div className="min-h-screen absolute w-full -z-10">
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie?.backdrop_path}`}
-          alt={movie?.original_title || "background"}
+          alt={movie?.title || movie?.original_title || "background"}
           fill
           priority
           className="object-cover object-top"
@@ -258,7 +261,7 @@ const MovieDetails = ({
               src={imgSrc}
               width={300}
               height={450}
-              alt={`${movie?.original_title || "Movie"} Poster`}
+              alt={`${movie?.title || movie?.original_title || "Movie"} Poster`}
               priority
               className={`sm:w-[300px] sm:h-[450px] rounded-t-md
                 ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
@@ -268,7 +271,7 @@ const MovieDetails = ({
             {new Date(movie?.release_date) <= new Date() && (
               <WatchedBtn
                 showId={showId}
-                showName={movie?.original_title || ""}
+                showName={movie?.title || movie?.original_title || ""}
                 theShow={movie}
               />
             )}
@@ -280,7 +283,7 @@ const MovieDetails = ({
           {/* Movie Info */}
           <div className="flex flex-col gap-4">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
-              {movie?.original_title}
+              {movie?.title || movie?.original_title}
               {movie?.homepage && (
                 <a
                   href={movie?.homepage}
@@ -354,7 +357,7 @@ const MovieDetails = ({
                 <WatchBtn
                   showType={showType as "movie" | "tv"}
                   showId={showId}
-                  name={movie?.original_title}
+                  name={movie?.title || movie?.original_title}
                 />
               )}
               <TrailerBtn

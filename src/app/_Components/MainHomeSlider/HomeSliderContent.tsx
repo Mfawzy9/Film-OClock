@@ -65,7 +65,7 @@ const HomeSliderContent = ({
         <div className="absolute inset-0">
           <Image
             src={backdropSrc}
-            alt={movie.original_title ?? "Backdrop"}
+            alt={(movie.title || movie.original_title) ?? "Backdrop"}
             fill
             priority={isActive && isVisible}
             sizes="100vw"
@@ -94,7 +94,7 @@ const HomeSliderContent = ({
               className="flex gap-3 items-center text-3xl sm:text-4xl font-righteous border-s-4
                 border-blue-700 ps-2 !line-clamp-2"
             >
-              {movie?.original_title}
+              {movie?.title || movie?.original_title}
             </h2>
             <h6 className="flex items-center gap-1.5 xs:gap-2 text-sm flex-wrap justify-center">
               <FaStar className="text-yellow-500" />
@@ -118,7 +118,7 @@ const HomeSliderContent = ({
               <HomeSliderBtns
                 showType={movie.media_type as "movie" | "tv"}
                 showId={movie.id}
-                name={movie.original_title}
+                name={movie.title || movie.original_title}
                 releaseDate={movie.release_date}
               />
             </div>
@@ -138,7 +138,7 @@ const HomeSliderContent = ({
               src={imgSrc}
               fill
               sizes="300px"
-              alt={movie?.original_title ?? ""}
+              alt={(movie?.title || movie?.original_title) ?? ""}
               className={`rounded-md ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={() => dispatch(setImageLoaded(imgSrc))}

@@ -13,6 +13,10 @@ import {
 import { useParams, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import CardsSkeletons from "../Card/CardsSkeletons";
+import {
+  MoviesResponse,
+  TVShowsResponse,
+} from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
@@ -55,7 +59,7 @@ const GenresComp = () => {
     },
   );
 
-  const content = data as any;
+  const content = data as MoviesResponse | TVShowsResponse;
   const isLoading = isLoadingContent || isLoadingGenres;
   const isFetching = isFetchingContent || isFetchingGenres;
 
@@ -102,12 +106,16 @@ const GenresComp = () => {
           {isFetching ? (
             <SiSpinrilla className="absolute top-20 text-6xl text-white animate-spin" />
           ) : (
-            content?.results?.map((item: any, idx: number) => {
+            content?.results?.map((item, idx: number) => {
               if (!item.poster_path) return null;
               const name =
-                showType === "movie" ? item.original_title : item.original_name;
+                "original_title" in item
+                  ? (item.title ?? item.original_title)
+                  : (item.name ?? item.original_name);
               const releaseDate =
-                showType === "movie" ? item.release_date : item.first_air_date;
+                "release_date" in item
+                  ? item.release_date
+                  : item.first_air_date;
 
               return (
                 <motion.div key={item.id} layoutId={String(item.id)}>

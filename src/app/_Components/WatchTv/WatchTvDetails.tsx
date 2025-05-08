@@ -124,7 +124,7 @@ const WatchTvDetails = ({
         <Link href={tvLink} className="hover:underline w-fit">
           <Title
             title={
-              tvShow?.original_name +
+              (tvShow?.name ?? tvShow?.original_name) +
                 ` | ${t("Season")} ` +
                 season +
                 ` | ${t("Episode")} ` +

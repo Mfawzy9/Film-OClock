@@ -18,7 +18,9 @@ import { TFunction } from "../../../../global";
 
 function getCastCardWorkLink(work: PopularPersonMovieI | PopularPersonTvShowI) {
   const title =
+    (work as PopularPersonMovieI).title ||
     (work as PopularPersonMovieI).original_title ||
+    (work as PopularPersonTvShowI).name ||
     (work as PopularPersonTvShowI).original_name ||
     "";
 
@@ -140,8 +142,10 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
                         fill
                         sizes="55px"
                         alt={
-                          (work as PopularPersonMovieI)?.original_title ||
-                          (work as PopularPersonTvShowI)?.original_name
+                          (work as PopularPersonMovieI)?.title ||
+                          (work as PopularPersonMovieI).original_title ||
+                          (work as PopularPersonTvShowI)?.name ||
+                          (work as PopularPersonTvShowI).original_name
                         }
                         loading="lazy"
                         className={`rounded-md w-auto h-auto object-cover group-hover:scale-110

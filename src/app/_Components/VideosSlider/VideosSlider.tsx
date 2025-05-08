@@ -78,7 +78,9 @@ const VideosSlider = ({
             return {
               showId: theShow.id,
               showName:
+                (theShow as Movie).title ||
                 (theShow as Movie).original_title ||
+                (theShow as TVShow).name ||
                 (theShow as TVShow).original_name,
               showType,
               trailers:

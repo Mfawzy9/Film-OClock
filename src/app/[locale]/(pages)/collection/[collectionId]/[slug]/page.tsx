@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: params): Promise<Metadata> {
     title: `${title()} | ${t("MainPage.Title")}` || t("MainPage.Title"),
     description: description(),
     keywords:
-      collectionDetails?.parts?.map((part) => part.original_title).join(",") ||
+      collectionDetails?.parts?.map((part) => part.title).join(",") ||
       t("Keywords")
         .split(",")
         .map((k) => k.trim()),

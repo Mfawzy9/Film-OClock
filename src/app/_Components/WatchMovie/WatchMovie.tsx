@@ -174,7 +174,7 @@ const WatchMovie = ({
       const data: WatchedMovieHistoryItem = {
         id: movie.id,
         showType: "movie",
-        title: movie.original_title,
+        title: movie.title || movie.original_title,
         overview: movie.overview,
         posterPath: movie.poster_path,
         backdropPath: movie.backdrop_path,
@@ -313,7 +313,7 @@ const WatchMovie = ({
               ? `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`
               : fallbackBg.src
           }
-          alt={movie?.original_title || "background"}
+          alt={movie?.title || movie?.original_title || "background"}
           fill
           priority
           className="object-cover object-top"
@@ -326,10 +326,10 @@ const WatchMovie = ({
       <PageSection className="xs:px-7 flex flex-col gap-16">
         <main className="flex flex-col gap-5">
           <Link
-            href={`/details/${showType}/${showId}/${nameToSlug(movie?.original_title)}`}
+            href={`/details/${showType}/${showId}/${nameToSlug(movie?.title || movie?.original_title)}`}
             className="hover:underline w-fit"
           >
-            <Title title={movie?.original_title} />
+            <Title title={movie?.title || movie?.original_title} />
           </Link>
 
           <div className="flex items-center gap-2 flex-wrap">
@@ -397,7 +397,7 @@ const WatchMovie = ({
             style={{ overflow: "hidden" }}
             width="100%"
             className="aspect-video shadow-blueGlow rounded-md"
-            title={movie?.original_title || "movie"}
+            title={movie?.title || movie?.original_title || "movie"}
           />
         </main>
 

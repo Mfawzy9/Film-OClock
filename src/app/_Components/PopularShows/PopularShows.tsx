@@ -40,7 +40,9 @@ const PopularShows = () => {
           {data?.results?.map((show: any, idx: number) => {
             if (!show.poster_path) return null;
             const name =
-              showType === "movie" ? show.original_title : show.original_name;
+              showType === "movie"
+                ? (show.title ?? show.original_title)
+                : (show.name ?? show.original_name);
             const releaseDate =
               showType === "movie" ? show.release_date : show.first_air_date;
 

@@ -186,7 +186,9 @@ const HoriCardsSlider = ({
             {data?.slice(0, 20).map((theShow, idx) => {
               if (!theShow.backdrop_path) return null;
               const title =
+                (theShow as Movie).title ||
                 (theShow as Movie).original_title ||
+                (theShow as TVShow).name ||
                 (theShow as TVShow).original_name;
               const date =
                 (theShow as Movie).release_date ||

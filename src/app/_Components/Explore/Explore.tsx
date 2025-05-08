@@ -205,8 +205,10 @@ const Explore = () => {
               theShow: randomComing,
               title:
                 showType === "movie"
-                  ? (randomComing as Movie).original_title
-                  : (randomComing as TVShow).original_name,
+                  ? ((randomComing as Movie).title ??
+                    (randomComing as Movie).original_title)
+                  : ((randomComing as TVShow).name ??
+                    (randomComing as TVShow).original_name),
               description: randomComing.overview,
               rating: randomComing.vote_average,
               releaseDate:
@@ -283,8 +285,10 @@ const Explore = () => {
                 theShow: randomTopRatedShow,
                 title:
                   showType === "movie"
-                    ? (randomTopRatedShow as Movie).original_title
-                    : (randomTopRatedShow as TVShow).original_name,
+                    ? ((randomTopRatedShow as Movie).title ??
+                      (randomTopRatedShow as Movie).original_title)
+                    : ((randomTopRatedShow as TVShow).name ??
+                      (randomTopRatedShow as TVShow).original_name),
                 description: randomTopRatedShow.overview,
                 rating: randomTopRatedShow.vote_average,
                 releaseDate:

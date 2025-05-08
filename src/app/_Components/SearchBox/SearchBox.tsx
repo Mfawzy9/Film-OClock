@@ -313,9 +313,9 @@ const ResultContent = ({
         results.map((result) => {
           // Get media-specific data in a type-safe way
           const title = isMovie(result)
-            ? result.original_title
+            ? result.title || result.original_title
             : isTVShow(result)
-              ? result.original_name
+              ? result.name || result.original_name
               : result.name;
 
           const dateOrJob = isMovie(result)

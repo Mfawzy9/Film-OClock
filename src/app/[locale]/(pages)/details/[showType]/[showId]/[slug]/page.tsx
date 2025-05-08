@@ -71,9 +71,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     "original_title" in initialData
-      ? `${initialData?.original_title} (${initialData?.release_date.split("-")[0]})`
+      ? `${initialData?.title ?? initialData?.original_title} (${initialData?.release_date.split("-")[0]})`
       : "first_air_date" in initialData
-        ? `${initialData?.original_name} (${initialData?.first_air_date.split("-")[0]})`
+        ? `${initialData?.name ?? initialData?.original_name} (${initialData?.first_air_date.split("-")[0]})`
         : initialData?.name;
 
   const alternates = {
@@ -111,8 +111,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           width: 1280,
           height: 720,
           alt:
-            (initialData as MovieDetailsResponse).original_title ||
-            (initialData as TvDetailsResponse).original_name ||
+            (initialData as MovieDetailsResponse).title ||
+            (initialData as TvDetailsResponse).name ||
             (initialData as PersonDetailsResponse).name,
         },
       ],
@@ -133,9 +133,9 @@ const Details = async ({ params }: Props) => {
   if (initialData) {
     const title =
       "original_title" in initialData
-        ? initialData.original_title
+        ? (initialData.title ?? initialData.original_title)
         : "first_air_date" in initialData
-          ? initialData.original_name
+          ? (initialData.name ?? initialData.original_name)
           : initialData.name;
 
     const correctSlug = title && nameToSlug(title);
@@ -161,7 +161,7 @@ const Details = async ({ params }: Props) => {
                 __html: JSON.stringify({
                   "@context": "https://schema.org",
                   "@type": "Movie",
-                  name: initialData.original_title,
+                  name: initialData.title ?? initialData.original_title,
                   description: initialData.overview,
                   image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
                   datePublished: initialData.release_date,
@@ -195,7 +195,7 @@ const Details = async ({ params }: Props) => {
                 __html: JSON.stringify({
                   "@context": "https://schema.org",
                   "@type": "TVSeries",
-                  name: initialData.original_name,
+                  name: initialData.name ?? initialData.original_name,
                   description: initialData.overview,
                   image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
                   datePublished: initialData.first_air_date,

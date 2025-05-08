@@ -175,7 +175,7 @@ const WatchTv = ({
       const data: WatchedTvShowHistoryItem = {
         id: tvShow.id,
         showType: "tv",
-        title: tvShow.original_name,
+        title: tvShow.name || tvShow.original_name,
         overview: tvShow.overview,
         episodeOverview: currentEpisode.overview,
         posterPath: tvShow.poster_path,
@@ -323,7 +323,7 @@ const WatchTv = ({
 
       <PageSection className="xs:px-7 flex flex-col gap-16">
         <WatchTvDetails
-          tvLink={`/details/${showType}/${showId}/${nameToSlug(tvShow?.original_name)}`}
+          tvLink={`/details/${showType}/${showId}/${nameToSlug(tvShow?.name || tvShow?.original_name || "")}`}
           currentEpisode={currentEpisode}
           tvShow={tvShow}
           episode={episode}
@@ -343,7 +343,7 @@ const WatchTv = ({
             showId={showId}
             season={season}
             episode={episode}
-            tvShowName={tvShow?.original_name}
+            tvShowName={tvShow?.name || tvShow?.original_name || ""}
           />
         </main>
 
@@ -354,7 +354,7 @@ const WatchTv = ({
           <LazyRender
             Component={TvEpisodes}
             props={{
-              tvShowName: tvShow?.original_name,
+              tvShowName: tvShow?.name || tvShow?.original_name || "",
               seasonsCount: seasonsCount,
               tvShowId: tvShow.id,
               onWatchClick: scrollToPlayer,

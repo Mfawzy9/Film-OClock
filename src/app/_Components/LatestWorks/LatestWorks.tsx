@@ -17,7 +17,9 @@ import { nameToSlug } from "../../../../helpers/helpers";
 
 function getDetailsLink(work: PMovieCast | PMovieCrew | PTvCast | PTvCrew) {
   const title =
+    (work as PMovieCast | PMovieCrew).title ||
     (work as PMovieCast | PMovieCrew).original_title ||
+    (work as PTvCast | PTvCrew).name ||
     (work as PTvCast | PTvCrew).original_name ||
     "";
 
@@ -92,7 +94,9 @@ const LatestWorks = ({
                     fill
                     sizes="100%"
                     alt={
+                      (work as PMovieCast | PMovieCrew)?.title ||
                       (work as PMovieCast | PMovieCrew)?.original_title ||
+                      (work as PTvCast | PTvCrew)?.name ||
                       (work as PTvCast | PTvCrew)?.original_name ||
                       ""
                     }

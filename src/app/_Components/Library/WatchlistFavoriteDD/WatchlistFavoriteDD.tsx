@@ -104,10 +104,10 @@ const WatchlistFavoriteDD = ({
   };
 
   const slug = nameToSlug(
-    (theShow as Movie).original_title ||
+    (theShow as Movie | FirestoreTheShowI | WatchHistoryItem).title ||
+      (theShow as Movie).original_title ||
+      (theShow as TVShow).name ||
       (theShow as TVShow).original_name ||
-      (theShow as FirestoreTheShowI).title ||
-      (theShow as WatchHistoryItem).title ||
       "",
   );
 

@@ -69,8 +69,8 @@ export async function generateMetadata({
 
   const title =
     "original_title" in initialData
-      ? initialData?.original_title
-      : initialData?.original_name;
+      ? (initialData?.title ?? initialData?.original_title)
+      : (initialData?.name ?? initialData?.original_name);
 
   const tvTitle = t("WatchTv.Title", { TvName: title, s: season, e: episode });
   const movieTitle = t("WatchMovie.Title", { MovieName: title });
@@ -82,10 +82,7 @@ export async function generateMetadata({
       initialData.genres?.map(({ name }) => name).join(", ") || t("Keywords"),
     openGraph: {
       url: `https://filmo-clock.vercel.app/${locale}/details/${showType}/${showId}/${nameToSlug(title)}`,
-      title:
-        (initialData as MovieDetailsResponse).original_title ||
-        (initialData as TvDetailsResponse).original_name ||
-        t("MainPage.Title"),
+      title: showType === "movie" ? movieTitle : tvTitle || t("MainPage.Title"),
       description: description() || t("MainPage.Description"),
       images: [
         {
@@ -95,8 +92,7 @@ export async function generateMetadata({
           width: 1280,
           height: 720,
           alt:
-            (initialData as MovieDetailsResponse).original_title ||
-            (initialData as TvDetailsResponse).original_name,
+            showType === "movie" ? movieTitle : tvTitle || t("MainPage.Title"),
         },
       ],
     },
