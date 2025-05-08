@@ -35,9 +35,10 @@ export const socialLinksMap = {
 
 interface SocialLinksProps {
   externalIds: PExternalIds;
+  isPerson?: boolean;
 }
 
-const SocialLinks = ({ externalIds }: SocialLinksProps) => {
+const SocialLinks = ({ externalIds, isPerson = false }: SocialLinksProps) => {
   if (!externalIds || Object.keys(externalIds).length === 0) return null; // Prevents accessing properties on undefined
 
   const socialLinks = Object.entries(socialLinksMap)
@@ -56,7 +57,7 @@ const SocialLinks = ({ externalIds }: SocialLinksProps) => {
       {socialLinks.map((link, index) => (
         <a
           key={index}
-          href={link?.link(link.id as string)}
+          href={link?.link(link.id as string, isPerson)}
           target="_blank"
           className="hover:text-blue-400 hover:scale-125 transition-all duration-200"
           rel="noopener noreferrer"

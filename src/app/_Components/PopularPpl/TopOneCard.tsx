@@ -88,7 +88,7 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
               )}
             </div>
 
-            <SocialLinks externalIds={topOne?.external_ids} />
+            <SocialLinks externalIds={topOne?.external_ids} isPerson />
           </div>
           {/* Attributes */}
           <div className="flex items-center flex-wrap gap-4">

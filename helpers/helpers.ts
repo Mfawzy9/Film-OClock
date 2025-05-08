@@ -144,7 +144,8 @@ export const instagramLink = (id: string) => `https://www.instagram.com/${id}/`;
 export const twitterLink = (id: string) => `https://x.com/${id}/`;
 export const facebookLink = (id: string) => `https://www.facebook.com/${id}/`;
 export const tiktokLink = (id: string) => `https://www.tiktok.com/@${id}/`;
-export const imdbLink = (id: string) => `https://www.imdb.com/title/${id}/`;
+export const imdbLink = (id: string, isPerson: boolean) =>
+  `https://www.imdb.com/${isPerson ? "name" : "title"}/${id}/`;
 
 // scroll to top
 export const scrollToTop = () => {

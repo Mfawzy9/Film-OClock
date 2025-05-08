@@ -228,7 +228,7 @@ const PersonDetails = ({ showId, showType, initialData }: props) => {
                 </div>
                 {/* Social Links */}
                 {details?.external_ids && (
-                  <SocialLinks externalIds={details?.external_ids} />
+                  <SocialLinks externalIds={details?.external_ids} isPerson />
                 )}
               </div>
 
