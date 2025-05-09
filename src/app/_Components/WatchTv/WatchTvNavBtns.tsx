@@ -36,7 +36,7 @@ const WatchTvNavBtns = ({
   if (!seasonData) return null;
   return (
     <>
-      <div className="flex items-center xs:gap-5 flex-wrap justify-center xs:justify-between">
+      <div className="flex items-center flex-wrap justify-between">
         {/* Previous Episode Button with tooltip */}
         <div className="relative group">
           <Link
@@ -57,7 +57,7 @@ const WatchTvNavBtns = ({
               disablePrev
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:bg-blue-700"
-              } px-4 py-2 bg-blue-600 text-white rounded transition-colors`}
+              } px-2 py-1 xs:px-4 xs:py-2 bg-blue-600 text-white rounded transition-colors`}
             aria-disabled={disablePrev}
           >
             {t("PreviousEpisode")}
@@ -92,7 +92,7 @@ const WatchTvNavBtns = ({
               disableNext
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:bg-blue-700"
-              } px-4 py-2 bg-blue-600 text-white rounded transition-colors`}
+              } px-2 py-1 xs:px-4 xs:py-2 bg-blue-600 text-white rounded transition-colors`}
             aria-disabled={disableNext}
           >
             {t("NextEpisode")}

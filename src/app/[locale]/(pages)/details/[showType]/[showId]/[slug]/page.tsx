@@ -39,7 +39,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       showId,
       showType,
     });
-  console.log(initialData);
   const description = () => {
     if (showType === "person")
       return (initialData as PersonDetailsResponse)?.biography;
