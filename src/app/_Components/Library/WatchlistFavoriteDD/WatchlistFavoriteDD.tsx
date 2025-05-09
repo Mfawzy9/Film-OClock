@@ -163,16 +163,22 @@ const WatchlistFavoriteDD = ({
               t("AddToFavorites"),
               t("RemoveFromFavorites"),
             )}
-            <li onClick={handleItemClick}>
-              <Link
-                href={watchHref}
-                className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
-                  hover:bg-blue-700 hover:shadow-blueGlow cursor-pointer"
-              >
-                <FaPlay className="text-xl" />
-                {t("Watch")}
-              </Link>
-            </li>
+            {new Date(
+              (theShow as FirestoreTheShowI | WatchHistoryItem).releaseDate ||
+                (theShow as TVShow).first_air_date ||
+                (theShow as Movie).release_date,
+            ) <= new Date() && (
+              <li onClick={handleItemClick}>
+                <Link
+                  href={watchHref}
+                  className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
+                    hover:bg-blue-700 hover:shadow-blueGlow cursor-pointer"
+                >
+                  <FaPlay className="text-xl" />
+                  {t("Watch")}
+                </Link>
+              </li>
+            )}
             <li onClick={handleItemClick}>
               <button
                 onClick={handleShareClick}
