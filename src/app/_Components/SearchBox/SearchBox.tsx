@@ -15,7 +15,11 @@ import { SiSpinrilla } from "react-icons/si";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { useRouter } from "@/i18n/navigation";
 import { MdManageSearch } from "react-icons/md";
-import { nameToSlug, scrollToTop } from "../../../../helpers/helpers";
+import {
+  getShowTitle,
+  nameToSlug,
+  scrollToTop,
+} from "../../../../helpers/helpers";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 
@@ -181,6 +185,7 @@ const SearchBox = () => {
               isLoading={isLoading}
               isFetching={isFetching}
               results={results}
+              isArabic={isArabic}
             />
           </div>
         </main>
@@ -256,6 +261,7 @@ const SearchBox = () => {
                 results={results}
                 isLoading={isLoading}
                 isFetching={isFetching}
+                isArabic={isArabic}
               />
             </div>
           </>
@@ -272,12 +278,14 @@ interface ResultContentProps {
   isLoading: boolean;
   isFetching: boolean;
   closeSearchAndClear: () => void;
+  isArabic: boolean;
 }
 const ResultContent = ({
   results,
   isLoading,
   isFetching,
   closeSearchAndClear,
+  isArabic,
 }: ResultContentProps) => {
   const t = useTranslations("Navbar");
   const tPerson = useTranslations("PopularPeople.Person.PersonCard");
@@ -314,9 +322,9 @@ const ResultContent = ({
         results.map((result) => {
           // Get media-specific data in a type-safe way
           const title = isMovie(result)
-            ? result.title || result.original_title
+            ? getShowTitle({ isArabic, show: result }) || result.original_title
             : isTVShow(result)
-              ? result.name || result.original_name
+              ? getShowTitle({ isArabic, show: result }) || result.original_name
               : result.name;
 
           const dateOrJob = isMovie(result)

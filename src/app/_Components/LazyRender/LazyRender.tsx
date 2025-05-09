@@ -13,7 +13,7 @@ interface LazyRenderProps {
   noLazy?: boolean;
   rootMargin?: string;
   className?: string;
-  persistKey?: string; // 🔥 New
+  persistKey?: string;
 }
 
 // Simple memory cache outside component
