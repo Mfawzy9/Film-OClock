@@ -9,7 +9,6 @@ import Title from "../Title/Title";
 import { useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import { FcCalendar, FcClock } from "react-icons/fc";
-import useIsArabic from "@/app/hooks/useIsArabic";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import { CgSpinner } from "react-icons/cg";
@@ -25,6 +24,7 @@ interface WatchTvDetailsProps {
   season: number;
   episode: number;
   tvLink: string;
+  isArabic: boolean;
 }
 
 const WatchTvDetails = ({
@@ -33,8 +33,8 @@ const WatchTvDetails = ({
   season,
   episode,
   tvLink,
+  isArabic,
 }: WatchTvDetailsProps) => {
-  const { isArabic } = useIsArabic();
   const t = useTranslations("WatchTv");
 
   //get translated genres

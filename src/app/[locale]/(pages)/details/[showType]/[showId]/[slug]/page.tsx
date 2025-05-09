@@ -15,7 +15,10 @@ import {
 import { getInitialDetailsDataCachedWithMap } from "../../../../../../../../helpers/tmdbRequests";
 import { siteBaseUrl } from "../../../../../../../../helpers/serverBaseUrl";
 import { notFound, redirect } from "next/navigation";
-import { nameToSlug } from "../../../../../../../../helpers/helpers";
+import {
+  getShowTitle,
+  nameToSlug,
+} from "../../../../../../../../helpers/helpers";
 
 type Props = {
   params: Promise<{
@@ -36,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       showId,
       showType,
     });
-
+  console.log(initialData);
   const description = () => {
     if (showType === "person")
       return (initialData as PersonDetailsResponse)?.biography;
@@ -71,9 +74,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     "original_title" in initialData
-      ? `${initialData?.title ?? initialData?.original_title} (${initialData?.release_date.split("-")[0]})`
+      ? `${getShowTitle({ isArabic: locale === "ar", show: initialData }) ?? initialData?.original_title} (${initialData?.release_date.split("-")[0]})`
       : "first_air_date" in initialData
-        ? `${initialData?.name ?? initialData?.original_name} (${initialData?.first_air_date.split("-")[0]})`
+        ? `${getShowTitle({ isArabic: locale === "ar", show: initialData }) ?? initialData?.original_name} (${initialData?.first_air_date.split("-")[0]})`
         : initialData?.name;
 
   const alternates = {
@@ -118,6 +121,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ],
     },
     alternates,
+    twitter: {
+      description: description() || t("MainPage.Description"),
+      title: title || t("MainPage.Title"),
+      images: [
+        `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${
+          (initialData as MovieDetailsResponse | TvDetailsResponse)
+            .backdrop_path ||
+          (initialData as MovieDetailsResponse | TvDetailsResponse)
+            .poster_path ||
+          (initialData as PersonDetailsResponse).profile_path
+        }`,
+      ],
+    },
   };
 }
 
@@ -130,12 +146,18 @@ const Details = async ({ params }: Props) => {
       showType,
     });
 
-  if (initialData) {
+  if (initialData && showType !== "person") {
     const title =
       "original_title" in initialData
-        ? (initialData.title ?? initialData.original_title)
+        ? (getShowTitle({
+            isArabic: locale === "ar",
+            show: initialData,
+          }) ?? initialData.original_title)
         : "first_air_date" in initialData
-          ? (initialData.name ?? initialData.original_name)
+          ? (getShowTitle({
+              isArabic: locale === "ar",
+              show: initialData,
+            }) ?? initialData.original_name)
           : initialData.name;
 
     const correctSlug = title && nameToSlug(title);
@@ -238,6 +260,8 @@ const Details = async ({ params }: Props) => {
             showId={showId}
             showType={showType}
             initialData={initialData as PersonDetailsResponse}
+            slug={slug}
+            locale={locale}
           />
         </>
       )}

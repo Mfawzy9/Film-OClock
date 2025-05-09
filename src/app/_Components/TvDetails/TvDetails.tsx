@@ -48,6 +48,7 @@ import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import EpisodesSkeletons from "./EpisodesSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
+import { getShowTitle } from "../../../../helpers/helpers";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -168,7 +169,11 @@ const TvDetails = ({
               seasonsCount:
                 tvShow?.number_of_seasons || tvShow?.seasons?.length - 1 || 1,
               tvShowId: tvShow?.id || 0,
-              tvShowName: tvShow?.name || tvShow?.original_name,
+              tvShowName:
+                getShowTitle({
+                  isArabic,
+                  show: tvShow,
+                }) || tvShow?.original_name,
             }}
             loading={<EpisodesSkeletons />}
             rootMargin="0px 0px"
@@ -181,7 +186,12 @@ const TvDetails = ({
         icon: <FaFilm />,
         content: (
           <Videos
-            name={tvShow?.name || tvShow?.original_name}
+            name={
+              getShowTitle({
+                isArabic,
+                show: tvShow,
+              }) || tvShow?.original_name
+            }
             videos={tvShow?.videos as VideosResponse}
           />
         ),
@@ -191,7 +201,12 @@ const TvDetails = ({
         icon: <FaImages />,
         content: (
           <ImgsSlider
-            name={tvShow?.name || tvShow?.original_name}
+            name={
+              getShowTitle({
+                isArabic,
+                show: tvShow,
+              }) || tvShow?.original_name
+            }
             images={TvShowImages as TvImagesResponse}
           />
         ),
@@ -202,7 +217,7 @@ const TvDetails = ({
         content: <Reviews reviews={tvShow?.reviews as TvReviewsResponse} />,
       },
     ],
-    [tvShow, TvShowImages, t],
+    [tvShow, TvShowImages, t, isArabic],
   );
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
@@ -275,7 +290,14 @@ const TvDetails = ({
             />
             <WatchedBtn
               showId={showId}
-              showName={tvShow?.name || tvShow?.original_name || ""}
+              showName={
+                getShowTitle({
+                  isArabic,
+                  show: tvShow,
+                }) ||
+                tvShow?.original_name ||
+                ""
+              }
               theShow={tvShow}
             />
             <div className="flex justify-center">
@@ -286,7 +308,10 @@ const TvDetails = ({
           {/* Tvshow Info */}
           <div className="flex flex-col gap-3">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
-              {tvShow?.name || tvShow?.original_name}
+              {getShowTitle({
+                isArabic,
+                show: tvShow,
+              }) || tvShow?.original_name}
               {tvShow?.homepage && (
                 <a
                   href={tvShow?.homepage}
@@ -415,7 +440,12 @@ const TvDetails = ({
             {/* Buttons */}
             <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
               <WatchBtn
-                name={tvShow?.name || tvShow?.original_name}
+                name={
+                  getShowTitle({
+                    isArabic,
+                    show: tvShow,
+                  }) || tvShow?.original_name
+                }
                 moveToTabs={moveToTabs}
                 showType={showType as "movie" | "tv"}
                 showId={showId}

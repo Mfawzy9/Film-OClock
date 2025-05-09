@@ -12,11 +12,23 @@ import { Link } from "@/i18n/navigation";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { memo, useMemo } from "react";
-import { nameToSlug, scrollToTop } from "../../../../helpers/helpers";
+import {
+  getShowTitle,
+  nameToSlug,
+  scrollToTop,
+} from "../../../../helpers/helpers";
 import { FaChevronCircleUp } from "react-icons/fa";
 import { TFunction } from "../../../../global";
+import {
+  Movie,
+  TVShow,
+} from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
-function getCastCardWorkLink(work: PopularPersonMovieI | PopularPersonTvShowI) {
+function getCastCardWorkLink(
+  work: PopularPersonMovieI | PopularPersonTvShowI,
+  isArabic: boolean,
+) {
   const title =
     (work as PopularPersonMovieI).title ||
     (work as PopularPersonMovieI).original_title ||
@@ -24,11 +36,17 @@ function getCastCardWorkLink(work: PopularPersonMovieI | PopularPersonTvShowI) {
     (work as PopularPersonTvShowI).original_name ||
     "";
 
-  const slug = nameToSlug(title);
-  return `/details/${work.media_type}/${work.id}/${slug}`;
+  const slug = nameToSlug(
+    getShowTitle({
+      show: work as Movie | TVShow,
+      isArabic,
+    }) ?? title,
+  );
+  return `/details/${work?.media_type}/${work?.id}/${slug}`;
 }
 
 const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
+  const { isArabic } = useIsArabic();
   const editedPersonJob = useMemo(() => {
     return person.known_for_department === "Acting"
       ? t("Person.PersonCard.Acting")
@@ -129,7 +147,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
                 return (
                   <Link
                     key={idx}
-                    href={getCastCardWorkLink(work)}
+                    href={getCastCardWorkLink(work, isArabic)}
                     className="group"
                   >
                     <div

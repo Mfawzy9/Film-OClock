@@ -22,10 +22,11 @@ import dynamic from "next/dynamic";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/Redux/store";
 import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
-import { nameToSlug } from "../../../../helpers/helpers";
+import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
 import LazyRender from "../LazyRender/LazyRender";
 import EpisodesSkeletons from "../TvDetails/EpisodesSkeletons";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   ssr: false,
@@ -58,6 +59,7 @@ const WatchTv = ({
   initialData,
   initialTranslations,
 }: WatchTvProps) => {
+  const { isArabic } = useIsArabic();
   const t = useTranslations("WatchTv");
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
   const watchedRef = useRef(0);
@@ -176,6 +178,8 @@ const WatchTv = ({
         id: tvShow.id,
         showType: "tv",
         title: tvShow.name || tvShow.original_name,
+        oriTitle: tvShow.original_name,
+        original_language: tvShow.original_language,
         overview: tvShow.overview,
         episodeOverview: currentEpisode.overview,
         posterPath: tvShow.poster_path,
@@ -323,11 +327,12 @@ const WatchTv = ({
 
       <PageSection className="xs:px-7 flex flex-col gap-16">
         <WatchTvDetails
-          tvLink={`/details/${showType}/${showId}/${nameToSlug(tvShow?.name || tvShow?.original_name || "")}`}
+          tvLink={`/details/${showType}/${showId}/${nameToSlug(getShowTitle({ isArabic, show: tvShow }) || tvShow?.original_name || "")}`}
           currentEpisode={currentEpisode}
           tvShow={tvShow}
           episode={episode}
           season={season}
+          isArabic={isArabic}
         />
 
         {guestStars.length > 0 && (

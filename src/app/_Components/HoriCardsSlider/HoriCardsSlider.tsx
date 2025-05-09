@@ -15,6 +15,7 @@ import SlidersTitle from "../SlidersTitle/SlidersTitle";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import HoriSkeletonSlider from "./HoriSkeletonSlider";
 import Image from "next/image";
+import { getShowTitle } from "../../../../helpers/helpers";
 
 const sectionBgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280;
 
@@ -186,7 +187,10 @@ const HoriCardsSlider = ({
             {data?.slice(0, 20).map((theShow, idx) => {
               if (!theShow.backdrop_path) return null;
               const title =
-                (theShow as Movie).title ||
+                getShowTitle({
+                  show: theShow,
+                  isArabic,
+                }) ||
                 (theShow as Movie).original_title ||
                 (theShow as TVShow).name ||
                 (theShow as TVShow).original_name;

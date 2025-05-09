@@ -13,9 +13,17 @@ import { useMemo } from "react";
 import Image from "next/image";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
-import { nameToSlug } from "../../../../helpers/helpers";
+import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
+import {
+  Movie,
+  TVShow,
+} from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
-function getDetailsLink(work: PMovieCast | PMovieCrew | PTvCast | PTvCrew) {
+function getDetailsLink(
+  work: PMovieCast | PMovieCrew | PTvCast | PTvCrew,
+  isArabic: boolean,
+) {
   const title =
     (work as PMovieCast | PMovieCrew).title ||
     (work as PMovieCast | PMovieCrew).original_title ||
@@ -23,7 +31,12 @@ function getDetailsLink(work: PMovieCast | PMovieCrew | PTvCast | PTvCrew) {
     (work as PTvCast | PTvCrew).original_name ||
     "";
 
-  const slug = nameToSlug(title);
+  const slug = nameToSlug(
+    getShowTitle({
+      show: work as Movie | TVShow,
+      isArabic,
+    }) ?? title,
+  );
   return `/details/${work.media_type}/${work.id}/${slug}`;
 }
 
@@ -34,6 +47,7 @@ const LatestWorks = ({
   person: PersonDetailsResponse;
   label: string;
 }) => {
+  const { isArabic } = useIsArabic();
   const dispatch = useDispatch<AppDispatch>();
 
   const loadedImgs = useSelector(
@@ -83,7 +97,11 @@ const LatestWorks = ({
           {latestWorks?.map((work, idx) => {
             const isImgLoaded = loadedImgs[work?.poster_path];
             return (
-              <Link key={idx} href={getDetailsLink(work)} className="group">
+              <Link
+                key={idx}
+                href={getDetailsLink(work, isArabic)}
+                className="group"
+              >
                 <div
                   key={idx}
                   className="w-[75px] h-[110px] flex-none relative rounded-md"

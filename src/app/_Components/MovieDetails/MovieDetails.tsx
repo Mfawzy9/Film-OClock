@@ -18,7 +18,7 @@ import {
   MovieDetailsResponse,
   PExternalIds,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import { minutesToHours } from "../../../../helpers/helpers";
+import { getShowTitle, minutesToHours } from "../../../../helpers/helpers";
 import TrailerBtn from "../Btns/TrailerBtn/TrailerBtn";
 import { MovieImagesResponse } from "@/app/interfaces/apiInterfaces/imagesInterfaces";
 import { MovieReviewsResponse } from "@/app/interfaces/apiInterfaces/reviewsInterfaces";
@@ -163,7 +163,11 @@ const MovieDetails = ({
           <LazyRender
             Component={Videos}
             props={{
-              name: movie?.title ?? movie?.original_title,
+              name:
+                getShowTitle({
+                  isArabic,
+                  show: movie,
+                }) ?? movie?.original_title,
               videos: movie?.videos,
             }}
             rootMargin="0px 0px"
@@ -185,7 +189,12 @@ const MovieDetails = ({
         icon: <FaImages />,
         content: (
           <ImgsSlider
-            name={movie?.title ?? movie?.original_title}
+            name={
+              getShowTitle({
+                isArabic,
+                show: movie,
+              }) ?? movie?.original_title
+            }
             images={movieImages as MovieImagesResponse}
           />
         ),
@@ -196,7 +205,7 @@ const MovieDetails = ({
         content: <Reviews reviews={movie?.reviews as MovieReviewsResponse} />,
       },
     ],
-    [movie, movieImages, t, showId, showType],
+    [movie, movieImages, t, showId, showType, isArabic],
   );
   const [activeTab, setActiveTab] = useState(tabs[0]?.name || "");
 
@@ -271,7 +280,14 @@ const MovieDetails = ({
             {new Date(movie?.release_date) <= new Date() && (
               <WatchedBtn
                 showId={showId}
-                showName={movie?.title || movie?.original_title || ""}
+                showName={
+                  getShowTitle({
+                    isArabic,
+                    show: movie,
+                  }) ||
+                  movie?.original_title ||
+                  ""
+                }
                 theShow={movie}
               />
             )}
@@ -283,7 +299,10 @@ const MovieDetails = ({
           {/* Movie Info */}
           <div className="flex flex-col gap-4">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
-              {movie?.title || movie?.original_title}
+              {getShowTitle({
+                isArabic,
+                show: movie,
+              }) || movie?.original_title}
               {movie?.homepage && (
                 <a
                   href={movie?.homepage}
@@ -298,7 +317,7 @@ const MovieDetails = ({
 
             <h6 className="flex items-center gap-2 flex-wrap">
               <FaStar className="text-yellow-500" title="Rating" />
-              {movie?.vote_average.toFixed(1)}
+              {movie?.vote_average?.toFixed(1)}
               <span className="text-gray-400">|</span>
               <FcCalendar title="Release Date" />
               {movie?.release_date &&
@@ -308,7 +327,7 @@ const MovieDetails = ({
               {minutesToHours(movie?.runtime ?? 0, isArabic)}
               <span className="text-gray-400">|</span>
               <GrLanguage title="Language" />
-              {movie?.original_language.toUpperCase()}
+              {movie?.original_language?.toUpperCase()}
             </h6>
 
             <div className="flex items-center gap-2 flex-wrap">
@@ -357,7 +376,12 @@ const MovieDetails = ({
                 <WatchBtn
                   showType={showType as "movie" | "tv"}
                   showId={showId}
-                  name={movie?.title || movie?.original_title}
+                  name={
+                    getShowTitle({
+                      isArabic,
+                      show: movie,
+                    }) || movie?.original_title
+                  }
                 />
               )}
               <TrailerBtn

@@ -18,7 +18,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
-import { nameToSlug } from "../../../../helpers/helpers";
+import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
 
 interface ShortDetailsProps {
   title: string;
@@ -97,7 +97,7 @@ const ShortDetails = ({
         />
 
         <Link
-          href={`/details/${showType}/${showId}/${nameToSlug(title)}`}
+          href={`/details/${showType}/${showId}/${nameToSlug(getShowTitle({ show: theShow, isArabic: locale === "ar" }) ?? title)}`}
           className="relative flex items-end min-h-[30vh] sm:min-h-[40vh] md:min-h-[60vh]
             xl:min-h-[70vh] 2xl:min-h-[75vh] 3xl:min-h-[70vh] 4xl:min-h-[560px] px-2 sm:px-3
             pb-2 rounded-md border-2 border-gray-700 overflow-hidden group transition-all

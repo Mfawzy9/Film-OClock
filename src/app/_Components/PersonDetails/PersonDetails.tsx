@@ -14,7 +14,7 @@ import {
   FaTransgenderAlt,
 } from "react-icons/fa";
 import { FaAngleDown, FaFilm, FaImages, FaLocationDot } from "react-icons/fa6";
-import { calculateAge } from "../../../../helpers/helpers";
+import { calculateAge, nameToSlug } from "../../../../helpers/helpers";
 import { useRef, useState, useMemo, useEffect } from "react";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { CgSpinner } from "react-icons/cg";
@@ -38,6 +38,7 @@ import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import LazyRender from "../LazyRender/LazyRender";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
+import { useRouter } from "@/i18n/navigation";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   loading: () => <CardsSkeletonSlider />,
@@ -46,28 +47,49 @@ const PersonImgsSlider = dynamic(() => import("./PersonImgsSlider"));
 
 interface props extends DetailsQueryParams {
   initialData: PersonDetailsResponse | null;
+  slug: string;
+  locale: "en" | "ar";
 }
 
-const PersonDetails = ({ showId, showType, initialData }: props) => {
+const PersonDetails = ({
+  showId,
+  showType,
+  initialData,
+  slug,
+  locale,
+}: props) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("PersonDetails");
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!initialData) return;
+
+    const correctSlug = nameToSlug(initialData.name);
+    const decodedSlug = decodeURIComponent(slug);
+
+    if (decodedSlug !== correctSlug) {
+      router.replace(`/details/${showType}/${showId}/${correctSlug}`);
+    }
+  }, [initialData, slug, locale, showType, showId, router]);
 
   useEffect(() => {
     if (initialData) {
       dispatch(
         tmdbApi.util.upsertQueryData(
           "getMTDetails",
-          { showId, showType },
+          { showId, showType, lang: isArabic ? "ar" : "en" },
           initialData,
         ),
       );
     }
-  }, [dispatch, initialData, showId, showType]);
+  }, [dispatch, initialData, showId, showType, isArabic]);
 
   const { data: details, isLoading } = useGetMTDetailsQuery({
     showId,
     showType,
+    lang: isArabic ? "ar" : "en",
   }) as {
     data: PersonDetailsResponse | null;
     isLoading: boolean;
@@ -310,8 +332,8 @@ const PersonDetails = ({ showId, showType, initialData }: props) => {
 
                   {/* Biography */}
                   {details?.biography && (
-                    <div className="flex flex-col gap-1">
-                      <span className="font-roboto font-bold text-blue-300 me-1 flex items-center gap-1">
+                    <div className="flex flex-col gap-1 mt-2">
+                      <span className="font-bold text-blue-300 me-1 flex items-center gap-1">
                         <BiSolidDetail className="text-white" />
                         {t("Biography")} :
                       </span>

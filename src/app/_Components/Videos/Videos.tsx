@@ -87,7 +87,7 @@ const Videos = ({ videos, name }: VideosProps) => {
   );
 
   const nameQuery =
-    videos.results.find((video) => video.type === "Trailer")?.type ||
+    videos?.results?.find((video) => video.type === "Trailer")?.type ||
     t("AllVideos");
   const [activeSelect, setActiveSelect] = useState({
     query: nameQuery,
@@ -95,7 +95,7 @@ const Videos = ({ videos, name }: VideosProps) => {
   });
 
   const videoTypes = useMemo(() => {
-    const types = [...new Set(videos.results.map((video) => video.type))];
+    const types = [...new Set(videos?.results?.map((video) => video?.type))];
     return [
       { query: t("AllVideos"), name: t("AllVideos") },
       ...types.map((type) => ({ query: type, name: type })),
@@ -104,10 +104,10 @@ const Videos = ({ videos, name }: VideosProps) => {
 
   const activeVideos = useMemo(() => {
     if (activeSelect.query === t("AllVideos")) {
-      return videos.results;
+      return videos?.results;
     } else {
-      return videos.results.filter(
-        (video) => video.type === activeSelect.query,
+      return videos?.results.filter(
+        (video) => video?.type === activeSelect.query,
       );
     }
   }, [activeSelect, videos?.results, t]);
@@ -128,7 +128,7 @@ const Videos = ({ videos, name }: VideosProps) => {
 
           {/* videos */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
-            {activeVideos.map((video) => {
+            {activeVideos?.map((video) => {
               const isImgLoaded = loadedImgs[video?.key];
               return (
                 <VideoCard

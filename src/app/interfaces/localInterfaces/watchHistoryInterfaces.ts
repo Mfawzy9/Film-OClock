@@ -21,6 +21,8 @@ export interface WatchHistoryItem {
   episode?: number;
   rating: number;
   genresIds: number[];
+  oriTitle: string;
+  original_language: string;
 }
 
 export interface WatchedTvShowHistoryItem {
@@ -45,6 +47,8 @@ export interface WatchedTvShowHistoryItem {
   releaseDate: string | null;
   rating: number;
   genresIds: number[];
+  oriTitle: string;
+  original_language: string;
 }
 
 export interface WatchedMovieHistoryItem {
@@ -66,4 +70,6 @@ export interface WatchedMovieHistoryItem {
   releaseDate: string | null;
   rating: number;
   genresIds: number[];
+  oriTitle: string;
+  original_language: string;
 }

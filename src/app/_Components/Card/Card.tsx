@@ -4,7 +4,11 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa6";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
-import { nameToSlug, scrollToTop } from "../../../../helpers/helpers";
+import {
+  getShowTitle,
+  nameToSlug,
+  scrollToTop,
+} from "../../../../helpers/helpers";
 import { memo, useMemo } from "react";
 import { useRouter } from "@/i18n/navigation";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
@@ -15,6 +19,7 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import { useTranslations } from "next-intl";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
 interface CardProps {
   src: string;
@@ -42,6 +47,7 @@ const Card = ({
   theShow,
   ImgContainerHeight = "min-h-[330px]",
 }: CardProps) => {
+  const { isArabic } = useIsArabic();
   const tPerson = useTranslations("PopularPeople.Person.PersonCard");
   const editedPersonJob = useMemo(() => {
     return personJob === "Acting"
@@ -60,7 +66,9 @@ const Card = ({
   const router = useRouter();
 
   const handleNavigate = () => {
-    router.push(`/details/${showType}/${id}/${nameToSlug(name)}`);
+    router.push(
+      `/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`,
+    );
     scrollToTop();
   };
 
@@ -78,7 +86,7 @@ const Card = ({
         />
       )}
       <Link
-        href={`/details/${showType}/${id}/${nameToSlug(name)}`}
+        href={`/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`}
         className="block relative overflow-hidden pb-1 rounded w-full"
         onClick={handleNavigate}
       >
@@ -104,7 +112,14 @@ const Card = ({
 
         {/* Movie Info */}
         <div className="mt-2 px-1">
-          <h3 className="text-white font-semibold line-clamp-1">{name}</h3>
+          <h3 className="text-white font-semibold line-clamp-1">
+            {theShow
+              ? (getShowTitle({
+                  show: theShow,
+                  isArabic,
+                }) ?? name)
+              : name}
+          </h3>
           <div className="flex justify-between text-sm text-gray-300 mt-1 font-sans">
             <span>{release_date?.split("-")[0] || editedPersonJob}</span>
             <span className="flex items-center gap-1">

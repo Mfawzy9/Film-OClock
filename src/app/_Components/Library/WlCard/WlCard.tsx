@@ -13,7 +13,7 @@ import BgPlaceholder from "../../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { nameToSlug } from "../../../../../helpers/helpers";
+import { getShowTitle, nameToSlug } from "../../../../../helpers/helpers";
 
 const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
   const t = useTranslations("Library.Watchlist");
@@ -42,7 +42,12 @@ const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
         >
           {!isImgLoaded && <BgPlaceholder />}
           <Link
-            href={`/details/${show?.showType}/${show.id}/${nameToSlug(show?.title)}`}
+            href={`/details/${show?.showType}/${show.id}/${nameToSlug(
+              getShowTitle({
+                isArabic,
+                show,
+              }) ?? title,
+            )}`}
           >
             <Image
               width={225}
@@ -76,7 +81,12 @@ const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
                 className="flex-none max-h-11 relative flex items-center justify-center rounded-xl
                   bg-gray-950 px-6 py-3.5 font-semibold text-white transition-all duration-200
                   hover:bg-gray-950 hover:-translate-y-0.5 hover:shadow-blueGlow"
-                href={`/details/${show.showType}/${show.id}/${nameToSlug(show.title)}`}
+                href={`/details/${show.showType}/${show.id}/${nameToSlug(
+                  getShowTitle({
+                    isArabic,
+                    show,
+                  }) ?? title,
+                )}`}
               >
                 <TbListDetails className="me-1" />
                 {t("WlCard.DetailsBtn")}

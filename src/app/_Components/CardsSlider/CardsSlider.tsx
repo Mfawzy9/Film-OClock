@@ -217,6 +217,7 @@ const CardsSlider = ({
                   release_date={releaseDate}
                   rating={rating}
                   personJob={personJob}
+                  isArabic={isArabic}
                 />
               </SwiperSlide>
             );

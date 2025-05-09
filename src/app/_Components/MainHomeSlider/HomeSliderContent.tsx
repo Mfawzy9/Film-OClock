@@ -8,6 +8,8 @@ import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
+import useIsArabic from "@/app/hooks/useIsArabic";
+import { getShowTitle } from "../../../../helpers/helpers";
 
 const imgVariants: Variants = {
   hidden: { opacity: 0, transform: "scale(0.8)" },
@@ -38,6 +40,7 @@ const HomeSliderContent = ({
   isVisible: boolean;
   genreNames: string[];
 }) => {
+  const { isArabic } = useIsArabic();
   const genreList = useMemo(() => {
     return genreNames.map((genre, idx) => (
       <span
@@ -94,7 +97,10 @@ const HomeSliderContent = ({
               className="flex gap-3 items-center text-3xl sm:text-4xl font-righteous border-s-4
                 border-blue-700 ps-2 !line-clamp-2"
             >
-              {movie?.title || movie?.original_title}
+              {getShowTitle({
+                isArabic,
+                show: movie,
+              }) || movie?.original_title}
             </h2>
             <h6 className="flex items-center gap-1.5 xs:gap-2 text-sm flex-wrap justify-center">
               <FaStar className="text-yellow-500" />
@@ -118,7 +124,12 @@ const HomeSliderContent = ({
               <HomeSliderBtns
                 showType={movie.media_type as "movie" | "tv"}
                 showId={movie.id}
-                name={movie.title || movie.original_title}
+                name={
+                  getShowTitle({
+                    isArabic,
+                    show: movie,
+                  }) || movie.original_title
+                }
                 releaseDate={movie.release_date}
               />
             </div>
@@ -138,7 +149,14 @@ const HomeSliderContent = ({
               src={imgSrc}
               fill
               sizes="300px"
-              alt={(movie?.title || movie?.original_title) ?? ""}
+              alt={
+                (getShowTitle({
+                  isArabic,
+                  show: movie,
+                }) ||
+                  movie?.original_title) ??
+                ""
+              }
               className={`rounded-md ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={() => dispatch(setImageLoaded(imgSrc))}

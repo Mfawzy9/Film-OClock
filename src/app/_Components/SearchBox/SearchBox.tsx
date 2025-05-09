@@ -39,6 +39,7 @@ const SearchBox = () => {
             const { data } = await search(
               {
                 query: searchQuery,
+                lang: isArabic ? "ar" : "en",
               },
               true,
             );
@@ -50,7 +51,7 @@ const SearchBox = () => {
           setResults([]);
         }
       }, 500),
-    [search],
+    [search, isArabic],
   );
 
   useEffect(() => {

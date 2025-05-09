@@ -11,7 +11,11 @@ import PageSection from "../PageSection/PageSection";
 import { FaStar } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
 import MainLoader from "../MainLoader/MainLoader";
-import { minutesToHours, nameToSlug } from "../../../../helpers/helpers";
+import {
+  getShowTitle,
+  minutesToHours,
+  nameToSlug,
+} from "../../../../helpers/helpers";
 import SelectComp from "../SelectComp/SelectComp";
 import Casts from "../Casts/Casts";
 import fallbackBg from "../../../../public/images/fallback-bg.jpg";
@@ -175,6 +179,8 @@ const WatchMovie = ({
         id: movie.id,
         showType: "movie",
         title: movie.title || movie.original_title,
+        oriTitle: movie.original_title,
+        original_language: movie.original_language,
         overview: movie.overview,
         posterPath: movie.poster_path,
         backdropPath: movie.backdrop_path,
@@ -326,7 +332,7 @@ const WatchMovie = ({
       <PageSection className="xs:px-7 flex flex-col gap-16">
         <main className="flex flex-col gap-5">
           <Link
-            href={`/details/${showType}/${showId}/${nameToSlug(movie?.title || movie?.original_title)}`}
+            href={`/details/${showType}/${showId}/${nameToSlug(getShowTitle({ isArabic, show: movie }) || movie?.original_title)}`}
             className="hover:underline w-fit"
           >
             <Title title={movie?.title || movie?.original_title} />

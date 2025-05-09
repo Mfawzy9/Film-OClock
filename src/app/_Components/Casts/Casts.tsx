@@ -20,39 +20,44 @@ interface CastCardProps {
   isLoaded: boolean;
   idx: number;
   dispatch: AppDispatch;
+  isArabic: boolean;
 }
 
-const CastCard = memo(({ cast, isLoaded, idx, dispatch }: CastCardProps) => {
-  return (
-    <Link
-      className="w-36 flex-shrink-0 hover:scale-105 transition-all duration-200 overflow-hidden"
-      key={`${cast.credit_id}-${idx}`}
-      href={`/details/person/${cast.id}/${nameToSlug(cast?.name ?? "")}`}
-    >
-      <div className="w-full relative">
-        {!isLoaded && <BgPlaceholder />}
-        <Image
-          loading="lazy"
-          src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${cast?.profile_path}`}
-          width={200}
-          height={300}
-          sizes="200px"
-          alt={cast.name}
-          className={`rounded-lg w-full ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
-            transition-[transform,opacity] duration-300 transform-gpu ease-out`}
-          onLoad={() => {
-            dispatch(setImageLoaded(cast.profile_path ?? ""));
-          }}
-        />
-      </div>
+const CastCard = memo(
+  ({ cast, isLoaded, idx, dispatch, isArabic }: CastCardProps) => {
+    return (
+      <Link
+        className="w-36 flex-shrink-0 hover:scale-105 transition-all duration-200 overflow-hidden"
+        key={`${cast.credit_id}-${idx}`}
+        href={`/details/person/${cast.id}/${nameToSlug(isArabic ? cast?.original_name : (cast?.name ?? ""))}`}
+      >
+        <div className="w-full relative">
+          {!isLoaded && <BgPlaceholder />}
+          <Image
+            loading="lazy"
+            src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${cast?.profile_path}`}
+            width={200}
+            height={300}
+            sizes="200px"
+            alt={cast.name}
+            className={`rounded-lg w-full ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+              transition-[transform,opacity] duration-300 transform-gpu ease-out`}
+            onLoad={() => {
+              dispatch(setImageLoaded(cast.profile_path ?? ""));
+            }}
+          />
+        </div>
 
-      <h3 className="mt-2 font-medium text-center line-clamp-1">{cast.name}</h3>
-      <h5 className="text-sm text-gray-400 text-center line-clamp-2">
-        {cast.character}
-      </h5>
-    </Link>
-  );
-});
+        <h3 className="mt-2 font-medium text-center line-clamp-1">
+          {cast.name}
+        </h3>
+        <h5 className="text-sm text-gray-400 text-center line-clamp-2">
+          {cast.character}
+        </h5>
+      </Link>
+    );
+  },
+);
 
 CastCard.displayName = "CastCard";
 
@@ -235,6 +240,7 @@ const Casts = ({
                       isLoaded={isLoaded}
                       idx={idx}
                       dispatch={dispatch}
+                      isArabic={isArabic}
                     />
                   );
                 })}

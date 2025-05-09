@@ -1,5 +1,9 @@
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import {
+  MovieDetailsResponse,
+  TvDetailsResponse,
+} from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import {
   Movie,
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
@@ -135,7 +139,7 @@ export function calculateAge(
     .toString()
     .padStart(2, "0")}/${birthDate.getDate().toString().padStart(2, "0")}`;
 
-  return `${formattedBirthDate} → (${age} ${isArabic ? "سنة" : "year"})`;
+  return `${formattedBirthDate} → (${age} ${isArabic ? "سنة" : "yo"})`;
 }
 
 // social links
@@ -167,7 +171,12 @@ export const removeDuplicatesById = ({
 };
 
 export const nameToSlug = (name: string) =>
-  name?.replace(/&/g, "and").replace(/\s+/g, "-").toLowerCase();
+  name
+    .replace(/&/g, "and")
+    .replace(/[^\p{L}\d\- ]/gu, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .toLowerCase();
 
 // handle share movie or tvshow
 export function getDetailsShareUrl(
@@ -190,7 +199,12 @@ export function getDetailsShareUrl(
     (show as WatchHistoryItem).title ||
     "";
 
-  const slug = nameToSlug(title);
+  const slug = nameToSlug(
+    getShowTitle({
+      show,
+      isArabic: locale === "ar",
+    }) ?? title,
+  );
   return `${origin}/${locale}/details/${showType}/${showId}/${slug}`;
 }
 
@@ -232,4 +246,25 @@ export const handleShare = async ({
       toast.error("Failed to share link");
     }
   }
+};
+
+// get show title
+export const getShowTitle = ({
+  isArabic,
+  show,
+}: {
+  isArabic: boolean;
+  show:
+    | Movie
+    | MovieDetailsResponse
+    | TVShow
+    | TvDetailsResponse
+    | FirestoreTheShowI
+    | WatchHistoryItem;
+}) => {
+  return isArabic
+    ? (show as Movie)?.original_title ||
+        (show as TVShow)?.original_name ||
+        (show as FirestoreTheShowI | WatchHistoryItem)?.oriTitle
+    : (show as Movie)?.title || (show as TVShow)?.name || null;
 };

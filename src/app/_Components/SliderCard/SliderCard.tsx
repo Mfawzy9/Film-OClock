@@ -5,7 +5,11 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
-import { nameToSlug, scrollToTop } from "../../../../helpers/helpers";
+import {
+  getShowTitle,
+  nameToSlug,
+  scrollToTop,
+} from "../../../../helpers/helpers";
 import { useRouter } from "@/i18n/navigation";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
 import { Link } from "@/i18n/navigation";
@@ -26,6 +30,7 @@ interface SliderCardProps {
   personJob?: string;
   theShow: Movie | TVShow;
   idx: number;
+  isArabic: boolean;
 }
 
 const SliderCard = ({
@@ -39,6 +44,7 @@ const SliderCard = ({
   personJob,
   theShow,
   idx,
+  isArabic,
 }: SliderCardProps) => {
   const tPerson = useTranslations("PopularPeople.Person.PersonCard");
   const editedPersonJob = useMemo(() => {
@@ -64,7 +70,9 @@ const SliderCard = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleNavigate = () => {
-    router.push(`/details/${showType}/${id}/${nameToSlug(name)}`);
+    router.push(
+      `/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`,
+    );
     scrollToTop();
   };
 
@@ -97,7 +105,7 @@ const SliderCard = ({
         />
       )}
       <Link
-        href={`/details/${showType}/${id}/${nameToSlug(name)}`}
+        href={`/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`}
         onClick={handleNavigate}
       >
         {/* Image Container */}
@@ -119,7 +127,12 @@ const SliderCard = ({
 
         {/* Movie Info */}
         <div className="mt-2 px-1">
-          <h3 className="text-white font-semibold line-clamp-1">{name}</h3>
+          <h3 className="text-white font-semibold line-clamp-1">
+            {getShowTitle({
+              show: theShow,
+              isArabic,
+            }) ?? name}
+          </h3>
           <div className="flex justify-between text-sm text-gray-300 mt-1 font-sans">
             <span>{release_date.split("-")[0] || editedPersonJob}</span>
             <span className="flex items-center gap-1">
@@ -132,7 +145,7 @@ const SliderCard = ({
         <div
           className="absolute top-0 left-0 w-full h-full bg-gray-400/0 group-hover:bg-gray-400/20
             transition-all duration-300"
-        ></div>
+        />
       </Link>
     </div>
   );

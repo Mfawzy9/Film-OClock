@@ -47,6 +47,8 @@ export interface FirestoreTheShowI {
   showType: "movie" | "tv";
   watchedAtDate?: string;
   watchedAtTime?: string;
+  oriTitle: string;
+  original_language: string;
 }
 
 export const updatedTheShow = (
@@ -60,6 +62,9 @@ export const updatedTheShow = (
     (theShow as TVShow).name ||
     (theShow as TVShow).original_name,
   arTitle: arabicTranslation?.data?.arTitle || "",
+  oriTitle:
+    (theShow as Movie).original_title || (theShow as TVShow).original_name,
+  original_language: theShow.original_language,
   posterPath: (theShow as Movie | TVShow).poster_path,
   backdropPath: (theShow as Movie | TVShow).backdrop_path,
   releaseDate:
@@ -216,6 +221,14 @@ const useLibrary = ({
           const tmdbArOverview = tmdbArSaOverview || tmdbArAeOverview;
           if (tmdbArOverview) {
             arOverview = tmdbArOverview;
+            if (
+              ("original_title" in theShow || "first_air_date" in theShow) &&
+              theShow.original_language === "ar"
+            ) {
+              arTitle =
+                (theShow as MovieDetailsResponse | Movie).original_title ||
+                (theShow as TvDetailsResponse | TVShow).original_name;
+            }
           } else {
             const overview = theShow.overview || "";
 
@@ -225,12 +238,12 @@ const useLibrary = ({
 
             arTitle =
               data?.translatedTitle ??
-              ((theShow as MovieDetailsResponse | Movie).title ||
-                (theShow as MovieDetailsResponse | Movie).original_title ||
-                (theShow as TvDetailsResponse | TVShow).name ||
-                (theShow as TvDetailsResponse | TVShow).original_name ||
-                (theShow as WatchHistoryItem | FirestoreTheShowI).title ||
-                "");
+              ("oriTitle" in theShow
+                ? theShow.oriTitle
+                : "first_air_date" in theShow
+                  ? theShow.original_name
+                  : theShow.original_title || "");
+
             arOverview = data?.translatedOverview || "";
           }
         }
