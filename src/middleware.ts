@@ -56,9 +56,9 @@ export async function middleware(request: NextRequest) {
   }
 
   const sessionToken = request.cookies.get("session")?.value;
-
+  const isLoggedOut = request.cookies.get("loggedOut")?.value === "true";
   // Handle auth routes (login/signup)
-  if (isAuthRoute && sessionToken) {
+  if (isAuthRoute && sessionToken && !isLoggedOut) {
     try {
       // Cache verification for 5 minutes
       const authCheck = await fetch(

@@ -123,6 +123,7 @@ export const signUpWithEmail = async (
 // Sign Out
 export const signOutUser = async (t?: TFunction) => {
   try {
+    store.dispatch(setLoading(true));
     const deleteCookie = await fetch("/api/auth/session", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -130,10 +131,10 @@ export const signOutUser = async (t?: TFunction) => {
     if (!deleteCookie.ok) {
       throw new Error("Failed to delete session cookie");
     }
-    store.dispatch(setLoading(true));
+    document.cookie = "loggedOut=true; path=/;";
     await signOut(auth);
     if (t) toast.success(t("LogOutSuccess"));
-    store.dispatch(logout()); // Clear user in Redux
+    store.dispatch(logout());
     store.dispatch(clearLibrary());
   } catch (error) {
     const errorMessage = getErrorMessage(error);
@@ -158,8 +159,9 @@ export const listenToAuthChanges = async () => {
     return () => {}; // Return a no-op function to avoid crash
   }
 
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
+      document.cookie = "loggedOut=false; path=/;";
       const sanitizedUser = sanitizeFirebaseUser(user as unknown as User);
       if (sanitizedUser) {
         store.dispatch(setUser(sanitizedUser));
@@ -167,6 +169,14 @@ export const listenToAuthChanges = async () => {
         store.dispatch(logout());
       }
     } else {
+      document.cookie = "loggedOut=true; path=/;";
+      const deleteCookie = await fetch("/api/auth/session", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!deleteCookie.ok) {
+        throw new Error("Failed to delete session cookie");
+      }
       store.dispatch(logout());
     }
   });

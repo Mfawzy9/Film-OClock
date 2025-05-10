@@ -100,6 +100,8 @@ const Login = () => {
         body: JSON.stringify({ idToken, rememberMe, email, password }),
       });
 
+      document.cookie = "loggedOut=false; path=/;";
+
       if (!sessionRes.ok) {
         throw new Error("Session creation failed");
       }
