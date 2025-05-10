@@ -6,11 +6,11 @@ const LoggedinEmptyWL = () => {
   const t = useTranslations("HomePage");
   return (
     <>
-      <div className="flex flex-col items-center justify-start gap-3">
+      <div className="flex flex-col items-center justify-start gap-3 px-2">
         <PiListPlusFill className="text-8xl" />
 
         <div className="flex items-center gap-2 text-center">
-          <h1 className="text-3xl font-semibold">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold">
             {t("WatchlistSection.LoggedIn.title")}
           </h1>
         </div>
