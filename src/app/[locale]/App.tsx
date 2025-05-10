@@ -14,8 +14,15 @@ import RouteTracker from "../_Components/RouteTracker/RouteTracker";
 
 const App = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
-    const unsubscribe = listenToAuthChanges();
-    return () => unsubscribe();
+    let unsub: () => void;
+
+    listenToAuthChanges().then((unsubscribe) => {
+      unsub = unsubscribe;
+    });
+
+    return () => {
+      if (unsub) unsub();
+    };
   }, []);
   return (
     <Provider store={store}>

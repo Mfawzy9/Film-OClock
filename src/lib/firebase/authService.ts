@@ -121,7 +121,7 @@ export const signUpWithEmail = async (
 };
 
 // Sign Out
-export const signOutUser = async (t: TFunction) => {
+export const signOutUser = async (t?: TFunction) => {
   try {
     const deleteCookie = await fetch("/api/auth/session", {
       method: "DELETE",
@@ -132,7 +132,7 @@ export const signOutUser = async (t: TFunction) => {
     }
     store.dispatch(setLoading(true));
     await signOut(auth);
-    toast.success(t("LogOutSuccess"));
+    if (t) toast.success(t("LogOutSuccess"));
     store.dispatch(logout()); // Clear user in Redux
     store.dispatch(clearLibrary());
   } catch (error) {
@@ -145,8 +145,20 @@ export const signOutUser = async (t: TFunction) => {
 };
 
 // Listen for Auth Changes
-export const listenToAuthChanges = () => {
-  return onAuthStateChanged(auth, (user) => {
+export const listenToAuthChanges = async () => {
+  const res = await fetch("/api/auth/check-auth");
+  const { isAuthenticated } = await res.json();
+
+  if (!isAuthenticated) {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      await signOutUser();
+      store.dispatch(logout());
+    }
+    return () => {}; // Return a no-op function to avoid crash
+  }
+
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
       const sanitizedUser = sanitizeFirebaseUser(user as unknown as User);
       if (sanitizedUser) {
@@ -154,8 +166,12 @@ export const listenToAuthChanges = () => {
       } else {
         store.dispatch(logout());
       }
+    } else {
+      store.dispatch(logout());
     }
   });
+
+  return unsubscribe; // Return actual listener cleanup
 };
 
 export const sanitizeFirebaseUser = (user: User | null) => {

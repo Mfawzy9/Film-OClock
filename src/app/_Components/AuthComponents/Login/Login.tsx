@@ -7,8 +7,8 @@ import {
   setUser,
   User,
 } from "@/lib/Redux/localSlices/authSlice";
-import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { sanitizeFirebaseUser, signOutUser } from "@/lib/firebase/authService";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginFormFields, loginSchema } from "@/app/validation/loginValidation";
@@ -17,7 +17,8 @@ import LoginForm from "@/app/_Components/AuthComponents/LoginForm/LoginForm";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { isTokenExpired } from "../../../../../helpers/checkToken";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MdNearbyError } from "react-icons/md";
 
 const Login = () => {
   const t = useTranslations("Login");
@@ -28,6 +29,49 @@ const Login = () => {
   const { isLoading, error, isGoogleLoading } = useSelector(
     (state: RootState) => state.authReducer,
   );
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const checkCookiesAuth = async () => {
+      const res = await fetch("/api/auth/check-auth");
+      const { isAuthenticated } = await res.json();
+      if (
+        searchParams.get("reason") === "session-expired" &&
+        !isAuthenticated
+      ) {
+        signOutUser().then(() => {
+          toast.warning(t("ToastsOrMessages.SessionExpired"), {
+            className:
+              "!text-yellow-200 !text-xl !w-fit !text-nowrap !flex !items-center !gap-5 font-cairo",
+            icon: (
+              <MdNearbyError className="text-yellow-500 text-3xl animate-pulse" />
+            ),
+          });
+        });
+      } else if (auth.currentUser && isAuthenticated) {
+        const previousRoute = sessionStorage.getItem("previousRoute");
+        router.push(previousRoute || "/");
+      }
+    };
+
+    checkCookiesAuth();
+  }, [searchParams, t, router]);
+
+  // Check if user is already authenticated
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     router.push("/");
+  //     return;
+  //   }
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       router.push("/");
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, [router]);
 
   // login
   const handleSubmit = async (inputs: LoginFormFields) => {
@@ -104,21 +148,6 @@ const Login = () => {
     getEmailAndPasswordFromCookies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
-
-  // Check if user is already authenticated
-  useEffect(() => {
-    if (auth.currentUser) {
-      router.push("/");
-      return;
-    }
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        router.push("/");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [router]);
 
   return (
     <>

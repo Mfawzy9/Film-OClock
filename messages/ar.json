@@ -547,7 +547,8 @@
       "InvalidEmailOrPassword": "البريد الإلكتروني او كلمة المرور غير صحيحة.",
       "WrongPassword": "كلمة المرور غير صحيحة.",
       "UserNotFound": "لم يتم العثور على المستخدم.",
-      "LoginFailed": " فشل في تسجيل الدخول"
+      "LoginFailed": " فشل في تسجيل الدخول",
+      "SessionExpired": "يرجى إعادة تسجيل الدخول."
     },
     "Form": {
       "Title": "مرحبًا بعودتك",

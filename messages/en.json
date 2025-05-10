@@ -547,7 +547,8 @@
       "InvalidEmailOrPassword": "Invalid email or password.",
       "WrongPassword": "Wrong password.",
       "UserNotFound": "User not found.",
-      "LoginFailed": " Login failed"
+      "LoginFailed": " Login failed",
+      "SessionExpired": "Session expired, please log in again."
     },
     "Form": {
       "Title": "Welcome Back",

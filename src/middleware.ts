@@ -82,7 +82,7 @@ export async function middleware(request: NextRequest) {
   if (isProtectedRoute) {
     if (!sessionToken) {
       return NextResponse.redirect(
-        new URL(`/${locale}/auth/login`, request.url),
+        new URL(`/${locale}/auth/login?reason=session-expired`, request.url),
       );
     }
 
