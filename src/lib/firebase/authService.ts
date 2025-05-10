@@ -22,6 +22,7 @@ import store from "../Redux/store";
 import { toast } from "sonner";
 import { TFunction } from "../../../global";
 import { clearLibrary } from "../Redux/localSlices/librarySlice";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const auth = getAuth(app);
 
@@ -56,11 +57,17 @@ export const signInWithEmail = async (email: string, password: string) => {
 };
 
 // Google Sign In
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async ({
+  router,
+}: {
+  router: AppRouterInstance;
+}) => {
   try {
     store.dispatch(setGoogleLoading(true));
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider);
+    const previousRoute = sessionStorage.getItem("previousRoute");
+    router.push(previousRoute || "/");
 
     // store tokken in cookies
     const idToken = await userCredential.user.getIdToken();
@@ -69,6 +76,7 @@ export const signInWithGoogle = async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idToken }),
     });
+    document.cookie = "loggedOut=false; path=/;";
 
     if (!sessionRes.ok) {
       throw new Error("Session creation failed");

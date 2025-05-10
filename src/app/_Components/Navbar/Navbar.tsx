@@ -247,7 +247,8 @@ const NavLink = memo(
     if (link.children) {
       return (
         <li
-          className={`relative group ${isActive ? "text-white" : "hover:text-white text-blue-200"}`}
+          className={`relative group ${isActive ? "text-white" : "hover:text-white text-blue-200"}
+            cursor-default`}
         >
           {isActive && (
             <motion.span

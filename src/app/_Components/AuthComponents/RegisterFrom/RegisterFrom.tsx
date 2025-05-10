@@ -10,6 +10,7 @@ import { setError } from "@/lib/Redux/localSlices/authSlice";
 import { signInWithGoogle } from "@/lib/firebase/authService";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface RegisterFormProps {
   formik: FormikProps<RegisterFormFields>;
@@ -27,6 +28,7 @@ const RegisterFrom = ({
   isGoogleLoading,
 }: RegisterFormProps) => {
   const t = useTranslations("Register");
+  const router = useRouter();
 
   return (
     <PageSection className="px-0 flex items-center h-full w-full">
@@ -182,7 +184,7 @@ const RegisterFrom = ({
             <span>{t("Form.Or")}</span>
             <button
               disabled={isGoogleLoading || isLoading || formik.isSubmitting}
-              onClick={signInWithGoogle}
+              onClick={() => signInWithGoogle({ router })}
               type="button"
               className="w-full py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-md shadow-lg text-white
                 font-semibold transition duration-200 flex items-center justify-center gap-2

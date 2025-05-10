@@ -10,6 +10,7 @@ import { AppDispatch } from "@/lib/Redux/store";
 import { SiSpinrilla } from "react-icons/si";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface LoginFormProps {
   formik: FormikProps<LoginFormFields>;
@@ -31,6 +32,8 @@ const LoginForm = ({
   setRememberMe,
 }: LoginFormProps) => {
   const t = useTranslations("Login");
+  const router = useRouter();
+
   return (
     <>
       <PageSection className="!px-2 flex items-center h-full w-full">
@@ -152,7 +155,7 @@ const LoginForm = ({
               <span>{t("Form.Or")}</span>
               <button
                 disabled={isGoogleLoading || isLoading || formik.isSubmitting}
-                onClick={signInWithGoogle}
+                onClick={() => signInWithGoogle({ router })}
                 type="button"
                 className="w-full py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-md shadow-lg text-white
                   font-semibold transition duration-200 flex items-center justify-center gap-2
