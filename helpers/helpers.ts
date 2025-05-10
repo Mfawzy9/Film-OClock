@@ -172,7 +172,7 @@ export const removeDuplicatesById = ({
 
 export const nameToSlug = (name: string) =>
   name
-    .replace(/&/g, "and")
+    ?.replace(/&/g, "and")
     .replace(/[^\p{L}\d\- ]/gu, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
