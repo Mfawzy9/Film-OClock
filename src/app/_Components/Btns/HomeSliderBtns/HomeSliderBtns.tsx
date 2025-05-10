@@ -20,8 +20,7 @@ const HomeSliderBtns = ({
   const detailsLink = `/details/${showType}/${showId}/${nameToSlug(name)}`;
   return (
     <div
-      className={`flex flex-wrap justify-center items-center gap-3 xs:gap-5 mt-2 ${ className ??
-        "" }`}
+      className={`flex flex-wrap justify-center items-center gap-5 mt-2 ${className ?? ""}`}
     >
       <div className="relative inline-flex items-center justify-center gap-4 group">
         <div
@@ -40,11 +39,9 @@ const HomeSliderBtns = ({
         </Link>
       </div>
 
-      {/* <div className="hidden xs:block"> */}
       {new Date(releaseDate) <= new Date() && (
         <WatchBtn showType={showType} showId={showId} name={name} />
       )}
-      {/* </div> */}
 
       <TrailerBtn showType={showType} showId={showId} />
     </div>
