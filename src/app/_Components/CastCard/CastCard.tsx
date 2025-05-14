@@ -166,7 +166,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
                           (work as PopularPersonTvShowI).original_name
                         }
                         loading="lazy"
-                        className={`rounded-md w-auto h-auto object-cover group-hover:scale-110
+                        className={`rounded-md w-auto h-auto object-cover lg:group-hover:scale-110
                         ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                         transition-[transform,opacity] duration-300 transform-gpu ease-out `}
                         onLoad={() =>
@@ -181,10 +181,10 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
             {/* view profile */}
             <Link
               href={`/details/person/${person?.id}/${nameToSlug(person?.name ?? "")}`}
-              title="View Profile"
+              title={t("featuredCast.ViewProfile")}
               onClick={scrollToTop}
-              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-600 hover:shadow-blueGlow px-4
-                py-2 h-10 self-end rounded text-white flex-none"
+              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-600 lg:hover:shadow-blueGlow
+                px-4 py-2 h-10 self-end rounded text-white flex-none"
             >
               <span>{t("featuredCast.ViewProfile")}</span>
               <FaChevronCircleUp />

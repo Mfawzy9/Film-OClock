@@ -84,7 +84,7 @@ const WatchlistFavoriteDD = ({
         }}
         className={`flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
           whitespace-nowrap
-          ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-blue-700 hover:shadow-blueGlow"}`}
+          ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-blue-700 lg:hover:shadow-blueGlow"}`}
       >
         {isLoading ? (
           <PiSpinnerGapBold className="animate-spin text-xl" />
@@ -172,7 +172,7 @@ const WatchlistFavoriteDD = ({
                 <Link
                   href={watchHref}
                   className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
-                    hover:bg-blue-700 hover:shadow-blueGlow cursor-pointer"
+                    hover:bg-blue-700 lg:hover:shadow-blueGlow cursor-pointer"
                 >
                   <FaPlay className="text-xl" />
                   {t("Watch")}
@@ -183,7 +183,7 @@ const WatchlistFavoriteDD = ({
               <button
                 onClick={handleShareClick}
                 className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
-                  hover:bg-blue-700 hover:shadow-blueGlow cursor-pointer w-full"
+                  hover:bg-blue-700 lg:hover:shadow-blueGlow cursor-pointer w-full"
               >
                 <FiShare2 className="text-xl" />
                 {t("Share")}

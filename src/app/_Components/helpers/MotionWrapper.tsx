@@ -1,35 +1,54 @@
-import { motion, MotionProps } from "framer-motion";
-import { ElementType, ReactNode, ComponentPropsWithoutRef } from "react";
+import { useState, useEffect, ReactNode, HTMLAttributes, useRef } from "react";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
+import type { HTMLMotionProps } from "framer-motion";
 
-type MotionWrapperProps<T extends ElementType> = {
-  as?: T;
-  isDesktop: boolean;
+type Props = {
   children: ReactNode;
+  motionProps?: HTMLMotionProps<"div"> & { key?: React.Key };
+  fallbackProps?: HTMLAttributes<HTMLDivElement>;
   className?: string;
-} & MotionProps &
-  ComponentPropsWithoutRef<T>;
+};
 
-export default function MotionWrapper<T extends ElementType = "div">({
-  isDesktop,
+export default function MotionWrapper({
   children,
+  motionProps = {},
+  fallbackProps,
   className,
-  as,
-  ...rest
-}: MotionWrapperProps<T>) {
-  const Component = as || "div";
+}: Props) {
+  const [MotionDiv, setMotionDiv] = useState<React.ComponentType<any> | null>(
+    null,
+  );
+  const isDesktop = useIsDesktop();
+  const mountedRef = useRef(true);
 
-  if (!isDesktop) {
+  useEffect(() => {
+    mountedRef.current = true;
+
+    if (isDesktop && !MotionDiv) {
+      import("framer-motion").then((mod) => {
+        if (mountedRef.current) {
+          setMotionDiv(() => mod.motion.div);
+        }
+      });
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [isDesktop, MotionDiv]);
+
+  if (isDesktop && MotionDiv) {
+    const { key, ...rest } = motionProps;
     return (
-      <Component className={className} {...rest}>
+      <MotionDiv key={key} {...rest} className={className}>
         {children}
-      </Component>
+      </MotionDiv>
     );
   }
 
-  const MotionComponent = motion.create(Component) as ElementType;
   return (
-    <MotionComponent className={className} {...rest}>
+    <div {...fallbackProps} className={className}>
       {children}
-    </MotionComponent>
+    </div>
   );
 }

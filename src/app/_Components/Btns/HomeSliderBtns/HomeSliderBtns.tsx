@@ -26,12 +26,12 @@ const HomeSliderBtns = ({
         <div
           className="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r
             from-blue-600 via-blue-600 to-blue-400 rounded-xl blur-lg filter
-            group-hover:opacity-100 group-hover:duration-200"
+            lg:group-hover:opacity-100 group-hover:duration-200"
         />
         <Link
           className="group relative inline-flex items-center justify-center rounded-xl bg-gray-950
             px-6 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-950
-            hover:shadow-lg hover:-translate-y-0.5 hover:shadow-graybg-gray-950/30"
+            lg:hover:shadow-lg lg:hover:-translate-y-0.5"
           href={detailsLink}
         >
           <TbListDetails className="me-1" />

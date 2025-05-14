@@ -83,10 +83,10 @@ const MobileMenu = ({
           <motion.li
             variants={linksVariants}
             key={link.name}
-            className={`relative group ${isActive ? "text-blue-700" : ""} cursor-pointer`}
+            className={`relative group ${isActive ? "text-blue-700" : ""} `}
             onClick={() => handleTvAndMoviesMenu(link.name.toLowerCase())}
           >
-            <span className="flex items-center justify-center gap-1">
+            <span className="flex items-center justify-center gap-1 cursor-pointer">
               {link.name}
               <MdArrowDropDown
                 className={`${isSubmenuOpen ? "rotate-180" : ""} transition-all duration-200 text-lg`}
@@ -102,12 +102,14 @@ const MobileMenu = ({
                 link.children.map((child) => (
                   <li
                     key={child.name}
-                    className={`text-base
-                    ${currentPath === child.href.split("?")[0] ? "bg-blue-700 rounded" : ""}`}
+                    className={`text-base text-gray-300 transition-all duration-200 hover:bg-blue-700
+                    hover:text-white rounded px-2 py-1
+                    ${currentPath === child.href.split("?")[0] ? "bg-blue-700 rounded" : ""}
+                    cursor-pointer`}
                   >
                     <Link
                       href={child.href}
-                      className="px-2 py-1 transition-all duration-200 hover:bg-blue-700 block rounded"
+                      className=""
                       onClick={(e) => handleLinkClick(e, child.href)}
                     >
                       {child.name}

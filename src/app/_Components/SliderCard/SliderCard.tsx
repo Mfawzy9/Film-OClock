@@ -119,7 +119,7 @@ const SliderCard = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className={`object-cover ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out
-              group-hover:scale-105 `}
+              lg:group-hover:scale-105 `}
             loading={idx < 3 ? "eager" : "lazy"}
             priority={idx < 3}
             onLoad={() => dispatch(setImageLoaded(posterSrc))}

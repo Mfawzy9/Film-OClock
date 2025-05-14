@@ -48,7 +48,7 @@ const ImgCard = memo(
           className={`object-cover w-full h-auto aspect-video rounded-lg
             ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
             transition-[transform,opacity] duration-300 transform-gpu ease-out
-            hover:scale-110 `}
+            lg:hover:scale-110 `}
           priority={index < 3}
           loading={index < 3 ? "eager" : "lazy"}
           onLoad={() => {

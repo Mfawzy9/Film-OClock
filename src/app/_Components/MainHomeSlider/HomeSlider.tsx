@@ -23,7 +23,7 @@ const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
     null as SwiperType | null,
   );
 
-  const { genres } = useGetGenres({
+  const { genres, genresLoading } = useGetGenres({
     showType: "movie",
     lang: isArabic ? "ar" : "en",
   });
@@ -68,6 +68,7 @@ const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
             >
               {({ isActive, isVisible }) => (
                 <HomeSliderContent
+                  genresLoading={genresLoading}
                   movie={movie}
                   isActive={isActive}
                   isVisible={isVisible}

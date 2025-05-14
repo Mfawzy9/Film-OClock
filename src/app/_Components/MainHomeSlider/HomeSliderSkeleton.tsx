@@ -6,7 +6,10 @@ const HomeSliderSkeleton = () => {
           xl:justify-around relative gap-6 4xl:pt-48"
       >
         {/* Left Text Skeleton */}
-        <div className="flex flex-col gap-4 w-full lg:max-w-screen-sm animate-pulse">
+        <div
+          className="flex flex-col items-center sm:items-start gap-4 w-full lg:max-w-screen-sm
+            animate-pulse"
+        >
           <div className="h-8 w-2/3 bg-gray-700 rounded" />
           <div className="flex flex-wrap gap-2">
             {Array(3)
@@ -20,9 +23,15 @@ const HomeSliderSkeleton = () => {
                 </span>
               ))}
           </div>
-          <div className="h-20 w-full bg-gray-800 rounded" />
+
+          <div className="space-y-2 w-full">
+            <div className="h-5 w-full bg-gray-800 rounded" />
+            <div className="h-5 w-full bg-gray-800 rounded" />
+            <div className="h-5 w-3/4 bg-gray-800 rounded" />
+          </div>
+
           {/* Buttons skeleton */}
-          <div className="w-full mt-4">
+          <div className="w-full">
             <div className="flex flex-wrap justify-center xs:justify-start items-center gap-5 mt-2">
               <div className="w-32 h-12 bg-gray-700 rounded-xl animate-pulse"></div>
               <div className="w-32 h-12 bg-gray-700 rounded-xl animate-pulse"></div>

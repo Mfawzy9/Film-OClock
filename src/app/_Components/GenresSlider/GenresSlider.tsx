@@ -53,7 +53,7 @@ const GenreCard = memo(
             : `/shows/all/tv?page=1&genre=${genre.id}&genreName=${genre.name}`
         }
         className={`relative group block overflow-hidden rounded-xl shadow-blueGlow shadow-white
-          hover:shadow-blueGlow transition-shadow duration-700 xs:w-[250] sm:w-auto
+          lg:hover:shadow-blueGlow transition-shadow duration-700 xs:w-[250] sm:w-auto
           mx-auto`}
         style={{ transform: `rotate(${randomRotation}deg)` }}
       >
@@ -65,8 +65,8 @@ const GenreCard = memo(
           alt={genre.name}
           width={350}
           height={200}
-          className={`w-full h-full object-cover group-hover:scale-150 transition-transform
-            group-hover:-rotate-12
+          className={`w-full h-full object-cover lg:group-hover:scale-150 transition-transform
+            lg:group-hover:-rotate-12
             ${isImgLoaded ? "opacity-100 scale-100 duration-1000" : "opacity-0 scale-90 duration-300"}
             transition-[transform,opacity] transform-gpu ease-out`}
           onLoad={() => dispatch(setImageLoaded(backdropPath))}
@@ -74,8 +74,8 @@ const GenreCard = memo(
 
         <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
           <h3
-            className="text-2xl font-sans text-center font-bold text-white mt-2 group-hover:scale-75
-              transition-transform duration-1000 group-hover:-rotate-12"
+            className="text-2xl font-sans text-center font-bold text-white mt-2 lg:group-hover:scale-75
+              transition-transform duration-1000 lg:group-hover:-rotate-12"
           >
             {genre.name}
           </h3>

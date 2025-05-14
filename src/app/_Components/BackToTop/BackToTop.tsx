@@ -31,7 +31,7 @@ const BackToTop = () => {
             <span
               className="text absolute bottom-[-20px] rounded w-fit whitespace-nowrap py-0.5 px-1
                 text-white bg-gray-950/70 text-[0.7em] opacity-0 flex items-center
-                justify-center transition-opacity duration-500 group-hover:opacity-100
+                justify-center transition-opacity duration-500 lg:group-hover:opacity-100
                 group-hover:animate-slide-in-bottom pointer-events-none"
             >
               Back to top

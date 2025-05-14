@@ -80,7 +80,7 @@ const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
               <Link
                 className="flex-none max-h-11 relative flex items-center justify-center rounded-xl
                   bg-gray-950 px-6 py-3.5 font-semibold text-white transition-all duration-200
-                  hover:bg-gray-950 hover:-translate-y-0.5 hover:shadow-blueGlow"
+                  hover:bg-gray-950 hover:-translate-y-0.5 lg:hover:shadow-blueGlow"
                 href={`/details/${show.showType}/${show.id}/${nameToSlug(
                   getShowTitle({
                     isArabic,

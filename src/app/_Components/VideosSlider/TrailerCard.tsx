@@ -49,7 +49,7 @@ const TrailerCard = ({
             alt={name + " | " + name}
             width={350}
             height={200}
-            className={`rounded-md group-hover:scale-105 relative z-0 w-full h-full
+            className={`rounded-md lg:group-hover:scale-105 relative z-0 w-full h-full
               ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out `}
             onLoad={() => dispatch(setImageLoaded(videoKey))}
@@ -62,7 +62,10 @@ const TrailerCard = ({
           <h6 className="absolute bottom-0 end-0 bg-black/80 py-1 px-2 z-10">
             <VideoDuration videoKey={videoKey} />
           </h6>
-          <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/50"></div>
+          <div
+            className="absolute inset-0 flex items-center justify-center bg-black/30
+              group-hover:bg-black/60"
+          ></div>
         </div>
         <Link
           href={`/details/${showType}/${showId}/${nameToSlug(name)}`}

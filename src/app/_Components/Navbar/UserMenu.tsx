@@ -161,7 +161,7 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
             <button
               onClick={handleLogout}
               className="w-full px-4 py-1 hover:text-white transition-all duration-300 flex items-center
-                gap-1 hover:bg-red-800 hover:shadow-[0_0_10px_#9b1c1c]"
+                gap-1 hover:bg-red-800 lg:hover:shadow-[0_0_10px_#9b1c1c]"
             >
               <VscSignOut className="text-xl" /> {t("Logout")}
             </button>

@@ -10,7 +10,6 @@ import { RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle } from "../../../../helpers/helpers";
-import useIsDesktop from "@/app/hooks/useIsDesktop";
 import MotionWrapper from "../helpers/MotionWrapper";
 
 const imgVariants: Variants = {
@@ -36,24 +35,35 @@ const HomeSliderContent = ({
   isActive,
   genreNames,
   isVisible,
+  genresLoading,
 }: {
   movie: MovieTrendsI;
   isActive: boolean;
   isVisible: boolean;
   genreNames: string[];
+  genresLoading: boolean;
 }) => {
   const { isArabic } = useIsArabic();
-  const isDesktop = useIsDesktop();
+
   const genreList = useMemo(() => {
-    return genreNames.map((genre, idx) => (
-      <span
-        key={`${genre}-${idx}`}
-        className="bg-gray-900 text-white px-1 py-0.5 sm:font-semibold"
-      >
-        {genre}
-      </span>
-    ));
-  }, [genreNames]);
+    return genreNames.map((genre, idx) =>
+      genresLoading ? (
+        <span
+          key={`skeleton-genre-${idx}`}
+          className="bg-gray-800 text-transparent px-1 sm:font-semibold animate-pulse rounded"
+        >
+          Genress
+        </span>
+      ) : (
+        <span
+          key={`${genre}-${idx}`}
+          className="bg-gray-900 text-white px-1 py-0.5 sm:font-semibold"
+        >
+          {genre}
+        </span>
+      ),
+    );
+  }, [genreNames, genresLoading]);
 
   const imgSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.poster_path}`;
   const backdropSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`;
@@ -90,10 +100,11 @@ const HomeSliderContent = ({
         >
           {/* Left Text Content */}
           <MotionWrapper
-            isDesktop={isDesktop}
-            variants={contentVariants}
-            initial="hidden"
-            animate={isActive && isVisible ? "visible" : "hidden"}
+            motionProps={{
+              variants: contentVariants,
+              initial: "hidden",
+              animate: isActive && isVisible ? "visible" : "hidden",
+            }}
             className="flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
               lg:max-w-screen-sm 2xl:max-w-screen-md transform-gpu"
           >
@@ -141,10 +152,11 @@ const HomeSliderContent = ({
 
           {/* Movie Poster */}
           <MotionWrapper
-            isDesktop={isDesktop}
-            variants={imgVariants}
-            initial="hidden"
-            animate={isActive && isVisible ? "visible" : "hidden"}
+            motionProps={{
+              variants: imgVariants,
+              initial: "hidden",
+              animate: isActive && isVisible ? "visible" : "hidden",
+            }}
             className="sm:w-[300px] sm:h-[450px] flex-none relative hidden lg:block"
           >
             {!isLoaded && <BgPlaceholder />}

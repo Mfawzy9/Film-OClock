@@ -119,7 +119,7 @@ const LatestWorks = ({
                       ""
                     }
                     loading="lazy"
-                    className={`rounded-md w-auto h-auto object-cover group-hover:scale-110
+                    className={`rounded-md w-auto h-auto object-cover lg:group-hover:scale-110
                     ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                     transition-[transform,opacity] duration-300 transform-gpu ease-out `}
                     onLoad={() => dispatch(setImageLoaded(work?.poster_path))}

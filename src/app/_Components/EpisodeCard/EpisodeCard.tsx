@@ -74,7 +74,7 @@ const EpisodeCard = ({
     <div
       onClick={onReadMore}
       className="relative flex flex-col rounded-xl bg-gradient-to-br from-black to-gray-800
-        shadow-blue-700 text-gray-700 shadow hover:shadow-md hover:shadow-blue-500
+        shadow-blue-700 text-gray-700 shadow lg:hover:shadow-md lg:hover:shadow-blue-500
         cursor-pointer transition-all duration-200 hover:-translate-y-1"
     >
       <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl shadow shadow-blue-700">
@@ -124,9 +124,9 @@ const EpisodeCard = ({
         <button
           onClick={onReadMore}
           className="rounded-lg bg-blue-700 py-3 px-6 text-center align-middle text-xs font-bold
-            uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-            hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none
-            active:opacity-[0.85] active:shadow-none grow"
+            uppercase text-white shadow-md shadow-blue-500/20 transition-all
+            lg:hover:shadow-lg lg:hover:shadow-blue-500/40 focus:opacity-[0.85]
+            focus:shadow-none active:opacity-[0.85] active:shadow-none grow"
         >
           {t("Tabs.EpisodeCard.ReadMore")}
         </button>
@@ -139,10 +139,10 @@ const EpisodeCard = ({
             }}
             href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
             className="rounded-lg bg-teal-800 py-3 px-6 text-center align-middle text-xs font-bold
-              uppercase text-white shadow-md shadow-teal-500/20 transition-all hover:shadow-lg
-              hover:shadow-teal-500/40 focus:opacity-[0.85] focus:shadow-none
-              active:opacity-[0.85] active:shadow-none flex items-center gap-1 grow
-              justify-center"
+              uppercase text-white shadow-md shadow-teal-500/20 transition-all
+              lg:hover:shadow-lg lg:hover:shadow-teal-500/40 focus:opacity-[0.85]
+              focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center
+              gap-1 grow justify-center"
           >
             <FaRegPlayCircle className="text-lg" />{" "}
             {t("Tabs.EpisodeCard.Watch")}

@@ -78,8 +78,7 @@ const HomeComp = () => {
     }
   }, []);
 
-  if (trendingLoading || trendingError || !filteredTrendingMovies)
-    return <HomeSliderSkeleton />;
+  if (trendingLoading || trendingError) return <HomeSliderSkeleton />;
 
   return (
     <>

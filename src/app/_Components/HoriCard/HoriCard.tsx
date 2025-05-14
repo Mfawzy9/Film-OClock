@@ -60,9 +60,9 @@ const HoriCard = ({
   return (
     <>
       <div
-        className={`hover:border-s-4 border-opacity-0 hover:border-opacity-100 border-blue-600
+        className={`lg:hover:border-s-4 border-opacity-0 lg:hover:border-opacity-100 border-blue-600
           rounded-md cursor-pointer transition-all duration-200 relative
-          hover:translate-y-1.5 hover:shadow-lg hover:shadow-blue-600/30 w-fit sm:w-full
+          lg:hover:translate-y-1.5 lg:hover:shadow-lg lg:hover:shadow-blue-600/30 w-full
           ${isActive ? "border-opacity-100 translate-y-1.5 shadow-lg shadow-blue-600/30 border-s-4" : "ring-1 ring-gray-600/25 rounded-md"}`}
       >
         {/* dropdown */}
@@ -78,16 +78,17 @@ const HoriCard = ({
           {!isImgLoaded && <BgPlaceholder />}
           <div
             className={`transition-[transform,opacity] duration-500 transform-gpu ease-out rounded-md
-              ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
+              ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"} relative
+              aspect-[450/250]`}
           >
             <Image
               src={backdrop_path}
-              width={450}
-              height={250}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={title}
               priority={idx === 0}
               loading={idx === 0 ? "eager" : "lazy"}
-              className="object-cover object-left-bottom h-full w-full"
+              className="object-cover object-left-bottom"
               onLoad={() => dispatch(setImageLoaded(backdrop_path))}
             />
             <div

@@ -151,8 +151,8 @@ const EpisodeModal = ({
                 }}
                 href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
                 className="rounded-lg mt-2 bg-blue-800 py-3 px-6 text-center align-middle text-sm font-bold
-                  text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-                  hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none
+                  text-white shadow-md shadow-blue-500/20 transition-all lg:hover:shadow-lg
+                  lg:hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none
                   active:opacity-[0.85] active:shadow-none flex items-center gap-1 justify-center"
               >
                 <FaRegPlayCircle className="text-2xl" />{" "}

@@ -27,8 +27,8 @@ const NotFound = async () => {
             <Link href={"/"}>
               <button
                 className="text-lg outline-none py-3 text-white px-5 bg-blue-700 rounded-lg
-                  focus:outline-none transform transition-all hover:scale-110 hover:text-gray-50
-                  dark:bg-blue-900"
+                  focus:outline-none transform transition-all lg:hover:scale-110
+                  hover:text-gray-50 dark:bg-blue-900"
               >
                 {t("GoBackBtn")}
               </button>

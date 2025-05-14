@@ -59,7 +59,7 @@ const SocialLinks = ({ externalIds, isPerson = false }: SocialLinksProps) => {
           key={index}
           href={link?.link(link.id as string, isPerson)}
           target="_blank"
-          className="hover:text-blue-400 hover:scale-125 transition-all duration-200"
+          className="hover:text-blue-400 lg:hover:scale-125 transition-all duration-200"
           rel="noopener noreferrer"
         >
           {link?.icon}

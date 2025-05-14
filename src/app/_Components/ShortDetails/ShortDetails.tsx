@@ -122,7 +122,7 @@ const ShortDetails = ({
             className={`object-cover object-center transition-[transform,opacity] transform-gpu
               duration-[2000ms]
               ${isImgLoaded ? "opacity-100 scale-100 " : "opacity-0 scale-90 "}
-              group-hover:scale-125 z-0`}
+              lg:group-hover:scale-125 z-0`}
             onLoad={() => dispatch(setImageLoaded(backdropPath))}
           />
 

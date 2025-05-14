@@ -27,7 +27,8 @@ const CastCard = memo(
   ({ cast, isLoaded, idx, dispatch, isArabic }: CastCardProps) => {
     return (
       <Link
-        className="w-36 flex-shrink-0 hover:scale-105 transition-all duration-200 overflow-hidden"
+        className="w-36 flex-shrink-0 lg:hover:scale-105 transition-all duration-200
+          overflow-hidden"
         key={`${cast.credit_id}-${idx}`}
         href={`/details/person/${cast.id}/${nameToSlug(isArabic ? cast?.original_name : (cast?.name ?? ""))}`}
       >
@@ -196,9 +197,8 @@ const Casts = ({
 
                   return (
                     <Link
-                      className={
-                        " w-36 flex-shrink-0 hover:scale-105 transition-all duration-200 overflow-hidden"
-                      }
+                      className={` w-36 flex-shrink-0 lg:hover:scale-105 transition-all duration-200
+                        overflow-hidden`}
                       key={`${cast.credit_id}-${idx}`}
                       href={`/details/person/${cast.id}/${nameToSlug(cast?.name ?? "")}`}
                     >

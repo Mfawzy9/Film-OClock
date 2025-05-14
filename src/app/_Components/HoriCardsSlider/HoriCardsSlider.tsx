@@ -17,7 +17,6 @@ import HoriSkeletonSlider from "./HoriSkeletonSlider";
 import Image from "next/image";
 import { getShowTitle } from "../../../../helpers/helpers";
 import MotionWrapper from "../helpers/MotionWrapper";
-import useIsDesktop from "@/app/hooks/useIsDesktop";
 
 const sectionBgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280;
 
@@ -47,7 +46,6 @@ const HoriCardsSlider = ({
   const [isEnd, setIsEnd] = useState(false);
   const [activeBackdrop, setActiveBackdrop] = useState<string | null>(null);
   const { isArabic } = useIsArabic();
-  const isDesktop = useIsDesktop();
 
   const handleNavigate = useCallback(
     (direction: "next" | "prev") =>
@@ -131,12 +129,13 @@ const HoriCardsSlider = ({
         <AnimatePresence>
           {activeBackdrop && (
             <MotionWrapper
-              isDesktop={isDesktop}
-              key={activeBackdrop}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={bgVariants}
+              motionProps={{
+                variants: bgVariants,
+                initial: "hidden",
+                animate: "visible",
+                exit: "exit",
+                key: activeBackdrop,
+              }}
               className="absolute inset-0"
             >
               <div className="absolute inset-0 bg-black/70 z-10" />

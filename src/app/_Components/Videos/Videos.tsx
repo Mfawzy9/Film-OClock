@@ -47,7 +47,7 @@ const VideoCard = memo(
             alt={video.name + " | " + name}
             width={600}
             height={400}
-            className={`rounded-md group-hover:scale-105 relative z-0
+            className={`rounded-md lg:group-hover:scale-105 relative z-0
               ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out `}
             onLoad={() => dispatch(setImageLoaded(video.key))}
@@ -61,7 +61,10 @@ const VideoCard = memo(
           <h6 className="absolute bottom-0 right-0 bg-black/80 py-1 px-2 z-10">
             <VideoDuration videoKey={video.key} />
           </h6>
-          <div className="absolute inset-0 flex items-center justify-center group-hover:bg-black/50"></div>
+          <div
+            className="absolute inset-0 flex items-center justify-center bg-black/30
+              group-hover:bg-black/60"
+          ></div>
         </div>
         <p className="text-sm mt-2 line-clamp-1 ps-2">{video.name}</p>
         <span className="text-xs text-gray-400 ps-2">{video.type}</span>

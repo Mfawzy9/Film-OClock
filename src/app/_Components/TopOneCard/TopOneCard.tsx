@@ -158,8 +158,8 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
             {/* view profile */}
             <Link
               href={`/details/person/${topOne?.id}/${nameToSlug(topOne?.name)}`}
-              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-600 hover:shadow-blueGlow px-4
-                py-2 self-end rounded text-white flex-none"
+              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-600 lg:hover:shadow-blueGlow
+                px-4 py-2 self-end rounded text-white flex-none"
             >
               <span>{t("TopOne.ViewProfile")}</span>
               <FaChevronCircleUp />

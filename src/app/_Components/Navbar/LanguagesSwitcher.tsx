@@ -22,7 +22,7 @@ export default function LanguageSwitcher() {
     <button
       onClick={() => handleChange(locale === "en" ? "ar" : "en")}
       className="flex items-center gap-1 font-roboto bg-gray-800 shadow shadow-gray-500
-        hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white"
+        lg:hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white"
     >
       <GrLanguage /> <span>{locale === "en" ? "ع" : "EN"}</span>
     </button>

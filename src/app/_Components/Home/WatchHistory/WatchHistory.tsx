@@ -96,7 +96,7 @@ const WatchHistory = () => {
             <motion.div
               key={`show.id-${show.id}`}
               className="relative w-52 flex-none bg-gray-900 rounded-md border border-gray-700
-                hover:shadow-blueGlow hover:shadow-blue-700/70"
+                lg:hover:shadow-blueGlow lg:hover:shadow-blue-700/70"
               layout
             >
               {/* delete button */}

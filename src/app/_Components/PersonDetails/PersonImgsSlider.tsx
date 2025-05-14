@@ -120,7 +120,7 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
                             height={300}
                             src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${img.file_path}`}
                             alt={`profile picture from ${name}`}
-                            className={`object-cover rounded-lg transition-all hover:scale-110 duration-300
+                            className={`object-cover rounded-lg transition-all lg:hover:scale-110 duration-300
                               ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
                               transition-[transform,opacity] transform-gpu ease-out`}
                             priority={index < 3}
