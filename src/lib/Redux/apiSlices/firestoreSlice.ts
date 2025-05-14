@@ -348,3 +348,5 @@ export const {
   useIsInWatchedQuery,
   useLazyIsInWatchedQuery,
 } = firestoreApi;
+
+export default firestoreApi;

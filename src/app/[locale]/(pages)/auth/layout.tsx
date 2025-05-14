@@ -1,11 +1,21 @@
 import Image from "next/image";
 import formBg from "../../../../../public/images/formsBg.jpg";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookiesStore = await cookies();
+  const sessionToken = cookiesStore.get("session")?.value;
+  const loggedOutStatus = cookiesStore.get("loggedOut")?.value;
+
+  if (sessionToken && loggedOutStatus === "false") {
+    redirect("/");
+  }
+
   return (
     <div className="relative min-h-screen w-full py-20 flex items-center justify-center">
       {/* Background Image with Dark Overlay */}

@@ -18,7 +18,7 @@ import WlCard from "../WlCard/WlCard";
 import TitleClearBtn from "../TitleClearBtn/TitleClearBtn";
 import EmptyWl from "../EmptyWl/EmptyWl";
 import EmptyFav from "../EmptyFav/EmptyFav";
-import WlSearch from "../WlSearch/WlSearch";
+import LibSearch from "../LibSearch/LibSearch";
 import { useTranslations } from "next-intl";
 import CardsSlider from "../../CardsSlider/CardsSlider";
 
@@ -41,11 +41,7 @@ const LibraryClient = () => {
     isFetching,
   } = useGetLibraryQuery(
     { userId: user?.uid || "", library: libraryType },
-    {
-      skip: !user,
-      refetchOnMountOrArgChange: false,
-      refetchOnFocus: false,
-    },
+    { skip: !user },
   );
 
   const { handleClearLibrary, isClearLoading, favorites, watchlist } =
@@ -111,7 +107,7 @@ const LibraryClient = () => {
           {libraryType === "watchlist" && watchlist?.length > 0 && (
             <>
               {watchlist.length > 2 && (
-                <WlSearch
+                <LibSearch
                   setSearchTerm={setSearchTerm}
                   searchTerm={searchTerm}
                   libraryWord="Watchlist"

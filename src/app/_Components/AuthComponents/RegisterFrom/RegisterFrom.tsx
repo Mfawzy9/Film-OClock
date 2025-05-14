@@ -10,7 +10,7 @@ import { setError } from "@/lib/Redux/localSlices/authSlice";
 import { signInWithGoogle } from "@/lib/firebase/authService";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 interface RegisterFormProps {
   formik: FormikProps<RegisterFormFields>;

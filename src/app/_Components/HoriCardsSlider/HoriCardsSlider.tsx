@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { debounce } from "lodash";
 import HoriCard from "../HoriCard/HoriCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
@@ -16,6 +16,8 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import HoriSkeletonSlider from "./HoriSkeletonSlider";
 import Image from "next/image";
 import { getShowTitle } from "../../../../helpers/helpers";
+import MotionWrapper from "../helpers/MotionWrapper";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
 
 const sectionBgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280;
 
@@ -45,6 +47,7 @@ const HoriCardsSlider = ({
   const [isEnd, setIsEnd] = useState(false);
   const [activeBackdrop, setActiveBackdrop] = useState<string | null>(null);
   const { isArabic } = useIsArabic();
+  const isDesktop = useIsDesktop();
 
   const handleNavigate = useCallback(
     (direction: "next" | "prev") =>
@@ -127,7 +130,8 @@ const HoriCardsSlider = ({
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <AnimatePresence>
           {activeBackdrop && (
-            <motion.div
+            <MotionWrapper
+              isDesktop={isDesktop}
               key={activeBackdrop}
               initial="hidden"
               animate="visible"
@@ -150,7 +154,7 @@ const HoriCardsSlider = ({
                       activeBackdrop === `${sectionBgUrl}${item.backdrop_path}`,
                   )}
               />
-            </motion.div>
+            </MotionWrapper>
           )}
         </AnimatePresence>
       </div>
@@ -182,7 +186,7 @@ const HoriCardsSlider = ({
             navigation={false}
             virtual
             lazyPreloadPrevNext={2}
-            className="!py-5 !px-1"
+            className="!pt-5 !pb-12 !px-1"
           >
             {data?.slice(0, 20).map((theShow, idx) => {
               if (!theShow.backdrop_path) return null;

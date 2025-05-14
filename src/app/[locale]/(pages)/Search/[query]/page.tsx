@@ -12,6 +12,7 @@ interface SearchPageProps {
   }>;
   searchParams: Promise<{
     page: string;
+    results: string;
   }>;
 }
 
@@ -120,7 +121,7 @@ export async function generateMetadata({
 
 const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
   const { locale, query } = await params;
-  const { page } = await searchParams;
+  const { page, results } = await searchParams;
   const pageNumber = Number(page) || 1;
   const decodedQuery = decodeURIComponent(query);
 
@@ -179,6 +180,7 @@ const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
       />
       <SearchPageComp
         page={pageNumber}
+        results={results}
         query={decodedQuery}
         locale={locale}
         initialMovies={initialMovies}

@@ -61,7 +61,7 @@ const ProfileDetails = ({ user, setActiveTab }: ProfileDetailsProps) => {
                       {t("DetailsPart.NotVerified")}
                     </span>
                     <button
-                      onClick={() => setActiveTab("Settings")}
+                      onClick={() => setActiveTab(t("SettingsTab"))}
                       className="text-blue-400 hover:underline"
                     >
                       {t("DetailsPart.Verify")}

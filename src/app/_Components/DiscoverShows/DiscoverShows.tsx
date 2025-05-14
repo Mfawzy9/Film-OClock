@@ -27,7 +27,7 @@ import {
   yearsWithT,
 } from "./showsNeeds";
 import { useLocale, useTranslations } from "next-intl";
-import CardsSkeletons from "../Card/CardsSkeletons";
+import DiscoverShowsSkeletons from "./DiscoverShowsSkeletons";
 
 type ShowType = "movie" | "tv";
 
@@ -188,12 +188,18 @@ const DiscoverShows = ({ showType, pageTitle }: Props) => {
   const totalPages =
     (data as MoviesResponse | TVShowsResponse)?.total_pages || 1;
 
-  if (isLoading) return <CardsSkeletons title={pageTitle} />;
+  if (isLoading)
+    return (
+      <DiscoverShowsSkeletons
+        pageTitle={pageTitle}
+        filterConfigs={filterConfigs}
+      />
+    );
 
   return (
     <PageSection>
       <div className="flex flex-col gap-2 sm:gap-5 sm:flex-row items-center justify-between flex-wrap">
-        <Title title={pageTitle} />
+        <Title title={pageTitle} className="!mb-0" />
         <div className="flex items-center justify-center gap-4 lg:gap-2 flex-wrap">
           {filterConfigs.map((config) =>
             config.multiSelect ? (

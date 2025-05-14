@@ -9,6 +9,9 @@ import { getTranslations } from "next-intl/server";
 import { siteBaseUrl } from "../../../helpers/serverBaseUrl";
 import NoInternetToast from "../_Components/NoInternetToast/NoInternetToast";
 import { WithContext, Organization } from "schema-dts";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "../error";
+import ChunkErrorBoundary from "../_Components/ChunkErrorBoundary";
 
 import "swiper/css";
 
@@ -40,11 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: t("MainPage.Title"),
       locale: locale === "ar" ? "ar_EG" : "en_US",
       type: "website",
+      images: [`${siteBaseUrl}/logoImg.png`, `${siteBaseUrl}/logo.webp`],
     },
     twitter: {
       card: "summary_large_image",
       title: t("MainPage.Title"),
       description: t("MainPage.Description"),
+      images: [`${siteBaseUrl}/logoImg.png`],
     },
     robots: {
       index: true,
@@ -135,30 +140,59 @@ export default async function LocaleLayout({
           }}
         />
 
+        {/* Global Chunk Error Handler */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+      window.addEventListener("error", function (e) {
+        if (
+          e.message?.includes("Failed to fetch dynamically imported module") ||
+          e.message?.includes("Failed to load chunk") ||
+          e.message?.includes("Importing a module script failed")
+        ) {
+          const message = ${
+            isArabic
+              ? `"حدث خطأ أثناء تحميل التطبيق. سيتم إعادة تحميل الصفحة."`
+              : `"There is a problem loading the application. The page will reload."`
+          };
+          alert(message);
+          caches.keys().then(function (names) {
+            for (let name of names) caches.delete(name);
+          }).finally(() => {
+            window.location.reload(true);
+          });
+        }
+      });
+    `,
+          }}
+        />
         {/* favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body
-        className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
-          ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-50 text-gray-950
-          dark:bg-gray-950 dark:text-gray-50 `}
-      >
-        <NextIntlClientProvider>
-          <NoInternetToast />
-          <App>
-            {children}
-            <Toaster
-              theme="dark"
-              toastOptions={{
-                classNames: {
-                  error: "!border !border-red-500 !text-red-500",
-                  success: "!border !border-green-500 !text-green-500",
-                },
-              }}
-            />
-          </App>
-        </NextIntlClientProvider>
-      </body>
+      <ErrorBoundary errorComponent={Error}>
+        <body
+          className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
+            ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50 `}
+        >
+          <NextIntlClientProvider>
+            <ChunkErrorBoundary>
+              <NoInternetToast />
+              <App locale={locale}>
+                {children}
+                <Toaster
+                  theme="dark"
+                  toastOptions={{
+                    classNames: {
+                      error: "!border !border-red-500 !text-red-500",
+                      success: "!border !border-green-500 !text-green-500",
+                    },
+                  }}
+                />
+              </App>
+            </ChunkErrorBoundary>
+          </NextIntlClientProvider>
+        </body>
+      </ErrorBoundary>
     </html>
   );
 }

@@ -18,7 +18,6 @@ import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 import { BiSolidMoviePlay } from "react-icons/bi";
 import { MdLiveTv } from "react-icons/md";
 import { useLocale, useTranslations } from "next-intl";
-import MainLoader from "../MainLoader/MainLoader";
 import LazyRender from "../LazyRender/LazyRender";
 import dynamic from "next/dynamic";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
@@ -152,8 +151,6 @@ const Explore = () => {
     filteredtopRated as Movie[] | TVShow[],
   ) as Movie | TVShow;
 
-  if (popularLoading) return <MainLoader />;
-
   return (
     <>
       <div className="absolute left-0 right-0 top-0">
@@ -175,27 +172,36 @@ const Explore = () => {
       </div>
 
       {/* popular shows */}
-      <PageSection>
-        <CardsSlider
-          showType={showType}
-          theShows={filteredPopular as TVShow[] | Movie[]}
-          sliderType="tvShows"
-          title={
-            showType === "movie"
-              ? t("Movies/Explore.PopularMovies")
-              : t("TvShows/Explore.PopularTvShows")
-          }
-          pageLink={
-            showType === "movie"
-              ? "/shows/popular/movie?page=1"
-              : "/shows/popular/tv?page=1"
-          }
-          isLoading={popularLoading}
-        />
-      </PageSection>
+      {popularLoading ? (
+        <PageSection>
+          <CardsSkeletonSlider />
+        </PageSection>
+      ) : (
+        <PageSection>
+          <CardsSlider
+            showType={showType}
+            theShows={filteredPopular as TVShow[] | Movie[]}
+            sliderType="tvShows"
+            title={
+              showType === "movie"
+                ? t("Movies/Explore.PopularMovies")
+                : t("TvShows/Explore.PopularTvShows")
+            }
+            pageLink={
+              showType === "movie"
+                ? "/shows/popular/movie?page=1"
+                : "/shows/popular/tv?page=1"
+            }
+            isLoading={popularLoading}
+            autoPlay={false}
+          />
+        </PageSection>
+      )}
 
       {/* random coming soon */}
-      {randomComing && (
+      {comingLoading ? (
+        <ShortDetailsSkeleton className="!my-0 !py-0" />
+      ) : randomComing ? (
         <PageSection className="!my-0 !py-0">
           <LazyRender
             Component={ShortDetails}
@@ -224,52 +230,60 @@ const Explore = () => {
             rootMargin="0px 0px"
           />
         </PageSection>
-      )}
+      ) : null}
 
       {/* latest trailers */}
-      <LazyRender
-        Component={VideosSlider}
-        props={{
-          theShows: filteredComing as Movie[] | TVShow[],
-          showType,
-          title:
-            showType === "movie"
-              ? t("Movies/Explore.LatestTrailers")
-              : t("TvShows/Explore.LatestTrailers"),
-          pageLink:
-            showType === "movie"
-              ? "/movies/Upcoming?page=1"
-              : "/shows/trending/tv?page=1",
-          getVideos,
-          isLoading: comingLoading || videosLoading,
-        }}
-        loading={<VideosSkelsetonSlider />}
-        rootMargin="400px 0px"
-      />
+      {comingLoading || videosLoading ? (
+        <VideosSkelsetonSlider />
+      ) : (
+        <LazyRender
+          Component={VideosSlider}
+          props={{
+            theShows: filteredComing as Movie[] | TVShow[],
+            showType,
+            title:
+              showType === "movie"
+                ? t("Movies/Explore.LatestTrailers")
+                : t("TvShows/Explore.LatestTrailers"),
+            pageLink:
+              showType === "movie"
+                ? "/movies/Upcoming?page=1"
+                : "/shows/trending/tv?page=1",
+            getVideos,
+            isLoading: comingLoading || videosLoading,
+          }}
+          loading={<VideosSkelsetonSlider />}
+          rootMargin="400px 0px"
+        />
+      )}
 
       {/* action shows */}
-      <LazyRender
-        Component={HoriCardsSlider}
-        props={{
-          data: filteredAction as Movie[] | TVShow[],
-          pageLink:
-            showType === "movie"
-              ? `/shows/all/movie?page=1&genre=28&genreName=${t(
-                  "Movies/Explore.ActionGenreName",
-                )}`
-              : `/shows/all/tv?page=1&genre=10759&genreName=${t(
-                  "TvShows/Explore.ActionGenreName",
-                )}`,
-          title:
-            showType === "movie"
-              ? t("Movies/Explore.ActionMovies")
-              : t("TvShows/Explore.ActionTvShows"),
-          sliderType: showType,
-          isLoading: actionLoading,
-        }}
-        loading={<HoriSkeletonSlider />}
-        rootMargin="0px 0px"
-      />
+      {actionLoading ? (
+        <HoriSkeletonSlider />
+      ) : (
+        <LazyRender
+          Component={HoriCardsSlider}
+          props={{
+            data: filteredAction as Movie[] | TVShow[],
+            pageLink:
+              showType === "movie"
+                ? `/shows/all/movie?page=1&genre=28&genreName=${t(
+                    "Movies/Explore.ActionGenreName",
+                  )}`
+                : `/shows/all/tv?page=1&genre=10759&genreName=${t(
+                    "TvShows/Explore.ActionGenreName",
+                  )}`,
+            title:
+              showType === "movie"
+                ? t("Movies/Explore.ActionMovies")
+                : t("TvShows/Explore.ActionTvShows"),
+            sliderType: showType,
+            isLoading: actionLoading,
+          }}
+          loading={<HoriSkeletonSlider />}
+          rootMargin="0px 0px"
+        />
+      )}
 
       {/* random top rated show */}
       {topRatedLoading ? (
@@ -308,80 +322,78 @@ const Explore = () => {
       )}
 
       {/* arabic shows */}
-      <PageSection className="!pb-0">
-        <LazyRender
-          Component={CardsSlider}
-          props={{
-            showType,
-            theShows: filteredArabic as Movie[] | TVShow[],
-            sliderType: showType === "movie" ? "movies" : "tvShows",
-            title:
-              showType === "movie"
-                ? t("Movies/Explore.ArabicMovies")
-                : t("TvShows/Explore.ArabicTvShows"),
-            pageLink:
-              showType === "movie"
-                ? "/shows/all/movie?page=1&oriLang=ar"
-                : "/shows/all/tv?page=1&oriLang=ar",
-            isLoading: arabicLoading,
-          }}
-          loading={<CardsSkeletonSlider arrLength={filteredArabic?.length} />}
-          rootMargin="0px 0px"
-        />
-        {/* <CardsSlider
-          showType={showType}
-          theShows={filteredArabic as Movie[] | TVShow[]}
-          sliderType={showType === "movie" ? "movies" : "tvShows"}
-          title={
-            showType === "movie"
-              ? t("Movies/Explore.ArabicMovies")
-              : t("TvShows/Explore.ArabicTvShows")
-          }
-          pageLink={
-            showType === "movie"
-              ? "/shows/all/movie?page=1&oriLang=ar"
-              : "/shows/all/tv?page=1&oriLang=ar"
-          }
-          isLoading={arabicLoading}
-        /> */}
-      </PageSection>
+      {arabicLoading ? (
+        <PageSection className="!pb-0">
+          <CardsSkeletonSlider />
+        </PageSection>
+      ) : (
+        <PageSection className="!pb-0">
+          <LazyRender
+            Component={CardsSlider}
+            props={{
+              showType,
+              theShows: filteredArabic as Movie[] | TVShow[],
+              sliderType: showType === "movie" ? "movies" : "tvShows",
+              title:
+                showType === "movie"
+                  ? t("Movies/Explore.ArabicMovies")
+                  : t("TvShows/Explore.ArabicTvShows"),
+              pageLink:
+                showType === "movie"
+                  ? "/shows/all/movie?page=1&oriLang=ar"
+                  : "/shows/all/tv?page=1&oriLang=ar",
+              isLoading: arabicLoading,
+            }}
+            loading={<CardsSkeletonSlider arrLength={filteredArabic?.length} />}
+            rootMargin="0px 0px"
+          />
+        </PageSection>
+      )}
 
       {/* family shows */}
-      <LazyRender
-        Component={HoriCardsSlider}
-        props={{
-          data: filteredFamily as Movie[] | TVShow[],
-          pageLink:
-            showType === "movie"
-              ? `/shows/all/movie?page=1&genre=10751&genreName=${t("Movies/Explore.FamilyGenreName")}`
-              : `/shows/all/tv?page=1&genre=10751&genreName=${t("TvShows/Explore.FamilyGenreName")}`,
-          title:
-            showType === "movie"
-              ? t("Movies/Explore.FamilyMovies")
-              : t("TvShows/Explore.FamilyTvShows"),
-          sliderType: showType,
-          isLoading: familyLoading,
-        }}
-        loading={<HoriSkeletonSlider />}
-        rootMargin="0px 0px"
-      />
+      {familyLoading ? (
+        <HoriSkeletonSlider />
+      ) : (
+        <LazyRender
+          Component={HoriCardsSlider}
+          props={{
+            data: filteredFamily as Movie[] | TVShow[],
+            pageLink:
+              showType === "movie"
+                ? `/shows/all/movie?page=1&genre=10751&genreName=${t("Movies/Explore.FamilyGenreName")}`
+                : `/shows/all/tv?page=1&genre=10751&genreName=${t("TvShows/Explore.FamilyGenreName")}`,
+            title:
+              showType === "movie"
+                ? t("Movies/Explore.FamilyMovies")
+                : t("TvShows/Explore.FamilyTvShows"),
+            sliderType: showType,
+            isLoading: familyLoading,
+          }}
+          loading={<HoriSkeletonSlider />}
+          rootMargin="0px 0px"
+        />
+      )}
 
       {/* genres */}
-      <LazyRender
-        Component={GenresSection}
-        props={{
-          showType,
-          genresList: genres?.genres || [],
-          moviesOrTvShows: filteredPopular as Movie[] | TVShow[],
-          pageLink:
-            showType === "movie"
-              ? "/shows/genres/movie?page=1"
-              : "/shows/genres/tv?page=1",
-          isLoading: genresLoading || popularLoading,
-        }}
-        loading={<GenresSkeletonSlider />}
-        rootMargin="0px 0px"
-      />
+      {genresLoading || popularLoading ? (
+        <GenresSkeletonSlider />
+      ) : (
+        <LazyRender
+          Component={GenresSection}
+          props={{
+            showType,
+            genresList: genres?.genres || [],
+            moviesOrTvShows: filteredPopular as Movie[] | TVShow[],
+            pageLink:
+              showType === "movie"
+                ? "/shows/genres/movie?page=1"
+                : "/shows/genres/tv?page=1",
+            isLoading: genresLoading || popularLoading,
+          }}
+          loading={<GenresSkeletonSlider />}
+          rootMargin="0px 0px"
+        />
+      )}
     </>
   );
 };

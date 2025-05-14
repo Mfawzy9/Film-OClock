@@ -29,7 +29,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: #19212c;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -38,7 +38,7 @@
 }
 
 .custom-scrollbar {
-  scrollbar-color: #1c64f2 #1f2937;
+  scrollbar-color: #1c64f2 #19212c;
 }
 
 /*------- scroll btn ------------*/

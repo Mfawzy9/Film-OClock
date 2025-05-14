@@ -10,7 +10,7 @@ import {
   scrollToTop,
 } from "../../../../helpers/helpers";
 import { memo, useMemo } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
 import { Link } from "@/i18n/navigation";
 import {
@@ -20,6 +20,7 @@ import {
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { useRouter } from "@bprogress/next/app";
 
 interface CardProps {
   src: string;
@@ -63,7 +64,7 @@ const Card = ({
     (state: RootState) => state.imgPlaceholderReducer.loadedImgs[src],
     shallowEqual,
   );
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
 
   const handleNavigate = () => {
     router.push(

@@ -19,6 +19,7 @@ import {
   getShowTitle,
   nameToSlug,
 } from "../../../../../../../../helpers/helpers";
+import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 
 type Props = {
   params: Promise<{
@@ -152,12 +153,12 @@ const Details = async ({ params }: Props) => {
             isArabic: locale === "ar",
             show: initialData,
           }) ?? initialData.original_title)
-        : "first_air_date" in initialData
-          ? (getShowTitle({
-              isArabic: locale === "ar",
-              show: initialData,
-            }) ?? initialData.original_name)
-          : initialData.name;
+        : "first_air_date" in initialData &&
+          (getShowTitle({
+            isArabic: locale === "ar",
+            show: initialData,
+          }) ??
+            initialData.original_name);
 
     const correctSlug = title && nameToSlug(title);
     const decodedSlug = decodeURIComponent(slug);
@@ -255,6 +256,7 @@ const Details = async ({ params }: Props) => {
               }}
             />
           )}
+          <PageHeader />
           <PersonDetails
             showId={showId}
             showType={showType}

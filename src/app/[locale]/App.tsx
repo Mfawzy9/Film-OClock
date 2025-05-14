@@ -11,8 +11,17 @@ import { listenToAuthChanges } from "@/lib/firebase/authService";
 import BackToTop from "../_Components/BackToTop/BackToTop";
 import LibraryInit from "../_Components/Library/LibraryInit/LibraryInit";
 import RouteTracker from "../_Components/RouteTracker/RouteTracker";
+import { ProgressProvider } from "@bprogress/next/app";
+import useIsDesktop from "../hooks/useIsDesktop";
 
-const App = ({ children }: { children: React.ReactNode }) => {
+const App = ({
+  children,
+  locale,
+}: {
+  children: React.ReactNode;
+  locale: string;
+}) => {
+  const isDesktop = useIsDesktop();
   useEffect(() => {
     let unsub: () => void;
 
@@ -26,14 +35,25 @@ const App = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <Provider store={store}>
-      <RouteTracker />
-      <LibraryInit />
-      <BackToTop />
-      <ImgModal />
-      <VideoModal />
-      <Navbar />
-      <div className="min-h-screen">{children}</div>
-      <Footer />
+      <ProgressProvider
+        color="#1d4ed8"
+        height={"5px"}
+        startOnLoad
+        spinnerPosition={locale === "ar" ? "top-left" : "top-right"}
+        options={{
+          direction: locale === "ar" ? "rtl" : "ltr",
+          showSpinner: isDesktop,
+        }}
+      >
+        <RouteTracker />
+        <LibraryInit />
+        <BackToTop />
+        <ImgModal />
+        <VideoModal />
+        <Navbar />
+        <div className="min-h-screen">{children}</div>
+        <Footer />
+      </ProgressProvider>
     </Provider>
   );
 };

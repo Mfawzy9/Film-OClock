@@ -8,10 +8,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import CastCardsSkeletonSlider from "./CastCardsSkeletonSlider";
 const CastCardSlider = ({
   featuredCast,
+  isLoading,
 }: {
   featuredCast: PopularPersonI[];
+  isLoading?: boolean;
 }) => {
   const t = useTranslations("PopularPeople");
   const { isArabic } = useIsArabic();
@@ -44,6 +47,8 @@ const CastCardSlider = ({
       setIsEnd(swiperRef.current.isEnd);
     }
   }, [featuredCast]);
+
+  if (isLoading) return <CastCardsSkeletonSlider />;
 
   return (
     <>

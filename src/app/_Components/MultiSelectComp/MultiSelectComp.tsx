@@ -1,4 +1,5 @@
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next/app";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { IoClose, IoSearch } from "react-icons/io5";
@@ -27,7 +28,7 @@ const MultiSelectComp = ({
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
 
   // Memoize filtered items to prevent unnecessary recalculations
   const filteredItems = useMemo(() => {
@@ -91,7 +92,7 @@ const MultiSelectComp = ({
   return (
     <div className="relative w-52 xs:w-60" ref={dropdownRef}>
       <label
-        className={`text-gray-300 pointer-events-none px-1 text-xs absolute -top-2 left-2
+        className={`text-gray-300 pointer-events-none px-1 text-xs absolute -top-2 start-2
           bg-gray-900 rounded-full z-10 ${className}`}
       >
         {label}

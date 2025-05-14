@@ -165,8 +165,8 @@ export const removeDuplicatesById = ({
 }: {
   items: Movie[] | TVShow[] | SearchPerson[] | FirestoreTheShowI[];
 }) => {
-  return items.filter((item, index, self) => {
-    return self.findIndex((i) => i.id === item.id) === index;
+  return items?.filter((item, index, self) => {
+    return self?.findIndex((i) => i.id === item.id) === index;
   });
 };
 

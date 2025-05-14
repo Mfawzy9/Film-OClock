@@ -12,8 +12,11 @@ import {
   MovieTranslationsResponse,
   TvTranslationsResponse,
 } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
-import { nameToSlug } from "../../../../../../../../helpers/helpers";
-import { notFound } from "next/navigation";
+import {
+  getShowTitle,
+  nameToSlug,
+} from "../../../../../../../../helpers/helpers";
+import { notFound, redirect } from "next/navigation";
 import AdsModal from "@/app/_Components/AdsModal/AdsModal";
 
 interface WatchParams {
@@ -21,6 +24,7 @@ interface WatchParams {
     showId: number;
     showType: "movie" | "tv";
     locale: "en" | "ar";
+    slug: string;
   }>;
   searchParams: Promise<{ season: number; episode: number }>;
 }
@@ -100,7 +104,7 @@ export async function generateMetadata({
 }
 
 const WatchPage = async ({ params, searchParams }: WatchParams) => {
-  const { showId, showType, locale } = await params;
+  const { showId, showType, locale, slug } = await params;
   const { episode, season } = await searchParams;
 
   const { initialData, initialTranslations } =
@@ -109,6 +113,29 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
       showId,
       showType,
     });
+
+  if (initialData) {
+    const title =
+      "original_title" in initialData
+        ? (getShowTitle({
+            isArabic: locale === "ar",
+            show: initialData,
+          }) ?? initialData.original_title)
+        : "first_air_date" in initialData &&
+          (getShowTitle({
+            isArabic: locale === "ar",
+            show: initialData,
+          }) ??
+            initialData.original_name);
+
+    const correctSlug = title && nameToSlug(title);
+    const decodedSlug = decodeURIComponent(slug);
+
+    if (decodedSlug !== correctSlug) {
+      const encodedSlug = encodeURIComponent(correctSlug);
+      redirect(`/${locale}/watch/${showType}/${showId}/${encodedSlug}`);
+    }
+  }
 
   if (showType !== "movie" && showType !== "tv") {
     return notFound();

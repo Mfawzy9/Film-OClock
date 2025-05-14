@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
 import { FaCircleUser } from "react-icons/fa6";
-import { RiMovie2Fill } from "react-icons/ri";
+import { RiCircleFill, RiMovie2Fill } from "react-icons/ri";
 import { MdArrowDropDown } from "react-icons/md";
 import { motion, useScroll } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -23,12 +23,13 @@ export interface NavbarlinksI {
 }
 
 const Navbar = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const [userMenu, setUserMenu] = useState(false);
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
-  const { user } = useSelector((state: RootState) => state.authReducer);
+  const { user, userStatusLoading } = useSelector(
+    (state: RootState) => state.authReducer,
+  );
   const { isArabic } = useIsArabic();
   const t = useTranslations("Navbar");
 
@@ -102,21 +103,6 @@ const Navbar = () => {
     [pathname],
   );
 
-  // Auth check with cleanup
-  useEffect(() => {
-    let mounted = true;
-    const checkAuth = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (mounted) {
-        setIsLoading(false);
-      }
-    };
-    checkAuth();
-    return () => {
-      mounted = false;
-    };
-  }, [user]);
-
   // Memoized user initial
   const userInitial = useMemo(() => {
     if (user?.photoURL) {
@@ -181,7 +167,14 @@ const Navbar = () => {
           </div>
 
           {/* User Icon */}
-          {!isLoading && (
+          {userStatusLoading ? (
+            <div
+              className={`w-9 h-9 flex items-center justify-center bg-gray-800 rounded-full ${
+                userStatusLoading && "pointer-events-none" }`}
+            >
+              <RiCircleFill className="animate-ping" />
+            </div>
+          ) : (
             <div className="relative sm:ms-auto md:ms-0 flex items-center">
               <button
                 onClick={toggleUserMenu}
@@ -248,7 +241,9 @@ const NavLink = memo(
       return (
         <li
           className={`relative group ${isActive ? "text-white" : "hover:text-white text-blue-200"}
-            cursor-default`}
+            cursor-default after:content-[''] after:absolute after:-bottom-1
+            after:origin-center after:left-0 after:w-0 after:h-1 after:bg-blue-700
+            after:transition-all after:duration-200 hover:after:w-full`}
         >
           {isActive && (
             <motion.span

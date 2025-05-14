@@ -59,6 +59,8 @@ const GenresComp = () => {
     },
   );
 
+  console.log(genres?.genres?.length);
+
   const content = data as MoviesResponse | TVShowsResponse;
   const isLoading = isLoadingContent || isLoadingGenres;
   const isFetching = isFetchingContent || isFetchingGenres;
@@ -87,7 +89,26 @@ const GenresComp = () => {
     [selectedGenresSet, handleGenreClick],
   );
 
-  if (isLoading) return <CardsSkeletons title={t("title")} />;
+  if (isLoading)
+    return (
+      <PageSection>
+        <Title title={t("title")} />
+
+        <div className="flex flex-wrap gap-2">
+          {[...Array(19)].map((_, i) => (
+            <div
+              key={i}
+              className="px-3 py-1 rounded-lg bg-gray-800 animate-pulse h-8"
+              style={{
+                width: `${Math.floor(Math.random() * (120 - 60 + 1)) + 60}px`,
+              }}
+            />
+          ))}
+        </div>
+
+        <CardsSkeletons needSection={false} />
+      </PageSection>
+    );
 
   return (
     <>

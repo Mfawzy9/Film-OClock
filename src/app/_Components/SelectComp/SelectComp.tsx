@@ -1,4 +1,5 @@
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 interface SelectCompProps {
   items: { query: string; name: string }[];
@@ -19,7 +20,7 @@ const SelectComp = ({
   setSeasonNumber,
   setPage,
 }: SelectCompProps) => {
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const handleSelectOption = (query: string, name: string) => {
     setActiveSelect({ query, name });
     if (setSeasonNumber) setSeasonNumber(Number(query.split(" ")[1]));

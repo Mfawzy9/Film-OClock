@@ -4,16 +4,53 @@ import Title from "../Title/Title";
 const CardsSkeletons = ({
   title,
   length = 20,
+  needSection = true,
+  gridColsClasses = "grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4",
+  posterHeight = "h-[330px]",
 }: {
-  title: string;
+  title?: string;
   length?: number;
+  needSection?: boolean;
+  gridColsClasses?: string;
+  posterHeight?: string;
+}) => {
+  return needSection ? (
+    <PageSection>
+      <Content
+        title={title}
+        length={length}
+        gridColsClasses={gridColsClasses}
+        posterHeight={posterHeight}
+      />
+    </PageSection>
+  ) : (
+    <Content
+      title={title}
+      length={length}
+      gridColsClasses={gridColsClasses}
+      posterHeight={posterHeight}
+    />
+  );
+};
+
+export default CardsSkeletons;
+
+const Content = ({
+  title,
+  length,
+  gridColsClasses,
+  posterHeight,
+}: {
+  title?: string;
+  length?: number;
+  gridColsClasses?: string;
+  posterHeight?: string;
 }) => {
   return (
-    <PageSection>
-      <Title title={title} />
+    <>
+      {title && <Title title={title} />}
       <main
-        className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4
-          lg:grid-cols-5 gap-4 place-items-center relative"
+        className={`mt-10 grid ${gridColsClasses} place-items-center relative`}
       >
         {[...Array(length)].map((_, idx) => (
           <div
@@ -21,7 +58,7 @@ const CardsSkeletons = ({
             className="relative w-full rounded overflow-hidden pb-1 animate-pulse"
           >
             {/* Image Placeholder */}
-            <div className="bg-gray-700 w-full h-[330px] rounded" />
+            <div className={`bg-gray-700 w-full ${posterHeight} rounded`} />
 
             {/* Text Placeholder */}
             <div className="mt-2 px-1 space-y-2">
@@ -34,8 +71,6 @@ const CardsSkeletons = ({
           </div>
         ))}
       </main>
-    </PageSection>
+    </>
   );
 };
-
-export default CardsSkeletons;

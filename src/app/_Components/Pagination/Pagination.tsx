@@ -1,5 +1,6 @@
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next/app";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
@@ -23,7 +24,7 @@ const Pagination = ({
 }: PaginationProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("Pagination");
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const searchParams = useSearchParams();
   const pageParam = Number(searchParams.get("page"));
 

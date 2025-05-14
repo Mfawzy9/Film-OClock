@@ -48,6 +48,7 @@ const CardsSlider = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const [isSwiperReady, setIsSwiperReady] = useState(false);
 
   const handleNavigate = useCallback(
     (direction: "next" | "prev") =>
@@ -68,6 +69,7 @@ const CardsSlider = ({
     swiperRef.current = swiper;
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
+    setIsSwiperReady(true);
   }, []);
 
   const handleSlideChange = useCallback((swiper: SwiperType) => {
@@ -97,11 +99,13 @@ const CardsSlider = ({
     return <CardsSkeletonSlider arrLength={arrLength} className={className} />;
   }
 
-  if (!sliderData.length) return null;
+  if (!filtered.length || !sliderData.length) return null;
 
   return (
     <section className={className}>
-      {pageLink ? (
+      {!isSwiperReady ? (
+        <CardsSkeletonSlider arrLength={arrLength} className={className} />
+      ) : pageLink ? (
         <SlidersTitle title={title} pageLink={pageLink} />
       ) : (
         <Title title={title ?? ""} />

@@ -23,7 +23,7 @@ import {
 } from "@/app/validation/registerValidation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 const Signup = () => {
   const t = useTranslations("Register");

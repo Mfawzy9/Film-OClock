@@ -50,88 +50,7 @@ export function getOrSet<T>(key: string, fn: () => Promise<T>): Promise<T> {
   return promise;
 }
 
-// fetchShowDetails
-export const fetchShowDetails = async ({
-  showId,
-  showType,
-  locale,
-}: {
-  showId: number;
-  showType: "movie" | "tv" | "person";
-  locale: "en" | "ar";
-}): Promise<
-  MovieDetailsResponse | PersonDetailsResponse | TvDetailsResponse | null
-> => {
-  const lang = showType === "person" ? locale : "en";
-  const res = await fetch(
-    `${BASE_URL}${showType}/${showId}?api_key=${API_KEY}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits&language=${lang}`,
-    {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-      next: { revalidate: 3600, tags: [`details-${showId}-${showType}`] },
-    },
-  );
-
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data as
-    | MovieDetailsResponse
-    | PersonDetailsResponse
-    | TvDetailsResponse;
-};
-
-// fetchTranslations
-export const fetchTranslations = async ({
-  showId,
-  showType,
-}: {
-  showId: number;
-  showType: "movie" | "tv" | "person";
-}): Promise<TvTranslationsResponse | MovieTranslationsResponse | null> => {
-  const res = await fetch(
-    `${BASE_URL}${showType}/${showId}/translations?api_key=${API_KEY}`,
-    {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-      next: { revalidate: 3600, tags: [`${showType}-translations-${showId}`] },
-    },
-  );
-
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data as TvTranslationsResponse | MovieTranslationsResponse;
-};
-
-// getInitialDetailsData with react cache
-export const getInitialDetailsDataWithReactCache = reactCache(
-  async ({
-    showId,
-    showType,
-    locale,
-  }: {
-    showId: number;
-    showType: "movie" | "tv" | "person";
-    locale: "en" | "ar";
-  }) => {
-    const initialData = await fetchShowDetails({
-      showId,
-      showType,
-      locale: showType === "person" ? locale : "en",
-    });
-
-    let initialTranslations = null;
-    if (locale === "ar" && (showType === "movie" || showType === "tv")) {
-      initialTranslations = await fetchTranslations({ showId, showType });
-    }
-
-    return { initialData, initialTranslations };
-  },
-);
-
-// getInitialDetailsData with next cache
-export const getInitialDetailsDataWithNextCache = ({
+export const getInitialDetailsData = ({
   showId,
   showType,
   locale,
@@ -146,16 +65,62 @@ export const getInitialDetailsDataWithNextCache = ({
       ? [`${showType}-translations-${showId}`]
       : []),
   ];
-  const cachedFn = nextCache(
-    getInitialDetailsDataWithReactCache,
+
+  const fetchData = async () => {
+    const lang = showType === "person" ? locale : "en";
+
+    const detailsRes = await fetch(
+      `${BASE_URL}${showType}/${showId}?api_key=${API_KEY}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits&language=${lang}`,
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+        next: { revalidate: 3600, tags: [`details-${showId}-${showType}`] },
+      },
+    );
+
+    if (!detailsRes.ok) return { initialData: null, initialTranslations: null };
+
+    const initialData = (await detailsRes.json()) as
+      | MovieDetailsResponse
+      | PersonDetailsResponse
+      | TvDetailsResponse;
+
+    let initialTranslations = null;
+
+    if (locale === "ar" && showType !== "person") {
+      const translationsRes = await fetch(
+        `${BASE_URL}${showType}/${showId}/translations?api_key=${API_KEY}`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          next: {
+            revalidate: 3600,
+            tags: [`${showType}-translations-${showId}`],
+          },
+        },
+      );
+
+      if (translationsRes.ok) {
+        initialTranslations = (await translationsRes.json()) as
+          | TvTranslationsResponse
+          | MovieTranslationsResponse;
+      }
+    }
+
+    return { initialData, initialTranslations };
+  };
+
+  const withReactCache = reactCache(fetchData);
+
+  const withNextCache = nextCache(
+    withReactCache,
     [`details-app-${locale}-${showType}-${showId}`],
-    {
-      tags,
-      revalidate: 3600,
-    },
+    { tags, revalidate: 3600 },
   );
 
-  return cachedFn({ showId, showType, locale });
+  return withNextCache();
 };
 
 // getInitialDetailsDataCached with Map
@@ -169,38 +134,50 @@ export const getInitialDetailsDataCachedWithMap = ({
   showType: "movie" | "tv" | "person";
 }) =>
   getOrSet(`${locale}-${showType}-${showId}`, () =>
-    getInitialDetailsDataWithNextCache({ locale, showId, showType }),
+    getInitialDetailsData({ locale, showId, showType }),
   );
 
-//getSearchResults
-export const getSearchResults = reactCache(
-  async ({
-    query,
-    locale,
-    page,
-  }: {
-    query: string;
-    locale: "en" | "ar";
-    page: number;
-  }) => {
-    const [initialMovies, initialTvShows, initialPeople] = await Promise.all([
-      fetch(
-        `${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        { next: { revalidate: 3600 } },
-      ).then((res) => res.json()),
-      fetch(
-        `${BASE_URL}search/tv?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        { next: { revalidate: 3600 } },
-      ).then((res) => res.json()),
-      fetch(
-        `${BASE_URL}search/person?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        { next: { revalidate: 3600 } },
-      ).then((res) => res.json()),
-    ]);
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    return { initialMovies, initialTvShows, initialPeople };
-  },
-);
+//getSearchResults
+export const getSearchResults = async ({
+  query,
+  locale,
+  page,
+}: {
+  query: string;
+  locale: "en" | "ar";
+  page: number;
+}) => {
+  // Use both React and Next cache
+  const cachedFn = nextCache(
+    reactCache(async () => {
+      const [initialMovies, initialTvShows, initialPeople] = await Promise.all([
+        fetch(
+          `${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
+          { next: { revalidate: 3600 } },
+        ).then((res) => res.json()),
+        fetch(
+          `${BASE_URL}search/tv?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
+          { next: { revalidate: 3600 } },
+        ).then((res) => res.json()),
+        fetch(
+          `${BASE_URL}search/person?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
+          { next: { revalidate: 3600 } },
+        ).then((res) => res.json()),
+      ]);
+
+      return { initialMovies, initialTvShows, initialPeople };
+    }),
+    [`search-results-${locale}-${query}-${page}`], // Cache key based on locale, query, and page
+    {
+      revalidate: 3600, // Revalidate every hour
+    },
+  );
+
+  return cachedFn();
+};
 
 //cache getSearchResults
 export const getSearchResultsCached = ({
@@ -216,49 +193,10 @@ export const getSearchResultsCached = ({
     getSearchResults({ locale, query, page }),
   );
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // get movie collection
-export const getMovieCollectionWithReactCache = reactCache(
-  async ({
-    collectionId,
-    locale,
-  }: {
-    collectionId: string;
-    locale: "en" | "ar";
-  }) => {
-    // collection details
-    const fetchCollectionDetails = async () => {
-      const res = await fetch(
-        `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}`,
-        { next: { revalidate: 3600 } },
-      );
-
-      if (!res.ok) return null;
-      const data = await res.json();
-      return data as MovieCollectionResponse;
-    };
-
-    // collection translations
-    const fetchCollectionTranslations = async () => {
-      const res = await fetch(
-        `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
-        { next: { revalidate: 3600 } },
-      );
-
-      if (!res.ok) return null;
-      const data = await res.json();
-      return data as MovieCollectionTranslationsResponse;
-    };
-
-    const collectionDetails = await fetchCollectionDetails();
-    let collectionTranslations = null;
-    if (locale === "ar")
-      collectionTranslations = await fetchCollectionTranslations();
-
-    return { collectionDetails, collectionTranslations };
-  },
-);
-
-// get movie collection with next cache
 export const getMovieCollectionWithNextCache = ({
   collectionId,
   locale,
@@ -266,13 +204,48 @@ export const getMovieCollectionWithNextCache = ({
   collectionId: string;
   locale: "en" | "ar";
 }) => {
-  const cachedFn = nextCache(
-    getMovieCollectionWithReactCache,
-    [`collection-app-${collectionId}`],
+  const fetchData = async () => {
+    const detailsRes = await fetch(
+      `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}`,
+      {
+        next: { revalidate: 3600 },
+      },
+    );
+
+    if (!detailsRes.ok)
+      return { collectionDetails: null, collectionTranslations: null };
+
+    const collectionDetails =
+      (await detailsRes.json()) as MovieCollectionResponse;
+
+    let collectionTranslations = null;
+
+    if (locale === "ar") {
+      const translationsRes = await fetch(
+        `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
+        {
+          next: { revalidate: 3600 },
+        },
+      );
+
+      if (translationsRes.ok) {
+        collectionTranslations =
+          (await translationsRes.json()) as MovieCollectionTranslationsResponse;
+      }
+    }
+
+    return { collectionDetails, collectionTranslations };
+  };
+
+  const withReactCache = reactCache(fetchData);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`collection-app-${collectionId}-${locale}`],
     {
       revalidate: 3600,
     },
   );
 
-  return cachedFn({ collectionId, locale });
+  return withNextCache();
 };

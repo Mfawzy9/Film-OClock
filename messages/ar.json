@@ -86,6 +86,12 @@
     }
   },
 
+  "ErrorPage": {
+    "SomethingWentWrong": "حدث خطأ ما",
+    "FailedToLoadTheData": "فشل تحميل البيانات , تأكد من الاتصال بالانترنت",
+    "TryAgain": "إعادة المحاولة"
+  },
+
   "CardDropDownMenu": {
     "AddToWatchlist": "أضف إلى قائمة المشاهدة",
     "AddToFavorites": "أضف إلى المفضلة",
@@ -475,6 +481,12 @@
     "Servers": "سيرفرات المشاهدة",
     "Recommendations": "توصيات",
     "Similar": "أفلام مشابهة"
+  },
+
+  "ComingSoon": {
+    "title": "قريبًا",
+    "description": "الفيلم أو المسلسل الذي تبحث عنه غير متاح الآن",
+    "continue": "المتابعة"
   },
 
   "Account": {

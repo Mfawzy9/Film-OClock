@@ -4,7 +4,6 @@ import tmdbApi, {
   useGetMTDetailsQuery,
   useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
-import MainLoader from "../MainLoader/MainLoader";
 import Image from "next/image";
 import {
   FaStar,
@@ -46,6 +45,7 @@ import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
 import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
+import MovieDetailsSkeleton from "./MovieDetailsSkeleton";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -237,8 +237,9 @@ const MovieDetails = ({
     }
   }, [movie?.overview, isLoading]);
 
-  if (isLoading || translationsLoading || genresLoading) return <MainLoader />;
-  if (isError || !movie) return notFound();
+  if (isLoading || translationsLoading || genresLoading)
+    return <MovieDetailsSkeleton />;
+  if (isError) return notFound();
 
   return (
     <>

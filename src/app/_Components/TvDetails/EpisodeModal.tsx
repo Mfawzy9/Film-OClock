@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { RootState, AppDispatch } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
-import { SiSpinrilla } from "react-icons/si";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { Episode } from "@/app/interfaces/apiInterfaces/tvSeasonsDetailsInterfaces";
 import { FaStar } from "react-icons/fa6";
@@ -16,6 +15,7 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import { CgSpinner } from "react-icons/cg";
 import { useMemo } from "react";
 import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
+import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 
 interface EpisodeModalProps {
   isOpen: boolean;
@@ -27,6 +27,7 @@ interface EpisodeModalProps {
   onWatchClick?: () => void;
   episodeId: number;
   tvShowName: string;
+  tvShow: TVShow;
 }
 
 const EpisodeModal = ({
@@ -39,6 +40,7 @@ const EpisodeModal = ({
   onWatchClick,
   episodeId,
   tvShowName,
+  tvShow,
 }: EpisodeModalProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
@@ -80,9 +82,9 @@ const EpisodeModal = ({
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
         className="relative bg-gray-950 text-white p-6 rounded-lg shadow-lg w-full max-w-lg
           3xl:max-w-3xl max-h-[100vh] xs:max-h-[auto] overflow-y-auto xs:overflow-hidden
           sm:max-w-xl md:max-w-2xl custom-scrollbar"
@@ -101,9 +103,7 @@ const EpisodeModal = ({
           className="relative flex justify-center items-center w-full h-40 sm:h-56 md:h-64 lg:h-72
             rounded-lg overflow-hidden"
         >
-          {!isImgLoaded && (
-            <SiSpinrilla className="absolute text-6xl text-white animate-spin" />
-          )}
+          {!isImgLoaded && <BgPlaceholder />}
           {episode.still_path !== null && episode.still_path ? (
             <>
               <Image
@@ -142,21 +142,23 @@ const EpisodeModal = ({
               <FcClock title="Duration" className="text-black" />
               {minutesToHours(episode?.runtime ?? 0, isArabic)}
             </h6>
-            <Link
-              scroll={false}
-              onClick={() => {
-                onWatchClick?.();
-                onClose();
-              }}
-              href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
-              className="rounded-lg mt-2 bg-blue-800 py-3 px-6 text-center align-middle text-sm font-bold
-                text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
-                hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none
-                active:opacity-[0.85] active:shadow-none flex items-center gap-1 justify-center"
-            >
-              <FaRegPlayCircle className="text-2xl" />{" "}
-              {t("Tabs.EpisodeModal.WatchEpisode")}
-            </Link>
+            {new Date(tvShow?.first_air_date) <= new Date() && (
+              <Link
+                scroll={false}
+                onClick={() => {
+                  onWatchClick?.();
+                  onClose();
+                }}
+                href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
+                className="rounded-lg mt-2 bg-blue-800 py-3 px-6 text-center align-middle text-sm font-bold
+                  text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg
+                  hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none
+                  active:opacity-[0.85] active:shadow-none flex items-center gap-1 justify-center"
+              >
+                <FaRegPlayCircle className="text-2xl" />{" "}
+                {t("Tabs.EpisodeModal.WatchEpisode")}
+              </Link>
+            )}
           </div>
           <h6 className="flex items-center gap-2 flex-wrap mt-2">
             {t("Tabs.EpisodeModal.Episode")} {episode?.episode_number} |{" "}

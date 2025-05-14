@@ -152,7 +152,10 @@ const Footer = () => {
               TMDB
             </a>
           </p>
-          <p className="text-gray-400 text-xs text-center md:text-right flex items-center gap-[2px]">
+          <p
+            className="text-gray-400 text-xs text-center md:text-right flex items-center justify-center
+              flex-wrap gap-[2px]"
+          >
             {t("madeWith")} <span className="text-red-500">❤</span> {t("by")}{" "}
             <a
               href="https://portfolio-one-xi.vercel.app/"
@@ -163,8 +166,10 @@ const Footer = () => {
               {t("myName")}
             </a>{" "}
             • <span className="text-blue-400">{t("LogoName")}</span>{" "}
-            <FaRegCopyright />
-            {year}
+            <span className="flex gap-1 items-center">
+              <FaRegCopyright />
+              {year}
+            </span>
           </p>
         </div>
       </div>

@@ -1,22 +1,23 @@
 "use client";
 import Card from "@/app/_Components/Card/Card";
-import MainLoader from "@/app/_Components/MainLoader/MainLoader";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import Pagination from "@/app/_Components/Pagination/Pagination";
 import Title from "@/app/_Components/Title/Title";
 import { PplTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
+import { useRouter } from "@bprogress/next/app";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import CardsSkeletons from "../Card/CardsSkeletons";
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 const TrendingPpl = () => {
   const t = useTranslations("Trending");
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const searchParams = useSearchParams();
   const pageParam = Number(searchParams.get("page"));
   const [page, setPage] = useState(pageParam || 1);
@@ -37,14 +38,42 @@ const TrendingPpl = () => {
     [t],
   );
 
-  const handleWeekOrDay = (id: "day" | "week") => {
-    setPage(1);
-    router.push(`?page=${1}`, { scroll: false });
-    setDayOrWeek(id);
-  };
+  const handleWeekOrDay = useCallback(
+    (query: "day" | "week") => {
+      if (query === dayOrWeek && page === 1) return;
+
+      if (page !== 1) {
+        setPage(1);
+        router.push(`?page=1`, { scroll: false });
+      }
+
+      setDayOrWeek(query);
+    },
+    [dayOrWeek, page, router],
+  );
 
   if (isLoading) {
-    return <MainLoader />;
+    return (
+      <PageSection>
+        <div className="flex flex-col gap-2 sm:gap-5 sm:flex-row items-center justify-between flex-wrap">
+          <Title title={t("PeopleTitle")} />
+          <div className="flex gap-2 rounded-full bg-black shadow-blueGlow overflow-hidden w-[188px]">
+            {[...Array(2)].map((_, i) => (
+              <div
+                key={i}
+                className={`px-6 py-2 rounded-full bg-gray-800 animate-pulse h-10
+                ${i === 0 ? "w-[40%]" : "w-[60%]"}`}
+              />
+            ))}
+          </div>
+        </div>
+        <CardsSkeletons
+          needSection={false}
+          gridColsClasses="grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2
+          xs:gap-4"
+        />
+      </PageSection>
+    );
   }
 
   if (isError) {

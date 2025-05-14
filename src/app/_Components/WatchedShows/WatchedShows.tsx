@@ -13,8 +13,8 @@ import { setWatchedShows } from "@/lib/Redux/localSlices/librarySlice";
 import MainLoader from "../MainLoader/MainLoader";
 import Title from "../Title/Title";
 import PageHeader from "../PageHeader/PageHeader";
-import WlSearch from "../Library/WlSearch/WlSearch";
 import EmptyWatchedShows from "./EmptyWatchedShows";
+import LibSearch from "../Library/LibSearch/LibSearch";
 
 const WatchedShows = () => {
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const WatchedShows = () => {
             <Title title={`${t("title")} (${watchedShows?.length})`} />
           </div>
           {watchedShows?.length > 5 && (
-            <WlSearch
+            <LibSearch
               setSearchTerm={setSearchTerm}
               searchTerm={searchTerm}
               libraryWord="WatchedList"

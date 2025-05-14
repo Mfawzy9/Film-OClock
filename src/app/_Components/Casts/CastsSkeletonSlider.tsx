@@ -1,11 +1,11 @@
-const CastsSkeletonSlider = ({ length = 10 }: { length?: number }) => {
+const CastsSkeletonSlider = ({ length = 8 }: { length?: number }) => {
   const dummyArray = Array.from({ length });
   return (
     <main className="relative my-10">
       <div className="flex justify-between items-center mb-3">
         <div className="h-8 w-1/4 bg-gray-700 rounded animate-pulse"></div>
       </div>
-      <div className="flex overflow-x-auto gap-4 py-5 custom-scrollbar overflow-y-hidden">
+      <div className="flex overflow-x-auto gap-4 py-5 scroll-hidden overflow-y-hidden">
         {dummyArray.map((_, idx) => (
           <div
             key={idx}

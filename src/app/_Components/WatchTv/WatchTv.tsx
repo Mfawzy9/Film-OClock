@@ -8,7 +8,6 @@ import { useEffect, useMemo, useRef, useCallback } from "react";
 import Title from "../Title/Title";
 import { TvDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
 import PageSection from "../PageSection/PageSection";
-import MainLoader from "../MainLoader/MainLoader";
 import Casts from "../Casts/Casts";
 import WatchTvDetails from "./WatchTvDetails";
 import WatchTvBg from "./WatchTvBg";
@@ -27,6 +26,8 @@ import LazyRender from "../LazyRender/LazyRender";
 import EpisodesSkeletons from "../TvDetails/EpisodesSkeletons";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import ComingSoon from "../ComingSoon/ComingSoon";
+import WatchTvSkeleton from "./WatchTvSkeleton";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   ssr: false,
@@ -309,8 +310,8 @@ const WatchTv = ({
     videoPlayerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  if (isLoading) return <MainLoader />;
-  if (!tvShow || !seasonData) return <div>Data not available</div>;
+  if (isLoading || !tvShow) return <WatchTvSkeleton />;
+  if (new Date(tvShow?.first_air_date) >= new Date()) return <ComingSoon />;
 
   const playerProps = {
     episode,
@@ -318,7 +319,7 @@ const WatchTv = ({
     showId,
     tvShow,
     disableButtons,
-    totalEpisodes: seasonData.episodes?.length || 0,
+    totalEpisodes: seasonData?.episodes?.length || 0,
   };
 
   return (

@@ -91,10 +91,10 @@ const HoriCard = ({
               onLoad={() => dispatch(setImageLoaded(backdrop_path))}
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-black from-15% to-transparent flex
-                flex-col justify-end gap-2 py-2 px-3"
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black from-15%
+                to-transparent flex flex-col justify-end gap-2 px-3"
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 py-2">
                 {/* title */}
                 <h1 className="font-medium w-fit line-clamp-1 font-roboto">
                   {title.split(" ").slice(0, 4).join(" ")}
@@ -115,7 +115,7 @@ const HoriCard = ({
                   <div className="flex items-center gap-1 text-xs">
                     <span
                       key={idx}
-                      className="rounded-md text-gray-400 px-1.5 py-0.5 line-clamp-1 w-fit text-end"
+                      className="rounded-md text-gray-400 px-1.5 line-clamp-1 w-fit text-end"
                     >
                       {genresNames?.slice(0, 2).join(" , ")}
                     </span>

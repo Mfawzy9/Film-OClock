@@ -17,8 +17,9 @@ import LoginForm from "@/app/_Components/AuthComponents/LoginForm/LoginForm";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { isTokenExpired } from "../../../../../helpers/checkToken";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { MdNearbyError } from "react-icons/md";
+import { useRouter } from "@bprogress/next/app";
 
 const Login = () => {
   const t = useTranslations("Login");
@@ -57,21 +58,6 @@ const Login = () => {
 
     checkCookiesAuth();
   }, [searchParams, t, router]);
-
-  // Check if user is already authenticated
-  // useEffect(() => {
-  //   if (auth.currentUser) {
-  //     router.push("/");
-  //     return;
-  //   }
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       router.push("/");
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [router]);
 
   // login
   const handleSubmit = async (inputs: LoginFormFields) => {

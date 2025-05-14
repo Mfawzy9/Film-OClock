@@ -99,15 +99,13 @@ const WatchTvDetails = ({
   }, [tvShowTranslations]);
 
   const finalOverview = useMemo(() => {
-    return arabicEpisodeOverviewTranslation
-      ? arabicEpisodeOverviewTranslation
-      : arabicTvShowOverviewTranslation
-        ? arabicTvShowOverviewTranslation
-        : currentEpisode?.overview
-          ? currentEpisode?.overview
-          : tvShow?.overview
-            ? tvShow?.overview
-            : "";
+    return (
+      arabicEpisodeOverviewTranslation ??
+      arabicTvShowOverviewTranslation ??
+      currentEpisode?.overview ??
+      tvShow?.overview ??
+      ""
+    );
   }, [
     arabicEpisodeOverviewTranslation,
     arabicTvShowOverviewTranslation,

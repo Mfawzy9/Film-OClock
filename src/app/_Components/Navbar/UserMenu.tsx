@@ -1,9 +1,14 @@
 import useLibrary from "@/app/hooks/useLibrary";
 import useWatchedList from "@/app/hooks/useWatchedList";
 import { UserMenuLinksI } from "@/app/interfaces/localInterfaces/userMenuLinksI";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import {
+  Link,
+  usePathname,
+  useRouter as useNextIntlRouter,
+} from "@/i18n/navigation";
 import { signOutUser } from "@/lib/firebase/authService";
 import { User } from "@/lib/Redux/localSlices/authSlice";
+import { useRouter } from "@bprogress/next/app";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { memo, useMemo } from "react";
@@ -36,7 +41,7 @@ const Badge = ({ count }: { count: number }) => (
 
 const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
   const pathname = usePathname();
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const { favorites, watchlist } = useLibrary({ dropDownMenu: false });
   const { watchedShows } = useWatchedList({});
   const t = useTranslations("Navbar.UserMenu");

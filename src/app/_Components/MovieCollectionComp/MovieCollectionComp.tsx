@@ -2,9 +2,9 @@ import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCol
 import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 import Image from "next/image";
 import PageSection from "../PageSection/PageSection";
-import CardsSlider from "../CardsSlider/CardsSlider";
 import { Movie } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import ScrollToSection from "../ScrollToSection/ScrollToSection";
+import CardsSlider from "../CardsSlider/CardsSlider";
 
 interface MovieCollectionCompProps {
   collectionDetails: MovieCollectionResponse | null;
@@ -35,6 +35,7 @@ const MovieCollectionComp = ({
       return collectionDetails?.overview || null;
     }
   };
+
   return (
     <>
       {/* layer and bg */}
@@ -58,18 +59,14 @@ const MovieCollectionComp = ({
         >
           {/* collection Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
-            {/* {!isImgLoaded && <BgPlaceholder />} */}
-
+            <div className="absolute inset-0 bg-gray-700 animate-pulse rounded-md" />
             <Image
               src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${collectionDetails?.poster_path}`}
               width={300}
               height={450}
               alt={`${collectionDetails?.name || "collection"} Poster`}
               priority
-              className={`sm:w-[300px] sm:h-[450px] rounded-t-md
-                ${true ? "opacity-100 scale-100" : "opacity-0 scale-90"}
-                transition-[transform,opacity] duration-300 transform-gpu ease-out`}
-              // onLoad={handleImageLoad}
+              className={"sm:w-[300px] sm:h-[450px] rounded-t-md relative z-10"}
             />
           </div>
 
@@ -107,6 +104,7 @@ const MovieCollectionComp = ({
             theShows={(collectionDetails?.parts as Movie[]) || []}
             title={locale === "en" ? "Collection Movies" : "أفلام السلسلة"}
             className="my-16"
+            arrLength={collectionDetails.parts.length}
           />
         )}
       </PageSection>

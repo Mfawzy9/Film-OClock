@@ -16,6 +16,7 @@ import {
   setGoogleLoading,
   setLoading,
   setUser,
+  setUserStatusLoading,
   User,
 } from "../Redux/localSlices/authSlice";
 import store from "../Redux/store";
@@ -155,6 +156,8 @@ export const signOutUser = async (t?: TFunction) => {
 
 // Listen for Auth Changes
 export const listenToAuthChanges = async () => {
+  store.dispatch(setUserStatusLoading(true));
+
   const res = await fetch("/api/auth/check-auth");
   const { isAuthenticated } = await res.json();
 
@@ -163,8 +166,15 @@ export const listenToAuthChanges = async () => {
     if (currentUser) {
       await signOutUser();
       store.dispatch(logout());
+      store.dispatch(clearLibrary());
+      document.cookie = "loggedOut=true; path=/;";
+      await fetch("/api/auth/session", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
     }
-    return () => {}; // Return a no-op function to avoid crash
+    store.dispatch(setUserStatusLoading(false));
+    return () => {}; // No-op unsubscribe
   }
 
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -178,18 +188,17 @@ export const listenToAuthChanges = async () => {
       }
     } else {
       document.cookie = "loggedOut=true; path=/;";
-      const deleteCookie = await fetch("/api/auth/session", {
+      await fetch("/api/auth/session", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
-      if (!deleteCookie.ok) {
-        throw new Error("Failed to delete session cookie");
-      }
       store.dispatch(logout());
+      store.dispatch(clearLibrary());
     }
+    store.dispatch(setUserStatusLoading(false));
   });
 
-  return unsubscribe; // Return actual listener cleanup
+  return unsubscribe;
 };
 
 export const sanitizeFirebaseUser = (user: User | null) => {

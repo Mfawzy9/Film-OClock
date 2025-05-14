@@ -10,7 +10,7 @@ import { AppDispatch } from "@/lib/Redux/store";
 import { SiSpinrilla } from "react-icons/si";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 interface LoginFormProps {
   formik: FormikProps<LoginFormFields>;

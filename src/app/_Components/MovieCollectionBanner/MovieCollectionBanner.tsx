@@ -2,7 +2,7 @@ import { MovieDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInte
 import Title from "../Title/Title";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { nameToSlug } from "../../../../helpers/helpers";
+import { nameToSlug, scrollToTop } from "../../../../helpers/helpers";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
@@ -65,7 +65,7 @@ const MovieCollectionBanner = ({
             </p>
           </div>
           <Link
-            scroll
+            onClick={scrollToTop}
             href={`/collection/${movie?.belongs_to_collection?.id}/${nameToSlug(movie?.belongs_to_collection?.name)}`}
             className="px-4 py-2 border border-transparent text-blue-500 bg-gray-800
               hover:bg-gray-800/50 hover:border hover:border-blue-500 rounded-full

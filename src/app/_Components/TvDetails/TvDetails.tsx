@@ -4,7 +4,6 @@ import tmdbApi, {
   useGetMTDetailsQuery,
   useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
-import MainLoader from "../MainLoader/MainLoader";
 import Image from "next/image";
 import {
   FaStar,
@@ -49,6 +48,7 @@ import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import EpisodesSkeletons from "./EpisodesSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { getShowTitle } from "../../../../helpers/helpers";
+import TvDetailsSkeleton from "./TvDetailsSkeleton";
 
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
@@ -166,6 +166,7 @@ const TvDetails = ({
           <LazyRender
             Component={TvEpisodes}
             props={{
+              tvShow,
               seasonsCount:
                 tvShow?.number_of_seasons || tvShow?.seasons?.length - 1 || 1,
               tvShowId: tvShow?.id || 0,
@@ -249,8 +250,8 @@ const TvDetails = ({
     }
   }, [tvShow?.overview, isLoading]);
 
-  if (isLoading || translationsLoading) return <MainLoader />;
-  if (isError || !tvShow) return notFound();
+  if (isLoading || translationsLoading) return <TvDetailsSkeleton />;
+  if (isError) return notFound();
 
   return (
     <>
@@ -329,9 +330,12 @@ const TvDetails = ({
               <FaStar className="text-yellow-500" title="Rating" />
               {tvShow?.vote_average.toFixed(1)}
               <span className="text-gray-400">|</span>
-              <FcCalendar title="Last Date" />
-              {tvShow?.last_air_date &&
-                new Date(tvShow?.last_air_date).getFullYear()}
+              {tvShow?.last_air_date && (
+                <>
+                  <FcCalendar title="Last Date" />
+                  {new Date(tvShow?.last_air_date).getFullYear()}
+                </>
+              )}
               <span className="text-gray-400">|</span>
               <GiPapers title={t("Seasons")} />
               {tvShow?.number_of_seasons > 1
@@ -363,11 +367,11 @@ const TvDetails = ({
 
             {/* dates */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h4 className="font-bold">{t("FirstAirDate")}</h4>
-                <p className="text-gray-200">
-                  {tvShow?.first_air_date &&
-                    new Date(tvShow?.first_air_date).toLocaleString(
+              {tvShow?.first_air_date && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h4 className="font-bold">{t("FirstAirDate")}</h4>
+                  <p className="text-gray-200">
+                    {new Date(tvShow?.first_air_date).toLocaleString(
                       isArabic ? "ar" : "en-US",
                       {
                         day: "numeric",
@@ -375,13 +379,15 @@ const TvDetails = ({
                         year: "numeric",
                       },
                     )}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <h4 className="font-bold">{t("LastAirDate")}</h4>
-                <p className="text-gray-200">
-                  {tvShow?.last_air_date &&
-                    new Date(tvShow?.last_air_date).toLocaleString(
+                  </p>
+                </div>
+              )}
+
+              {tvShow?.last_air_date && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h4 className="font-bold">{t("LastAirDate")}</h4>
+                  <p className="text-gray-200">
+                    {new Date(tvShow?.last_air_date).toLocaleString(
                       isArabic ? "ar" : "en-US",
                       {
                         day: "numeric",
@@ -389,8 +395,9 @@ const TvDetails = ({
                         year: "numeric",
                       },
                     )}
-                </p>
-              </div>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* status */}
@@ -439,17 +446,19 @@ const TvDetails = ({
 
             {/* Buttons */}
             <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
-              <WatchBtn
-                name={
-                  getShowTitle({
-                    isArabic,
-                    show: tvShow,
-                  }) || tvShow?.original_name
-                }
-                moveToTabs={moveToTabs}
-                showType={showType as "movie" | "tv"}
-                showId={showId}
-              />
+              {new Date(tvShow?.first_air_date) <= new Date() && (
+                <WatchBtn
+                  name={
+                    getShowTitle({
+                      isArabic,
+                      show: tvShow,
+                    }) || tvShow?.original_name
+                  }
+                  moveToTabs={moveToTabs}
+                  showType={showType as "movie" | "tv"}
+                  showId={showId}
+                />
+              )}
               {/* watchlist & favorites */}
               <WatchlistFavoriteBtns showId={showId} theShow={tvShow} />
             </div>
@@ -470,7 +479,7 @@ const TvDetails = ({
           </div>
         </div>
 
-        {/* Movie Casts */}
+        {/* tv Casts */}
         {tvShow?.credits?.cast?.length > 0 && (
           <LazyRender
             Component={Casts}
@@ -488,7 +497,7 @@ const TvDetails = ({
         {/* Tabs (Videos, Images, Reviews) */}
         {tvShow && (
           <>
-            <div ref={tabsRef} className="pb-10" />
+            <div ref={tabsRef} />
             <Tabs
               tabs={tabs}
               activeTab={activeTab}

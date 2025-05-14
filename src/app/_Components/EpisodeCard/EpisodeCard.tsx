@@ -11,6 +11,7 @@ import { CgSpinner } from "react-icons/cg";
 import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 
 interface EpisodeCardProps {
   img: string;
@@ -23,6 +24,7 @@ interface EpisodeCardProps {
   onWatchClick?: (e: React.MouseEvent) => void;
   episodeId: number;
   tvShowName: string;
+  tvShow: TVShow;
 }
 
 const EpisodeCard = ({
@@ -36,6 +38,7 @@ const EpisodeCard = ({
   episodeId,
   onWatchClick,
   tvShowName,
+  tvShow,
 }: EpisodeCardProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
@@ -127,21 +130,24 @@ const EpisodeCard = ({
         >
           {t("Tabs.EpisodeCard.ReadMore")}
         </button>
-        <Link
-          scroll={false}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onWatchClick) onWatchClick(e);
-          }}
-          href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
-          className="rounded-lg bg-teal-800 py-3 px-6 text-center align-middle text-xs font-bold
-            uppercase text-white shadow-md shadow-teal-500/20 transition-all hover:shadow-lg
-            hover:shadow-teal-500/40 focus:opacity-[0.85] focus:shadow-none
-            active:opacity-[0.85] active:shadow-none flex items-center gap-1 grow
-            justify-center"
-        >
-          <FaRegPlayCircle className="text-lg" /> {t("Tabs.EpisodeCard.Watch")}
-        </Link>
+        {new Date(tvShow?.first_air_date) <= new Date() && (
+          <Link
+            scroll={false}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onWatchClick) onWatchClick(e);
+            }}
+            href={`/watch/tv/${showId}/${nameToSlug(tvShowName)}?season=${seasonNumber}&episode=${episodeNumber}`}
+            className="rounded-lg bg-teal-800 py-3 px-6 text-center align-middle text-xs font-bold
+              uppercase text-white shadow-md shadow-teal-500/20 transition-all hover:shadow-lg
+              hover:shadow-teal-500/40 focus:opacity-[0.85] focus:shadow-none
+              active:opacity-[0.85] active:shadow-none flex items-center gap-1 grow
+              justify-center"
+          >
+            <FaRegPlayCircle className="text-lg" />{" "}
+            {t("Tabs.EpisodeCard.Watch")}
+          </Link>
+        )}
       </div>
     </div>
   );

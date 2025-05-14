@@ -13,7 +13,7 @@ import {
 } from "@/app/interfaces/apiInterfaces/SearchMultiInterfaces";
 import { SiSpinrilla } from "react-icons/si";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { MdManageSearch } from "react-icons/md";
 import {
   getShowTitle,
@@ -22,11 +22,14 @@ import {
 } from "../../../../helpers/helpers";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { useRouter } from "@bprogress/next/app";
+import { useParams } from "next/navigation";
 
 type SearchResult = SearchMultiPerson | SearchMultiTVShow | SearchMultiMovie;
 
 const SearchBox = () => {
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
+  const params = useParams<{ locale: "en" | "ar"; query: string }>();
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isResultsContainerOpen, setIsResultsContainerOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -98,16 +101,28 @@ const SearchBox = () => {
     setQuery("");
   };
 
-  const handleSubmit = (
+  const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
   ) => {
     e.preventDefault();
     closeSearch();
+    const isSameQuery = decodeURIComponent(params.query) === query;
 
-    if (query) {
-      router.push(`/Search/${query}?page=1`);
-      setQuery("");
-      scrollToTop();
+    if (query && !isSameQuery) {
+      try {
+        const { data } = await search(
+          { query, lang: isArabic ? "ar" : "en" },
+          true,
+        );
+
+        const resultCount = data?.results?.length ?? 0;
+
+        router.push(`/Search/${query}?page=1&results=${resultCount}`);
+        setQuery("");
+        scrollToTop();
+      } catch (error) {
+        console.error("Search failed during submit:", error);
+      }
     }
   };
   return (
@@ -170,7 +185,7 @@ const SearchBox = () => {
         <main className="fixed inset-0 bg-black/20" onClick={closeSearch}>
           <div
             className="fixed top-20 start-2 end-2 sm:hidden bg-black max-h-96 overflow-y-auto border-2
-              border-gray-800 rounded-lg scroll-hidden shadow-blueGlow shadow-blue-700/50"
+              border-gray-800 rounded-lg custom-scrollbar shadow-blueGlow shadow-blue-700/50"
             onClick={(e) => e.stopPropagation()}
           >
             {results.length >= 20 && !isLoading && !isFetching && (
@@ -245,7 +260,7 @@ const SearchBox = () => {
               className={`fixed lg:absolute top-20 lg:top-12 w-full md:w-[70%] lg:w-[200%] xl:w-[150%]
               ${isArabic ? "end-1/2" : "start-1/2"} lg:start-0 transform -translate-x-1/2
               lg:translate-x-0 bg-black max-h-96 border-2 border-gray-800 rounded-lg min-h-20
-              overflow-y-auto scroll-hidden shadow-blueGlow shadow-blue-700/50`}
+              overflow-y-auto custom-scrollbar shadow-blueGlow shadow-blue-700/50`}
               onClick={(e) => e.stopPropagation()}
             >
               {results.length >= 20 && !isLoading && !isFetching && (

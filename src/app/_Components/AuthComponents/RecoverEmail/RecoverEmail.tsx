@@ -2,19 +2,23 @@
 import { auth } from "@/lib/firebase/config";
 import { applyActionCode, checkActionCode } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import {
+  useSearchParams,
+  useRouter as useNextIntlRouter,
+} from "next/navigation";
 import PageSection from "../../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
 import { SiSpinrilla } from "react-icons/si";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { signOutUser } from "@/lib/firebase/authService";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@bprogress/next/app";
 
 const RecoverEmail = () => {
   const t = useTranslations("Navbar.UserMenu");
   const tRecover = useTranslations("RecoverEmail");
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const mode = searchParams.get("mode");
   const oobCode = searchParams.get("oobCode");
   const [isOobError, setIsOobError] = useState(false);

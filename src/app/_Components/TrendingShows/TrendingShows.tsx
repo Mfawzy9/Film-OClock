@@ -11,9 +11,10 @@ import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CardsSkeletons from "../Card/CardsSkeletons";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
@@ -22,7 +23,7 @@ type TrendingShowsProps = {
 };
 
 const TrendingShows = () => {
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const searchParams = useSearchParams();
   const pageParam = Number(searchParams.get("page"));
   const { showType } = useParams<TrendingShowsProps>();
@@ -48,16 +49,46 @@ const TrendingShows = () => {
 
   const trendingData = data as MoviesTrendsResponse | TVShowsTrendsResponse;
 
-  const handleWeekOrDay = (query: "day" | "week") => {
-    setPage(1);
-    router.push(`?page=${1}`, { scroll: false });
-    setDayOrWeek(query);
-  };
+  const handleWeekOrDay = useCallback(
+    (query: "day" | "week") => {
+      if (query === dayOrWeek && page === 1) return;
 
-  if (isLoading) return <CardsSkeletons title={t("MoviesTitle")} />;
-  if (isError) return <div>Error loading data</div>;
+      if (page !== 1) {
+        setPage(1);
+        router.push(`?page=1`, { scroll: false });
+      }
+
+      setDayOrWeek(query);
+    },
+    [dayOrWeek, page, router],
+  );
 
   const title = showType === "movie" ? t("MoviesTitle") : t("TvShowsTitle");
+
+  if (isLoading)
+    return (
+      <PageSection>
+        <div className="flex flex-col gap-2 sm:gap-5 sm:flex-row items-center justify-between flex-wrap">
+          <Title title={title} />
+          <div className="flex gap-2 rounded-full bg-black shadow-blueGlow overflow-hidden w-[188px]">
+            {[...Array(2)].map((_, i) => (
+              <div
+                key={i}
+                className={`px-6 py-2 rounded-full bg-gray-800 animate-pulse h-10
+                ${i === 0 ? "w-[40%]" : "w-[60%]"}`}
+              />
+            ))}
+          </div>
+        </div>
+        <CardsSkeletons needSection={false} />
+      </PageSection>
+    );
+  if (isError)
+    return (
+      <div className="text-red-500 text-center h-screen flex items-center justify-center">
+        Error loading data
+      </div>
+    );
 
   return (
     <>

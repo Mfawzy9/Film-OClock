@@ -35,9 +35,10 @@ const VideoModal = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-96 sm:w-3/4 sm:h-1/2 lg:w-3/4 lg:h-3/4 shadow-blueGlow flex
-              justify-center items-center relative bg-gray-950"
+            transition={{ duration: 0.2 }}
+            className="aspect-video w-full max-w-full md:max-w-screen-md xl:max-w-screen-lg
+              4xl:max-w-screen-xl shadow-blueGlow flex justify-center items-center relative
+              bg-gray-950"
             onClick={(e) => e.stopPropagation()}
           >
             <SiSpinrilla className="absolute text-6xl text-white animate-spin" />

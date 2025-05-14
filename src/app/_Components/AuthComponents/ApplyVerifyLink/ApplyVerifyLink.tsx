@@ -1,21 +1,22 @@
 "use client";
 import { auth } from "@/lib/firebase/config";
 import { applyActionCode, checkActionCode, reload } from "firebase/auth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PageSection from "../../PageSection/PageSection";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { SiSpinrilla } from "react-icons/si";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
 import { setUser, User } from "@/lib/Redux/localSlices/authSlice";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@bprogress/next/app";
 
 const ApplyVerifyLink = () => {
   const t = useTranslations("VerifyEmail");
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const dispatch = useDispatch();
 
   const mode = searchParams.get("mode");

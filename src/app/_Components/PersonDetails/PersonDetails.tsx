@@ -4,9 +4,7 @@ import {
   PersonDetailsResponse,
   PImages,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import PageHeader from "../PageHeader/PageHeader";
 import tmdbApi, { useGetMTDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
-import MainLoader from "../MainLoader/MainLoader";
 import Image from "next/image";
 import {
   FaBirthdayCake,
@@ -39,6 +37,7 @@ import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import LazyRender from "../LazyRender/LazyRender";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import { useRouter } from "@/i18n/navigation";
+import PersonDetailsSkeleton from "./PersonDetailsSkeleton";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   loading: () => <CardsSkeletonSlider />,
@@ -209,174 +208,166 @@ const PersonDetails = ({
       false,
   );
 
-  if (isLoading) return <MainLoader />;
+  if (isLoading || !details) return <PersonDetailsSkeleton />;
 
   return (
-    <>
-      <PageHeader />
-      {details && (
-        <>
-          <PageSection>
-            <main className="flex gap-12 flex-col md:flex-row items-center md:items-start">
-              <div className="flex flex-col items-center gap-4">
-                {/* Poster */}
-                <div className="w-[250px] h-[375px] flex-none relative">
-                  {!isImgLoaded && <BgPlaceholder />}
-                  {details?.profile_path ? (
-                    <Image
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${details?.profile_path}`}
-                      alt={details?.name}
-                      className={`rounded-md ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
-                        transition-[transform,opacity] duration-300 transform-gpu ease-out`}
-                      priority
-                      onLoad={() => {
-                        dispatch(setImageLoaded(details?.profile_path ?? ""));
-                      }}
+    details && (
+      <>
+        <PageSection>
+          <main className="flex gap-12 flex-col md:flex-row items-center md:items-start">
+            <div className="flex flex-col items-center gap-4">
+              {/* Poster */}
+              <div className="w-[250px] h-[375px] flex-none relative">
+                {!isImgLoaded && <BgPlaceholder />}
+                {details?.profile_path ? (
+                  <Image
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${details?.profile_path}`}
+                    alt={details?.name}
+                    className={`rounded-md ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+                      transition-[transform,opacity] duration-300 transform-gpu ease-out`}
+                    priority
+                    onLoad={() => {
+                      dispatch(setImageLoaded(details?.profile_path ?? ""));
+                    }}
+                  />
+                ) : (
+                  <>
+                    <h3
+                      className="absolute z-30 flex items-center gap-1 top-1/2 left-1/2 -translate-x-1/2
+                        -translate-y-1/2"
+                    >
+                      {details?.name}{" "}
+                      <CgSpinner className="animate-spin text-lg" />
+                    </h3>
+                    <BgPlaceholder />
+                  </>
+                )}
+              </div>
+              {/* Social Links */}
+              {details?.external_ids && (
+                <SocialLinks externalIds={details?.external_ids} isPerson />
+              )}
+            </div>
+
+            {/* Details */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-3">
+                <Title title={details?.name || details?.also_known_as?.[0]} />
+                {details?.homepage && (
+                  <a
+                    href={details?.homepage}
+                    target="_blank"
+                    className="hover:text-blue-700 mb-3"
+                    rel="noopener noreferrer"
+                  >
+                    <FaExternalLinkAlt
+                      title="Home page"
+                      className="text-base"
                     />
-                  ) : (
-                    <>
-                      <h3
-                        className="absolute z-30 flex items-center gap-1 top-1/2 left-1/2 -translate-x-1/2
-                          -translate-y-1/2"
-                      >
-                        {details?.name}{" "}
-                        <CgSpinner className="animate-spin text-lg" />
-                      </h3>
-                      <BgPlaceholder />
-                    </>
-                  )}
-                </div>
-                {/* Social Links */}
-                {details?.external_ids && (
-                  <SocialLinks externalIds={details?.external_ids} isPerson />
+                  </a>
                 )}
               </div>
 
-              {/* Details */}
-              <div className="flex flex-col">
-                <div className="flex items-center gap-3">
-                  <Title title={details?.name || details?.also_known_as?.[0]} />
-                  {details?.homepage && (
-                    <a
-                      href={details?.homepage}
-                      target="_blank"
-                      className="hover:text-blue-700 mb-3"
-                      rel="noopener noreferrer"
+              {/*  Info */}
+              <div className="flex flex-col gap-2">
+                {details?.gender !== 0 && details?.gender !== 3 && (
+                  <h4 className="flex items-center gap-1 flex-wrap font-light">
+                    <FaTransgenderAlt />
+                    <span className="font-bold text-blue-300">
+                      {t("Gender")} :
+                    </span>
+                    {details?.gender === 1 ? t("Female") : t("Male")}
+                  </h4>
+                )}
+                <h4 className="flex items-center gap-1 flex-wrap font-light">
+                  <FaBirthdayCake />
+                  <span className="font-bold text-blue-300">
+                    {t("Birthday")} :
+                  </span>
+                  {calculateAge(details?.birthday, isArabic)}
+                </h4>
+                {details?.deathday && (
+                  <h4 className="flex items-center gap-1 flex-wrap font-light">
+                    <GiTombstone />
+                    <span className="font-bold text-blue-300">
+                      {t("Deathday")} :
+                    </span>
+                    {details?.deathday?.replace(/-/g, "/")}
+                  </h4>
+                )}
+                {details?.place_of_birth && (
+                  <h4 className="flex items-center gap-1 flex-wrap font-light">
+                    <FaLocationDot />
+                    <span className="font-bold text-blue-300">
+                      {t("PlaceOfBirth")} :
+                    </span>
+                    {details?.place_of_birth}
+                  </h4>
+                )}
+                <h4 className="flex items-center gap-1 flex-wrap font-light">
+                  <MdRecentActors />
+                  <span className="font-bold text-blue-300">
+                    {t("KnownFor")} :
+                  </span>
+                  {details?.known_for_department === "Acting"
+                    ? t("Acting")
+                    : details?.known_for_department === "Directing"
+                      ? t("Directing")
+                      : details?.known_for_department === "Production"
+                        ? t("Producing")
+                        : details?.known_for_department}
+                </h4>
+
+                {/* latest works */}
+                {details?.combined_credits &&
+                  (details?.combined_credits.cast.length !== 0 ||
+                    details?.combined_credits.crew.length !== 0) && (
+                    <LatestWorks person={details} label={t("RecentWorks")} />
+                  )}
+
+                {/* Biography */}
+                {details?.biography && (
+                  <div className="flex flex-col gap-1 mt-2">
+                    <span className="font-bold text-blue-300 me-1 flex items-center gap-1">
+                      <BiSolidDetail className="text-white" />
+                      {t("Biography")} :
+                    </span>
+                    <p
+                      ref={contentRef}
+                      className="tracking-wide leading-loose text-gray-200 text-sm transition-all duration-700
+                        ease-in-out overflow-hidden break-normal"
+                      style={{ maxHeight }}
                     >
-                      <FaExternalLinkAlt
-                        title="Home page"
-                        className="text-base"
-                      />
-                    </a>
-                  )}
-                </div>
-
-                {/*  Info */}
-                <div className="flex flex-col gap-2">
-                  {details?.gender !== 0 && details?.gender !== 3 && (
-                    <h4 className="flex items-center gap-1 flex-wrap font-light">
-                      <FaTransgenderAlt />
-                      <span className="font-bold text-blue-300">
-                        {t("Gender")} :
-                      </span>
-                      {details?.gender === 1 ? t("Female") : t("Male")}
-                    </h4>
-                  )}
-                  <h4 className="flex items-center gap-1 flex-wrap font-light">
-                    <FaBirthdayCake />
-                    <span className="font-bold text-blue-300">
-                      {t("Birthday")} :
-                    </span>
-                    {calculateAge(details?.birthday, isArabic)}
-                  </h4>
-                  {details?.deathday && (
-                    <h4 className="flex items-center gap-1 flex-wrap font-light">
-                      <GiTombstone />
-                      <span className="font-bold text-blue-300">
-                        {t("Deathday")} :
-                      </span>
-                      {details?.deathday?.replace(/-/g, "/")}
-                    </h4>
-                  )}
-                  {details?.place_of_birth && (
-                    <h4 className="flex items-center gap-1 flex-wrap font-light">
-                      <FaLocationDot />
-                      <span className="font-bold text-blue-300">
-                        {t("PlaceOfBirth")} :
-                      </span>
-                      {details?.place_of_birth}
-                    </h4>
-                  )}
-                  <h4 className="flex items-center gap-1 flex-wrap font-light">
-                    <MdRecentActors />
-                    <span className="font-bold text-blue-300">
-                      {t("KnownFor")} :
-                    </span>
-                    {details?.known_for_department === "Acting"
-                      ? t("Acting")
-                      : details?.known_for_department === "Directing"
-                        ? t("Directing")
-                        : details?.known_for_department === "Production"
-                          ? t("Producing")
-                          : details?.known_for_department}
-                  </h4>
-
-                  {/* latest works */}
-                  {details?.combined_credits &&
-                    (details?.combined_credits.cast.length !== 0 ||
-                      details?.combined_credits.crew.length !== 0) && (
-                      <LatestWorks person={details} label={t("RecentWorks")} />
-                    )}
-
-                  {/* Biography */}
-                  {details?.biography && (
-                    <div className="flex flex-col gap-1 mt-2">
-                      <span className="font-bold text-blue-300 me-1 flex items-center gap-1">
-                        <BiSolidDetail className="text-white" />
-                        {t("Biography")} :
-                      </span>
-                      <p
-                        ref={contentRef}
-                        className="tracking-wide leading-loose text-gray-200 text-sm transition-all duration-700
-                          ease-in-out overflow-hidden break-normal"
-                        style={{ maxHeight }}
+                      {details?.biography}
+                    </p>
+                    {needsExpandButton && (
+                      <button
+                        onClick={handleToggle}
+                        className="text-blue-600 flex items-center gap-1 hover:text-blue-300 transition-all
+                          duration-200 font-roboto"
                       >
-                        {details?.biography}
-                      </p>
-                      {needsExpandButton && (
-                        <button
-                          onClick={handleToggle}
-                          className="text-blue-600 flex items-center gap-1 hover:text-blue-300 transition-all
-                            duration-200 font-roboto"
-                        >
-                          {showMore ? t("ShowLess") : t("ViewFullBiography")}
-                          <FaAngleDown
-                            className={`text-xl ${showMore ? "rotate-180" : "rotate-0"} transition-transform
-                            duration-200`}
-                          />
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
+                        {showMore ? t("ShowLess") : t("ViewFullBiography")}
+                        <FaAngleDown
+                          className={`text-xl ${showMore ? "rotate-180" : "rotate-0"} transition-transform
+                          duration-200`}
+                        />
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
-            </main>
-          </PageSection>
-          <PageSection>
-            {/* tabs */}
-            {details && (
-              <Tabs
-                tabs={tabs}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
-            )}
-          </PageSection>
-        </>
-      )}
-    </>
+            </div>
+          </main>
+        </PageSection>
+        <PageSection>
+          {/* tabs */}
+
+          <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+        </PageSection>
+      </>
+    )
   );
 };
 

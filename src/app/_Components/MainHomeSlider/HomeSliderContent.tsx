@@ -1,4 +1,4 @@
-import { motion, Variants } from "framer-motion";
+import { Variants } from "framer-motion";
 import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 import { memo, useMemo } from "react";
@@ -10,6 +10,8 @@ import { RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle } from "../../../../helpers/helpers";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
+import MotionWrapper from "../helpers/MotionWrapper";
 
 const imgVariants: Variants = {
   hidden: { opacity: 0, transform: "scale(0.8)" },
@@ -20,7 +22,7 @@ const imgVariants: Variants = {
   },
 };
 
-const childVariants: Variants = {
+const contentVariants: Variants = {
   hidden: { opacity: 0, x: -10 },
   visible: {
     opacity: 1,
@@ -41,6 +43,7 @@ const HomeSliderContent = ({
   genreNames: string[];
 }) => {
   const { isArabic } = useIsArabic();
+  const isDesktop = useIsDesktop();
   const genreList = useMemo(() => {
     return genreNames.map((genre, idx) => (
       <span
@@ -86,8 +89,9 @@ const HomeSliderContent = ({
             xl:justify-around relative gap-6 4xl:pt-48"
         >
           {/* Left Text Content */}
-          <motion.div
-            variants={childVariants}
+          <MotionWrapper
+            isDesktop={isDesktop}
+            variants={contentVariants}
             initial="hidden"
             animate={isActive && isVisible ? "visible" : "hidden"}
             className="flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
@@ -133,10 +137,11 @@ const HomeSliderContent = ({
                 releaseDate={movie.release_date}
               />
             </div>
-          </motion.div>
+          </MotionWrapper>
 
           {/* Movie Poster */}
-          <motion.div
+          <MotionWrapper
+            isDesktop={isDesktop}
             variants={imgVariants}
             initial="hidden"
             animate={isActive && isVisible ? "visible" : "hidden"}
@@ -161,7 +166,7 @@ const HomeSliderContent = ({
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={() => dispatch(setImageLoaded(imgSrc))}
             />
-          </motion.div>
+          </MotionWrapper>
         </div>
       </section>
     </>

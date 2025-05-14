@@ -2,19 +2,20 @@
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import { auth } from "@/lib/firebase/config";
 import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { SiSpinrilla } from "react-icons/si";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import PasswordInput from "../../PasswordInput/PasswordInput";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 const ResetPassword = () => {
   const t = useTranslations("ResetPassword");
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const oobCode = searchParams.get("oobCode");
 
   const [loading, setLoading] = useState(false);

@@ -1,7 +1,8 @@
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { FaPlay } from "react-icons/fa6";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { useRouter } from "@bprogress/next/app";
 
 interface WatchBtnProps {
   showType: "movie" | "tv";
@@ -20,7 +21,7 @@ const WatchBtn = ({
   name,
   moveToTabs,
 }: WatchBtnProps) => {
-  const { push } = useRouter();
+  const { push } = useRouter({ customRouter: useNextIntlRouter });
   const t = useTranslations("HomePage");
 
   const handleClick = () => {

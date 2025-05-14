@@ -23,11 +23,13 @@ const WatchlistFavoriteBtns = ({
   theShow: Movie | MovieDetailsResponse | TVShow | TvDetailsResponse;
 }) => {
   const t = useTranslations("Library");
+
   const { libraryState, loadingState, handleLibraryClick } = useLibrary({
     showId,
     theShow,
     dropDownMenu: true,
   });
+  if (!theShow) return null;
   const showType = "original_title" in theShow ? "movie" : "tv";
 
   const renderButton = (

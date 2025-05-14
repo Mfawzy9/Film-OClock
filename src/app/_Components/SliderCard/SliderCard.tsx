@@ -10,7 +10,7 @@ import {
   nameToSlug,
   scrollToTop,
 } from "../../../../helpers/helpers";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
 import { Link } from "@/i18n/navigation";
 import {
@@ -18,6 +18,7 @@ import {
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@bprogress/next/app";
 
 interface SliderCardProps {
   srcKey: string;
@@ -65,7 +66,7 @@ const SliderCard = ({
     shallowEqual,
   );
 
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const [dropDownMenu, setDropDownMenu] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

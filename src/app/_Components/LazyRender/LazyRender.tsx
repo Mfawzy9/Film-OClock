@@ -55,8 +55,10 @@ const LazyRender = ({
 
   if (!isOnline && !hasBeenInView && !noLazy) return loading;
 
-  if (noLazy) {
+  if (noLazy && isOnline) {
     return <Component {...props} />;
+  } else if (noLazy && !isOnline) {
+    return loading;
   }
 
   return (

@@ -10,7 +10,6 @@ import { MovieDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInte
 import PageSection from "../PageSection/PageSection";
 import { FaStar } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
-import MainLoader from "../MainLoader/MainLoader";
 import {
   getShowTitle,
   minutesToHours,
@@ -39,11 +38,13 @@ import Image from "next/image";
 import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import LazyRender from "../LazyRender/LazyRender";
 import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
+import ComingSoon from "../ComingSoon/ComingSoon";
 
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const MovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/MovieCollectionBanner"),
 );
+const WatchMovieSkeleton = dynamic(() => import("./WatchMovieSkeleton"));
 
 interface WatchMovieProps {
   showType: "movie" | "tv";
@@ -88,7 +89,7 @@ const WatchMovie = ({
     }
   }, [dispatch, initialTranslations, showId, showType]);
 
-  const { data: movie, isLoading } = useGetMTDetailsQuery(
+  const { data: movie, isLoading: movieLoading } = useGetMTDetailsQuery(
     { showType, showId },
     { skip: !showId },
   ) as { data: MovieDetailsResponse; isLoading: boolean };
@@ -102,10 +103,11 @@ const WatchMovie = ({
     lang: isArabic ? "ar" : "en",
   });
 
-  const { data: movieTranslations } = useGetTranslationsQuery(
-    { showId, showType },
-    { skip: !isArabic || !showId },
-  );
+  const { data: movieTranslations, isLoading: movieTranslationsLoading } =
+    useGetTranslationsQuery(
+      { showId, showType },
+      { skip: !isArabic || !showId },
+    );
 
   const finalOverview = useMemo(() => {
     const arabicAeOverview = movieTranslations?.translations
@@ -196,7 +198,7 @@ const WatchMovie = ({
         watchedCount: 1,
         releaseDate: movie.release_date ?? null,
         rating: movie?.vote_average,
-        genresIds: movie?.genres.map((genre) => genre.id),
+        genresIds: movie?.genres?.map((genre) => genre.id),
       };
 
       const prev = JSON.parse(localStorage.getItem("WatchedHistory") || "{}");
@@ -307,8 +309,10 @@ const WatchMovie = ({
     };
   }, [updateWatchedHistory]);
 
-  if (isLoading) return <MainLoader />;
-  if (!movie) return <div>Movie not found</div>;
+  const isLoading = movieLoading || genresLoading || movieTranslationsLoading;
+
+  if (isLoading) return <WatchMovieSkeleton />;
+  if (new Date(movie?.release_date) >= new Date()) return <ComingSoon />;
 
   return (
     <>
@@ -340,7 +344,7 @@ const WatchMovie = ({
 
           <div className="flex items-center gap-2 flex-wrap">
             <FaStar className="text-yellow-500" title="Rating" />
-            {movie?.vote_average.toFixed(1)}
+            {movie?.vote_average?.toFixed(1)}
             <span className="text-gray-400">|</span>
             <FcCalendar title="Release Date" />
             {movie?.release_date}
@@ -349,10 +353,10 @@ const WatchMovie = ({
             {minutesToHours(movie?.runtime ?? 0, isArabic)}
             <span className="text-gray-400">|</span>
             <GrLanguage title="Language" />
-            {movie?.original_language.toUpperCase()}
+            {movie?.original_language?.toUpperCase()}
           </div>
 
-          {translatedGenres(movie).length > 0 && (
+          {translatedGenres(movie)?.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap">
               {translatedGenres(movie).map((genre) => (
                 <span

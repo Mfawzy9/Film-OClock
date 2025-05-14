@@ -4,17 +4,17 @@ import { ChangeEvent } from "react";
 import { FaSearch } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 
-interface WlSearchProps {
+interface LibSearchProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   searchTerm: string;
   libraryWord: "Watchlist" | "Favourites" | "WatchedList";
 }
 
-const WlSearch = ({
+const LibSearch = ({
   setSearchTerm,
   searchTerm,
   libraryWord,
-}: WlSearchProps) => {
+}: LibSearchProps) => {
   const t = useTranslations("Library");
   return (
     <form className="relative max-w-sm my-6 mx-auto flex items-center">
@@ -45,4 +45,4 @@ const WlSearch = ({
   );
 };
 
-export default WlSearch;
+export default LibSearch;

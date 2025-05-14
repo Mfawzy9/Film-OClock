@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
 
   // Handle internationalization first
   const response = intlMiddleware(request);
+  response.headers.set("x-current-pathname", request.nextUrl.pathname);
 
   const { pathname } = request.nextUrl;
 

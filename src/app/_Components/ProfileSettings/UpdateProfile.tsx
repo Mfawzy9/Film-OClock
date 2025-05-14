@@ -18,10 +18,12 @@ import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
 import { useState } from "react";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { UpdateFields, updateSchema } from "@/app/validation/updateValidation";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@bprogress/next/app";
+import { clearLibrary } from "@/lib/Redux/localSlices/librarySlice";
 
 const UpdateProfile = ({ user }: { user: User | null }) => {
   const t = useTranslations("Account");
@@ -34,7 +36,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   const [responseError, setResponseError] = useState<string | null>(null);
   const [responseSucess, setresponseSucess] = useState<string | null>(null);
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useRouter({ customRouter: useNextIntlRouter });
 
   const handleVerify = async () => {
     if (!auth.currentUser) return;
@@ -134,11 +136,12 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
     if (!auth.currentUser) return;
     try {
       await deleteUser(auth.currentUser);
+      router.push("/");
       dispatch(logout());
+      dispatch(clearLibrary());
       toast.success(
         t("SettingsPart.ToastsAndMessages.AccountDeletedSuccessfully"),
       );
-      router.push("/");
       await fetch("/api/auth/session", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },

@@ -19,6 +19,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   isGoogleLoading: boolean;
+  userStatusLoading: boolean;
 }
 
 const initialState: AuthState = {
@@ -26,6 +27,7 @@ const initialState: AuthState = {
   isLoading: false,
   error: null,
   isGoogleLoading: false,
+  userStatusLoading: true,
 };
 
 const authSlice = createSlice({
@@ -42,6 +44,9 @@ const authSlice = createSlice({
     setGoogleLoading: (state, action: PayloadAction<boolean>) => {
       state.isGoogleLoading = action.payload;
     },
+    setUserStatusLoading: (state, action: PayloadAction<boolean>) => {
+      state.userStatusLoading = action.payload;
+    },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
       state.isLoading = false;
@@ -54,6 +59,12 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, setLoading, setGoogleLoading, setError, logout } =
-  authSlice.actions;
+export const {
+  setUser,
+  setLoading,
+  setGoogleLoading,
+  setError,
+  logout,
+  setUserStatusLoading,
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;

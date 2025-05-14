@@ -52,6 +52,12 @@
     "Loading": "Loading..."
   },
 
+  "ErrorPage": {
+    "SomethingWentWrong": "Something went wrong",
+    "FailedToLoadTheData": "Failed to load the data, check your internet connection",
+    "TryAgain": "Try Again"
+  },
+
   "HomePage": {
     "HomeSlider": {
       "WatchNowBtn": "Watch Now",
@@ -475,6 +481,12 @@
     "Servers": "Servers",
     "Recommendations": "Recommendations",
     "Similar": "Similar"
+  },
+
+  "ComingSoon": {
+    "title": "Coming Soon",
+    "description": "The show you are looking for is not available yet.",
+    "continue": "Continue"
   },
 
   "Account": {
