@@ -79,7 +79,16 @@ const PopularPpl = () => {
     }
   }, [isLoading, isSuccess, isError, start, stop]);
 
-  if (isLoading) {
+  if (
+    isLoading ||
+    isFetching ||
+    isError ||
+    !popular ||
+    !data ||
+    !allData ||
+    !featuredCast ||
+    !topOneId
+  ) {
     return (
       <PageSection>
         <TopOneCardSkeleton />
