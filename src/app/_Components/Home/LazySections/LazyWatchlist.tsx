@@ -2,17 +2,15 @@ import useLibrary from "@/app/hooks/useLibrary";
 import LoggedinEmptyWL from "../../Library/LoggedinEmptyWL/LoggedinEmptyWL";
 import LoggedoutEmptyWL from "../../Library/LoggedoutEmptyWL/LoggedoutEmptyWL";
 import { useTranslations } from "next-intl";
-import LazyRender from "../../LazyRender/LazyRender";
-import CardsSkeletonSlider from "../../CardsSlider/CardsSkeletonSlider";
-import { memo, useEffect, useMemo } from "react";
+import { memo, useMemo } from "react";
 import WlFClearBtn from "../../Library/TitleClearBtn/WlFClearBtn";
 import dynamic from "next/dynamic";
 
-let watchlistLength = 1;
-const CardsSlider = dynamic(() => import("../../CardsSlider/CardsSlider"), {
-  ssr: false,
-  loading: () => <CardsSkeletonSlider arrLength={watchlistLength} />,
-});
+const CardsSkeletonSlider = dynamic(
+  () => import("../../CardsSlider/CardsSkeletonSlider"),
+);
+const CardsSlider = dynamic(() => import("../../CardsSlider/CardsSlider"));
+const LazyRender = dynamic(() => import("../../LazyRender/LazyRender"));
 
 const LazyWatchlist = () => {
   const t = useTranslations("HomePage");
@@ -20,16 +18,6 @@ const LazyWatchlist = () => {
   const { watchlist, user, isClearLoading, handleClearLibrary } = useLibrary({
     dropDownMenu: false,
   });
-
-  useEffect(() => {
-    if (watchlist) {
-      watchlistLength = watchlist.length;
-    }
-  }, [watchlist]);
-
-  const loading = useMemo(() => {
-    return <CardsSkeletonSlider arrLength={watchlist.length} />;
-  }, [watchlist.length]);
 
   const sliderProps = useMemo(
     () => ({
@@ -57,7 +45,9 @@ const LazyWatchlist = () => {
           <div className="p-2 sm:p-4 relative">
             <LazyRender
               Component={CardsSlider}
-              loading={loading}
+              loading={
+                <CardsSkeletonSlider arrLength={sliderProps.arrLength} />
+              }
               props={sliderProps}
             />
             <div className="relative md:absolute top-2 end-2 p-2 md:p-0 flex justify-center">

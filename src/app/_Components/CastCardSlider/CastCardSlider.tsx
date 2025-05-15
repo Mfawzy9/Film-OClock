@@ -5,10 +5,16 @@ import { Swiper as SwiperType } from "swiper";
 import CastCard from "../CastCard/CastCard";
 import Title from "../Title/Title";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import CastCardsSkeletonSlider from "./CastCardsSkeletonSlider";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import dynamic from "next/dynamic";
+
+const CastCardsSkeletonSlider = dynamic(
+  () => import("./CastCardsSkeletonSlider"),
+);
+
 const CastCardSlider = ({
   featuredCast,
   isLoading,

@@ -3,9 +3,9 @@ import { Link } from "@/i18n/navigation";
 import TrailerBtn from "../TrailerBtn/TrailerBtn";
 import { memo } from "react";
 import WatchBtn from "../../WatchBtn/WatchBtn";
-import { TbListDetails } from "react-icons/tb";
 import { useTranslations } from "next-intl";
 import { nameToSlug } from "../../../../../helpers/helpers";
+import { ImList } from "@react-icons/all-files/im/ImList";
 
 const HomeSliderBtns = ({
   showType,
@@ -34,7 +34,7 @@ const HomeSliderBtns = ({
             lg:hover:shadow-lg lg:hover:-translate-y-0.5"
           href={detailsLink}
         >
-          <TbListDetails className="me-1" />
+          <ImList className="me-1" />
           {t("HomeSlider.DetailsBtn")}
         </Link>
       </div>

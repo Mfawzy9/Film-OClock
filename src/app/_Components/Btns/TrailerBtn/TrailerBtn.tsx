@@ -1,8 +1,8 @@
 import { useGetTrailer } from "@/app/hooks/useGetTrailer";
 import { VideosQueryParams } from "@/app/interfaces/apiInterfaces/videosInterfaces";
+import { MdOndemandVideo } from "@react-icons/all-files/md/MdOndemandVideo";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
-import { MdOutlineOndemandVideo } from "react-icons/md";
 
 const TrailerBtn = ({ showType, showId }: VideosQueryParams) => {
   const t = useTranslations("HomePage");
@@ -21,7 +21,7 @@ const TrailerBtn = ({ showType, showId }: VideosQueryParams) => {
         before:bg-[linear-gradient(130deg,#991b1b,#991b1b_33%,#991b1b)]
         before:rounded-full before:transition before:duration-300 text-white"
     >
-      <MdOutlineOndemandVideo
+      <MdOndemandVideo
         className="absolute left-3 lg:group-hover:left-1.5 lg:group-active:left-[10px] duration-300
           transition-[left] z-10 w-8 h-8 text-white"
       />

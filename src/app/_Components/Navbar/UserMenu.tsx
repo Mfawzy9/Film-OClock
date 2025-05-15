@@ -9,19 +9,18 @@ import {
 import { signOutUser } from "@/lib/firebase/authService";
 import { User } from "@/lib/Redux/localSlices/authSlice";
 import { useRouter } from "@bprogress/next/app";
+import { FaClipboardList } from "@react-icons/all-files/fa/FaClipboardList";
+import { FaEnvelope } from "@react-icons/all-files/fa/FaEnvelope";
+import { FaEye } from "@react-icons/all-files/fa/FaEye";
+import { FaUser } from "@react-icons/all-files/fa/FaUser";
+import { FaUserCog } from "@react-icons/all-files/fa/FaUserCog";
+import { FaUserPlus } from "@react-icons/all-files/fa/FaUserPlus";
+import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill";
+import { VscSignIn } from "@react-icons/all-files/vsc/VscSignIn";
+import { VscSignOut } from "@react-icons/all-files/vsc/VscSignOut";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { memo, useMemo } from "react";
-import {
-  FaClipboardList,
-  FaEnvelope,
-  FaHeart,
-  FaUser,
-  FaUserCog,
-  FaUserPlus,
-} from "react-icons/fa";
-import { FaEye } from "react-icons/fa6";
-import { VscSignIn, VscSignOut } from "react-icons/vsc";
 
 interface UserMenuProps {
   setUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,7 +50,7 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
       {
         name: t("Favorites"),
         href: "/library/favorites",
-        icon: <FaHeart className="text-xl" />,
+        icon: <RiHeartsFill className="text-xl" />,
         badge: true,
         show: !!user,
       },

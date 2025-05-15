@@ -1,7 +1,5 @@
 import { logout, setUser, User } from "@/lib/Redux/localSlices/authSlice";
 import Title from "../Title/Title";
-import { SiSpinrilla } from "react-icons/si";
-import { IoWarningOutline } from "react-icons/io5";
 import {
   updateEmail,
   updatePassword,
@@ -16,14 +14,18 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
 import { useState } from "react";
-import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { UpdateFields, updateSchema } from "@/app/validation/updateValidation";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
 import { clearLibrary } from "@/lib/Redux/localSlices/librarySlice";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { FaEye } from "@react-icons/all-files/fa/FaEye";
+import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
+import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const UpdateProfile = ({ user }: { user: User | null }) => {
   const t = useTranslations("Account");

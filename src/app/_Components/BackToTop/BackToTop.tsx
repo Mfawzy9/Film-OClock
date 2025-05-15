@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
-import { FaArrowAltCircleUp } from "react-icons/fa";
 import { scrollToTop } from "../../../../helpers/helpers";
+import { FaArrowAltCircleUp } from "@react-icons/all-files/fa/FaArrowAltCircleUp";
 
 const BackToTop = () => {
   const { scrollY } = useScroll();

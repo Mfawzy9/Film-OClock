@@ -1,5 +1,3 @@
-import { FaStar } from "react-icons/fa6";
-import { GrLanguage } from "react-icons/gr";
 import { minutesToHours } from "../../../../helpers/helpers";
 import {
   Episode,
@@ -8,15 +6,22 @@ import {
 import Title from "../Title/Title";
 import { useMemo } from "react";
 import { Link } from "@/i18n/navigation";
-import { FcCalendar, FcClock } from "react-icons/fc";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
-import { CgSpinner } from "react-icons/cg";
 import {
   useGetEpisodeTranslationsQuery,
   useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
-import OverviewSkeleton from "../OverviewSkeleton/OverviewSkeleton";
+import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { FcClock } from "@react-icons/all-files/fc/FcClock";
+import dynamic from "next/dynamic";
+
+const OverviewSkeleton = dynamic(
+  () => import("../OverviewSkeleton/OverviewSkeleton"),
+);
 
 interface WatchTvDetailsProps {
   tvShow: TvDetailsResponse;
@@ -142,7 +147,7 @@ const WatchTvDetails = ({
           <FcClock title="Duration" className="text-black" />{" "}
           {minutesToHours(currentEpisode?.runtime ?? 0, isArabic)}
           <span className="text-gray-400">|</span>
-          <GrLanguage title="Language" />
+          <FaGlobeAmericas title="Language" />
           {tvShow?.original_language.toUpperCase()}
         </h6>
 

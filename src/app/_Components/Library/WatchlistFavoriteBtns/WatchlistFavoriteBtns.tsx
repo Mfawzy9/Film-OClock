@@ -1,7 +1,4 @@
 import { JSX } from "react";
-import { FaHeartCircleCheck, FaHeartCirclePlus } from "react-icons/fa6";
-import { MdAssignmentAdd, MdAssignmentTurnedIn } from "react-icons/md";
-import { PiSpinnerGapBold } from "react-icons/pi";
 import {
   MovieDetailsResponse,
   TvDetailsResponse,
@@ -13,7 +10,12 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { useTranslations } from "next-intl";
 import { handleShare } from "../../../../../helpers/helpers";
-import { FiShare2 } from "react-icons/fi";
+import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
+import { FiShare2 } from "@react-icons/all-files/fi/FiShare2";
+import { MdAssignmentTurnedIn } from "@react-icons/all-files/md/MdAssignmentTurnedIn";
+import { RiHeartAddFill } from "@react-icons/all-files/ri/RiHeartAddFill";
+import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill";
+import { RiLoader2Fill } from "@react-icons/all-files/ri/RiLoader2Fill";
 
 const WatchlistFavoriteBtns = ({
   showId,
@@ -55,7 +57,7 @@ const WatchlistFavoriteBtns = ({
           disabled:opacity-70 disabled:hover:text-white"
       >
         {isLoading ? (
-          <PiSpinnerGapBold className="animate-spin text-4xl" />
+          <RiLoader2Fill className="animate-spin text-4xl" />
         ) : !isInLibrary ? (
           <>
             {addIcon}
@@ -91,7 +93,7 @@ const WatchlistFavoriteBtns = ({
       {renderButton(
         "watchlist",
         libraryState.watchlist,
-        <MdAssignmentAdd className="text-3xl" />,
+        <FaNotesMedical className="text-3xl" />,
         <MdAssignmentTurnedIn className="text-3xl text-green-600" />,
       )}
 
@@ -99,8 +101,8 @@ const WatchlistFavoriteBtns = ({
       {renderButton(
         "favorites",
         libraryState.favorites,
-        <FaHeartCirclePlus className="text-3xl" />,
-        <FaHeartCircleCheck className="text-3xl text-green-600" />,
+        <RiHeartAddFill className="text-3xl" />,
+        <RiHeartsFill className="text-3xl text-green-600" />,
       )}
 
       <button

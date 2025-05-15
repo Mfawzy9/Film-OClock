@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "use-intl";
 import PageSection from "../PageSection/PageSection";
-import { FaEyeSlash } from "react-icons/fa6";
+import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash";
 
 const EmptyWatchedShows = () => {
   const t = useTranslations("Library.WatchedList");

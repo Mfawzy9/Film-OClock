@@ -1,7 +1,8 @@
 import { Link } from "@/i18n/navigation";
 import Title from "../Title/Title";
-import { TiChevronLeft, TiChevronRight } from "react-icons/ti";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { TiChevronLeft } from "@react-icons/all-files/ti/TiChevronLeft";
+import { TiChevronRight } from "@react-icons/all-files/ti/TiChevronRight";
 
 const SlidersTitle = ({
   title,

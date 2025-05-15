@@ -1,10 +1,11 @@
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useRouter } from "@bprogress/next/app";
+import { TiChevronLeft } from "@react-icons/all-files/ti/TiChevronLeft";
+import { TiChevronRight } from "@react-icons/all-files/ti/TiChevronRight";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
-import { TiChevronLeft, TiChevronRight } from "react-icons/ti";
 import ReactPaginate from "react-paginate";
 
 interface PaginationProps {

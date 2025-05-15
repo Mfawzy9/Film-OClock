@@ -10,12 +10,15 @@ import { AppDispatch, RootState } from "@/lib/Redux/store";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { FaChevronCircleUp, FaExternalLinkAlt } from "react-icons/fa";
-import { FcRating, FcReading, FcClapperboard } from "react-icons/fc";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { FaChevronCircleUp } from "@react-icons/all-files/fa/FaChevronCircleUp";
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
+import { FcClapperboard } from "@react-icons/all-files/fc/FcClapperboard";
+import { FcRating } from "@react-icons/all-files/fc/FcRating";
+import { FcReading } from "@react-icons/all-files/fc/FcReading";
 
 const TopOneCard = ({ topOneId }: { topOneId: number }) => {
   const { isArabic } = useIsArabic();

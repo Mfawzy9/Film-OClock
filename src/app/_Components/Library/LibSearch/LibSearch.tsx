@@ -1,8 +1,8 @@
 "use client";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { useTranslations } from "next-intl";
 import { ChangeEvent } from "react";
-import { FaSearch } from "react-icons/fa";
-import { FaXmark } from "react-icons/fa6";
 
 interface LibSearchProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -20,7 +20,7 @@ const LibSearch = ({
     <form className="relative max-w-sm my-6 mx-auto flex items-center">
       <FaSearch className="absolute top-1/2 transform -translate-y-1/2 start-3" />
       {searchTerm.length > 0 && (
-        <FaXmark
+        <IoClose
           role="button"
           aria-label="close"
           className={`absolute transition-all duration-300 bg-black hover:bg-gray-800 top-1/2

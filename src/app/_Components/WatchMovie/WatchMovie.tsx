@@ -8,8 +8,6 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Title from "../Title/Title";
 import { MovieDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
 import PageSection from "../PageSection/PageSection";
-import { FaStar } from "react-icons/fa6";
-import { GrLanguage } from "react-icons/gr";
 import {
   getShowTitle,
   minutesToHours,
@@ -24,22 +22,29 @@ import {
 } from "../../../../helpers/watchServers";
 import { Movie } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { Link } from "@/i18n/navigation";
-import { FcCalendar, FcClock } from "react-icons/fc";
 import { WatchedMovieHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
-import { CgSpinner } from "react-icons/cg";
 import dynamic from "next/dynamic";
 import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/Redux/store";
 import Image from "next/image";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import LazyRender from "../LazyRender/LazyRender";
-import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
 import ComingSoon from "../ComingSoon/ComingSoon";
+import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { FcClock } from "@react-icons/all-files/fc/FcClock";
 
+const SkeletonMovieCollectionBanner = dynamic(
+  () => import("../MovieCollectionBanner/SkeletonMovieCollectionBanner"),
+);
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const MovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/MovieCollectionBanner"),
@@ -362,7 +367,7 @@ const WatchMovie = ({
             <FcClock title="Duration" className="text-black" />
             {minutesToHours(movie?.runtime ?? 0, isArabic)}
             <span className="text-gray-400">|</span>
-            <GrLanguage title="Language" />
+            <FaGlobeAmericas title="Language" />
             {movie?.original_language?.toUpperCase()}
           </div>
 

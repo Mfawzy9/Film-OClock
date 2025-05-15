@@ -12,8 +12,9 @@ import {
 } from "@/app/interfaces/apiInterfaces/topRatedInterfaces";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import CardsSkeletons from "../Card/CardsSkeletons";
+import dynamic from "next/dynamic";
 
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 type ShowType = "movie" | "tv";

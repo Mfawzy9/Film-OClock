@@ -2,11 +2,12 @@
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
 import { auth } from "@/lib/firebase/config";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
-import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
-import { SiSpinrilla } from "react-icons/si";
 
 const ForgotPassword = () => {
   const t = useTranslations("ForgotPassword");

@@ -6,10 +6,11 @@ import Pagination from "@/app/_Components/Pagination/Pagination";
 import Title from "@/app/_Components/Title/Title";
 import { useGetPopularQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { useParams, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import CardsSkeletons from "../Card/CardsSkeletons";
 
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 const PopularShows = () => {

@@ -1,6 +1,20 @@
 import { useState, useEffect, ReactNode, HTMLAttributes, useRef } from "react";
 import useIsDesktop from "@/app/hooks/useIsDesktop";
-import type { HTMLMotionProps } from "framer-motion";
+import type { ForwardRefComponent, HTMLMotionProps } from "framer-motion";
+
+let cachedMotionDiv: typeof import("framer-motion").motion.div | null = null;
+
+function getCachedMotionDiv() {
+  return cachedMotionDiv;
+}
+
+async function loadMotionDiv() {
+  if (!cachedMotionDiv) {
+    const mod = await import("framer-motion");
+    cachedMotionDiv = mod.motion.div;
+  }
+  return cachedMotionDiv;
+}
 
 type Props = {
   children: ReactNode;
@@ -15,19 +29,22 @@ export default function MotionWrapper({
   fallbackProps,
   className,
 }: Props) {
-  const [MotionDiv, setMotionDiv] = useState<React.ComponentType<any> | null>(
-    null,
-  );
   const isDesktop = useIsDesktop();
+  const cachedDiv = getCachedMotionDiv();
+
+  const [MotionDiv, setMotionDiv] = useState<ForwardRefComponent<
+    HTMLDivElement,
+    HTMLMotionProps<"div">
+  > | null>(cachedDiv);
   const mountedRef = useRef(true);
 
   useEffect(() => {
     mountedRef.current = true;
 
-    if (isDesktop && !MotionDiv) {
-      import("framer-motion").then((mod) => {
+    if (isDesktop && !cachedDiv) {
+      loadMotionDiv().then((div) => {
         if (mountedRef.current) {
-          setMotionDiv(() => mod.motion.div);
+          setMotionDiv(() => div);
         }
       });
     }
@@ -35,7 +52,7 @@ export default function MotionWrapper({
     return () => {
       mountedRef.current = false;
     };
-  }, [isDesktop, MotionDiv]);
+  }, [isDesktop, cachedDiv]);
 
   if (isDesktop && MotionDiv) {
     const { key, ...rest } = motionProps;

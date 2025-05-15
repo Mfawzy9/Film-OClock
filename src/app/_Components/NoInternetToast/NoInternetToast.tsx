@@ -1,8 +1,8 @@
 "use client";
 import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
+import { BiWifiOff } from "@react-icons/all-files/bi/BiWifiOff";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { PiCellSignalXBold } from "react-icons/pi";
 import { toast } from "sonner";
 
 const NoInternetToast = () => {
@@ -18,9 +18,7 @@ const NoInternetToast = () => {
         description: t("description"),
         className: "!text-red-200 4xl:!text-xl",
         descriptionClassName: "!text-gray-300 4xl:!text-base",
-        icon: (
-          <PiCellSignalXBold className="text-white text-2xl animate-pulse" />
-        ),
+        icon: <BiWifiOff className="text-white text-2xl animate-pulse" />,
       });
     } else if (isOnline && toastIdRef.current !== null) {
       toast.dismiss(toastIdRef.current);

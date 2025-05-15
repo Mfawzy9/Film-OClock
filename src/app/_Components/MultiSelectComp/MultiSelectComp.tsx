@@ -1,8 +1,9 @@
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useRouter } from "@bprogress/next/app";
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
+import { IoSearch } from "@react-icons/all-files/io5/IoSearch";
 import { useTranslations } from "next-intl";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { IoClose, IoSearch } from "react-icons/io5";
 
 interface MultiSelectCompProps {
   items: { query: string; name: string }[];

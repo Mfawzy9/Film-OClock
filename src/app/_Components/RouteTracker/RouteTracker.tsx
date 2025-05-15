@@ -11,7 +11,10 @@ const RouteTracker = () => {
     const subPage = segments[3];
 
     const isAuthPage =
-      page === "auth" && (subPage === "login" || subPage === "signup");
+      page === "auth" &&
+      (subPage === "login" ||
+        subPage === "signup" ||
+        subPage === "forgotPassword");
     if (!isAuthPage) {
       sessionStorage.setItem("previousRoute", pathname);
     }

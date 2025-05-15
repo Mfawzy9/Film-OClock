@@ -1,6 +1,6 @@
-import { BsBookmarkPlus } from "react-icons/bs";
 import PageSection from "../../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
+import { BsBookmarkPlus } from "@react-icons/all-files/bs/BsBookmarkPlus";
 import { useTranslations } from "next-intl";
 
 const EmptyFav = () => {

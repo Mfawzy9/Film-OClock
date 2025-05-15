@@ -1,9 +1,9 @@
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { NavbarlinksI } from "./Navbar";
-import { MdArrowDropDown } from "react-icons/md";
 import { Link, usePathname } from "@/i18n/navigation";
 import LanguageSwitcher from "./LanguagesSwitcher";
+import { MdArrowDropDown } from "@react-icons/all-files/md/MdArrowDropDown";
 
 const topVariants: Variants = {
   opened: { rotate: 45 },

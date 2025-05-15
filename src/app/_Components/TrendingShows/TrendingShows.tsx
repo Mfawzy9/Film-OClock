@@ -12,10 +12,11 @@ import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import CardsSkeletons from "../Card/CardsSkeletons";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useRouter } from "@bprogress/next/app";
+import dynamic from "next/dynamic";
 
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 type TrendingShowsProps = {

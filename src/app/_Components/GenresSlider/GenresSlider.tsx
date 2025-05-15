@@ -3,17 +3,20 @@ import PageSection from "../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { Swiper as SwiperType } from "swiper";
 import { genre } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import Image from "next/image";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import GenresSkeletonSlider from "./GenresSkeletonSlider";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import dynamic from "next/dynamic";
+
+const GenresSkeletonSlider = dynamic(() => import("./GenresSkeletonSlider"));
 
 interface GenresSliderProps {
   pageLink: string;

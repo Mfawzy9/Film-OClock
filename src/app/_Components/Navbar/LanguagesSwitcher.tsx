@@ -1,9 +1,9 @@
 "use client";
 import { usePathname, useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useRouter } from "@bprogress/next";
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { GrLanguage } from "react-icons/gr";
 
 export default function LanguageSwitcher() {
   const pathname = usePathname();
@@ -24,7 +24,8 @@ export default function LanguageSwitcher() {
       className="flex items-center gap-1 font-roboto bg-gray-800 shadow shadow-gray-500
         lg:hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white"
     >
-      <GrLanguage /> <span>{locale === "en" ? "ع" : "EN"}</span>
+      <FaGlobeAmericas className="text-lg" />{" "}
+      <span>{locale === "en" ? "ع" : "EN"}</span>
     </button>
   );
 }

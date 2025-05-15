@@ -5,14 +5,16 @@ import {
 } from "@/lib/Redux/localSlices/imgModalSlice";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/lib/Redux/store";
-import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useMemo, useState, useCallback } from "react";
-import { SiSpinrilla } from "react-icons/si";
 import throttle from "lodash/throttle";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const throttledNavigation = throttle(
   (action: () => ReturnType<AppDispatch>, dispatch: AppDispatch) => {

@@ -6,13 +6,6 @@ import tmdbApi, {
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
 import {
-  FaStar,
-  FaFilm,
-  FaImages,
-  FaComments,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
-import {
   DetailsQueryParams,
   MovieDetailsResponse,
   PExternalIds,
@@ -28,25 +21,39 @@ import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import dynamic from "next/dynamic";
 import SocialLinks from "../SocialLinks/SocialLinks";
-import { GrLanguage } from "react-icons/gr";
 import WatchBtn from "../WatchBtn/WatchBtn";
 import { Movie } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { Link } from "@/i18n/navigation";
 import WatchlistFavoriteBtns from "../Library/WatchlistFavoriteBtns/WatchlistFavoriteBtns";
-import { FcCalendar, FcClock } from "react-icons/fc";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import { notFound } from "next/navigation";
 import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import LazyRender from "../LazyRender/LazyRender";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
-import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
-import VideosDetailsSkeletons from "../Videos/VideosDetailsSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
-import SkeletonMovieCollectionBanner from "../MovieCollectionBanner/SkeletonMovieCollectionBanner";
-import MovieDetailsSkeleton from "./MovieDetailsSkeleton";
+import { FaComments } from "@react-icons/all-files/fa/FaComments";
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
+import { FaFilm } from "@react-icons/all-files/fa/FaFilm";
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
+import { FaImages } from "@react-icons/all-files/fa/FaImages";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { FcClock } from "@react-icons/all-files/fc/FcClock";
 
+const MovieDetailsSkeleton = dynamic(() => import("./MovieDetailsSkeleton"));
+const SkeletonMovieCollectionBanner = dynamic(
+  () => import("../MovieCollectionBanner/SkeletonMovieCollectionBanner"),
+);
+const VideosDetailsSkeletons = dynamic(
+  () => import("../Videos/VideosDetailsSkeletons"),
+);
+const CastsSkeletonSlider = dynamic(
+  () => import("../Casts/CastsSkeletonSlider"),
+);
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
 const Reviews = dynamic(() => import("../Reviews/Reviews"));
@@ -327,7 +334,7 @@ const MovieDetails = ({
               <FcClock title="Duration" className="text-black" />
               {minutesToHours(movie?.runtime ?? 0, isArabic)}
               <span className="text-gray-400">|</span>
-              <GrLanguage title="Language" />
+              <FaGlobeAmericas className="text-lg" title="Language" />
               {movie?.original_language?.toUpperCase()}
             </h6>
 

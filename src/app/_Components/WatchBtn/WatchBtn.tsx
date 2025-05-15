@@ -1,8 +1,8 @@
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { FaPlay } from "react-icons/fa6";
 import { nameToSlug } from "../../../../helpers/helpers";
 import { useRouter } from "@bprogress/next/app";
+import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
 
 interface WatchBtnProps {
   showType: "movie" | "tv";

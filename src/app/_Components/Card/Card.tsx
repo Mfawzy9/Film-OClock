@@ -1,7 +1,6 @@
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import Image from "next/image";
-import { FaStar } from "react-icons/fa6";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import {
@@ -21,6 +20,7 @@ import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useRouter } from "@bprogress/next/app";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
 
 interface CardProps {
   src: string;

@@ -8,11 +8,12 @@ import {
 } from "next/navigation";
 import PageSection from "../../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
-import { SiSpinrilla } from "react-icons/si";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { signOutUser } from "@/lib/firebase/authService";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { FaTimesCircle } from "@react-icons/all-files/fa/FaTimesCircle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const RecoverEmail = () => {
   const t = useTranslations("Navbar.UserMenu");

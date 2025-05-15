@@ -3,14 +3,14 @@ import { FormikProps } from "formik";
 import { Link } from "@/i18n/navigation";
 import PageSection from "../../PageSection/PageSection";
 import { setError } from "@/lib/Redux/localSlices/authSlice";
-import { FaInfoCircle } from "react-icons/fa";
 import { signInWithGoogle } from "@/lib/firebase/authService";
-import { FcGoogle } from "react-icons/fc";
 import { AppDispatch } from "@/lib/Redux/store";
-import { SiSpinrilla } from "react-icons/si";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
+import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 interface LoginFormProps {
   formik: FormikProps<LoginFormFields>;

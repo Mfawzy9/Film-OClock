@@ -6,24 +6,14 @@ import {
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
 import tmdbApi, { useGetMTDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
-import {
-  FaBirthdayCake,
-  FaExternalLinkAlt,
-  FaTransgenderAlt,
-} from "react-icons/fa";
-import { FaAngleDown, FaFilm, FaImages, FaLocationDot } from "react-icons/fa6";
 import { calculateAge, nameToSlug } from "../../../../helpers/helpers";
 import { useRef, useState, useMemo, useEffect } from "react";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
-import { CgSpinner } from "react-icons/cg";
-import { BiSolidDetail } from "react-icons/bi";
 import Tabs from "../Tabs/Tabs";
-import { GiTombstone, GiTv } from "react-icons/gi";
 import dynamic from "next/dynamic";
 import Title from "../Title/Title";
 import SocialLinks from "../SocialLinks/SocialLinks";
 import PageSection from "../PageSection/PageSection";
-import { MdRecentActors } from "react-icons/md";
 import LatestWorks from "../LatestWorks/LatestWorks";
 import {
   Movie,
@@ -35,10 +25,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import LazyRender from "../LazyRender/LazyRender";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import { useRouter } from "@/i18n/navigation";
-import PersonDetailsSkeleton from "./PersonDetailsSkeleton";
+import { FaAngleDown } from "@react-icons/all-files/fa/FaAngleDown";
+import { FaBirthdayCake } from "@react-icons/all-files/fa/FaBirthdayCake";
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
+import { FaFilm } from "@react-icons/all-files/fa/FaFilm";
+import { FaImages } from "@react-icons/all-files/fa/FaImages";
+import { FaTransgenderAlt } from "@react-icons/all-files/fa/FaTransgenderAlt";
+import { GiTombstone } from "@react-icons/all-files/gi/GiTombstone";
+import { GiTv } from "@react-icons/all-files/gi/GiTv";
+import { IoMdListBox } from "@react-icons/all-files/io/IoMdListBox";
+import { IoLocationSharp } from "@react-icons/all-files/io5/IoLocationSharp";
+import { MdRecentActors } from "@react-icons/all-files/md/MdRecentActors";
 
+const PersonDetailsSkeleton = dynamic(() => import("./PersonDetailsSkeleton"));
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   loading: () => <CardsSkeletonSlider />,
 });
@@ -234,12 +237,8 @@ const PersonDetails = ({
                   />
                 ) : (
                   <>
-                    <h3
-                      className="absolute z-30 flex items-center gap-1 top-1/2 left-1/2 -translate-x-1/2
-                        -translate-y-1/2"
-                    >
+                    <h3 className="relative z-30 flex items-center justify-center gap-1 text-center h-full text-xl">
                       {details?.name}{" "}
-                      <CgSpinner className="animate-spin text-lg" />
                     </h3>
                     <BgPlaceholder />
                   </>
@@ -299,7 +298,7 @@ const PersonDetails = ({
                 )}
                 {details?.place_of_birth && (
                   <h4 className="flex items-center gap-1 flex-wrap font-light">
-                    <FaLocationDot />
+                    <IoLocationSharp />
                     <span className="font-bold text-blue-300">
                       {t("PlaceOfBirth")} :
                     </span>
@@ -331,7 +330,7 @@ const PersonDetails = ({
                 {details?.biography && (
                   <div className="flex flex-col gap-1 mt-2">
                     <span className="font-bold text-blue-300 me-1 flex items-center gap-1">
-                      <BiSolidDetail className="text-white" />
+                      <IoMdListBox className="text-white" />
                       {t("Biography")} :
                     </span>
                     <p

@@ -1,8 +1,5 @@
-import { TbListDetails } from "react-icons/tb";
 import TrailerBtn from "../../Btns/TrailerBtn/TrailerBtn";
 import { Link } from "@/i18n/navigation";
-import { FcCalendar } from "react-icons/fc";
-import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 import WatchlistFavoriteDD from "../WatchlistFavoriteDD/WatchlistFavoriteDD";
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
@@ -14,6 +11,9 @@ import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle, nameToSlug } from "../../../../../helpers/helpers";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { ImList } from "@react-icons/all-files/im/ImList";
 
 const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
   const t = useTranslations("Library.Watchlist");
@@ -88,7 +88,7 @@ const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
                   }) ?? title,
                 )}`}
               >
-                <TbListDetails className="me-1" />
+                <ImList className="me-1" />
                 {t("WlCard.DetailsBtn")}
               </Link>
               <TrailerBtn showType={show.showType} showId={show.id} />

@@ -1,9 +1,6 @@
 "use client";
 
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
-import { FaCircleUser } from "react-icons/fa6";
-import { RiCircleFill, RiMovie2Fill } from "react-icons/ri";
-import { MdArrowDropDown } from "react-icons/md";
 import { motion, useScroll } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
@@ -15,6 +12,10 @@ import SearchBox from "../SearchBox/SearchBox";
 import LanguageSwitcher from "./LanguagesSwitcher";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import Image from "next/image";
+import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
+import { FaUserCircle } from "@react-icons/all-files/fa/FaUserCircle";
+import { MdArrowDropDown } from "@react-icons/all-files/md/MdArrowDropDown";
+import { RiMovie2Fill } from "@react-icons/all-files/ri/RiMovie2Fill";
 
 export interface NavbarlinksI {
   name: string;
@@ -107,7 +108,16 @@ const Navbar = () => {
   const userInitial = useMemo(() => {
     if (user?.photoURL) {
       return (
-        <Image src={user.photoURL} width={40} height={40} alt="user-image" />
+        <Image
+          src={user.photoURL}
+          width={40}
+          height={40}
+          alt={
+            user?.displayName?.charAt(0).toUpperCase() ??
+            user.email?.charAt(0).toUpperCase() ??
+            ""
+          }
+        />
       );
     }
     if (user?.displayName) {
@@ -172,7 +182,7 @@ const Navbar = () => {
               className={`w-9 h-9 flex items-center justify-center bg-gray-800 rounded-full ${
                 userStatusLoading && "pointer-events-none" }`}
             >
-              <RiCircleFill className="animate-ping" />
+              <FaCircle className="animate-ping" />
             </div>
           ) : (
             <div className="relative sm:ms-auto md:ms-0 flex items-center">
@@ -189,7 +199,7 @@ const Navbar = () => {
                     {userInitial}
                   </span>
                 ) : (
-                  <FaCircleUser className="w-full h-full" />
+                  <FaUserCircle className="w-full h-full" />
                 )}
               </button>
 

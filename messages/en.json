@@ -412,7 +412,8 @@
   "VideosSelect": {
     "VideosSelectTitle": "Video Type",
     "AllVideos": "All Videos",
-    "NoVideosFound": "No videos found"
+    "NoVideosFound": "No videos found",
+    "LoadMore": "Load More Videos"
   },
 
   "TvDetails": {

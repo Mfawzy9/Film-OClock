@@ -8,8 +8,10 @@ import {
 import EpisodeModal from "./EpisodeModal";
 import EpisodeCard from "../EpisodeCard/EpisodeCard";
 import { useTranslations } from "next-intl";
-import EpisodesSkeletons from "./EpisodesSkeletons";
 import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import dynamic from "next/dynamic";
+
+const EpisodesSkeletons = dynamic(() => import("./EpisodesSkeletons"));
 
 interface TvEpisodesProps {
   seasonsCount: number;

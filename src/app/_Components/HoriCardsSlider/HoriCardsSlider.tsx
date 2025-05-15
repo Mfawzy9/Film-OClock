@@ -5,7 +5,6 @@ import { Swiper as SwiperType } from "swiper";
 import { AnimatePresence } from "framer-motion";
 import debounce from "lodash/debounce";
 import HoriCard from "../HoriCard/HoriCard";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import PageSection from "../PageSection/PageSection";
 import {
   Movie,
@@ -13,10 +12,14 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import HoriSkeletonSlider from "./HoriSkeletonSlider";
 import Image from "next/image";
 import { getShowTitle } from "../../../../helpers/helpers";
 import MotionWrapper from "../helpers/MotionWrapper";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import dynamic from "next/dynamic";
+
+const HoriSkeletonSlider = dynamic(() => import("./HoriSkeletonSlider"));
 
 const sectionBgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280;
 

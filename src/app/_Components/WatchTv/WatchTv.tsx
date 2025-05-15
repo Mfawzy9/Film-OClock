@@ -23,12 +23,16 @@ import { AppDispatch } from "@/lib/Redux/store";
 import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
 import LazyRender from "../LazyRender/LazyRender";
-import EpisodesSkeletons from "../TvDetails/EpisodesSkeletons";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import ComingSoon from "../ComingSoon/ComingSoon";
-import WatchTvSkeleton from "./WatchTvSkeleton";
 
+const WatchTvSkeleton = dynamic(() => import("./WatchTvSkeleton"));
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
+const EpisodesSkeletons = dynamic(
+  () => import("../TvDetails/EpisodesSkeletons"),
+);
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
   ssr: false,
   loading: () => <CardsSkeletonSlider />,

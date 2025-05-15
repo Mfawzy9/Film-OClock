@@ -7,13 +7,14 @@ import {
 import PageSection from "../PageSection/PageSection";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Virtual } from "swiper/modules";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { Swiper as SwiperType } from "swiper";
 import { useLazyGetVideosQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { VideosResults } from "@/app/interfaces/apiInterfaces/videosInterfaces";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import VideosSkelsetonSlider from "./VideosSkelsetonSlider";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 
 interface VideoResult {
   showId: number;

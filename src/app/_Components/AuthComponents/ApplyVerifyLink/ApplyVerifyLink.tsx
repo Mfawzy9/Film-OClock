@@ -5,13 +5,14 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PageSection from "../../PageSection/PageSection";
 import { Link, useRouter as useNextIntlRouter } from "@/i18n/navigation";
-import { SiSpinrilla } from "react-icons/si";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
 import { setUser, User } from "@/lib/Redux/localSlices/authSlice";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import { FaTimesCircle } from "@react-icons/all-files/fa/FaTimesCircle";
 
 const ApplyVerifyLink = () => {
   const t = useTranslations("VerifyEmail");

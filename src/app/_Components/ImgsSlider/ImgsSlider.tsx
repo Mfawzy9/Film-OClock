@@ -5,13 +5,14 @@ import {
 import { useState, useEffect, useCallback, memo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { openImgModal } from "@/lib/Redux/localSlices/imgModalSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 
 interface ImgsSliderProps {
   images: MovieImagesResponse | TvImagesResponse;

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { FaStar } from "react-icons/fa6";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,7 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
 
 interface SliderCardProps {
   srcKey: string;

@@ -1,5 +1,9 @@
 "use client";
-import { FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookSquare } from "@react-icons/all-files/fa/FaFacebookSquare";
+import { FaImdb } from "@react-icons/all-files/fa/FaImdb";
+import { FaInstagram } from "@react-icons/all-files/fa/FaInstagram";
+import { SiExpertsexchange } from "@react-icons/all-files/si/SiExpertsexchange";
+import { SiTiktok } from "@react-icons/all-files/si/SiTiktok";
 import {
   facebookLink,
   instagramLink,
@@ -7,7 +11,6 @@ import {
   twitterLink,
   imdbLink,
 } from "../../../../helpers/helpers";
-import { FaFacebookSquare, FaImdb } from "react-icons/fa";
 import { PExternalIds } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
 
 export const socialLinksMap = {
@@ -21,11 +24,11 @@ export const socialLinksMap = {
   },
   tiktok_id: {
     link: tiktokLink,
-    icon: <FaTiktok />,
+    icon: <SiTiktok />,
   },
   twitter_id: {
     link: twitterLink,
-    icon: <FaXTwitter />,
+    icon: <SiExpertsexchange />,
   },
   imdb_id: {
     link: imdbLink,

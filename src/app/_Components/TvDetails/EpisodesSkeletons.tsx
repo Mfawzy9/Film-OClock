@@ -1,4 +1,4 @@
-import { FaRegPlayCircle } from "react-icons/fa";
+import { FaRegPlayCircle } from "@react-icons/all-files/fa/FaRegPlayCircle";
 
 const EpisodesSkeletons = () => {
   return (

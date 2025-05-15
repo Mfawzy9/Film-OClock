@@ -1,7 +1,8 @@
 "use client";
+import { FaEye } from "@react-icons/all-files/fa/FaEye";
+import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { FaInfoCircle } from "react-icons/fa";
 
 interface PasswordInputProps {
   id: string;

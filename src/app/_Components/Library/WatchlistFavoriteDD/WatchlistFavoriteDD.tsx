@@ -1,18 +1,21 @@
 import { JSX, useEffect, useRef, useState } from "react";
-import { FaHeartCirclePlus, FaHeartCircleCheck, FaPlay } from "react-icons/fa6";
-import { MdAssignmentAdd, MdAssignmentTurnedIn } from "react-icons/md";
-import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { Link } from "@/i18n/navigation";
 import {
   Movie,
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
-import { PiSpinnerGapBold } from "react-icons/pi";
 import useLibrary, { FirestoreTheShowI } from "@/app/hooks/useLibrary";
-import { FiShare2 } from "react-icons/fi";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
 import { handleShare, nameToSlug } from "../../../../../helpers/helpers";
+import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
+import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
+import { FiShare2 } from "@react-icons/all-files/fi/FiShare2";
+import { HiDotsCircleHorizontal } from "@react-icons/all-files/hi/HiDotsCircleHorizontal";
+import { MdAssignmentTurnedIn } from "@react-icons/all-files/md/MdAssignmentTurnedIn";
+import { RiHeartAddFill } from "@react-icons/all-files/ri/RiHeartAddFill";
+import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill";
+import { RiLoader2Fill } from "@react-icons/all-files/ri/RiLoader2Fill";
 
 const WatchlistFavoriteDD = ({
   showId,
@@ -87,7 +90,7 @@ const WatchlistFavoriteDD = ({
           ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-blue-700 lg:hover:shadow-blueGlow"}`}
       >
         {isLoading ? (
-          <PiSpinnerGapBold className="animate-spin text-xl" />
+          <RiLoader2Fill className="animate-spin text-xl" />
         ) : !isInLibrary ? (
           <>
             {addIcon}
@@ -150,7 +153,7 @@ const WatchlistFavoriteDD = ({
             {renderLibraryItem(
               "watchlist",
               libraryState.watchlist,
-              <MdAssignmentAdd className="text-xl" />,
+              <FaNotesMedical className="text-xl" />,
               <MdAssignmentTurnedIn className="text-xl text-green-600" />,
               t("AddToWatchlist"),
               t("RemoveFromWatchlist"),
@@ -158,8 +161,8 @@ const WatchlistFavoriteDD = ({
             {renderLibraryItem(
               "favorites",
               libraryState.favorites,
-              <FaHeartCirclePlus className="text-xl" />,
-              <FaHeartCircleCheck className="text-xl text-green-600" />,
+              <RiHeartAddFill className="text-xl" />,
+              <RiHeartsFill className="text-xl text-green-600" />,
               t("AddToFavorites"),
               t("RemoveFromFavorites"),
             )}
@@ -174,7 +177,7 @@ const WatchlistFavoriteDD = ({
                   className="flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
                     hover:bg-blue-700 lg:hover:shadow-blueGlow cursor-pointer"
                 >
-                  <FaPlay className="text-xl" />
+                  <FaPlay className="text-lg" />
                   {t("Watch")}
                 </Link>
               </li>

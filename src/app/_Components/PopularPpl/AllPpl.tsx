@@ -5,7 +5,7 @@ import {
   PopularPersonI,
   PopularPersonResponse,
 } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
-import { SiSpinrilla } from "react-icons/si";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 interface props {
   page: number;

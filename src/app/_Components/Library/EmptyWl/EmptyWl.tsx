@@ -1,6 +1,6 @@
-import { BsClipboardPlus } from "react-icons/bs";
 import PageSection from "../../PageSection/PageSection";
 import { Link } from "@/i18n/navigation";
+import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
 import { useTranslations } from "use-intl";
 
 const EmptyWl = () => {
@@ -8,7 +8,7 @@ const EmptyWl = () => {
   return (
     <PageSection className="min-h-[60vh] flex items-center justify-center">
       <div className="flex flex-col items-center justify-start gap-3">
-        <BsClipboardPlus className="text-8xl" />
+        <FaNotesMedical className="text-9xl" />
 
         <div className="flex items-center gap-2 text-center">
           <h1 className="text-3xl font-semibold">

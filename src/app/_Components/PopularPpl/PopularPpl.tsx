@@ -3,15 +3,19 @@ import PageSection from "@/app/_Components/PageSection/PageSection";
 import { PopularPersonI } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
 import { useGetPopularQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useEffect, useMemo, useState } from "react";
-import TopOneCard from "../TopOneCard/TopOneCard";
-import TopOneCardSkeleton from "../TopOneCard/TopOneCardSkeleton";
-import CastCardsSkeletonSlider from "../CastCardSlider/CastCardsSkeletonSlider";
 import dynamic from "next/dynamic";
 import LazyRender from "../LazyRender/LazyRender";
 import { useProgress } from "@bprogress/next";
-import CardsSkeletons from "../Card/CardsSkeletons";
 import { useTranslations } from "next-intl";
 
+const TopOneCard = dynamic(() => import("../TopOneCard/TopOneCard"));
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
+const CastCardsSkeletonSlider = dynamic(
+  () => import("../CastCardSlider/CastCardsSkeletonSlider"),
+);
+const TopOneCardSkeleton = dynamic(
+  () => import("../TopOneCard/TopOneCardSkeleton"),
+);
 const CastCardSlider = dynamic(
   () => import("@/app/_Components/CastCardSlider/CastCardSlider"),
 );

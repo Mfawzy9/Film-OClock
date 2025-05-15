@@ -9,10 +9,10 @@ import {
   nameToSlug,
   scrollToTop,
 } from "../../../../helpers/helpers";
-import { FaRegCirclePlay } from "react-icons/fa6";
 import VideoDuration from "../VideoDuration/VideoDuration";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { Link } from "@/i18n/navigation";
+import { ImPlay2 } from "@react-icons/all-files/im/ImPlay2";
 
 interface TrailerCardProps {
   videoKey: string;
@@ -55,7 +55,7 @@ const TrailerCard = ({
             onLoad={() => dispatch(setImageLoaded(videoKey))}
           />
           {/* layer */}
-          <FaRegCirclePlay
+          <ImPlay2
             className="text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white
               z-10"
           />

@@ -10,13 +10,12 @@ import {
   secondsToHMS,
 } from "../../../../../helpers/helpers";
 import { Link } from "@/i18n/navigation";
-
-import { IoMdCloseCircle } from "react-icons/io";
 import { motion } from "motion/react";
 import { toast } from "sonner";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { IoMdCloseCircle } from "@react-icons/all-files/io/IoMdCloseCircle";
 
 const WatchHistory = () => {
   const { isArabic } = useIsArabic();

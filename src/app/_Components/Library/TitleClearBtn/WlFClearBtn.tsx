@@ -1,6 +1,6 @@
+import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { FaTrash } from "@react-icons/all-files/fa/FaTrash";
 import { useTranslations } from "next-intl";
-import { CgSpinner } from "react-icons/cg";
-import { FaTrash } from "react-icons/fa6";
 
 interface ClearBtnProps {
   handleClearLibrary: (data: {

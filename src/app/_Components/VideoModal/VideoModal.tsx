@@ -1,9 +1,9 @@
 import { closeModal } from "@/lib/Redux/localSlices/videoModalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { FaCircleXmark } from "react-icons/fa6";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { motion } from "motion/react";
-import { SiSpinrilla } from "react-icons/si";
+import { IoIosCloseCircle } from "@react-icons/all-files/io/IoIosCloseCircle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const VideoModal = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,7 +26,7 @@ const VideoModal = () => {
             onClick={() => dispatch(closeModal())}
             className="text-5xl z-50"
           >
-            <FaCircleXmark
+            <IoIosCloseCircle
               className="text-black bg-white rounded-full shadow-blueGlow
                 hover:[box-shadow:0_0_30px_#1c64f2]"
             />

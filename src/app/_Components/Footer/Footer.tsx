@@ -2,10 +2,10 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { RiMovie2Fill } from "react-icons/ri";
 import bg from "../../../../public/images/footer-bg.webp";
-import { FaRegCopyright } from "react-icons/fa6";
 import Image from "next/image";
+import { FaRegCopyright } from "@react-icons/all-files/fa/FaRegCopyright";
+import { RiMovie2Fill } from "@react-icons/all-files/ri/RiMovie2Fill";
 
 const Footer = () => {
   const t = useTranslations("Footer");

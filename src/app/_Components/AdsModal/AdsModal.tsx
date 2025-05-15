@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { FaXmark } from "react-icons/fa6";
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
 
 const extensions = {
   chrome: [
@@ -103,7 +103,7 @@ const AdsModal = () => {
                 className="text-gray-500 hover:text-gray-800 dark:hover:text-white text-3xl flex-none w-fit"
                 aria-label="Close"
               >
-                <FaXmark />
+                <IoClose />
               </button>
               <h2 className="text-xl font-bold text-center">
                 {t("title")}

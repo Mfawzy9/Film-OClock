@@ -5,15 +5,15 @@ import {
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import Title from "../Title/Title";
-import { CgSpinner } from "react-icons/cg";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 
 interface CastCardProps {
   cast: MovieCast | TvCast;
@@ -166,7 +166,7 @@ const Casts = ({
                 onClick={() => scroll("left")}
                 className={`absolute
                 ${isArabic ? "end-0 sm:-end-6 2xl:-end-16" : "start-0 sm:-start-6 2xl:-start-16"}
-                top-1/2 -translate-y-1/2 z-10 p-2 bg-black/60 text-white rounded-full
+                top-1/2 -translate-y-1/2 z-20 p-2 bg-black/60 text-white rounded-full
                 hover:bg-gray-800 transition [box-shadow:0_0_5px_#1c64f2]`}
               >
                 <FaChevronLeft className="text-2xl sm:text-3xl" />
@@ -179,7 +179,7 @@ const Casts = ({
                 onClick={() => scroll("right")}
                 className={`absolute
                 ${isArabic ? "start-0 sm:-start-6 2xl:-start-16" : "end-0 sm:-end-6 2xl:-end-16"}
-                top-1/2 -translate-y-1/2 z-10 p-2 bg-black/60 text-white rounded-full
+                top-1/2 -translate-y-1/2 z-20 p-2 bg-black/60 text-white rounded-full
                 hover:bg-gray-800 transition shadow-blueGlow`}
               >
                 <FaChevronRight className="text-2xl sm:text-3xl" />
@@ -207,12 +207,8 @@ const Casts = ({
                       >
                         {!cast.profile_path && (
                           <>
-                            <h3
-                              className="absolute z-30 flex flex-col justify-center items-center gap-1 top-1/2 left-1/2
-                                -translate-x-1/2 -translate-y-1/2"
-                            >
+                            <h3 className="relative z-30 flex flex-col justify-center items-center gap-1 text-lg h-full">
                               {cast.name}{" "}
-                              <CgSpinner className="animate-spin text-lg" />
                             </h3>
                             <BgPlaceholder />
                           </>

@@ -5,17 +5,18 @@ import { RootState, AppDispatch } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { Episode } from "@/app/interfaces/apiInterfaces/tvSeasonsDetailsInterfaces";
-import { FaStar } from "react-icons/fa6";
 import { minutesToHours, nameToSlug } from "../../../../helpers/helpers";
-import { FaRegPlayCircle } from "react-icons/fa";
 import { Link } from "@/i18n/navigation";
-import { FcCalendar, FcClock } from "react-icons/fc";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { CgSpinner } from "react-icons/cg";
 import { useMemo } from "react";
 import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { FaRegPlayCircle } from "@react-icons/all-files/fa/FaRegPlayCircle";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { FcClock } from "@react-icons/all-files/fc/FcClock";
 
 interface EpisodeModalProps {
   isOpen: boolean;

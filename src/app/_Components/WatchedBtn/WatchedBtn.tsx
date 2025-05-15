@@ -3,10 +3,10 @@ import {
   MovieDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import { CgSpinnerTwo } from "@react-icons/all-files/cg/CgSpinnerTwo";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { FaEye } from "@react-icons/all-files/fa/FaEye";
 import { useTranslations } from "next-intl";
-import { CgSpinnerTwo } from "react-icons/cg";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaEye } from "react-icons/fa6";
 
 const WatchedBtn = ({
   className,

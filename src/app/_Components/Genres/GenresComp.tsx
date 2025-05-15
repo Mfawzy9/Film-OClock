@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { SiSpinrilla } from "react-icons/si";
 import Card from "@/app/_Components/Card/Card";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import Pagination from "@/app/_Components/Pagination/Pagination";
@@ -12,11 +11,14 @@ import {
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useParams, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import CardsSkeletons from "../Card/CardsSkeletons";
 import {
   MoviesResponse,
   TVShowsResponse,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import dynamic from "next/dynamic";
+
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 

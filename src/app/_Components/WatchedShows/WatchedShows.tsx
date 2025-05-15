@@ -4,7 +4,6 @@ import useWatchedList from "@/app/hooks/useWatchedList";
 import PageSection from "../PageSection/PageSection";
 import Card from "../Card/Card";
 import { useTranslations } from "next-intl";
-import { FaTimes } from "react-icons/fa";
 import { motion } from "motion/react";
 import { useDispatch } from "react-redux";
 import { useGetWatchedQuery } from "@/lib/Redux/apiSlices/firestoreSlice";
@@ -15,6 +14,7 @@ import Title from "../Title/Title";
 import PageHeader from "../PageHeader/PageHeader";
 import EmptyWatchedShows from "./EmptyWatchedShows";
 import LibSearch from "../Library/LibSearch/LibSearch";
+import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
 
 const WatchedShows = () => {
   const dispatch = useDispatch();

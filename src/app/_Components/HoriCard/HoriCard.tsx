@@ -2,19 +2,19 @@ import { useGetGenres } from "@/app/hooks/useGetGenres";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { memo, useMemo } from "react";
-import { FaStar } from "react-icons/fa6";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
-import { FcCalendar } from "react-icons/fc";
 import {
   Movie,
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { useLocale } from "next-intl";
 import { nameToSlug } from "../../../../helpers/helpers";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 
 interface HoriCardProps {
   title: string;

@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo } from "react";
 import { useRandomShow } from "@/app/hooks/useRandomShow";
 import {
@@ -14,18 +13,25 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import { useParams } from "next/navigation";
-import PageHeader from "@/app/_Components/PageHeader/PageHeader";
-import { BiSolidMoviePlay } from "react-icons/bi";
-import { MdLiveTv } from "react-icons/md";
 import { useLocale, useTranslations } from "next-intl";
 import LazyRender from "../LazyRender/LazyRender";
 import dynamic from "next/dynamic";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
-import VideosSkelsetonSlider from "../VideosSlider/VideosSkelsetonSlider";
-import HoriSkeletonSlider from "../HoriCardsSlider/HoriSkeletonSlider";
-import GenresSkeletonSlider from "../GenresSlider/GenresSkeletonSlider";
-import ShortDetailsSkeleton from "../ShortDetails/ShortDetailsSkeleton";
 
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
+const VideosSkelsetonSlider = dynamic(
+  () => import("../VideosSlider/VideosSkelsetonSlider"),
+);
+const HoriSkeletonSlider = dynamic(
+  () => import("../HoriCardsSlider/HoriSkeletonSlider"),
+);
+const GenresSkeletonSlider = dynamic(
+  () => import("../GenresSlider/GenresSkeletonSlider"),
+);
+const ShortDetailsSkeleton = dynamic(
+  () => import("../ShortDetails/ShortDetailsSkeleton"),
+);
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const ShortDetails = dynamic(
   () => import("@/app/_Components/ShortDetails/ShortDetails"),
@@ -153,24 +159,6 @@ const Explore = () => {
 
   return (
     <>
-      <div className="absolute left-0 right-0 top-0">
-        <PageHeader
-          title={
-            <div className="flex items-center gap-2">
-              {showType === "movie" ? (
-                <>
-                  <BiSolidMoviePlay /> {t("Movies/Explore.title")}
-                </>
-              ) : (
-                <>
-                  <MdLiveTv /> {t("TvShows/Explore.title")}
-                </>
-              )}
-            </div>
-          }
-        />
-      </div>
-
       {/* popular shows */}
       {popularLoading ? (
         <PageSection>

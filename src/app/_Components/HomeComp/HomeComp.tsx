@@ -5,19 +5,33 @@ import { MovieTrendsI } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ScrollToSection from "@/app/_Components/ScrollToSection/ScrollToSection";
-import WatchHistory from "@/app/_Components/Home/WatchHistory/WatchHistory";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import LazyRender from "@/app/_Components/LazyRender/LazyRender";
-import CardsSkeletonSlider from "@/app/_Components/CardsSlider/CardsSkeletonSlider";
-import HoriSkeletonSlider from "@/app/_Components/HoriCardsSlider/HoriSkeletonSlider";
 import LazyWatchlist from "@/app/_Components/Home/LazySections/LazyWatchlist";
-import VideosSkelsetonSlider from "@/app/_Components/VideosSlider/VideosSkelsetonSlider";
 import dynamic from "next/dynamic";
-import GenresSkeletonSlider from "@/app/_Components/GenresSlider/GenresSkeletonSlider";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
-import ShortDetailsSkeleton from "@/app/_Components/ShortDetails/ShortDetailsSkeleton";
-import HomeSliderSkeleton from "../MainHomeSlider/HomeSliderSkeleton";
 
+const WatchHistory = dynamic(
+  () => import("@/app/_Components/Home/WatchHistory/WatchHistory"),
+);
+const HomeSliderSkeleton = dynamic(
+  () => import("../MainHomeSlider/HomeSliderSkeleton"),
+);
+const ShortDetailsSkeleton = dynamic(
+  () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
+);
+const GenresSkeletonSlider = dynamic(
+  () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
+);
+const VideosSkelsetonSlider = dynamic(
+  () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
+);
+const HoriSkeletonSlider = dynamic(
+  () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
+);
+const CardsSkeletonSlider = dynamic(
+  () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
+);
 const LazyPopularPpl = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyPopularPpl"),
 );

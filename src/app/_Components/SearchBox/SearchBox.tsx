@@ -3,18 +3,14 @@ import debounce from "lodash/debounce";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { FaXmark } from "react-icons/fa6";
 import { Link } from "@/i18n/navigation";
 import {
   SearchMultiTVShow,
   SearchMultiPerson,
   SearchMultiMovie,
 } from "@/app/interfaces/apiInterfaces/SearchMultiInterfaces";
-import { SiSpinrilla } from "react-icons/si";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
-import { MdManageSearch } from "react-icons/md";
 import {
   getShowTitle,
   nameToSlug,
@@ -24,6 +20,10 @@ import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useRouter } from "@bprogress/next/app";
 import { useParams } from "next/navigation";
+import { AiOutlineFileSearch } from "@react-icons/all-files/ai/AiOutlineFileSearch";
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 type SearchResult = SearchMultiPerson | SearchMultiTVShow | SearchMultiMovie;
 
@@ -145,7 +145,7 @@ const SearchBox = () => {
               onSubmit={handleSubmit}
             >
               <FaSearch className="absolute top-1/2 transform -translate-y-1/2 start-3 z-40" />
-              <FaXmark
+              <IoClose
                 role="button"
                 onClick={closeSearchAndClear}
                 aria-label="close"
@@ -159,7 +159,7 @@ const SearchBox = () => {
                 bg-blue-700 rounded`}
                 onClick={handleSubmit}
               >
-                <MdManageSearch className="text-2xl" />
+                <AiOutlineFileSearch className="text-2xl" />
               </button>
 
               <input
@@ -247,7 +247,7 @@ const SearchBox = () => {
                 hover:bg-blue-800 bg-blue-700 rounded z-10`}
               type="submit"
             >
-              <MdManageSearch className="text-2xl" />
+              <AiOutlineFileSearch className="text-2xl" />
             </button>
           </>
         </div>

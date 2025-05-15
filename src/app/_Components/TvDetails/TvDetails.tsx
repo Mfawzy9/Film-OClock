@@ -6,13 +6,6 @@ import tmdbApi, {
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
 import {
-  FaStar,
-  FaFilm,
-  FaImages,
-  FaComments,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
-import {
   DetailsQueryParams,
   PExternalIds,
   TvDetailsResponse,
@@ -28,28 +21,37 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import dynamic from "next/dynamic";
-import { GiPapers } from "react-icons/gi";
 import SocialLinks from "../SocialLinks/SocialLinks";
 import { Link } from "@/i18n/navigation";
-import { GrLanguage } from "react-icons/gr";
 import WatchBtn from "../WatchBtn/WatchBtn";
 import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import WatchlistFavoriteBtns from "../Library/WatchlistFavoriteBtns/WatchlistFavoriteBtns";
-import { FcCalendar } from "react-icons/fc";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { CgSpinner } from "react-icons/cg";
 import { notFound } from "next/navigation";
 import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import LazyRender from "../LazyRender/LazyRender";
-import CastsSkeletonSlider from "../Casts/CastsSkeletonSlider";
-import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
-import EpisodesSkeletons from "./EpisodesSkeletons";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { getShowTitle } from "../../../../helpers/helpers";
-import TvDetailsSkeleton from "./TvDetailsSkeleton";
+import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { FaComments } from "@react-icons/all-files/fa/FaComments";
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
+import { FaFilm } from "@react-icons/all-files/fa/FaFilm";
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
+import { FaImages } from "@react-icons/all-files/fa/FaImages";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
+import { GiPapers } from "@react-icons/all-files/gi/GiPapers";
 
+const TvDetailsSkeleton = dynamic(() => import("./TvDetailsSkeleton"));
+const EpisodesSkeletons = dynamic(() => import("./EpisodesSkeletons"));
+const CardsSkeletonSlider = dynamic(
+  () => import("../CardsSlider/CardsSkeletonSlider"),
+);
+const CastsSkeletonSlider = dynamic(
+  () => import("../Casts/CastsSkeletonSlider"),
+);
 const Videos = dynamic(() => import("../Videos/Videos"));
 const ImgsSlider = dynamic(() => import("../ImgsSlider/ImgsSlider"));
 const Reviews = dynamic(() => import("../Reviews/Reviews"));
@@ -342,7 +344,10 @@ const TvDetails = ({
                 ? tvShow?.number_of_seasons + ` ${t("Seasons")}`
                 : tvShow?.number_of_seasons + ` ${t("Season")}`}
               <span className="text-gray-400">|</span>
-              <GrLanguage title={t("TvShowLanguage")} />
+              <FaGlobeAmericas
+                className="text-lg"
+                title={t("TvShowLanguage")}
+              />
               {tvShow?.original_language.toUpperCase()}
             </h6>
 

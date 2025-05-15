@@ -6,8 +6,10 @@ import Title from "@/app/_Components/Title/Title";
 import { useGetAiringTodayQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import CardsSkeletons from "../Card/CardsSkeletons";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 

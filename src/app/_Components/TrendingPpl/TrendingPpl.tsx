@@ -11,8 +11,9 @@ import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import CardsSkeletons from "../Card/CardsSkeletons";
+import dynamic from "next/dynamic";
 
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 const baseImgUrl = process.env.NEXT_PUBLIC_BASE_IMG_URL_W500;
 
 const TrendingPpl = () => {

@@ -412,7 +412,8 @@
   "VideosSelect": {
     "VideosSelectTitle": "نوع الفيديو",
     "AllVideos": "الكل",
-    "NoVideosFound": "لم يتم العثور على فيديوهات"
+    "NoVideosFound": "لم يتم العثور على فيديوهات",
+    "LoadMore": "اظهار المزيد من الفيديوهات"
   },
 
   "TvDetails": {
@@ -740,7 +741,7 @@
     "androidTips": "نوصي باستخدام أحد المتصفحات التالية:",
     "ios": "مستخدمي iPhone",
     "iosTips": "نوصي باستخدام أحد المتصفحات التالية:",
-    "gotIt": "موافق"
+    "gotIt": "حسنًا"
   },
 
   "MetaData": {

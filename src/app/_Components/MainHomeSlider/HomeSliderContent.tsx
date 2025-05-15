@@ -1,5 +1,4 @@
 import { Variants } from "framer-motion";
-import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 import { memo, useMemo } from "react";
 import { MovieTrendsI } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
@@ -11,6 +10,7 @@ import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle } from "../../../../helpers/helpers";
 import MotionWrapper from "../helpers/MotionWrapper";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
 
 const imgVariants: Variants = {
   hidden: { opacity: 0, transform: "scale(0.8)" },

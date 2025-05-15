@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback, memo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { PImages } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import { SiSpinrilla } from "react-icons/si";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 interface PImgsSliderProps {
   images: PImages;

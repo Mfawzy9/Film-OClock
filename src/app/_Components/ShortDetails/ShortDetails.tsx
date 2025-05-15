@@ -1,7 +1,5 @@
 "use client";
 import { memo, useMemo } from "react";
-import { FcCalendar } from "react-icons/fc";
-import { FaStar } from "react-icons/fa6";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
 import {
@@ -19,6 +17,8 @@ import { RootState } from "@/lib/Redux/store";
 import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
+import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 
 interface ShortDetailsProps {
   title: string;

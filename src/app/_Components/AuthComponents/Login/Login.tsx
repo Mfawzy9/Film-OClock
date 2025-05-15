@@ -18,8 +18,8 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { isTokenExpired } from "../../../../../helpers/checkToken";
 import { useSearchParams } from "next/navigation";
-import { MdNearbyError } from "react-icons/md";
 import { useRouter } from "@bprogress/next/app";
+import { GoShield } from "@react-icons/all-files/go/GoShield";
 
 const Login = () => {
   const t = useTranslations("Login");
@@ -46,7 +46,7 @@ const Login = () => {
             className:
               "!text-yellow-200 !text-xl !w-fit !text-nowrap !flex !items-center !gap-5 font-cairo",
             icon: (
-              <MdNearbyError className="text-yellow-500 text-3xl animate-pulse" />
+              <GoShield className="text-yellow-500 text-3xl animate-pulse" />
             ),
           });
         });

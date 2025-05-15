@@ -3,7 +3,6 @@ import { useRef, useMemo, memo, useCallback, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
 import { Autoplay, Virtual } from "swiper/modules";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import SliderCard from "../SliderCard/SliderCard";
 import Title from "../Title/Title";
 import { SearchPerson } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
@@ -16,7 +15,11 @@ import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import SlidersTitle from "../SlidersTitle/SlidersTitle";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import CardsSkeletonSlider from "./CardsSkeletonSlider";
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import dynamic from "next/dynamic";
+
+const CardsSkeletonSlider = dynamic(() => import("./CardsSkeletonSlider"));
 
 type TheShows = Movie[] | TVShow[] | SearchPerson[] | FirestoreTheShowI[];
 

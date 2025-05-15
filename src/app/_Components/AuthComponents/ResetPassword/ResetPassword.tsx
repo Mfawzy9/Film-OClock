@@ -4,13 +4,13 @@ import { auth } from "@/lib/firebase/config";
 import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
-import { SiSpinrilla } from "react-icons/si";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import PasswordInput from "../../PasswordInput/PasswordInput";
 import { Link, useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useRouter } from "@bprogress/next/app";
+import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const ResetPassword = () => {
   const t = useTranslations("ResetPassword");

@@ -18,7 +18,6 @@ import {
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { memo, useMemo, useState } from "react";
-import { SiSpinrilla } from "react-icons/si";
 import {
   Filters,
   FilterConfig,
@@ -27,7 +26,12 @@ import {
   yearsWithT,
 } from "./showsNeeds";
 import { useLocale, useTranslations } from "next-intl";
-import DiscoverShowsSkeletons from "./DiscoverShowsSkeletons";
+import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import dynamic from "next/dynamic";
+
+const DiscoverShowsSkeletons = dynamic(
+  () => import("./DiscoverShowsSkeletons"),
+);
 
 type ShowType = "movie" | "tv";
 

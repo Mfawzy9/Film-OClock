@@ -5,7 +5,6 @@ import {
 } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
 import Image from "next/image";
 import castBg from "../../../../public/images/castBackDrop.jpg";
-import { FcRating, FcReading } from "react-icons/fc";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { Link } from "@/i18n/navigation";
@@ -17,13 +16,15 @@ import {
   nameToSlug,
   scrollToTop,
 } from "../../../../helpers/helpers";
-import { FaChevronCircleUp } from "react-icons/fa";
 import { TFunction } from "../../../../global";
 import {
   Movie,
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import useIsArabic from "@/app/hooks/useIsArabic";
+import { FaChevronCircleUp } from "@react-icons/all-files/fa/FaChevronCircleUp";
+import { FcRating } from "@react-icons/all-files/fc/FcRating";
+import { FcReading } from "@react-icons/all-files/fc/FcReading";
 
 function getCastCardWorkLink(
   work: PopularPersonMovieI | PopularPersonTvShowI,

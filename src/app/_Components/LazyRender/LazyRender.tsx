@@ -2,8 +2,8 @@
 
 import { useInView } from "react-intersection-observer";
 import { ComponentType, memo, useState, useEffect } from "react";
-import { ImSpinner9 } from "react-icons/im";
 import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
+import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
 
 interface LazyRenderProps {
   Component: ComponentType<any>;

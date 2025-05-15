@@ -1,13 +1,13 @@
 import { Link } from "@/i18n/navigation";
+import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
 import { useTranslations } from "next-intl";
-import { PiListPlusFill } from "react-icons/pi";
 
 const LoggedinEmptyWL = () => {
   const t = useTranslations("HomePage");
   return (
     <>
       <div className="flex flex-col items-center justify-start gap-3 px-2">
-        <PiListPlusFill className="text-8xl" />
+        <FaNotesMedical className="text-8xl" />
 
         <div className="flex items-center gap-2 text-center">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold">
