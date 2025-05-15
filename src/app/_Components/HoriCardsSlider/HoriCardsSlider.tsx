@@ -3,7 +3,7 @@ import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
 import { AnimatePresence } from "framer-motion";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import HoriCard from "../HoriCard/HoriCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import PageSection from "../PageSection/PageSection";

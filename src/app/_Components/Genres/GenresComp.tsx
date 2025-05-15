@@ -59,8 +59,6 @@ const GenresComp = () => {
     },
   );
 
-  console.log(genres?.genres?.length);
-
   const content = data as MoviesResponse | TVShowsResponse;
   const isLoading = isLoadingContent || isLoadingGenres;
   const isFetching = isFetchingContent || isFetchingGenres;

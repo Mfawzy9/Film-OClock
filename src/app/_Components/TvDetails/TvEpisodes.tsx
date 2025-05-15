@@ -49,8 +49,6 @@ const TvEpisodes = ({
     isFetching: boolean;
   };
 
-  console.log(tvSeasonDetails);
-
   // Reset visible episodes when season changes
   useEffect(() => {
     setVisibleEpisodes(EPISODES_PER_PAGE);

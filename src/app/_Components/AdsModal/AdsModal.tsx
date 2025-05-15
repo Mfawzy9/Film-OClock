@@ -100,7 +100,7 @@ const AdsModal = () => {
             <div className="flex flex-col mb-4 flex-wrap">
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-gray-800 dark:hover:text-white text-3xl flex-none"
+                className="text-gray-500 hover:text-gray-800 dark:hover:text-white text-3xl flex-none w-fit"
                 aria-label="Close"
               >
                 <FaXmark />

@@ -116,7 +116,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <PageSection className="px-0 flex items-center h-full w-full">
+      <PageSection className="!px-2 sm:!px-3 flex items-center h-full w-full">
         <div
           className="max-w-md w-full bg-gray-950 shadow-blueGlow rounded-xl overflow-hidden p-3
             xs:p-5 sm:p-8 space-y-8 mx-auto"

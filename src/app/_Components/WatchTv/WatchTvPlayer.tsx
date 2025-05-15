@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SelectComp from "../SelectComp/SelectComp";
 import {
   getTvWatchServers,
@@ -23,7 +23,17 @@ const WatchTvPlayer = ({
   episode,
 }: WatchTvPlayerProps) => {
   const t = useTranslations("WatchTv");
-  const [activeServer, setActiveServer] = useState(serversNames[0]);
+  const [activeServer, setActiveServer] = useState(
+    (typeof window !== "undefined" &&
+      JSON.parse(sessionStorage.getItem("activeServer") as string)) ??
+      serversNames[0],
+  );
+
+  //save active server in session storage
+  useEffect(() => {
+    if (typeof window !== "undefined")
+      sessionStorage.setItem("activeServer", JSON.stringify(activeServer));
+  }, [activeServer]);
 
   // Memoize server options to prevent unnecessary re-renders
   const serverOptions = useMemo(() => serversNames, []);

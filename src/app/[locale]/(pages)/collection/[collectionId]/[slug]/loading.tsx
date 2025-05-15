@@ -3,18 +3,6 @@ import PageSection from "@/app/_Components/PageSection/PageSection";
 export default function Loading() {
   return (
     <>
-      <div className="min-h-screen absolute w-full -z-10 bg-gray-800 animate-pulse">
-        <div
-          className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-gray-800/70
-            to-transparent"
-        />
-        <div
-          className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-gray-800
-            to-transparent"
-        />
-        <div className="absolute inset-0 bg-gray-800/80" />
-      </div>
-
       {/* content skeleton */}
       <PageSection className="md:!py-0">
         <div

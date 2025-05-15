@@ -142,7 +142,7 @@ const MovieDetails = ({
   });
 
   const director = useMemo(
-    () => movie?.credits?.crew?.find((crew) => crew.job === "Director"),
+    () => movie?.credits?.crew?.find((crew) => crew.job === "Director") ?? null,
     [movie],
   );
 
@@ -392,14 +392,18 @@ const MovieDetails = ({
             </div>
 
             {/* Director */}
-            <h6 className="font-bold">
-              {t("Director")}:{" "}
-              <Link href={`/details/person/${director?.id}/${director?.name}`}>
-                <span className="hover:underline text-blue-500 font-semibold">
-                  {director?.name}
-                </span>
-              </Link>
-            </h6>
+            {director && (
+              <h6 className="font-bold">
+                {t("Director")}:{" "}
+                <Link
+                  href={`/details/person/${director?.id}/${director?.name}`}
+                >
+                  <span className="hover:underline text-blue-500 font-semibold">
+                    {director?.name}
+                  </span>
+                </Link>
+              </h6>
+            )}
           </div>
         </div>
 

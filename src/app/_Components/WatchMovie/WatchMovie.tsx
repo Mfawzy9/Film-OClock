@@ -61,9 +61,19 @@ const WatchMovie = ({
 }: WatchMovieProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchMovie");
-  const [activeServer, setActiveServer] = useState(serversNames[0]);
+  const [activeServer, setActiveServer] = useState(
+    (typeof window !== "undefined" &&
+      JSON.parse(sessionStorage.getItem("activeServer") as string)) ??
+      serversNames[0],
+  );
 
   const dispatch = useDispatch<AppDispatch>();
+
+  //save active server in session storage
+  useEffect(() => {
+    if (typeof window !== "undefined")
+      sessionStorage.setItem("activeServer", JSON.stringify(activeServer));
+  }, [activeServer]);
 
   useEffect(() => {
     if (initialData) {

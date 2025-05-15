@@ -1,3 +1,4 @@
+"use server";
 import {
   MovieDetailsResponse,
   PersonDetailsResponse,
@@ -26,7 +27,10 @@ type CacheItem<T> = {
 
 const cacheMap = new Map<string, CacheItem<any>>();
 // getOrSet
-export function getOrSet<T>(key: string, fn: () => Promise<T>): Promise<T> {
+export async function getOrSet<T>(
+  key: string,
+  fn: () => Promise<T>,
+): Promise<T> {
   const cached = cacheMap.get(key);
 
   if (cached) {
@@ -50,7 +54,7 @@ export function getOrSet<T>(key: string, fn: () => Promise<T>): Promise<T> {
   return promise;
 }
 
-export const getInitialDetailsData = ({
+export const getInitialDetailsData = async ({
   showId,
   showType,
   locale,
@@ -75,7 +79,6 @@ export const getInitialDetailsData = ({
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
-        next: { revalidate: 3600, tags: [`details-${showId}-${showType}`] },
       },
     );
 
@@ -94,10 +97,6 @@ export const getInitialDetailsData = ({
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-          next: {
-            revalidate: 3600,
-            tags: [`${showType}-translations-${showId}`],
           },
         },
       );
@@ -124,7 +123,7 @@ export const getInitialDetailsData = ({
 };
 
 // getInitialDetailsDataCached with Map
-export const getInitialDetailsDataCachedWithMap = ({
+export const getInitialDetailsDataCachedWithMap = async ({
   locale,
   showId,
   showType,
@@ -156,15 +155,12 @@ export const getSearchResults = async ({
       const [initialMovies, initialTvShows, initialPeople] = await Promise.all([
         fetch(
           `${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-          { next: { revalidate: 3600 } },
         ).then((res) => res.json()),
         fetch(
           `${BASE_URL}search/tv?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-          { next: { revalidate: 3600 } },
         ).then((res) => res.json()),
         fetch(
           `${BASE_URL}search/person?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-          { next: { revalidate: 3600 } },
         ).then((res) => res.json()),
       ]);
 
@@ -172,6 +168,7 @@ export const getSearchResults = async ({
     }),
     [`search-results-${locale}-${query}-${page}`], // Cache key based on locale, query, and page
     {
+      tags: [`search-results-${locale}-${query}-${page}`],
       revalidate: 3600, // Revalidate every hour
     },
   );
@@ -180,7 +177,7 @@ export const getSearchResults = async ({
 };
 
 //cache getSearchResults
-export const getSearchResultsCached = ({
+export const getSearchResultsCached = async ({
   locale,
   query,
   page,
@@ -197,7 +194,7 @@ export const getSearchResultsCached = ({
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // get movie collection
-export const getMovieCollectionWithNextCache = ({
+export const getMovieCollectionWithNextCache = async ({
   collectionId,
   locale,
 }: {
