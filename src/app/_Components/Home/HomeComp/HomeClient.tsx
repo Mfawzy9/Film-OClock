@@ -1,9 +1,18 @@
 "use client";
 import PageSection from "@/app/_Components/PageSection/PageSection";
+import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
 import dynamic from "next/dynamic";
 
 const LazyRender = dynamic(
   () => import("@/app/_Components/LazyRender/LazyRender"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center h-full min-h-[465px]">
+        <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+      </div>
+    ),
+  },
 );
 
 const ShortDetailsSkeleton = dynamic(
