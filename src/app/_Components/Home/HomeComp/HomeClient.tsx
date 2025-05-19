@@ -4,9 +4,9 @@ import LazyRender from "@/app/_Components/LazyRender/LazyRender";
 import LazyWatchlist from "@/app/_Components/Home/LazySections/LazyWatchlist";
 import dynamic from "next/dynamic";
 
-const ShortDetailsSkeleton = dynamic(
-  () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
-);
+// const ShortDetailsSkeleton = dynamic(
+//   () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
+// );
 const GenresSkeletonSlider = dynamic(
   () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
 );
@@ -26,13 +26,13 @@ const CardsSkeletonSlider = dynamic(
 //     loading: () => <HoriSkeletonSlider />,
 //   },
 // );
-const LazyLastWatched = dynamic(
-  () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
-  {
-    ssr: false,
-    loading: () => <ShortDetailsSkeleton />,
-  },
-);
+// const LazyLastWatched = dynamic(
+//   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
+//   {
+//     ssr: false,
+//     loading: () => <ShortDetailsSkeleton />,
+//   },
+// );
 const LazyTrendingTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
   {
@@ -80,10 +80,10 @@ const HomeClient = () => {
       /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* last watched show */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyLastWatched}
         loading={<ShortDetailsSkeleton className="!py-0 mt-14" />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* trending today tv shows */}
       <PageSection>
