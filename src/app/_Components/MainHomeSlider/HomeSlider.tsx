@@ -29,8 +29,8 @@ const HomeSlider = ({
   useEffect(() => {
     if (!hasAppRendered) {
       hasAppRendered = true;
+      setShouldShowSkeleton(false);
     }
-    setShouldShowSkeleton(false);
   }, []);
 
   const isOpen = useSelector(
