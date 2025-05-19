@@ -15,8 +15,6 @@ import ScrollToSection from "../ScrollToSection/ScrollToSection";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
 
-let hasAppRendered = false;
-
 const HomeSlider = ({
   data,
   genres,
@@ -24,13 +22,12 @@ const HomeSlider = ({
   data: MoviesTrendsResponse;
   genres: GenresResponse | null;
 }) => {
-  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
+  const [hasRendered, setHasRendered] = useState(false);
+  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(true);
 
   useEffect(() => {
-    if (!hasAppRendered) {
-      hasAppRendered = true;
-      setShouldShowSkeleton(false);
-    }
+    setHasRendered(true);
+    setShouldShowSkeleton(false);
   }, []);
 
   const isOpen = useSelector(
@@ -63,7 +60,7 @@ const HomeSlider = ({
     <>
       <ScrollToSection reference={null} />
 
-      {shouldShowSkeleton ? (
+      {!hasRendered || shouldShowSkeleton ? (
         <HomeSliderSkeleton />
       ) : (
         <Swiper
