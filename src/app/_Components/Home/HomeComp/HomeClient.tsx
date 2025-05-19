@@ -7,15 +7,15 @@ import dynamic from "next/dynamic";
 // const ShortDetailsSkeleton = dynamic(
 //   () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
 // );
-const GenresSkeletonSlider = dynamic(
-  () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
-);
+// const GenresSkeletonSlider = dynamic(
+//   () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
+// );
 // const VideosSkelsetonSlider = dynamic(
 //   () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
 // );
-// const HoriSkeletonSlider = dynamic(
-//   () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
-// );
+const HoriSkeletonSlider = dynamic(
+  () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
+);
 // const CardsSkeletonSlider = dynamic(
 //   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
 // );
@@ -54,20 +54,20 @@ const GenresSkeletonSlider = dynamic(
 //     loading: () => <CardsSkeletonSlider />,
 //   },
 // );
-// const LazyMostVotedTvShows = dynamic(
-//   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
-//   {
-//     ssr: false,
-//     loading: () => <HoriSkeletonSlider />,
-//   },
-// );
-const LazyGenres = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyGenres"),
+const LazyMostVotedTvShows = dynamic(
+  () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
   {
     ssr: false,
-    loading: () => <GenresSkeletonSlider />,
+    loading: () => <HoriSkeletonSlider />,
   },
 );
+// const LazyGenres = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyGenres"),
+//   {
+//     ssr: false,
+//     loading: () => <GenresSkeletonSlider />,
+//   },
+// );
 
 const HomeClient = () => {
   return (
@@ -113,13 +113,13 @@ const HomeClient = () => {
       </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* most rated Tv Shows */}
-      {/* <LazyRender
+      <LazyRender
         Component={LazyMostVotedTvShows}
         loading={<HoriSkeletonSlider />}
-      /> */}
+      />
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* genres Section */}
-      <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} />
+      {/* <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} /> */}
     </>
   );
 };

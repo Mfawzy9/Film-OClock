@@ -1,3 +1,4 @@
+"use client";
 import { memo } from "react";
 import PageSection from "../PageSection/PageSection";
 import { Swiper, SwiperSlide } from "swiper/react";
