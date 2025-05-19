@@ -1,7 +1,7 @@
 "use client";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import LazyRender from "@/app/_Components/LazyRender/LazyRender";
-import LazyWatchlist from "@/app/_Components/Home/LazySections/LazyWatchlist";
+// import LazyWatchlist from "@/app/_Components/Home/LazySections/LazyWatchlist";
 import dynamic from "next/dynamic";
 
 // const ShortDetailsSkeleton = dynamic(
@@ -94,9 +94,9 @@ const HomeClient = () => {
       </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Watchlist */}
-      <PageSection className="!py-5">
+      {/* <PageSection className="!py-5">
         <LazyWatchlist />
-      </PageSection>
+      </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* latest trailers */}
       <LazyRender
