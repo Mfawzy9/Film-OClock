@@ -33,7 +33,10 @@ const VideosSkelsetonSlider = () => {
           >
             {[...Array(5)].map((_, idx) => (
               <SwiperSlide key={idx} className="">
-                <div className="cursor-pointer group overflow-hidden bg-gray-800 rounded-md p-1 animate-pulse">
+                <div
+                  className="cursor-pointer group overflow-hidden bg-gray-800 rounded-md p-1 animate-pulse
+                    max-h-[350px] xs:max-h-[500px] sm:max-h-[400px] md:max-h-[380px]"
+                >
                   {/* Video thumbnail placeholder */}
                   <div className="relative aspect-video bg-gray-700 rounded-md overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">

@@ -11,9 +11,14 @@ import { RootState } from "@/lib/Redux/store";
 import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import dynamic from "next/dynamic";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
-import ScrollToSection from "../ScrollToSection/ScrollToSection";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
+const ScrollToSection = dynamic(
+  () => import("../ScrollToSection/ScrollToSection"),
+  {
+    ssr: false,
+  },
+);
 
 let hasAppRendered = false;
 
