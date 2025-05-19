@@ -102,7 +102,7 @@ const SliderCard = ({
       ? theShow.original_title || theShow.title
       : isArabicShow && "original_name" in theShow
         ? theShow.original_name || theShow.name
-        : (theShow as TVShow).name || (theShow as Movie).title;
+        : (theShow as TVShow)?.name || (theShow as Movie)?.title || name;
 
   return (
     <div className="group block relative overflow-hidden pb-1 w-[235px]">

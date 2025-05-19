@@ -66,7 +66,7 @@ const HoriCard = ({
       ? theShow.original_title || theShow.title
       : isArabicShow && "original_name" in theShow
         ? theShow.original_name || theShow.name
-        : (theShow as TVShow).name || (theShow as Movie).title;
+        : (theShow as TVShow)?.name || (theShow as Movie)?.title || title;
 
   return (
     <>

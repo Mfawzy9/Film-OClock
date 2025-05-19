@@ -51,7 +51,7 @@ const AllPpl = ({
           {allData?.map((person, idx) => {
             if (!person.profile_path) return null;
             return (
-              <div key={person.id} className="">
+              <div key={person.id}>
                 <Card
                   idx={idx}
                   personJob={person.known_for_department}

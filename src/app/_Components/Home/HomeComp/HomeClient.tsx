@@ -33,13 +33,13 @@ const CardsSkeletonSlider = dynamic(
 //     loading: () => <ShortDetailsSkeleton />,
 //   },
 // );
-const LazyTrendingTvShows = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
-  {
-    ssr: false,
-    loading: () => <CardsSkeletonSlider />,
-  },
-);
+// const LazyTrendingTvShows = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
+//   {
+//     ssr: false,
+//     loading: () => <CardsSkeletonSlider />,
+//   },
+// );
 const LazyLatestTrailers = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyLatestTrailers"),
   {
@@ -86,12 +86,12 @@ const HomeClient = () => {
       /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* trending today tv shows */}
-      <PageSection>
+      {/* <PageSection>
         <LazyRender
           Component={LazyTrendingTvShows}
           loading={<CardsSkeletonSlider />}
         />
-      </PageSection>
+      </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Watchlist */}
       <PageSection className="!py-5">

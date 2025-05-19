@@ -84,7 +84,7 @@ const Card = ({
       ? theShow.original_title || theShow.title
       : isArabicShow && "original_name" in theShow
         ? theShow.original_name || theShow.name
-        : (theShow as TVShow).name || (theShow as Movie).title;
+        : (theShow as TVShow)?.name || (theShow as Movie)?.title || name;
 
   return (
     <div className="relative group w-full border border-gray-700 xs:border-none rounded">
@@ -124,7 +124,7 @@ const Card = ({
         {/* Movie Info */}
         <div className="mt-2 px-1">
           <h3 className="text-white font-semibold line-clamp-1">
-            {theShow ? (showTitle ?? name) : name}
+            {theShow ? showTitle || name : name}
           </h3>
           <div className="flex justify-between text-sm text-gray-300 mt-1 font-sans">
             <span>{release_date?.split("-")[0] || editedPersonJob}</span>
