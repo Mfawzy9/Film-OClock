@@ -10,15 +10,15 @@ import dynamic from "next/dynamic";
 const GenresSkeletonSlider = dynamic(
   () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
 );
-const VideosSkelsetonSlider = dynamic(
-  () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
-);
+// const VideosSkelsetonSlider = dynamic(
+//   () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
+// );
 const HoriSkeletonSlider = dynamic(
   () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
 );
-const CardsSkeletonSlider = dynamic(
-  () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
-);
+// const CardsSkeletonSlider = dynamic(
+//   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
+// );
 // const LazyTopRatedMovies = dynamic(
 //   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
 //   {
@@ -47,13 +47,13 @@ const CardsSkeletonSlider = dynamic(
 //     loading: () => <VideosSkelsetonSlider />,
 //   },
 // );
-const LazyUpcomingMovies = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
-  {
-    ssr: false,
-    loading: () => <CardsSkeletonSlider />,
-  },
-);
+// const LazyUpcomingMovies = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
+//   {
+//     ssr: false,
+//     loading: () => <CardsSkeletonSlider />,
+//   },
+// );
 const LazyMostVotedTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
   {
@@ -105,12 +105,12 @@ const HomeClient = () => {
       /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Upcoming Movies */}
-      <PageSection className="!py-5">
+      {/* <PageSection className="!py-5">
         <LazyRender
           Component={LazyUpcomingMovies}
           loading={<CardsSkeletonSlider />}
         />
-      </PageSection>
+      </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* most rated Tv Shows */}
       <LazyRender

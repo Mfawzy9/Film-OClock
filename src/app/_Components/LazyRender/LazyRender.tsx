@@ -45,6 +45,7 @@ const LazyRender = ({
   );
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     if (inView || noLazy) {
       setHasBeenInView(true);
       if (persistKey) {
