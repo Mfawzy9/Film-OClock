@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import HomeSliderFetcher from "../../MainHomeSlider/HomeSliderFetcher";
-import HomeClient from "./HomeClient";
+import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
 
 const WatchHistory = dynamic(
   () => import("@/app/_Components/Home/WatchHistory/WatchHistory"),
@@ -16,6 +16,13 @@ const PopularPplHomeSlider = dynamic(
     },
   },
 );
+const HomeClientWrapper = dynamic(() => import("./HomeClientWrapper"), {
+  loading: () => (
+    <div className="flex items-center h-full min-h-[465px]">
+      <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+    </div>
+  ),
+});
 
 const HomeServer = () => {
   return (
@@ -23,7 +30,7 @@ const HomeServer = () => {
       <HomeSliderFetcher />
       <WatchHistory />
       <PopularPplHomeSlider />
-      <HomeClient />
+      <HomeClientWrapper />
     </>
   );
 };
