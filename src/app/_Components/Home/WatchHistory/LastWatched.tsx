@@ -69,7 +69,6 @@ const LastWatched = () => {
         backdropPath={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_ORI}${lastWatched.backdropPath}`}
         showType={lastWatched.showType}
         showId={lastWatched.id}
-        scroll={false}
         description={
           lastWatched.episodeOverview
             ? lastWatched.episodeOverview

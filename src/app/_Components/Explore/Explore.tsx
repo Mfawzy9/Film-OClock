@@ -213,7 +213,6 @@ const Explore = () => {
             Component={ShortDetails}
             props={{
               className: "!my-0",
-              scroll: false,
               theShow: randomTrendingShow,
               title:
                 showType === "movie"
@@ -298,7 +297,6 @@ const Explore = () => {
               Component={ShortDetails}
               props={{
                 className: "!my-0",
-                scroll: false,
                 theShow: randomTopRatedShow,
                 title:
                   showType === "movie"

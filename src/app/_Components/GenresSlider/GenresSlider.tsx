@@ -31,13 +31,11 @@ const GenreCard = memo(
   ({
     genre,
     backdropPath,
-    randomRotation,
     idx,
     showType,
   }: {
     genre: genre;
     backdropPath: string;
-    randomRotation: number;
     idx: number;
     showType: "movie" | "tv";
   }) => {
@@ -58,7 +56,6 @@ const GenreCard = memo(
         className={`relative group block overflow-hidden rounded-xl shadow-blueGlow shadow-white
           lg:hover:shadow-blueGlow transition-shadow duration-700 xs:w-[250] sm:w-auto
           mx-auto`}
-        style={{ transform: `rotate(${randomRotation}deg)` }}
       >
         {!isImgLoaded && <BgPlaceholder />}
         <Image
@@ -147,15 +144,15 @@ const GenresSlider = ({
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}
             modules={[Virtual]}
-            spaceBetween={200}
+            spaceBetween={30}
             slidesPerView={1}
             slidesPerGroup={1}
             breakpoints={{
-              575: { slidesPerView: 2, spaceBetween: 50, slidesPerGroup: 2 },
-              768: { slidesPerView: 3, spaceBetween: 50, slidesPerGroup: 3 },
-              1024: { slidesPerView: 4, spaceBetween: 50, slidesPerGroup: 4 },
-              1280: { slidesPerView: 4, spaceBetween: 50, slidesPerGroup: 4 },
-              1600: { slidesPerView: 5, spaceBetween: 50, slidesPerGroup: 5 },
+              575: { slidesPerView: 2, spaceBetween: 30, slidesPerGroup: 2 },
+              768: { slidesPerView: 3, spaceBetween: 30, slidesPerGroup: 3 },
+              1024: { slidesPerView: 4, spaceBetween: 30, slidesPerGroup: 4 },
+              1280: { slidesPerView: 4, spaceBetween: 30, slidesPerGroup: 4 },
+              1600: { slidesPerView: 5, spaceBetween: 30, slidesPerGroup: 5 },
             }}
             navigation={false}
             virtual
@@ -165,7 +162,6 @@ const GenresSlider = ({
             {genresList?.map((genre, idx) => {
               const backdropPath = genresBackdrops.get(genre.id);
               if (!backdropPath) return null;
-              const randomRotation = Math.floor(Math.random() * 20) - 10;
 
               return (
                 <SwiperSlide key={idx} virtualIndex={idx}>
@@ -175,7 +171,6 @@ const GenresSlider = ({
                     genre={genre}
                     backdropPath={backdropPath}
                     idx={idx}
-                    randomRotation={randomRotation}
                   />
                 </SwiperSlide>
               );

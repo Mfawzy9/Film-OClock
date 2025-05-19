@@ -91,10 +91,7 @@ const MovieCollectionComp = ({
               </div>
             )}
           </div>
-          <ScrollToSection
-            reference={null}
-            className="hidden md:block 4xl:hidden"
-          />
+          <ScrollToSection className="hidden md:block 4xl:hidden" />
         </div>
 
         {collectionDetails?.parts && collectionDetails.parts.length > 0 && (

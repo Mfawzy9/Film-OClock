@@ -15,15 +15,15 @@ const GenresSkeletonSlider = () => {
         <div className="relative">
           <Swiper
             modules={[]}
-            spaceBetween={50}
+            spaceBetween={30}
             slidesPerView={1}
             slidesPerGroup={1}
             breakpoints={{
-              575: { slidesPerView: 2, spaceBetween: 50 },
-              768: { slidesPerView: 3, spaceBetween: 50 },
-              1024: { slidesPerView: 4, spaceBetween: 50 },
-              1280: { slidesPerView: 4, spaceBetween: 50 },
-              1600: { slidesPerView: 5, spaceBetween: 50 },
+              575: { slidesPerView: 2, spaceBetween: 30 },
+              768: { slidesPerView: 3, spaceBetween: 30 },
+              1024: { slidesPerView: 4, spaceBetween: 30 },
+              1280: { slidesPerView: 4, spaceBetween: 30 },
+              1600: { slidesPerView: 5, spaceBetween: 30 },
             }}
             autoHeight={false}
             watchSlidesProgress={false}
@@ -35,10 +35,7 @@ const GenresSkeletonSlider = () => {
               <SwiperSlide key={idx}>
                 <div
                   className="relative group block overflow-hidden rounded-xl shadow-lg shadow-gray-700/50
-                    w-[216px] h-[150px] mx-auto animate-pulse"
-                  style={{
-                    transform: `rotate(${Math.floor(Math.random() * 20) - 10}deg)`,
-                  }}
+                    w-[216px] h-[130px] mx-auto animate-pulse"
                 >
                   {/* Image placeholder */}
                   <div className="absolute inset-0 bg-gray-700"></div>

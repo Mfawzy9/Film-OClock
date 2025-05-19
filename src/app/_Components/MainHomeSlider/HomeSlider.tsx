@@ -61,8 +61,7 @@ const HomeSlider = ({
 
   return (
     <>
-      <ScrollToSection reference={null} />
-
+      <ScrollToSection />
       {shouldShowSkeleton ? (
         <HomeSliderSkeleton />
       ) : (

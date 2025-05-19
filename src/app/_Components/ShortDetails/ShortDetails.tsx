@@ -7,7 +7,6 @@ import {
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { Link } from "@/i18n/navigation";
-import ScrollToSection from "../ScrollToSection/ScrollToSection";
 import { WatchHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
@@ -30,8 +29,6 @@ interface ShortDetailsProps {
   showType: "movie" | "tv";
   showId: number;
   theShow: Movie | TVShow | WatchHistoryItem;
-  reference?: React.RefObject<HTMLDivElement | null>;
-  scroll: boolean;
   className?: string;
   season?: number;
   episode?: number;
@@ -47,8 +44,6 @@ const ShortDetails = ({
   showType,
   showId,
   theShow,
-  reference,
-  scroll,
   className,
   episode,
   season,
@@ -156,13 +151,6 @@ const ShortDetails = ({
             </div>
           </div>
         </Link>
-
-        {scroll && reference && (
-          <ScrollToSection
-            className="hidden md:block !-bottom-16 xl:!bottom-0"
-            reference={reference}
-          />
-        )}
       </div>
     </main>
   );
