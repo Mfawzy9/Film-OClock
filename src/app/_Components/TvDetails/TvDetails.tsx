@@ -74,7 +74,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
 
   const {
     data: tvShow,
-    isLoading: detailsLoading,
+    isLoading,
     isError,
   } = useGetMTDetailsQuery({ showId, showType, lang: "en" }) as {
     data: TvDetailsResponse;
@@ -118,12 +118,10 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
     lang: isArabic ? "ar" : "en",
   });
 
-  const { data: TvShowImages, isLoading: imagesLoading } = useGetImagesQuery({
+  const { data: TvShowImages } = useGetImagesQuery({
     showId,
     showType,
   });
-
-  const isLoading = detailsLoading || imagesLoading;
 
   const tabs = useMemo(
     () => [

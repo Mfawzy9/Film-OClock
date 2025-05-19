@@ -3,53 +3,51 @@ import PageSection from "@/app/_Components/PageSection/PageSection";
 import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
 import dynamic from "next/dynamic";
 
-const LazyRender = dynamic(
-  () => import("@/app/_Components/LazyRender/LazyRender"),
-  // {
-  //   ssr: false,
-  //   loading: () => (
-  //     <div className="flex items-center h-full min-h-[465px]">
-  //       <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
-  //     </div>
-  //   ),
-  // },
-);
+// const LazyRender = dynamic(
+//   () => import("@/app/_Components/LazyRender/LazyRender"),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <div className="flex items-center h-full min-h-[465px]">
+//         <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+//       </div>
+//     ),
+//   },
+// );
 
-const ShortDetailsSkeleton = dynamic(
-  () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
-);
+// const ShortDetailsSkeleton = dynamic(
+//   () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
+// );
 
-const GenresSkeletonSlider = dynamic(
-  () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
-);
+// const GenresSkeletonSlider = dynamic(
+//   () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
+// );
 
-const VideosSkelsetonSlider = dynamic(
-  () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
-);
+// const VideosSkelsetonSlider = dynamic(
+//   () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
+// );
 
-const HoriSkeletonSlider = dynamic(
-  () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
-);
+// const HoriSkeletonSlider = dynamic(
+//   () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
+// );
 
 const CardsSkeletonSlider = dynamic(
   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
 );
 
-const LazyTopRatedMovies = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
-  {
-    ssr: false,
-    loading: () => <HoriSkeletonSlider />,
-  },
-);
+// const LazyTopRatedMovies = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
+//   {
+//     loading: () => <HoriSkeletonSlider />,
+//   },
+// );
 
-const LazyLastWatched = dynamic(
-  () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
-  {
-    ssr: false,
-    loading: () => <ShortDetailsSkeleton />,
-  },
-);
+// const LazyLastWatched = dynamic(
+//   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
+//   {
+//     loading: () => <ShortDetailsSkeleton />,
+//   },
+// );
 
 const LazyTrendingTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
@@ -59,96 +57,98 @@ const LazyTrendingTvShows = dynamic(
   },
 );
 
-const LazyWatchlist = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyWatchlist"),
-  {
-    ssr: false,
-  },
-);
+// const LazyWatchlist = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyWatchlist"),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <div className="flex items-center h-full min-h-[465px]">
+//         <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+//       </div>
+//     ),
+//   },
+// );
 
-const LazyLatestTrailers = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyLatestTrailers"),
-  {
-    ssr: false,
-    loading: () => <VideosSkelsetonSlider />,
-  },
-);
+// const LazyLatestTrailers = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyLatestTrailers"),
+//   {
+//     loading: () => <VideosSkelsetonSlider />,
+//   },
+// );
 
-const LazyUpcomingMovies = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
-  {
-    ssr: false,
-    loading: () => <CardsSkeletonSlider />,
-  },
-);
+// const LazyUpcomingMovies = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
+//   {
+//     loading: () => <CardsSkeletonSlider />,
+//   },
+// );
 
-const LazyMostVotedTvShows = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
-  {
-    ssr: false,
-    loading: () => <HoriSkeletonSlider />,
-  },
-);
+// const LazyMostVotedTvShows = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
+//   {
+//     loading: () => <HoriSkeletonSlider />,
+//   },
+// );
 
-const LazyGenres = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyGenres"),
-  {
-    ssr: false,
-    loading: () => <GenresSkeletonSlider />,
-  },
-);
+// const LazyGenres = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyGenres"),
+//   {
+//     loading: () => <GenresSkeletonSlider />,
+//   },
+// );
 
 const HomeClient = () => {
   return (
     <>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* top rated movies */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyTopRatedMovies}
         loading={<HoriSkeletonSlider />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* last watched show */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyLastWatched}
         loading={<ShortDetailsSkeleton className="!py-0 mt-14" />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* trending today tv shows */}
       <PageSection>
-        <LazyRender
+        <LazyTrendingTvShows />
+        {/* <LazyRender
           Component={LazyTrendingTvShows}
           loading={<CardsSkeletonSlider />}
-        />
+        /> */}
       </PageSection>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Watchlist */}
-      <PageSection className="!py-5">
+      {/* <PageSection className="!py-5">
         <LazyWatchlist />
-      </PageSection>
+      </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* latest trailers */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyLatestTrailers}
         loading={<VideosSkelsetonSlider />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Upcoming Movies */}
-      <PageSection className="!py-5">
+      {/* <PageSection className="!py-5">
         <LazyRender
           Component={LazyUpcomingMovies}
           loading={<CardsSkeletonSlider />}
         />
-      </PageSection>
+      </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* most rated Tv Shows */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyMostVotedTvShows}
         loading={<HoriSkeletonSlider />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* genres Section */}
-      <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} />
+      {/* <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} /> */}
     </>
   );
 };

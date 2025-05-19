@@ -71,7 +71,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
 
   const {
     data: movie,
-    isLoading: detailsLoading,
+    isLoading,
     isError,
   } = useGetMTDetailsQuery({ showId, showType, lang: "en" }) as {
     data: MovieDetailsResponse;
@@ -120,12 +120,10 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
   );
 
   //images
-  const { data: movieImages, isLoading: imagesLoading } = useGetImagesQuery({
+  const { data: movieImages } = useGetImagesQuery({
     showId,
     showType,
   });
-
-  const isLoading = detailsLoading || imagesLoading;
 
   const tabs = useMemo(
     () => [
