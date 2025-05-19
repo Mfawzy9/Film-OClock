@@ -5,14 +5,14 @@ import dynamic from "next/dynamic";
 
 const LazyRender = dynamic(
   () => import("@/app/_Components/LazyRender/LazyRender"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex items-center h-full min-h-[465px]">
-        <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
-      </div>
-    ),
-  },
+  // {
+  //   ssr: false,
+  //   loading: () => (
+  //     <div className="flex items-center h-full min-h-[465px]">
+  //       <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+  //     </div>
+  //   ),
+  // },
 );
 
 const ShortDetailsSkeleton = dynamic(
