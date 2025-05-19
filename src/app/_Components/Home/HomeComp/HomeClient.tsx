@@ -13,9 +13,9 @@ const GenresSkeletonSlider = dynamic(
 // const VideosSkelsetonSlider = dynamic(
 //   () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
 // );
-const HoriSkeletonSlider = dynamic(
-  () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
-);
+// const HoriSkeletonSlider = dynamic(
+//   () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
+// );
 // const CardsSkeletonSlider = dynamic(
 //   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
 // );
@@ -54,13 +54,13 @@ const HoriSkeletonSlider = dynamic(
 //     loading: () => <CardsSkeletonSlider />,
 //   },
 // );
-const LazyMostVotedTvShows = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
-  {
-    ssr: false,
-    loading: () => <HoriSkeletonSlider />,
-  },
-);
+// const LazyMostVotedTvShows = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
+//   {
+//     ssr: false,
+//     loading: () => <HoriSkeletonSlider />,
+//   },
+// );
 const LazyGenres = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyGenres"),
   {
@@ -113,10 +113,10 @@ const HomeClient = () => {
       </PageSection> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* most rated Tv Shows */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyMostVotedTvShows}
         loading={<HoriSkeletonSlider />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* genres Section */}
       <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} />

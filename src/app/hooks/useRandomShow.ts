@@ -1,3 +1,4 @@
+"use client";
 import { useMemo } from "react";
 import { Movie, TVShow } from "../interfaces/apiInterfaces/discoverInterfaces";
 
