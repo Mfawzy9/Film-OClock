@@ -24,9 +24,9 @@ const PopularPplHomeSlider = dynamic(
 const HomeServer = () => {
   return (
     <>
-      <Suspense fallback={<HomeSliderSkeleton />}>
-        <HomeSliderFetcher />
-      </Suspense>
+      {/* <Suspense fallback={<HomeSliderSkeleton />}> */}
+      <HomeSliderFetcher />
+      {/* </Suspense> */}
       {/* watch history */}
       <WatchHistory />
       {/* popular people */}

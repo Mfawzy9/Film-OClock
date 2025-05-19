@@ -9,7 +9,6 @@ import { authReducer } from "./localSlices/authSlice";
 import { libraryReducer } from "./localSlices/librarySlice";
 import videoDurationSlice from "./apiSlices/videoDurationSlice";
 import translationApi from "./apiSlices/translationSlice";
-import { homeReducer } from "./localSlices/hasRenderedSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,7 +21,6 @@ const store = configureStore({
     libraryReducer,
     [videoDurationSlice.reducerPath]: videoDurationSlice.reducer,
     [translationApi.reducerPath]: translationApi.reducer,
-    homeReducer,
   },
   middleware: (getdefaultmiddleware) =>
     getdefaultmiddleware().concat([
