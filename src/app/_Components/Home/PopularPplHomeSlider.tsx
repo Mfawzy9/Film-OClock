@@ -20,25 +20,19 @@ const PopularPplHomeSlider = async () => {
         <>
           <section className="sr-only">
             <h1>{t("PopularCelebritiesSliderTitle")}</h1>
-            <article>
-              {(popularPeople as PopularPersonResponse).results.map(
-                (person) => (
-                  <div
-                    key={person.id}
-                    itemScope
-                    itemType={itemTypeMap["person"]}
-                  >
-                    <h1 itemProp="name">{person.name}</h1>
-                    <h2 itemProp="alternateName">{person.original_name}</h2>
-                    <h2 itemProp="jobTitle">{person.known_for_department}</h2>
-                    <p itemProp="alternateName">
-                      {person.known_for.join(", ")}
-                    </p>
-                    <p itemProp="gender">{person.gender}</p>
-                  </div>
-                ),
-              )}
-            </article>
+            {(popularPeople as PopularPersonResponse).results.map((person) => (
+              <article
+                key={person.id}
+                itemScope
+                itemType={itemTypeMap["person"]}
+              >
+                <h1 itemProp="name">{person.name}</h1>
+                <h2 itemProp="alternateName">{person.original_name}</h2>
+                <h2 itemProp="jobTitle">{person.known_for_department}</h2>
+                <p itemProp="alternateName">{person.known_for.join(", ")}</p>
+                <p itemProp="gender">{person.gender}</p>
+              </article>
+            ))}
           </section>
 
           <RTKPreloader

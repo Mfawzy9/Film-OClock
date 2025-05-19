@@ -19,13 +19,13 @@ const HoriSkeletonSlider = dynamic(
 const CardsSkeletonSlider = dynamic(
   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
 );
-const LazyTopRatedMovies = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
-  {
-    ssr: false,
-    loading: () => <HoriSkeletonSlider />,
-  },
-);
+// const LazyTopRatedMovies = dynamic(
+//   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
+//   {
+//     ssr: false,
+//     loading: () => <HoriSkeletonSlider />,
+//   },
+// );
 const LazyLastWatched = dynamic(
   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
   {
@@ -74,10 +74,10 @@ const HomeClient = () => {
     <>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* top rated movies */}
-      <LazyRender
+      {/* <LazyRender
         Component={LazyTopRatedMovies}
         loading={<HoriSkeletonSlider />}
-      />
+      /> */}
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* last watched show */}
       <LazyRender
