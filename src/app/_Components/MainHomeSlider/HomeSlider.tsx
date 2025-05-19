@@ -35,7 +35,7 @@ const HomeSlider = ({
 
   const isOpen = useSelector(
     (state: RootState) => state.videoModalReducer.isOpen,
-    (prev, next) => prev === next,
+    shallowEqual,
   );
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(
     null as SwiperType | null,
