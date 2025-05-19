@@ -1,3 +1,4 @@
+"use client";
 import { PopularPersonI } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
 import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";

@@ -1,3 +1,4 @@
+"use client";
 import { genre } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import { useMemo } from "react";
 import GenresSlider from "../GenresSlider/GenresSlider";

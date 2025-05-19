@@ -3,7 +3,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-
+  experimental: {
+    optimizePackageImports: ["motion", "framer-motion", "swiper"],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

@@ -1,9 +1,16 @@
 import SearchPageComp from "@/app/_Components/SearchPageComp/SearchPageComp";
 import { getTranslations } from "next-intl/server";
-import { getSearchResults } from "../../../../../../helpers/tmdbRequests";
+import { getSearchResults } from "../../../../../lib/tmdbRequests";
 import { Metadata } from "next";
-import { siteBaseUrl } from "../../../../../../helpers/serverBaseUrl";
+import {
+  itemTypeMap,
+  siteBaseUrl,
+} from "../../../../../../helpers/serverHelpers";
 import { WithContext, SearchResultsPage } from "schema-dts";
+import {
+  PreloadedQuery,
+  RTKPreloader,
+} from "@/app/_Components/helpers/RTKPreloader";
 
 interface SearchPageProps {
   params: Promise<{
@@ -139,6 +146,7 @@ const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
   );
 
   const structuredData: WithContext<SearchResultsPage> = {
+    "@id": `${metadataBase}/${canonicalUrl}`,
     "@context": "https://schema.org",
     "@type": "SearchResultsPage",
     name: title,
@@ -170,22 +178,100 @@ const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
         alternateName: "FilmO'Clock",
       },
     },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${metadataBase}/${canonicalUrl}`,
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Search",
+          item: `${metadataBase}/${locale}/search`,
+        },
+      ],
+    },
   };
+
+  const rtkArr = [
+    initialMovies && {
+      endpointName: "getSearchMovies",
+      args: { query: decodedQuery, page: pageNumber },
+      data: initialMovies,
+    },
+    initialTvShows && {
+      endpointName: "getSearchTvShows",
+      args: { query: decodedQuery, page: pageNumber },
+      data: initialTvShows,
+    },
+    initialPeople && {
+      endpointName: "getSearchPeople",
+      args: { query: decodedQuery, page: pageNumber },
+      data: initialPeople,
+    },
+  ].filter(Boolean);
 
   return (
     <>
+      <RTKPreloader preloadedQueries={rtkArr as PreloadedQuery[]} />
+      {initialMovies && (
+        <article className="sr-only">
+          {initialMovies.results.map((movie) => (
+            <div itemScope itemType={itemTypeMap["movie"]} key={movie.id}>
+              <h1 itemProp="name">
+                {locale === "ar" ? movie.original_title : movie.title}
+              </h1>
+              <p itemProp="description">{movie.overview}</p>
+              <time itemProp="datePublished">{movie.release_date}</time>
+            </div>
+          ))}
+        </article>
+      )}
+      {initialTvShows && (
+        <article className="sr-only">
+          {initialTvShows.results.map((tvShow) => (
+            <div itemScope itemType={itemTypeMap["tv"]} key={tvShow.id}>
+              <h1 itemProp="name">
+                {locale === "ar" ? tvShow.original_name : tvShow.name}
+              </h1>
+              <p itemProp="description">{tvShow.overview}</p>
+              <time itemProp="datePublished">{tvShow.first_air_date}</time>
+            </div>
+          ))}
+        </article>
+      )}
+      {initialPeople && (
+        <article className="sr-only">
+          {initialPeople.results.map((person) => (
+            <div itemScope itemType={itemTypeMap["person"]} key={person.id}>
+              <h1 itemProp="name">{person.name}</h1>
+              <h2 itemProp="alternateName">{person.original_name}</h2>
+              <h2 itemProp="jobTitle">{person.known_for_department}</h2>
+              <p itemProp="alternateName">{person.known_for.join(", ")}</p>
+              <p itemProp="gender">{person.gender}</p>
+            </div>
+          ))}
+        </article>
+      )}
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
+      <article
+        className="sr-only"
+        itemScope
+        itemType="https://schema.org/WebPage"
+      >
+        <h1 itemProp="name">{title}</h1>
+        <p itemProp="description">{description}</p>
+      </article>
       <SearchPageComp
         page={pageNumber}
         results={results}
         query={decodedQuery}
-        locale={locale}
-        initialMovies={initialMovies}
-        initialTvShows={initialTvShows}
-        initialPeople={initialPeople}
       />
     </>
   );

@@ -21,8 +21,9 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={() => handleChange(locale === "en" ? "ar" : "en")}
-      className="flex items-center gap-1 font-roboto bg-gray-800 shadow shadow-gray-500
-        lg:hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white"
+      className="flex items-center gap-1 bg-gray-800 shadow shadow-gray-500
+        lg:hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white
+        font-semibold"
     >
       <FaGlobeAmericas className="text-lg" />{" "}
       <span>{locale === "en" ? "ع" : "EN"}</span>

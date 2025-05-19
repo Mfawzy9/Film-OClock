@@ -1,3 +1,4 @@
+"use client";
 import { useGetTopRatedQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useTranslations } from "next-intl";
 import HoriCardsSlider from "../../HoriCardsSlider/HoriCardsSlider";

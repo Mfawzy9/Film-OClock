@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import TrailerCard from "./TrailerCard";
 import {
@@ -107,89 +108,89 @@ const VideosSlider = ({
     }
   }, [theShows, videosResults]);
 
-  if (isLoading) {
+  if (isLoading || !videosResults) {
     return <VideosSkelsetonSlider />;
   }
 
   if (!theShows) return null;
 
   return (
-    <section>
-      {/* Background Transition */}
-      <PageSection className="!py-10">
-        {/* Title and link */}
-        <SlidersTitle pageLink={pageLink} title={title} />
+    <PageSection
+      className="!py-10 min-h-[350px] xs:min-h-[500px] sm:min-h-[400px] md:min-h-[380px] flex
+        flex-col justify-center"
+    >
+      {/* Title and link */}
+      <SlidersTitle pageLink={pageLink} title={title} />
 
-        {/* Slider */}
-        <div className="relative">
-          <Swiper
-            onInit={handleSwiper}
-            onSlideChange={handleSlideChange}
-            onSwiper={handleSwiper}
-            modules={[Virtual, Autoplay]}
-            autoplay={{ delay: 12000, disableOnInteraction: false }}
-            spaceBetween={20}
-            slidesPerView={1}
-            slidesPerGroup={1}
-            breakpoints={{
-              575: { slidesPerView: 2, spaceBetween: 10, slidesPerGroup: 2 },
-              768: { slidesPerView: 3, spaceBetween: 10, slidesPerGroup: 3 },
-              1024: { slidesPerView: 4, spaceBetween: 10, slidesPerGroup: 4 },
-              1600: { slidesPerView: 5, spaceBetween: 10, slidesPerGroup: 5 },
-            }}
-            navigation={false}
-            virtual
-            lazyPreloadPrevNext={2}
-            className="!py-5 !px-2"
+      {/* Slider */}
+      <div className="relative">
+        <Swiper
+          onInit={handleSwiper}
+          onSlideChange={handleSlideChange}
+          onSwiper={handleSwiper}
+          modules={[Virtual, Autoplay]}
+          autoplay={{ delay: 12000, disableOnInteraction: false }}
+          spaceBetween={20}
+          slidesPerView={1}
+          slidesPerGroup={1}
+          breakpoints={{
+            575: { slidesPerView: 2, spaceBetween: 10, slidesPerGroup: 2 },
+            768: { slidesPerView: 3, spaceBetween: 10, slidesPerGroup: 3 },
+            1024: { slidesPerView: 4, spaceBetween: 10, slidesPerGroup: 4 },
+            1600: { slidesPerView: 5, spaceBetween: 10, slidesPerGroup: 5 },
+          }}
+          navigation={false}
+          virtual
+          lazyPreloadPrevNext={2}
+          className="!py-5 !px-2"
+        >
+          {videosResults?.map((theShow, idx) => {
+            if (theShow.trailers.length > 0)
+              return (
+                <SwiperSlide key={idx} virtualIndex={idx} className="">
+                  <TrailerCard
+                    name={theShow.showName}
+                    showId={theShow.showId}
+                    showType={showType}
+                    videoKey={theShow.trailers[0].key}
+                  />
+                </SwiperSlide>
+              );
+          })}
+        </Swiper>
+
+        {/* Navigation buttons */}
+        {!isBeginning && (
+          <button
+            onClick={() => handleNavigate("prev")}
+            aria-label="Previous slide"
+            className="absolute start-0 sm:-start-6 2xl:-start-16 top-1/2 -translate-y-1/2 z-10 p-2
+              bg-black/60 text-white rounded-full hover:bg-gray-800 transition shadow-blueGlow"
           >
-            {videosResults?.map((theShow, idx) => {
-              if (theShow.trailers.length > 0)
-                return (
-                  <SwiperSlide key={idx} virtualIndex={idx} className="">
-                    <TrailerCard
-                      name={theShow.showName}
-                      showId={theShow.showId}
-                      showType={showType}
-                      videoKey={theShow.trailers[0].key}
-                    />
-                  </SwiperSlide>
-                );
-            })}
-          </Swiper>
+            {isArabic ? (
+              <FaChevronRight className="text-2xl sm:text-3xl" />
+            ) : (
+              <FaChevronLeft className="text-2xl sm:text-3xl" />
+            )}
+          </button>
+        )}
 
-          {/* Navigation buttons */}
-          {!isBeginning && (
-            <button
-              onClick={() => handleNavigate("prev")}
-              aria-label="Previous slide"
-              className="absolute start-0 sm:-start-6 2xl:-start-16 top-1/2 -translate-y-1/2 z-10 p-2
-                bg-black/60 text-white rounded-full hover:bg-gray-800 transition shadow-blueGlow"
-            >
-              {isArabic ? (
-                <FaChevronRight className="text-2xl sm:text-3xl" />
-              ) : (
-                <FaChevronLeft className="text-2xl sm:text-3xl" />
-              )}
-            </button>
-          )}
-
-          {!isEnd && (
-            <button
-              onClick={() => handleNavigate("next")}
-              aria-label="Next slide"
-              className="absolute end-0 sm:-end-6 2xl:-end-16 top-1/2 -translate-y-1/2 z-10 p-2
-                bg-black/60 text-white rounded-full hover:bg-gray-800 transition shadow-blueGlow"
-            >
-              {isArabic ? (
-                <FaChevronLeft className="text-2xl sm:text-3xl" />
-              ) : (
-                <FaChevronRight className="text-2xl sm:text-3xl" />
-              )}
-            </button>
-          )}
-        </div>
-      </PageSection>
-    </section>
+        {!isEnd && (
+          <button
+            onClick={() => handleNavigate("next")}
+            aria-label="Next slide"
+            className="absolute end-0 sm:-end-6 2xl:-end-16 top-1/2 -translate-y-1/2 z-10 p-2
+              bg-black/60 text-white rounded-full hover:bg-gray-800 transition shadow-blueGlow"
+          >
+            {isArabic ? (
+              <FaChevronLeft className="text-2xl sm:text-3xl" />
+            ) : (
+              <FaChevronRight className="text-2xl sm:text-3xl" />
+            )}
+          </button>
+        )}
+      </div>
+    </PageSection>
   );
 };
 

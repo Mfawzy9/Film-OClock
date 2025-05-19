@@ -68,7 +68,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
   return (
     <div
       key={person.id}
-      className="block rounded-lg shadow bg-gray-900 shadow-blue-700/70"
+      className="rounded-lg shadow bg-gray-900 shadow-blue-700/70"
     >
       {/* backdrop */}
       <div className="h-28 overflow-hidden rounded-t-lg relative">

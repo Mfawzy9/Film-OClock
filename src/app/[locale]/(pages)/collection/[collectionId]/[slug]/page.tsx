@@ -1,6 +1,6 @@
 import MovieCollectionComp from "@/app/_Components/MovieCollectionComp/MovieCollectionComp";
 import { getTranslations } from "next-intl/server";
-import { getMovieCollectionWithNextCache } from "../../../../../../../helpers/tmdbRequests";
+import { getMovieCollectionWithNextCache } from "../../../../../../lib/tmdbRequests";
 import { Metadata } from "next";
 
 interface params {

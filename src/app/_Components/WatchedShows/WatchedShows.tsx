@@ -4,7 +4,7 @@ import useWatchedList from "@/app/hooks/useWatchedList";
 import PageSection from "../PageSection/PageSection";
 import Card from "../Card/Card";
 import { useTranslations } from "next-intl";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { useGetWatchedQuery } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { useEffect, useMemo, useState } from "react";

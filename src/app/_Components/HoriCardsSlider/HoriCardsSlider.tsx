@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -212,6 +213,7 @@ const HoriCardsSlider = ({
                   className="!flex !justify-center"
                 >
                   <HoriCard
+                    isArabic={isArabic}
                     theShow={theShow}
                     idx={idx}
                     backdrop_path={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${theShow.backdrop_path}`}

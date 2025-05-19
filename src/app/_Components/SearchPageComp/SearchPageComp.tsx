@@ -6,73 +6,24 @@ import {
   Movie,
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
-import { SearchMovieResponse } from "@/app/interfaces/apiInterfaces/searchMovieInterfaces";
+import { SearchPerson } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
 import {
-  SearchPerson,
-  SearchPersonResponse,
-} from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
-import { SearchTvShowResponse } from "@/app/interfaces/apiInterfaces/SearchTvshowInterfaces";
-import tmdbApi, {
   useGetSearchMoviesQuery,
   useGetSearchPeopleQuery,
   useGetSearchTvShowsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
-import { AppDispatch } from "@/lib/Redux/store";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useMemo, useState } from "react";
 
 interface SearchPageCompProps {
   query: string;
   page: number;
   results: string;
-  locale: "en" | "ar";
-  initialMovies: SearchMovieResponse;
-  initialTvShows: SearchTvShowResponse;
-  initialPeople: SearchPersonResponse;
 }
 
-const SearchPageComp = ({
-  query,
-  page,
-  results,
-  initialMovies,
-  initialTvShows,
-  initialPeople,
-}: SearchPageCompProps) => {
+const SearchPageComp = ({ query, page, results }: SearchPageCompProps) => {
   const t = useTranslations("SearchPage");
   const [currentPage, setCurrentPage] = useState(page || 1);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (initialMovies) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getSearchMovies",
-          { query, page },
-          initialMovies,
-        ),
-      );
-    }
-    if (initialTvShows) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getSearchTvShows",
-          { query, page },
-          initialTvShows,
-        ),
-      );
-    }
-    if (initialPeople) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getSearchPeople",
-          { query, page },
-          initialPeople,
-        ),
-      );
-    }
-  }, [initialMovies, initialTvShows, initialPeople, dispatch, query, page]);
 
   //*movies
   const {

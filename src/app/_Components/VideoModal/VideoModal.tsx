@@ -1,8 +1,8 @@
 import { closeModal } from "@/lib/Redux/localSlices/videoModalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
-import { motion } from "motion/react";
-import { IoIosCloseCircle } from "@react-icons/all-files/io/IoIosCloseCircle";
+import { motion } from "framer-motion";
+import { IoIosClose } from "@react-icons/all-files/io/IoIosClose";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 
 const VideoModal = () => {
@@ -26,10 +26,7 @@ const VideoModal = () => {
             onClick={() => dispatch(closeModal())}
             className="text-5xl z-50"
           >
-            <IoIosCloseCircle
-              className="text-black bg-white rounded-full shadow-blueGlow
-                hover:[box-shadow:0_0_30px_#1c64f2]"
-            />
+            <IoIosClose className="rounded-full shadow-blueGlow hover:[box-shadow:0_0_30px_#1c64f2]" />
           </button>
 
           <motion.div

@@ -8,18 +8,28 @@ import {
   PersonDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import { getInitialDetailsDataWithNextCache } from "../../../../../../../lib/tmdbRequests";
 import {
-  MovieTranslationsResponse,
-  TvTranslationsResponse,
-} from "@/app/interfaces/apiInterfaces/translationsInterfaces";
-import { getInitialDetailsDataCachedWithMap } from "../../../../../../../../helpers/tmdbRequests";
-import { siteBaseUrl } from "../../../../../../../../helpers/serverBaseUrl";
+  getStaticShowParams,
+  itemTypeMap,
+  siteBaseUrl,
+} from "../../../../../../../../helpers/serverHelpers";
 import { notFound, redirect } from "next/navigation";
 import {
   getShowTitle,
   nameToSlug,
 } from "../../../../../../../../helpers/helpers";
 import PageHeader from "@/app/_Components/PageHeader/PageHeader";
+import {
+  PreloadedQuery,
+  RTKPreloader,
+} from "@/app/_Components/helpers/RTKPreloader";
+
+export const dynamicParams = true;
+export const revalidate = 3600;
+export async function generateStaticParams() {
+  return getStaticShowParams({ includePeople: true });
+}
 
 type Props = {
   params: Promise<{
@@ -35,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "MetaData" });
 
   const { initialData, initialTranslations } =
-    await getInitialDetailsDataCachedWithMap({
+    await getInitialDetailsDataWithNextCache({
       locale,
       showId,
       showType,
@@ -140,7 +150,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const Details = async ({ params }: Props) => {
   const { showId, showType, locale, slug } = await params;
   const { initialData, initialTranslations } =
-    await getInitialDetailsDataCachedWithMap({
+    await getInitialDetailsDataWithNextCache({
       locale,
       showId,
       showType,
@@ -172,95 +182,230 @@ const Details = async ({ params }: Props) => {
   if (showType !== "movie" && showType !== "tv" && showType !== "person")
     return notFound();
 
+  const rtkArr = [
+    {
+      endpointName: "getMTDetails",
+      args: {
+        showId,
+        showType,
+        lang: showType === "person" ? locale : "en",
+      },
+      data: initialData,
+    },
+    initialTranslations && {
+      endpointName: "getTranslations",
+      args: {
+        showId,
+        showType,
+      },
+      data: initialTranslations,
+    },
+  ].filter(Boolean);
+
   return (
     <>
+      {initialData && (
+        <RTKPreloader preloadedQueries={rtkArr as PreloadedQuery[]} />
+      )}
       {showType === "movie" && (
         <>
           {initialData && "original_title" in initialData && (
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "Movie",
-                  name: initialData.title ?? initialData.original_title,
-                  description: initialData.overview,
-                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
-                  datePublished: initialData.release_date,
-                  genre: initialData.genres?.map((g) => g.name),
-                  aggregateRating: {
-                    "@type": "AggregateRating",
-                    ratingValue: initialData.vote_average,
-                    ratingCount: initialData.vote_count,
-                  },
-                }),
-              }}
-            />
+            <>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Movie",
+                    "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_title
+                        : initialData.title,
+                    )}`,
+                    name: initialData.title ?? initialData.original_title,
+                    description: initialData.overview,
+                    image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                    datePublished: initialData.release_date,
+                    genre: initialData.genres?.map((g) => g.name),
+                    aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue: initialData.vote_average,
+                      ratingCount: initialData.vote_count,
+                    },
+                    mainEntityOfPage: {
+                      "@type": "WebPage",
+                      "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                        locale === "ar"
+                          ? initialData.original_title
+                          : initialData.title,
+                      )}`,
+                    },
+                    url: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_title
+                        : initialData.title,
+                    )}`,
+                  }),
+                }}
+              />
+              {initialData.belongs_to_collection && (
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                      "@context": "https://schema.org",
+                      "@id": `${siteBaseUrl}/${locale}/collection/${initialData.belongs_to_collection.id}/${initialData.belongs_to_collection.name}`,
+                      "@type": "CollectionPage",
+                      name: initialData.belongs_to_collection.name,
+                      image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.belongs_to_collection.backdrop_path}`,
+                    }),
+                  }}
+                />
+              )}
+              <article
+                className="sr-only"
+                itemScope
+                itemType={itemTypeMap[showType]}
+              >
+                <h1 itemProp="name">
+                  {locale === "ar"
+                    ? initialData.original_title
+                    : initialData.title}
+                </h1>
+                <p itemProp="description">
+                  {locale === "en"
+                    ? initialData.overview
+                    : (initialTranslations?.translations.find(
+                        (translation) =>
+                          translation.iso_639_1 === "ar" &&
+                          translation.data.overview,
+                      )?.data.overview ?? initialData.overview)}
+                </p>
+                <p itemProp="genre">
+                  {initialData.genres.map((g) => g.name).join(", ")}
+                </p>
+                <time itemProp="datePublished">{initialData.release_date}</time>
+              </article>
+            </>
           )}
 
-          <MovieDetails
-            showId={showId}
-            showType={showType}
-            initialData={initialData as MovieDetailsResponse}
-            initialTranslations={
-              initialTranslations as MovieTranslationsResponse
-            }
-          />
+          <MovieDetails showId={showId} showType={showType} />
         </>
       )}
       {showType === "tv" && (
         <>
           {initialData && "original_name" in initialData && (
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "TVSeries",
-                  name: initialData.name ?? initialData.original_name,
-                  description: initialData.overview,
-                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
-                  datePublished: initialData.first_air_date,
-                  genre: initialData.genres?.map((g) => g.name),
-                  aggregateRating: {
-                    "@type": "AggregateRating",
-                    ratingValue: initialData.vote_average,
-                    ratingCount: initialData.vote_count,
-                  },
-                }),
-              }}
-            />
+            <>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "TVSeries",
+                    "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_name
+                        : initialData.name,
+                    )}`,
+                    name: initialData.name ?? initialData.original_name,
+                    description: initialData.overview,
+                    image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                    datePublished: initialData.first_air_date,
+                    genre: initialData.genres?.map((g) => g.name),
+                    aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue: initialData.vote_average,
+                      ratingCount: initialData.vote_count,
+                    },
+                    mainEntityOfPage: {
+                      "@type": "WebPage",
+                      "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                        locale === "ar"
+                          ? initialData.original_name
+                          : initialData.name,
+                      )}`,
+                    },
+                    url: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_name
+                        : initialData.name,
+                    )}`,
+                  }),
+                }}
+              />
+              <article
+                className="sr-only"
+                itemScope
+                itemType={itemTypeMap[showType]}
+              >
+                <h1 itemProp="name">
+                  {locale === "ar"
+                    ? initialData.original_name
+                    : initialData.name}
+                </h1>
+                <p itemProp="description">
+                  {locale === "en"
+                    ? initialData.overview
+                    : (initialTranslations?.translations.find(
+                        (translation) =>
+                          translation.iso_639_1 === "ar" &&
+                          translation.data.overview,
+                      )?.data.overview ?? initialData.overview)}
+                </p>
+                <p itemProp="genre">
+                  {initialData.genres.map((g) => g.name).join(", ")}
+                </p>
+                <time itemProp="datePublished">
+                  {initialData.first_air_date}
+                </time>
+              </article>
+            </>
           )}
-          <TvDetails
-            showId={showId}
-            showType={showType}
-            initialData={initialData as TvDetailsResponse}
-            initialTranslations={initialTranslations as TvTranslationsResponse}
-          />
+          <TvDetails showId={showId} showType={showType} />
         </>
       )}
-
       {showType === "person" && (
         <>
           {initialData && "known_for_department" in initialData && (
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "Person",
-                  name: initialData.name,
-                  description: initialData.biography,
-                  image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.profile_path}`,
-                }),
-              }}
-            />
+            <>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(initialData.name)}`,
+                    name: initialData.name,
+                    description: initialData.biography,
+                    image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.profile_path}`,
+                    birthDate: initialData.birthday,
+                    url: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      initialData.name,
+                    )}`,
+                    jobTitle: initialData.known_for_department,
+                    alternateName: initialData.also_known_as.join(", "),
+                  }),
+                }}
+              />
+              <article
+                className="sr-only"
+                itemScope
+                itemType={itemTypeMap[showType]}
+              >
+                <h1 itemProp="name">{initialData.name}</h1>
+                <h2 itemProp="jobTitle">{initialData.known_for_department}</h2>
+                <p itemProp="alternateName">
+                  {initialData.also_known_as.join(", ")}
+                </p>
+                <p itemProp="description">{initialData.biography}</p>
+                <time itemProp="birthDate">{initialData.birthday}</time>
+              </article>
+            </>
           )}
           <PageHeader />
           <PersonDetails
             showId={showId}
             showType={showType}
-            initialData={initialData as PersonDetailsResponse}
             slug={slug}
             locale={locale}
           />

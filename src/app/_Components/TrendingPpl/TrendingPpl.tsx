@@ -7,7 +7,7 @@ import { PplTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfac
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useRouter } from "@bprogress/next/app";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";

@@ -4,7 +4,9 @@ import { useRandomShow } from "@/app/hooks/useRandomShow";
 import {
   useGetGenresQuery,
   useGetMoviesTvShowsQuery,
+  useGetPopularQuery,
   useGetTopRatedQuery,
+  useGetTrendsQuery,
   useLazyGetVideosQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import {
@@ -16,6 +18,14 @@ import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import LazyRender from "../LazyRender/LazyRender";
 import dynamic from "next/dynamic";
+import {
+  MoviesTrendsResponse,
+  TVShowsTrendsResponse,
+} from "@/app/interfaces/apiInterfaces/trendsInterfaces";
+import {
+  PopularMoviesResponse,
+  PopularTvShowResponse,
+} from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
 
 const CardsSkeletonSlider = dynamic(
   () => import("../CardsSlider/CardsSkeletonSlider"),
@@ -71,8 +81,10 @@ const Explore = () => {
 
   const t = useTranslations("Explore");
 
-  const { data: popularShows, isLoading: popularLoading } =
-    useGetMoviesTvShowsQuery({ showType, year: "2025" });
+  const { data: popularShows, isLoading: popularLoading } = useGetPopularQuery({
+    page: 1,
+    showType,
+  });
 
   const { data: actionShows, isLoading: actionLoading } =
     useGetMoviesTvShowsQuery({
@@ -89,24 +101,29 @@ const Explore = () => {
   const { data: arabicShows, isLoading: arabicLoading } =
     useGetMoviesTvShowsQuery({ showType, ori_lang: "ar" });
 
-  const { data: comingShows, isLoading: comingLoading } =
-    useGetMoviesTvShowsQuery({
+  const { data: trendingShows, isLoading: trendingLoading } = useGetTrendsQuery(
+    {
       showType,
-      year: "2025",
-    });
+      dayOrWeek: "day",
+      page: 1,
+      lang: "en",
+    },
+  );
 
   const { data: genres, isLoading: genresLoading } = useGetGenresQuery({
     showType,
     lang: locale,
   });
 
-  const [getVideos, { isLoading: videosLoading }] = useLazyGetVideosQuery();
+  const [getVideos, { isLoading: videosLoading, isFetching: videosFetching }] =
+    useLazyGetVideosQuery();
 
   const filteredPopular = useMemo(
     () =>
-      popularShows?.results?.filter(
-        showType === "movie" ? isValidMovie : isValidTVShow,
-      ) ?? [],
+      (
+        popularShows as PopularMoviesResponse | PopularTvShowResponse
+      )?.results?.filter(showType === "movie" ? isValidMovie : isValidTVShow) ??
+      [],
     [popularShows, showType],
   );
 
@@ -142,17 +159,18 @@ const Explore = () => {
     [arabicShows, showType],
   );
 
-  const filteredComing = useMemo(
+  const filterTrending = useMemo(
     () =>
-      comingShows?.results?.filter(
-        showType === "movie" ? isValidMovie : isValidTVShow,
-      ) ?? [],
-    [comingShows, showType],
+      (
+        trendingShows as MoviesTrendsResponse | TVShowsTrendsResponse
+      )?.results?.filter(showType === "movie" ? isValidMovie : isValidTVShow) ??
+      [],
+    [trendingShows, showType],
   );
 
-  const randomComing = useRandomShow(filteredComing as Movie[] | TVShow[]) as
-    | Movie
-    | TVShow;
+  const randomTrendingShow = useRandomShow(
+    filterTrending as Movie[] | TVShow[],
+  ) as Movie | TVShow;
   const randomTopRatedShow = useRandomShow(
     filteredtopRated as Movie[] | TVShow[],
   ) as Movie | TVShow;
@@ -187,47 +205,46 @@ const Explore = () => {
       )}
 
       {/* random coming soon */}
-      {comingLoading ? (
+      {trendingLoading ? (
         <ShortDetailsSkeleton className="!my-0 !py-0" />
-      ) : randomComing ? (
+      ) : randomTrendingShow ? (
         <PageSection className="!my-0 !py-0">
           <LazyRender
             Component={ShortDetails}
             props={{
               className: "!my-0",
               scroll: false,
-              theShow: randomComing,
+              theShow: randomTrendingShow,
               title:
                 showType === "movie"
-                  ? ((randomComing as Movie).title ??
-                    (randomComing as Movie).original_title)
-                  : ((randomComing as TVShow).name ??
-                    (randomComing as TVShow).original_name),
-              description: randomComing.overview,
-              rating: randomComing.vote_average,
+                  ? ((randomTrendingShow as Movie).title ??
+                    (randomTrendingShow as Movie).original_title)
+                  : ((randomTrendingShow as TVShow).name ??
+                    (randomTrendingShow as TVShow).original_name),
+              description: randomTrendingShow.overview,
+              rating: randomTrendingShow.vote_average,
               releaseDate:
                 showType === "movie"
-                  ? (randomComing as Movie).release_date
-                  : (randomComing as TVShow).first_air_date,
-              backdropPath: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${randomComing.backdrop_path}`,
-              genresIds: randomComing.genre_ids,
+                  ? (randomTrendingShow as Movie).release_date
+                  : (randomTrendingShow as TVShow).first_air_date,
+              backdropPath: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${randomTrendingShow.backdrop_path}`,
+              genresIds: randomTrendingShow.genre_ids,
               showType,
-              showId: randomComing.id,
+              showId: randomTrendingShow.id,
             }}
             loading={<ShortDetailsSkeleton className="!my-0 !py-0" />}
-            rootMargin="0px 0px"
           />
         </PageSection>
       ) : null}
 
       {/* latest trailers */}
-      {comingLoading || videosLoading ? (
+      {trendingLoading || videosLoading || videosFetching ? (
         <VideosSkelsetonSlider />
       ) : (
         <LazyRender
           Component={VideosSlider}
           props={{
-            theShows: filteredComing as Movie[] | TVShow[],
+            theShows: filterTrending as Movie[] | TVShow[],
             showType,
             title:
               showType === "movie"
@@ -238,10 +255,9 @@ const Explore = () => {
                 ? "/movies/Upcoming?page=1"
                 : "/shows/trending/tv?page=1",
             getVideos,
-            isLoading: comingLoading || videosLoading,
+            isLoading: trendingLoading || videosLoading || videosFetching,
           }}
           loading={<VideosSkelsetonSlider />}
-          rootMargin="400px 0px"
         />
       )}
 
@@ -269,7 +285,6 @@ const Explore = () => {
             isLoading: actionLoading,
           }}
           loading={<HoriSkeletonSlider />}
-          rootMargin="0px 0px"
         />
       )}
 
@@ -303,7 +318,6 @@ const Explore = () => {
                 showId: randomTopRatedShow.id,
               }}
               loading={<ShortDetailsSkeleton className="!my-0 !pt-10 !pb-0" />}
-              rootMargin="0px 0px"
             />
           </PageSection>
         )
@@ -333,7 +347,6 @@ const Explore = () => {
               isLoading: arabicLoading,
             }}
             loading={<CardsSkeletonSlider arrLength={filteredArabic?.length} />}
-            rootMargin="0px 0px"
           />
         </PageSection>
       )}
@@ -358,7 +371,6 @@ const Explore = () => {
             isLoading: familyLoading,
           }}
           loading={<HoriSkeletonSlider />}
-          rootMargin="0px 0px"
         />
       )}
 
@@ -379,7 +391,6 @@ const Explore = () => {
             isLoading: genresLoading || popularLoading,
           }}
           loading={<GenresSkeletonSlider />}
-          rootMargin="0px 0px"
         />
       )}
     </>

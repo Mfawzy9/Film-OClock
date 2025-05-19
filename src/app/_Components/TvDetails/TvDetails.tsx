@@ -1,5 +1,5 @@
 "use client";
-import tmdbApi, {
+import {
   useGetImagesQuery,
   useGetMTDetailsQuery,
   useGetTranslationsQuery,
@@ -30,7 +30,6 @@ import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { notFound } from "next/navigation";
-import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import LazyRender from "../LazyRender/LazyRender";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { getShowTitle } from "../../../../helpers/helpers";
@@ -43,6 +42,7 @@ import { FaImages } from "@react-icons/all-files/fa/FaImages";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { GiPapers } from "@react-icons/all-files/gi/GiPapers";
+import { TvTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 const TvDetailsSkeleton = dynamic(() => import("./TvDetailsSkeleton"));
 const EpisodesSkeletons = dynamic(() => import("./EpisodesSkeletons"));
@@ -60,45 +60,11 @@ const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const Tabs = dynamic(() => import("../Tabs/Tabs"));
 const TvEpisodes = dynamic(() => import("./TvEpisodes"));
 
-interface props extends DetailsQueryParams {
-  initialData: TvDetailsResponse | null;
-  initialTranslations: TvTranslationsResponse | null;
-}
-
-const TvDetails = ({
-  showId,
-  showType,
-  initialData,
-  initialTranslations,
-}: props) => {
+const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
   const tabsRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (initialData) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getMTDetails",
-          { showId, showType },
-          initialData,
-        ),
-      );
-    }
-  }, [dispatch, initialData, showId, showType]);
-
-  useEffect(() => {
-    if (initialTranslations) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getTranslations",
-          { showId, showType },
-          initialTranslations,
-        ),
-      );
-    }
-  }, [dispatch, initialTranslations, showId, showType]);
 
   const moveToTabs = useCallback(() => {
     if (tabsRef.current) {
@@ -110,7 +76,7 @@ const TvDetails = ({
     data: tvShow,
     isLoading: detailsLoading,
     isError,
-  } = useGetMTDetailsQuery({ showId, showType }) as {
+  } = useGetMTDetailsQuery({ showId, showType, lang: "en" }) as {
     data: TvDetailsResponse;
     isLoading: boolean;
     isError: boolean;
@@ -131,7 +97,7 @@ const TvDetails = ({
     )?.data;
     if (arabicSaTranslations?.overview.trim()) return arabicSaTranslations;
     if (arabicAeTranslations?.overview.trim()) return arabicAeTranslations;
-  }, [translations]);
+  }, [translations]) as TvTranslationData | undefined;
 
   const { finalOverview, finalTagline } = useMemo(() => {
     const getTranslatedText = (field: "overview" | "tagline") => {
@@ -179,7 +145,6 @@ const TvDetails = ({
                 }) || tvShow?.original_name,
             }}
             loading={<EpisodesSkeletons />}
-            rootMargin="0px 0px"
             persistKey={`tv-episodes-tab-${tvShow?.id}`}
           />
         ),
@@ -245,12 +210,12 @@ const TvDetails = ({
   };
 
   useEffect(() => {
-    if (overviewRef.current && tvShow?.overview && !isLoading) {
+    if (overviewRef.current && finalOverview && !isLoading) {
       const p = overviewRef.current;
-      const isOverflowing = p.scrollHeight - p.clientHeight > 2; // allow tiny margin
+      const isOverflowing = p.scrollHeight - p.clientHeight > 2;
       setNeedsExpand(isOverflowing);
     }
-  }, [tvShow?.overview, isLoading]);
+  }, [isLoading, finalOverview]);
 
   if (isLoading || translationsLoading) return <TvDetailsSkeleton />;
   if (isError) return notFound();
@@ -311,10 +276,9 @@ const TvDetails = ({
           {/* Tvshow Info */}
           <div className="flex flex-col gap-3">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
-              {getShowTitle({
-                isArabic,
-                show: tvShow,
-              }) || tvShow?.original_name}
+              {isArabic && tvShow?.original_language === "ar"
+                ? arabicTranslations?.name || tvShow?.original_name
+                : tvShow?.name}
               {tvShow?.homepage && (
                 <a
                   href={tvShow?.homepage}
@@ -495,7 +459,6 @@ const TvDetails = ({
             loading={
               <CastsSkeletonSlider length={tvShow?.credits?.cast?.length} />
             }
-            rootMargin="0px 0px"
           />
         )}
 

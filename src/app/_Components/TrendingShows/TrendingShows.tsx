@@ -8,7 +8,7 @@ import {
   TVShowsTrendsResponse,
 } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
@@ -46,6 +46,7 @@ const TrendingShows = () => {
     showType,
     dayOrWeek,
     page,
+    lang: "en",
   });
 
   const trendingData = data as MoviesTrendsResponse | TVShowsTrendsResponse;

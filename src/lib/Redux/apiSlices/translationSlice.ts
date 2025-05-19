@@ -28,7 +28,7 @@ const myMemoryApiKey = process.env.NEXT_PUBLIC_MYMEMORY_API_KEY;
 export const translationApi = createApi({
   reducerPath: "translationApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api", // all secure calls will go through your API routes
+    baseUrl: "/api", // all secure calls will go through API routes
   }),
   tagTypes: ["Translation"],
   endpoints: (builder) => ({

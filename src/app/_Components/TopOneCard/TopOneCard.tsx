@@ -19,6 +19,9 @@ import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
 import { FcClapperboard } from "@react-icons/all-files/fc/FcClapperboard";
 import { FcRating } from "@react-icons/all-files/fc/FcRating";
 import { FcReading } from "@react-icons/all-files/fc/FcReading";
+import dynamic from "next/dynamic";
+
+const TopOneCardSkeleton = dynamic(() => import("./TopOneCardSkeleton"));
 
 const TopOneCard = ({ topOneId }: { topOneId: number }) => {
   const { isArabic } = useIsArabic();
@@ -34,7 +37,8 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
     {} as PersonDetailsResponse,
   );
 
-  const [getPersonDetails] = useLazyGetPersonDetailsQuery();
+  const [getPersonDetails, { isLoading, isFetching }] =
+    useLazyGetPersonDetailsQuery();
   useEffect(() => {
     const fetchPersonDetails = async () => {
       if (topOneId) {
@@ -58,6 +62,7 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
           : "";
   }, [topOne.known_for_department, t]);
 
+  if (isLoading || isFetching) return <TopOneCardSkeleton />;
   if (!topOne) return null;
 
   return (

@@ -12,7 +12,7 @@ import {
 } from "@/lib/Redux/localSlices/librarySlice";
 import MainLoader from "../../MainLoader/MainLoader";
 import { notFound, useParams } from "next/navigation";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import useLibrary, { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import WlCard from "../WlCard/WlCard";
 import TitleClearBtn from "../TitleClearBtn/TitleClearBtn";
@@ -48,12 +48,13 @@ const LibraryClient = () => {
     useLibrary({ dropDownMenu: false });
 
   useEffect(() => {
-    if (getLibrary)
+    if (getLibrary) {
       if (libraryType === "watchlist") {
         dispatch(setWatchlist(getLibrary));
       } else {
         dispatch(setFavorites(getLibrary));
       }
+    }
   }, [getLibrary, dispatch, libraryType]);
 
   const movies = useMemo(() => {
@@ -80,7 +81,13 @@ const LibraryClient = () => {
     );
   }, [watchlist, searchTerm]);
 
-  if (isLoading || !user) return <MainLoader />;
+  const isLibrarySynced =
+    libraryType === "watchlist"
+      ? watchlist.length === getLibrary?.length
+      : favorites.length === getLibrary?.length;
+
+  if (isLoading || !user || isFetching || !getLibrary || !isLibrarySynced)
+    return <MainLoader />;
 
   return (
     <>

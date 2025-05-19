@@ -1,6 +1,5 @@
 "use client";
-
-import tmdbApi, {
+import {
   useGetMTDetailsQuery,
   useGetTvSeasonDetailsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
@@ -18,8 +17,6 @@ import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { WatchedTvShowHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/Redux/store";
 import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
 import LazyRender from "../LazyRender/LazyRender";
@@ -56,44 +53,12 @@ interface ProgressData {
   duration: number;
 }
 
-const WatchTv = ({
-  showType,
-  showId,
-  season,
-  episode,
-  initialData,
-  initialTranslations,
-}: WatchTvProps) => {
+const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchTv");
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
   const watchedRef = useRef(0);
   const durationRef = useRef(0);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (initialData) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getMTDetails",
-          { showId, showType },
-          initialData,
-        ),
-      );
-    }
-  }, [dispatch, initialData, showId, showType]);
-
-  useEffect(() => {
-    if (initialTranslations) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getTranslations",
-          { showId, showType },
-          initialTranslations,
-        ),
-      );
-    }
-  }, [dispatch, initialTranslations, showId, showType]);
 
   const {
     data: tvShow,
@@ -370,7 +335,6 @@ const WatchTv = ({
               onWatchClick: scrollToPlayer,
             }}
             loading={<EpisodesSkeletons />}
-            rootMargin="0px 0px"
           />
         </div>
 
@@ -386,7 +350,6 @@ const WatchTv = ({
               isLoading: tvShowLoading || tvShowFetching,
             }}
             loading={<CardsSkeletonSlider arrLength={recommendations.length} />}
-            rootMargin="0px 0px"
           />
 
           <LazyRender
@@ -400,7 +363,6 @@ const WatchTv = ({
               isLoading: tvShowLoading || tvShowFetching,
             }}
             loading={<CardsSkeletonSlider arrLength={similarShows.length} />}
-            rootMargin="0px 0px"
           />
         </div>
       </PageSection>

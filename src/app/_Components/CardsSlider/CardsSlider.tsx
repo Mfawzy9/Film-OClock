@@ -18,6 +18,7 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
 import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 import dynamic from "next/dynamic";
+import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
 
 const CardsSkeletonSlider = dynamic(() => import("./CardsSkeletonSlider"));
 
@@ -105,15 +106,22 @@ const CardsSlider = ({
   if (!filtered.length || !sliderData.length) return null;
 
   return (
-    <section className={className}>
+    <section
+      className={`${className ?? ""} ${!isSwiperReady && "min-h-[465px]"} `}
+    >
       {!isSwiperReady ? (
-        <CardsSkeletonSlider arrLength={arrLength} className={className} />
-      ) : pageLink ? (
-        <SlidersTitle title={title} pageLink={pageLink} />
+        <div className="flex items-center h-full min-h-[465px]">
+          <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+        </div>
       ) : (
-        <Title title={title ?? ""} />
+        <>
+          {pageLink ? (
+            <SlidersTitle title={title} pageLink={pageLink} />
+          ) : (
+            <Title title={title ?? ""} />
+          )}
+        </>
       )}
-
       <div className="relative">
         <Swiper
           onInit={handleSwiper}
@@ -231,7 +239,7 @@ const CardsSlider = ({
           })}
         </Swiper>
 
-        {!isBeginning && (
+        {!isBeginning && isSwiperReady && (
           <button
             onClick={() => handleNavigate("prev")}
             aria-label="Previous slide"
@@ -247,7 +255,7 @@ const CardsSlider = ({
           </button>
         )}
 
-        {!isEnd && (
+        {!isEnd && isSwiperReady && (
           <button
             onClick={() => handleNavigate("next")}
             aria-label="Next slide"

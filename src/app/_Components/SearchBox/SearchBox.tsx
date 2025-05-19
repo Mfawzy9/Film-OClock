@@ -1,3 +1,4 @@
+"use client";
 import { useLazyGetSearchQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import debounce from "lodash/debounce";
 import { AnimatePresence, motion } from "framer-motion";
@@ -188,19 +189,14 @@ const SearchBox = () => {
               border-gray-800 rounded-lg custom-scrollbar shadow-blueGlow shadow-blue-700/50"
             onClick={(e) => e.stopPropagation()}
           >
-            {results.length >= 20 && !isLoading && !isFetching && (
-              <button className="w-full" onClick={handleSubmit}>
-                <p className="text-center py-2 hover:bg-gray-800">
-                  {t("AllSearchResults", { query })} &quot;{query}&quot;
-                </p>
-              </button>
-            )}
             <ResultContent
               closeSearchAndClear={closeSearchAndClear}
               isLoading={isLoading}
               isFetching={isFetching}
               results={results}
               isArabic={isArabic}
+              handleSubmit={handleSubmit}
+              query={query}
             />
           </div>
         </main>
@@ -263,20 +259,14 @@ const SearchBox = () => {
               overflow-y-auto custom-scrollbar shadow-blueGlow shadow-blue-700/50`}
               onClick={(e) => e.stopPropagation()}
             >
-              {results.length >= 20 && !isLoading && !isFetching && (
-                <button className="w-full" onClick={handleSubmit}>
-                  <p className="text-center py-2 border-b border-gray-700 hover:bg-gray-900">
-                    {t("AllSearchResults", { query: query })} &quot;{query}
-                    &quot;
-                  </p>
-                </button>
-              )}
               <ResultContent
                 closeSearchAndClear={closeSearchAndClear}
                 results={results}
                 isLoading={isLoading}
                 isFetching={isFetching}
                 isArabic={isArabic}
+                handleSubmit={handleSubmit}
+                query={query}
               />
             </div>
           </>
@@ -294,6 +284,8 @@ interface ResultContentProps {
   isFetching: boolean;
   closeSearchAndClear: () => void;
   isArabic: boolean;
+  query: string;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
 const ResultContent = ({
   results,
@@ -301,6 +293,8 @@ const ResultContent = ({
   isFetching,
   closeSearchAndClear,
   isArabic,
+  query,
+  handleSubmit,
 }: ResultContentProps) => {
   const t = useTranslations("Navbar");
   const tPerson = useTranslations("PopularPeople.Person.PersonCard");
@@ -334,63 +328,75 @@ const ResultContent = ({
     <>
       {/* Search result item */}
       {results.length > 0 ? (
-        results.map((result) => {
-          // Get media-specific data in a type-safe way
-          const title = isMovie(result)
-            ? getShowTitle({ isArabic, show: result }) || result.original_title
-            : isTVShow(result)
-              ? getShowTitle({ isArabic, show: result }) || result.original_name
-              : result.name;
+        <>
+          {results.map((result) => {
+            // Get media-specific data in a type-safe way
+            const title = isMovie(result)
+              ? getShowTitle({ isArabic, show: result }) ||
+                result.original_title
+              : isTVShow(result)
+                ? getShowTitle({ isArabic, show: result }) ||
+                  result.original_name
+                : result.name;
 
-          const dateOrJob = isMovie(result)
-            ? result.release_date
-            : isTVShow(result)
-              ? result.first_air_date
-              : editedPersonJob(result.known_for_department);
+            const dateOrJob = isMovie(result)
+              ? result.release_date
+              : isTVShow(result)
+                ? result.first_air_date
+                : editedPersonJob(result.known_for_department);
 
-          const imagePath = isPerson(result)
-            ? result.profile_path
-            : result.poster_path;
-          return (
-            <Link
-              key={result.id}
-              href={`/details/${result.media_type}/${result.id}/${nameToSlug(title)}`}
-              className="flex items-center gap-2 p-2 hover:bg-gray-900"
-              onClick={closeSearchAndClear}
-            >
-              {/* Poster */}
-              <div className="w-14 h-20 relative">
-                {imagePath ? (
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${imagePath}`}
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                    alt={title}
-                  />
-                ) : (
-                  <BgPlaceholder />
-                )}
-              </div>
+            const imagePath = isPerson(result)
+              ? result.profile_path
+              : result.poster_path;
+            return (
+              <Link
+                key={result.id}
+                href={`/details/${result.media_type}/${result.id}/${nameToSlug(title)}`}
+                className="flex items-center gap-2 p-2 hover:bg-gray-900"
+                onClick={closeSearchAndClear}
+              >
+                {/* Poster */}
+                <div className="w-14 h-20 relative">
+                  {imagePath ? (
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${imagePath}`}
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                      alt={title}
+                    />
+                  ) : (
+                    <BgPlaceholder />
+                  )}
+                </div>
 
-              {/* Details */}
-              <div className="flex flex-col gap-1">
-                <h4 className="font-semibold line-clamp-1">{title}</h4>
-                <p className="text-xs text-gray-400">
-                  {isMovie(result)
-                    ? t("SearchMovie")
-                    : isTVShow(result)
-                      ? t("SearchTvShow")
-                      : t("SearchPerson")}
-                </p>
+                {/* Details */}
+                <div className="flex flex-col gap-1">
+                  <h4 className="font-semibold line-clamp-1">{title}</h4>
+                  <p className="text-xs text-gray-400">
+                    {isMovie(result)
+                      ? t("SearchMovie")
+                      : isTVShow(result)
+                        ? t("SearchTvShow")
+                        : t("SearchPerson")}
+                  </p>
 
-                {dateOrJob && (
-                  <p className="text-xs text-gray-400">{dateOrJob}</p>
-                )}
-              </div>
-            </Link>
-          );
-        })
+                  {dateOrJob && (
+                    <p className="text-xs text-gray-400">{dateOrJob}</p>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+          {results.length >= 20 && !isLoading && !isFetching && (
+            <button className="w-full" onClick={handleSubmit}>
+              <p className="text-center py-2 border-t border-gray-700 hover:bg-gray-900">
+                {t("AllSearchResults", { query: query })} &quot;{query}
+                &quot;
+              </p>
+            </button>
+          )}
+        </>
       ) : (
         <p className="text-center py-3">{t("SearchNotFound")}</p>
       )}

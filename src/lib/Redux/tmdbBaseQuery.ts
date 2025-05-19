@@ -7,6 +7,7 @@ export const baseQuery = fetchBaseQuery({
 export const mainApiSlice = createApi({
   reducerPath: "mainApi",
   keepUnusedDataFor: 3600,
+  refetchOnReconnect: true,
   baseQuery,
   tagTypes: [
     "Movies",

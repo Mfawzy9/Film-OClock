@@ -2,7 +2,7 @@ import DiscoverShows from "@/app/_Components/DiscoverShows/DiscoverShows";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { siteBaseUrl } from "../../../../../../../helpers/serverBaseUrl";
+import { siteBaseUrl } from "../../../../../../../helpers/serverHelpers";
 
 interface Props {
   params: Promise<{ locale: "ar"; showType: "movie" | "tv" }>;

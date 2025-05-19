@@ -55,7 +55,7 @@ const SliderCard = ({
         ? tPerson("Directing")
         : personJob === "Producing"
           ? tPerson("Producing")
-          : "";
+          : personJob;
   }, [personJob, tPerson]);
 
   const posterSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${srcKey}`;
@@ -95,6 +95,15 @@ const SliderCard = ({
     };
   }, [dropDownMenu]);
 
+  const isArabicShow = isArabic && theShow.original_language === "ar";
+
+  const showTitle =
+    isArabicShow && "original_title" in theShow
+      ? theShow.original_title || theShow.title
+      : isArabicShow && "original_name" in theShow
+        ? theShow.original_name || theShow.name
+        : (theShow as TVShow).name || (theShow as Movie).title;
+
   return (
     <div className="group block relative overflow-hidden pb-1 w-[235px]">
       {/* Dropdown Menu */}
@@ -129,10 +138,7 @@ const SliderCard = ({
         {/* Movie Info */}
         <div className="mt-2 px-1">
           <h3 className="text-white font-semibold line-clamp-1">
-            {getShowTitle({
-              show: theShow,
-              isArabic,
-            }) ?? name}
+            {showTitle ?? name}
           </h3>
           <div className="flex justify-between text-sm text-gray-300 mt-1 font-sans">
             <span>{release_date.split("-")[0] || editedPersonJob}</span>

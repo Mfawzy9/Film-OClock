@@ -108,7 +108,6 @@ const PopularPpl = () => {
             Component={CastCardSlider}
             props={{ featuredCast, isLoading }}
             loading={<CastCardsSkeletonSlider />}
-            rootMargin="0px 0px"
           />
         </section>
 
@@ -131,7 +130,6 @@ const PopularPpl = () => {
               posterHeight="h-[230px]"
             />
           }
-          rootMargin="0px 0px"
         />
       </PageSection>
     </>

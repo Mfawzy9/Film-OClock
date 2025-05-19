@@ -1,5 +1,4 @@
 "use client";
-
 import { memo, useCallback, useEffect, useState, useMemo } from "react";
 import { motion, useScroll } from "framer-motion";
 import { useSelector } from "react-redux";

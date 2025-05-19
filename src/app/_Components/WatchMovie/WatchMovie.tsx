@@ -1,6 +1,6 @@
 "use client";
 
-import tmdbApi, {
+import {
   useGetMTDetailsQuery,
   useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
@@ -27,9 +27,6 @@ import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import dynamic from "next/dynamic";
-import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/Redux/store";
 import Image from "next/image";
 import LazyRender from "../LazyRender/LazyRender";
 import ComingSoon from "../ComingSoon/ComingSoon";
@@ -54,16 +51,9 @@ const WatchMovieSkeleton = dynamic(() => import("./WatchMovieSkeleton"));
 interface WatchMovieProps {
   showType: "movie" | "tv";
   showId: number;
-  initialData: MovieDetailsResponse | null;
-  initialTranslations: MovieTranslationsResponse | null;
 }
 
-const WatchMovie = ({
-  showType,
-  showId,
-  initialData,
-  initialTranslations,
-}: WatchMovieProps) => {
+const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchMovie");
   const [activeServer, setActiveServer] = useState(
@@ -72,37 +62,11 @@ const WatchMovie = ({
       serversNames[0],
   );
 
-  const dispatch = useDispatch<AppDispatch>();
-
   //save active server in session storage
   useEffect(() => {
     if (typeof window !== "undefined")
       sessionStorage.setItem("activeServer", JSON.stringify(activeServer));
   }, [activeServer]);
-
-  useEffect(() => {
-    if (initialData) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getMTDetails",
-          { showId, showType },
-          initialData,
-        ),
-      );
-    }
-  }, [dispatch, initialData, showId, showType]);
-
-  useEffect(() => {
-    if (initialTranslations) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getTranslations",
-          { showId, showType },
-          initialTranslations,
-        ),
-      );
-    }
-  }, [dispatch, initialTranslations, showId, showType]);
 
   const { data: movie, isLoading: movieLoading } = useGetMTDetailsQuery(
     { showType, showId },
@@ -429,7 +393,6 @@ const WatchMovie = ({
         <LazyRender
           Component={MovieCollectionBanner}
           props={{ movie }}
-          rootMargin="0px 0px"
           loading={<SkeletonMovieCollectionBanner />}
         />
 
@@ -443,7 +406,6 @@ const WatchMovie = ({
               className: "mt-10",
               title: t("Recommendations"),
             }}
-            rootMargin="0px 0px"
             loading={
               <CardsSkeletonSlider arrLength={recommendations?.length} />
             }
@@ -457,7 +419,6 @@ const WatchMovie = ({
               className: "mt-10",
               title: t("Similar"),
             }}
-            rootMargin="0px 0px"
             loading={<CardsSkeletonSlider arrLength={similarMovies?.length} />}
           />
         </div>

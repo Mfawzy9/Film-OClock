@@ -30,7 +30,7 @@ const LazyRender = ({
   props = {},
   threshold = 0.1,
   noLazy = false,
-  rootMargin = "600px 0px",
+  rootMargin = "0px 0px",
   persistKey,
 }: LazyRenderProps) => {
   const isOnline = useOnlineStatus();
@@ -45,20 +45,22 @@ const LazyRender = ({
   );
 
   useEffect(() => {
-    if (inView) {
+    if (inView || noLazy) {
       setHasBeenInView(true);
       if (persistKey) {
         viewedComponents.add(persistKey);
       }
     }
-  }, [inView, persistKey]);
+  }, [inView, persistKey, noLazy]);
 
   if (!isOnline && !hasBeenInView && !noLazy) return loading;
 
   if (noLazy && isOnline) {
     return <Component {...props} />;
-  } else if (noLazy && !isOnline) {
+  } else if (noLazy && !isOnline && !hasBeenInView) {
     return loading;
+  } else if (noLazy && !isOnline && hasBeenInView) {
+    return <Component {...props} />;
   }
 
   return (

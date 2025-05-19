@@ -1,21 +1,38 @@
-"use server";
 import {
   MovieDetailsResponse,
   PersonDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
 import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
+import {
+  PopularMoviesResponse,
+  PopularPersonResponse,
+  PopularTvShowResponse,
+} from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
+import { SearchMovieResponse } from "@/app/interfaces/apiInterfaces/searchMovieInterfaces";
+import { SearchPersonResponse } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
+import { SearchTvShowResponse } from "@/app/interfaces/apiInterfaces/SearchTvshowInterfaces";
 import {
   TvTranslationsResponse,
   MovieTranslationsResponse,
 } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import {
+  MoviesTrendsResponse,
+  MovieTrendsI,
+  PplTrendsResponse,
+  TVShowsTrendsResponse,
+} from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import { unstable_cache as nextCache } from "next/cache";
 import { cache as reactCache } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 const API_KEY = process.env.TMDB_API_KEY!;
 const ACCESS_TOKEN = process.env.TMDB_ACCESS_TOKEN!;
+const headers = {
+  Authorization: `Bearer ${ACCESS_TOKEN}`,
+};
 
 const MAX_CACHE_ITEMS = 200; // Limit: only keep 200 items
 const CACHE_TTL = 1000 * 60 * 60; // cache for 1 hour (Time To Live)
@@ -27,10 +44,7 @@ type CacheItem<T> = {
 
 const cacheMap = new Map<string, CacheItem<any>>();
 // getOrSet
-export async function getOrSet<T>(
-  key: string,
-  fn: () => Promise<T>,
-): Promise<T> {
+export function getOrSet<T>(key: string, fn: () => Promise<T>): Promise<T> {
   const cached = cacheMap.get(key);
 
   if (cached) {
@@ -54,7 +68,7 @@ export async function getOrSet<T>(
   return promise;
 }
 
-export const getInitialDetailsData = async ({
+export const getInitialDetailsDataWithNextCache = ({
   showId,
   showType,
   locale,
@@ -123,7 +137,7 @@ export const getInitialDetailsData = async ({
 };
 
 // getInitialDetailsDataCached with Map
-export const getInitialDetailsDataCachedWithMap = async ({
+export const getInitialDetailsDataCachedWithMap = ({
   locale,
   showId,
   showType,
@@ -133,14 +147,14 @@ export const getInitialDetailsDataCachedWithMap = async ({
   showType: "movie" | "tv" | "person";
 }) =>
   getOrSet(`${locale}-${showType}-${showId}`, () =>
-    getInitialDetailsData({ locale, showId, showType }),
+    getInitialDetailsDataWithNextCache({ locale, showId, showType }),
   );
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //getSearchResults
-export const getSearchResults = async ({
+export const getSearchResults = ({
   query,
   locale,
   page,
@@ -155,13 +169,28 @@ export const getSearchResults = async ({
       const [initialMovies, initialTvShows, initialPeople] = await Promise.all([
         fetch(
           `${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        ).then((res) => res.json()),
+          {
+            headers,
+          },
+        )
+          .then((res) => res.json())
+          .then((data) => data as SearchMovieResponse),
         fetch(
           `${BASE_URL}search/tv?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        ).then((res) => res.json()),
+          {
+            headers,
+          },
+        )
+          .then((res) => res.json())
+          .then((data) => data as SearchTvShowResponse),
         fetch(
           `${BASE_URL}search/person?api_key=${API_KEY}&query=${query}&page=${page}&language=${locale}`,
-        ).then((res) => res.json()),
+          {
+            headers,
+          },
+        )
+          .then((res) => res.json())
+          .then((data) => data as SearchPersonResponse),
       ]);
 
       return { initialMovies, initialTvShows, initialPeople };
@@ -176,25 +205,11 @@ export const getSearchResults = async ({
   return cachedFn();
 };
 
-//cache getSearchResults
-export const getSearchResultsCached = async ({
-  locale,
-  query,
-  page,
-}: {
-  locale: "en" | "ar";
-  query: string;
-  page: number;
-}) =>
-  getOrSet(`${locale}-${query}-${page}`, () =>
-    getSearchResults({ locale, query, page }),
-  );
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // get movie collection
-export const getMovieCollectionWithNextCache = async ({
+export const getMovieCollectionWithNextCache = ({
   collectionId,
   locale,
 }: {
@@ -204,9 +219,7 @@ export const getMovieCollectionWithNextCache = async ({
   const fetchData = async () => {
     const detailsRes = await fetch(
       `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}`,
-      {
-        next: { revalidate: 3600 },
-      },
+      { headers },
     );
 
     if (!detailsRes.ok)
@@ -221,7 +234,7 @@ export const getMovieCollectionWithNextCache = async ({
       const translationsRes = await fetch(
         `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
         {
-          next: { revalidate: 3600 },
+          headers,
         },
       );
 
@@ -240,6 +253,136 @@ export const getMovieCollectionWithNextCache = async ({
     withReactCache,
     [`collection-app-${collectionId}-${locale}`],
     {
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get trending
+export const getTrendingWithNextCache = ({
+  locale,
+  showType,
+  homePge,
+  dayOrWeek = "day",
+}: {
+  locale: "en" | "ar";
+  showType: "movie" | "tv" | "person";
+  homePge?: boolean;
+  dayOrWeek?: "day" | "week";
+}) => {
+  const fetchTrending = async () => {
+    const lang = homePge ? locale : "en-US";
+    const trendingRes = await fetch(
+      `${BASE_URL}trending/${showType}/${dayOrWeek}?api_key=${API_KEY}&language=${lang}`,
+      { headers },
+    );
+
+    if (!trendingRes.ok) return { trending: null };
+
+    const trending = (await trendingRes.json()) as
+      | MoviesTrendsResponse
+      | PplTrendsResponse
+      | TVShowsTrendsResponse;
+
+    if (homePge && showType === "movie") {
+      const filteredMovies =
+        trending.results.filter((movie) =>
+          (movie as MovieTrendsI).overview?.trim(),
+        ) ?? trending.results;
+      return { trending: { ...trending, results: filteredMovies } };
+    }
+
+    return { trending };
+  };
+
+  const withReactCache = reactCache(fetchTrending);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`trending-app-${showType}-${locale}`],
+    {
+      tags: [`trending-app-${showType}-${locale}`],
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get genres
+export const getGenresWithNextCache = ({
+  locale,
+  showType,
+}: {
+  locale: "en" | "ar";
+  showType: "movie" | "tv";
+}) => {
+  const fetchGenres = async () => {
+    const genresRes = await fetch(
+      `${BASE_URL}genre/${showType}/list?api_key=${API_KEY}&language=${locale}`,
+      { headers },
+    );
+
+    if (!genresRes.ok) return { genres: null };
+
+    const genres = (await genresRes.json()) as GenresResponse;
+
+    return { genres };
+  };
+
+  const withReactCache = reactCache(fetchGenres);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`genres-app-${showType}-${locale}`],
+    {
+      tags: [`genres-app-${showType}-${locale}`],
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get popular
+export const getPopularWithNextCache = ({
+  locale = "en",
+  showType,
+}: {
+  locale: "en" | "ar";
+  showType: "movie" | "tv" | "person";
+}) => {
+  const fetchPopular = async () => {
+    const popularRes = await fetch(
+      `${BASE_URL}${showType}/popular?api_key=${API_KEY}&language=${locale}`,
+      { headers },
+    );
+
+    if (!popularRes.ok) return { popular: null };
+
+    const popular = (await popularRes.json()) as
+      | PopularMoviesResponse
+      | PopularPersonResponse
+      | PopularTvShowResponse;
+
+    return { popular };
+  };
+
+  const withReactCache = reactCache(fetchPopular);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`popular-app-${showType}-${locale}`],
+    {
+      tags: [`popular-app-${showType}-${locale}`],
       revalidate: 3600,
     },
   );

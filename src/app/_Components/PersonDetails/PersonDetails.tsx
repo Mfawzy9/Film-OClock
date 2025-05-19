@@ -4,7 +4,7 @@ import {
   PersonDetailsResponse,
   PImages,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import tmdbApi, { useGetMTDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
+import { useGetMTDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
 import { calculateAge, nameToSlug } from "../../../../helpers/helpers";
 import { useRef, useState, useMemo, useEffect } from "react";
@@ -48,45 +48,15 @@ const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"), {
 const PersonImgsSlider = dynamic(() => import("./PersonImgsSlider"));
 
 interface props extends DetailsQueryParams {
-  initialData: PersonDetailsResponse | null;
   slug: string;
   locale: "en" | "ar";
 }
 
-const PersonDetails = ({
-  showId,
-  showType,
-  initialData,
-  slug,
-  locale,
-}: props) => {
+const PersonDetails = ({ showId, showType, slug, locale }: props) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("PersonDetails");
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!initialData) return;
-
-    const correctSlug = nameToSlug(initialData.name);
-    const decodedSlug = decodeURIComponent(slug);
-
-    if (decodedSlug !== correctSlug) {
-      router.replace(`/details/${showType}/${showId}/${correctSlug}`);
-    }
-  }, [initialData, slug, locale, showType, showId, router]);
-
-  useEffect(() => {
-    if (initialData) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getMTDetails",
-          { showId, showType, lang: isArabic ? "ar" : "en" },
-          initialData,
-        ),
-      );
-    }
-  }, [dispatch, initialData, showId, showType, isArabic]);
 
   const { data: details, isLoading } = useGetMTDetailsQuery({
     showId,
@@ -96,6 +66,17 @@ const PersonDetails = ({
     data: PersonDetailsResponse | null;
     isLoading: boolean;
   };
+
+  useEffect(() => {
+    if (!details) return;
+
+    const correctSlug = nameToSlug(details.name);
+    const decodedSlug = decodeURIComponent(slug);
+
+    if (decodedSlug !== correctSlug) {
+      router.replace(`/details/${showType}/${showId}/${correctSlug}`);
+    }
+  }, [details, slug, locale, showType, showId, router]);
 
   const [showMore, setShowMore] = useState(false);
   const contentRef = useRef<HTMLParagraphElement>(null);
@@ -149,7 +130,6 @@ const PersonDetails = ({
                 isLoading: isLoading,
               }}
               loading={<CardsSkeletonSlider />}
-              rootMargin="0px 0px"
               persistKey={`person-movies-${showId}`}
             />
           </>
@@ -185,7 +165,6 @@ const PersonDetails = ({
                 isLoading: isLoading,
               }}
               loading={<CardsSkeletonSlider />}
-              rootMargin="0px 0px"
               persistKey={`person-tvShows-${showId}`}
             />
           </>

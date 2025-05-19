@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import Card from "@/app/_Components/Card/Card";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import Pagination from "@/app/_Components/Pagination/Pagination";

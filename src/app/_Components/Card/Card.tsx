@@ -76,6 +76,16 @@ const Card = ({
   const updatedShowType =
     theShow && "showType" in theShow ? theShow.showType : showType;
 
+  const isArabicShow =
+    theShow && isArabic && theShow.original_language === "ar";
+
+  const showTitle =
+    isArabicShow && "original_title" in theShow
+      ? theShow.original_title || theShow.title
+      : isArabicShow && "original_name" in theShow
+        ? theShow.original_name || theShow.name
+        : (theShow as TVShow).name || (theShow as Movie).title;
+
   return (
     <div className="relative group w-full border border-gray-700 xs:border-none rounded">
       {/* Dropdown Menu */}
@@ -114,12 +124,7 @@ const Card = ({
         {/* Movie Info */}
         <div className="mt-2 px-1">
           <h3 className="text-white font-semibold line-clamp-1">
-            {theShow
-              ? (getShowTitle({
-                  show: theShow,
-                  isArabic,
-                }) ?? name)
-              : name}
+            {theShow ? (showTitle ?? name) : name}
           </h3>
           <div className="flex justify-between text-sm text-gray-300 mt-1 font-sans">
             <span>{release_date?.split("-")[0] || editedPersonJob}</span>

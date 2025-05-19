@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { cairo, righteous, roboto } from "@/lib/fonts";
 import { getTranslations } from "next-intl/server";
-import { siteBaseUrl } from "../../../helpers/serverBaseUrl";
+import { siteBaseUrl } from "../../../helpers/serverHelpers";
 import NoInternetToast from "../_Components/NoInternetToast/NoInternetToast";
 import { WithContext, Organization } from "schema-dts";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: t("MainPage.Title"),
       locale: locale === "ar" ? "ar_EG" : "en_US",
       type: "website",
-      images: [`${siteBaseUrl}/logoImg.png`, `${siteBaseUrl}/logo.webp`],
+      images: [`${siteBaseUrl}/logoImg.png`],
     },
     twitter: {
       card: "summary_large_image",
@@ -172,7 +172,7 @@ export default async function LocaleLayout({
       <ErrorBoundary errorComponent={Error}>
         <body
           className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
-            ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50 `}
+            ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50`}
         >
           <NextIntlClientProvider>
             <ChunkErrorBoundary>
@@ -180,6 +180,7 @@ export default async function LocaleLayout({
               <App locale={locale}>
                 {children}
                 <Toaster
+                  position={isArabic ? "bottom-left" : "bottom-right"}
                   theme="dark"
                   toastOptions={{
                     classNames: {

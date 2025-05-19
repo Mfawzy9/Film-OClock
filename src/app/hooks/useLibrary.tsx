@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,7 +7,6 @@ import {
   useLazyIsInLibraryQuery,
   useClearLibraryMutation,
   useLazyGetLibraryQuery,
-  useMarkAsWatchedStatusMutation,
 } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { RootState } from "@/lib/Redux/store";
 import {
@@ -307,34 +307,6 @@ const useLibrary = ({
     }
   };
 
-  const [markAsWatched, { isLoading: isWatchedLoading }] =
-    useMarkAsWatchedStatusMutation();
-  const handleWatchedUnwatched = async ({
-    showId,
-    isWatched,
-  }: {
-    showId: number;
-    isWatched: boolean;
-  }) => {
-    if (!user) {
-      return toast.error(t("Toasts.NeedsLogin"), {
-        description: (
-          <Link href="/auth/login" className="underline text-blue-500">
-            {t("Toasts.LoginHere")}
-          </Link>
-        ),
-      });
-    }
-    try {
-      await markAsWatched({ showId, userId: user?.uid, isWatched }).unwrap();
-    } catch (error: any) {
-      if (error.message.includes("No document to update")) {
-        toast.error(t("Toasts.NoDocumentToUpdate"));
-      }
-      console.error(error);
-    }
-  };
-
   return {
     libraryState,
     loadingState,
@@ -346,8 +318,6 @@ const useLibrary = ({
     user,
     getLibrary,
     getLibraryLoading,
-    handleWatchedUnwatched,
-    isWatchedLoading,
     getLibraryFetching,
   };
 };

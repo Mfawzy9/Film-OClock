@@ -1,5 +1,4 @@
 "use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -9,12 +8,31 @@ import HomeSliderContent from "./HomeSliderContent";
 import { memo, useEffect, useMemo, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
-import { useGetGenres } from "@/app/hooks/useGetGenres";
-import { MovieTrendsI } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
-import useIsArabic from "@/app/hooks/useIsArabic";
+import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
+import dynamic from "next/dynamic";
+import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
+import ScrollToSection from "../ScrollToSection/ScrollToSection";
 
-const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
-  const { isArabic } = useIsArabic();
+const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
+
+let hasAppRendered = false;
+
+const HomeSlider = ({
+  data,
+  genres,
+}: {
+  data: MoviesTrendsResponse;
+  genres: GenresResponse | null;
+}) => {
+  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
+
+  useEffect(() => {
+    if (!hasAppRendered) {
+      hasAppRendered = true;
+    }
+    setShouldShowSkeleton(false);
+  }, []);
+
   const isOpen = useSelector(
     (state: RootState) => state.videoModalReducer.isOpen,
     (prev, next) => prev === next,
@@ -23,16 +41,14 @@ const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
     null as SwiperType | null,
   );
 
-  const { genres, genresLoading } = useGetGenres({
-    showType: "movie",
-    lang: isArabic ? "ar" : "en",
-  });
-
   const moviesWithGenres = useMemo(() => {
     return (
-      data?.slice(0, 10).map((movie) => ({
+      data?.results?.slice(0, 10).map((movie) => ({
         ...movie,
-        genreNames: genres(movie.genre_ids),
+        genreNames: genres?.genres
+          ?.filter((genre) => movie.genre_ids.includes(genre.id))
+          .slice(0, 2)
+          .map(({ name }) => name),
       })) || []
     );
   }, [data, genres]);
@@ -45,40 +61,48 @@ const HomeSlider = ({ data }: { data: MovieTrendsI[] }) => {
 
   return (
     <>
-      <Swiper
-        resistanceRatio={0.7}
-        threshold={5}
-        onSwiper={(swiper) => setSwiperInstance(swiper)}
-        slidesPerView={1}
-        spaceBetween={10}
-        grabCursor={true}
-        autoplay={{ delay: 10000, disableOnInteraction: false }}
-        modules={[Virtual, Autoplay]}
-        className="mySwiper"
-        virtual
-        style={{ willChange: "transform" }}
-      >
-        {moviesWithGenres?.map((movie, idx) => {
-          return (
-            <SwiperSlide
-              key={movie.id}
-              virtualIndex={idx}
-              style={{ willChange: "transform" }}
-              className="transition-[transform,opacity] transform-gpu"
-            >
-              {({ isActive, isVisible }) => (
-                <HomeSliderContent
-                  genresLoading={genresLoading}
-                  movie={movie}
-                  isActive={isActive}
-                  isVisible={isVisible}
-                  genreNames={movie.genreNames}
-                />
-              )}
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+      <ScrollToSection reference={null} />
+
+      {shouldShowSkeleton ? (
+        <HomeSliderSkeleton />
+      ) : (
+        <Swiper
+          resistanceRatio={0.7}
+          threshold={5}
+          onSwiper={(swiper) => setSwiperInstance(swiper)}
+          slidesPerView={1}
+          spaceBetween={10}
+          grabCursor={true}
+          autoplay={{ delay: 10000, disableOnInteraction: false }}
+          modules={[Virtual, Autoplay]}
+          className="mySwiper"
+          virtual={{
+            cache: true,
+          }}
+          style={{ willChange: "transform" }}
+        >
+          {moviesWithGenres?.map((movie, idx) => {
+            return (
+              <SwiperSlide
+                key={movie.id}
+                virtualIndex={idx}
+                style={{ willChange: "transform" }}
+                className="transition-[transform,opacity] transform-gpu relative"
+              >
+                {({ isActive, isVisible }) => (
+                  <HomeSliderContent
+                    movie={movie}
+                    isActive={isActive}
+                    isVisible={isVisible}
+                    genreNames={movie?.genreNames || []}
+                  />
+                )}
+              </SwiperSlide>
+            );
+          })}
+          <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-black to-transparent z-10" />
+        </Swiper>
+      )}
     </>
   );
 };

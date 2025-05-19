@@ -6,7 +6,6 @@ import {
   deleteDoc,
   getDoc,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 
@@ -195,37 +194,6 @@ export const firestoreApi = createApi({
         },
       ],
     }),
-    // --- MARK AS WATCHED ---
-    markAsWatchedStatus: builder.mutation<
-      SuccessResponse | ErrorResponse,
-      { userId: string; showId: number; isWatched: boolean }
-    >({
-      async queryFn({ userId, showId, isWatched }) {
-        try {
-          await updateDoc(
-            doc(db, "users", userId, "watchlist", String(showId)),
-            { isWatched },
-          );
-          return {
-            data: {
-              success: true,
-              message: `Marked as ${isWatched ? "watched" : "unwatched"} successfully`,
-            },
-          };
-        } catch (error) {
-          return {
-            error: {
-              message: error instanceof Error ? error.message : "Unknown error",
-              code: (error as any)?.code,
-            },
-          };
-        }
-      },
-      invalidatesTags: (result, error, { userId, showId }) => [
-        { type: "Watchlist", id: userId }, // Invalidate entire watchlist
-        { type: "WatchlistItem", id: `${userId}-${showId}` }, // Invalidate specific item
-      ],
-    }),
     // --- get watched list ---
     getWatched: builder.query<TheShowType[], { userId: string }>({
       async queryFn({ userId }) {
@@ -340,7 +308,6 @@ export const {
   useIsInLibraryQuery,
   useLazyGetLibraryQuery,
   useLazyIsInLibraryQuery,
-  useMarkAsWatchedStatusMutation,
 
   useGetWatchedQuery,
   useAddToWatchedMutation,

@@ -28,6 +28,7 @@ interface HoriCardProps {
   onHover: () => void;
   isActive: boolean;
   theShow: Movie | TVShow;
+  isArabic: boolean;
 }
 
 const HoriCard = ({
@@ -42,6 +43,7 @@ const HoriCard = ({
   onHover,
   isActive,
   theShow,
+  isArabic,
 }: HoriCardProps) => {
   const locale = useLocale();
   //get genres
@@ -56,6 +58,15 @@ const HoriCard = ({
     (state: RootState) => state.imgPlaceholderReducer.loadedImgs[backdrop_path],
     shallowEqual,
   );
+
+  const isArabicShow = isArabic && theShow.original_language === "ar";
+
+  const showTitle =
+    isArabicShow && "original_title" in theShow
+      ? theShow.original_title || theShow.title
+      : isArabicShow && "original_name" in theShow
+        ? theShow.original_name || theShow.name
+        : (theShow as TVShow).name || (theShow as Movie).title;
 
   return (
     <>
@@ -98,7 +109,7 @@ const HoriCard = ({
               <div className="flex flex-col gap-2 py-2">
                 {/* title */}
                 <h1 className="font-medium w-fit line-clamp-1 font-roboto">
-                  {title.split(" ").slice(0, 4).join(" ")}
+                  {showTitle || title}
                 </h1>
                 <div className="flex items-center justify-between gap-2">
                   {/* date rating */}

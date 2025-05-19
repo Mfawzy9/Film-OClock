@@ -1,12 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import "./NotFound.css";
 import { getTranslations } from "next-intl/server";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "404 - Page Not Found",
-  description: "Page not found",
-};
 
 const NotFound = async () => {
   const t = await getTranslations("NotFoundPage");

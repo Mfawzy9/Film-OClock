@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useScroll } from "motion/react";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { scrollToTop } from "../../../../helpers/helpers";
 import { FaArrowAltCircleUp } from "@react-icons/all-files/fa/FaArrowAltCircleUp";

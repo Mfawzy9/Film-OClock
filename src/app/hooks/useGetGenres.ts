@@ -29,7 +29,7 @@ export const useGetGenres = ({
   const translatedGenres = useMemo(() => {
     return (show: MovieDetailsResponse | TvDetailsResponse) => {
       const genresIds = show?.genres?.map(({ id }) => id);
-      const genresNames = genres(genresIds as number[]);
+      const genresNames = genres(genresIds);
 
       return genresIds?.map((id, index) => ({
         id,

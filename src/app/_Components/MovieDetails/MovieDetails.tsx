@@ -1,5 +1,5 @@
 "use client";
-import tmdbApi, {
+import {
   useGetImagesQuery,
   useGetMTDetailsQuery,
   useGetTranslationsQuery,
@@ -29,7 +29,6 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
 import { notFound } from "next/navigation";
-import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import LazyRender from "../LazyRender/LazyRender";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { FaComments } from "@react-icons/all-files/fa/FaComments";
@@ -40,6 +39,7 @@ import { FaImages } from "@react-icons/all-files/fa/FaImages";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
+import { MovieTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 const MovieDetailsSkeleton = dynamic(() => import("./MovieDetailsSkeleton"));
 const SkeletonMovieCollectionBanner = dynamic(
@@ -64,50 +64,16 @@ const MovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/MovieCollectionBanner"),
 );
 
-interface props extends DetailsQueryParams {
-  initialData: MovieDetailsResponse | null;
-  initialTranslations: MovieTranslationsResponse | null;
-}
-
-const MovieDetails = ({
-  showId,
-  showType,
-  initialData,
-  initialTranslations,
-}: props) => {
+const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("MovieDetails");
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    if (initialData) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getMTDetails",
-          { showId, showType },
-          initialData,
-        ),
-      );
-    }
-  }, [dispatch, initialData, showId, showType]);
-
-  useEffect(() => {
-    if (initialTranslations) {
-      dispatch(
-        tmdbApi.util.upsertQueryData(
-          "getTranslations",
-          { showId, showType },
-          initialTranslations,
-        ),
-      );
-    }
-  }, [dispatch, initialTranslations, showId, showType]);
 
   const {
     data: movie,
     isLoading: detailsLoading,
     isError,
-  } = useGetMTDetailsQuery({ showId, showType }) as {
+  } = useGetMTDetailsQuery({ showId, showType, lang: "en" }) as {
     data: MovieDetailsResponse;
     isLoading: boolean;
     isError: boolean;
@@ -127,7 +93,7 @@ const MovieDetails = ({
     )?.data;
     if (arabicSaTranslations?.overview.trim()) return arabicSaTranslations;
     if (arabicAeTranslations?.overview.trim()) return arabicAeTranslations;
-  }, [translations]);
+  }, [translations]) as MovieTranslationData | undefined;
 
   const { finalOverview, finalTagline } = useMemo(() => {
     const getTranslatedText = (field: "overview" | "tagline") => {
@@ -149,7 +115,7 @@ const MovieDetails = ({
   });
 
   const director = useMemo(
-    () => movie?.credits?.crew?.find((crew) => crew.job === "Director") ?? null,
+    () => movie?.credits?.crew?.find((crew) => crew.job === "Director") || null,
     [movie],
   );
 
@@ -177,7 +143,6 @@ const MovieDetails = ({
                 }) ?? movie?.original_title,
               videos: movie?.videos,
             }}
-            rootMargin="0px 0px"
             persistKey={`videos-${showId}-${showType}`}
             loading={
               <VideosDetailsSkeletons
@@ -237,12 +202,12 @@ const MovieDetails = ({
   };
 
   useEffect(() => {
-    if (overviewRef.current && movie?.overview && !isLoading) {
+    if (overviewRef.current && finalOverview && !isLoading) {
       const p = overviewRef.current;
-      const isOverflowing = p.scrollHeight - p.clientHeight > 2; // allow tiny margin
+      const isOverflowing = p.scrollHeight - p.clientHeight > 2;
       setNeedsExpand(isOverflowing);
     }
-  }, [movie?.overview, isLoading]);
+  }, [finalOverview, isLoading]);
 
   if (isLoading || translationsLoading || genresLoading)
     return <MovieDetailsSkeleton />;
@@ -307,10 +272,9 @@ const MovieDetails = ({
           {/* Movie Info */}
           <div className="flex flex-col gap-4">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
-              {getShowTitle({
-                isArabic,
-                show: movie,
-              }) || movie?.original_title}
+              {isArabic && movie?.original_language === "ar"
+                ? arabicTranslations?.title || movie?.original_title
+                : movie?.title}
               {movie?.homepage && (
                 <a
                   href={movie?.homepage}
@@ -422,7 +386,6 @@ const MovieDetails = ({
               <CastsSkeletonSlider length={movie?.credits?.cast?.length} />
             }
             props={{ casts: movie?.credits?.cast, label: t("TopBilledCast") }}
-            rootMargin="0px 0px"
           />
         )}
 
@@ -437,7 +400,6 @@ const MovieDetails = ({
           <LazyRender
             Component={MovieCollectionBanner}
             props={{ movie, className: "my-10" }}
-            rootMargin="0px 0px"
             loading={<SkeletonMovieCollectionBanner className="my-10" />}
           />
         )}

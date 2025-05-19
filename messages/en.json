@@ -745,7 +745,7 @@
   },
 
   "MetaData": {
-    "Keywords": "Film O'Clock, Movies, TV Shows, Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast,film oclock , film clock",
+    "Keywords": "Film O'Clock, Movies, TV Shows , Series , Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast, Movies, TV Shows, Streaming, Reviews,  Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast,film oclock , film clock",
     "Movie": " Movie ",
     "TvShow": " TV Show ",
     "MainPage": {
@@ -878,6 +878,10 @@
       "titleWithPage": "({query}) Search results - page {page} | FilmO'Clock",
       "description": "Find movies, TV shows, and people related to '{query}'.",
       "descriptionWithPage": "Page {page} of search results for {query}."
+    },
+    "NotFound": {
+      "Title": "404 - Page Not Found",
+      "description": "The page you are looking for does not exist. It might have been moved or deleted."
     }
   }
 }

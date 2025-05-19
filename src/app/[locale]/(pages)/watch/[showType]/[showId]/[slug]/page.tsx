@@ -2,7 +2,7 @@ import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 import WatchMovie from "@/app/_Components/WatchMovie/WatchMovie";
 import WatchTv from "@/app/_Components/WatchTv/WatchTv";
 import { getTranslations } from "next-intl/server";
-import { getInitialDetailsDataCachedWithMap } from "../../../../../../../../helpers/tmdbRequests";
+import { getInitialDetailsDataWithNextCache } from "../../../../../../../lib/tmdbRequests";
 import {
   MovieDetailsResponse,
   TvDetailsResponse,
@@ -18,6 +18,15 @@ import {
 } from "../../../../../../../../helpers/helpers";
 import { notFound, redirect } from "next/navigation";
 import AdsModal from "@/app/_Components/AdsModal/AdsModal";
+import {
+  PreloadedQuery,
+  RTKPreloader,
+} from "@/app/_Components/helpers/RTKPreloader";
+import {
+  getStaticShowParams,
+  itemTypeMap,
+  siteBaseUrl,
+} from "../../../../../../../../helpers/serverHelpers";
 
 interface WatchParams {
   params: Promise<{
@@ -27,6 +36,12 @@ interface WatchParams {
     slug: string;
   }>;
   searchParams: Promise<{ season: number; episode: number }>;
+}
+
+export const dynamicParams = true;
+export const revalidate = 3600;
+export async function generateStaticParams() {
+  return getStaticShowParams({ includePeople: false });
 }
 
 export async function generateMetadata({
@@ -40,7 +55,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "MetaData" });
 
   const { initialData, initialTranslations } =
-    (await getInitialDetailsDataCachedWithMap({
+    (await getInitialDetailsDataWithNextCache({
       locale,
       showId,
       showType,
@@ -105,10 +120,12 @@ export async function generateMetadata({
 
 const WatchPage = async ({ params, searchParams }: WatchParams) => {
   const { showId, showType, locale, slug } = await params;
-  const { episode, season } = await searchParams;
+  const sParams = await searchParams;
+  const episode = sParams.episode ? Number((await searchParams).episode) : 1;
+  const season = sParams.season ? Number((await searchParams).season) : 1;
 
   const { initialData, initialTranslations } =
-    await getInitialDetailsDataCachedWithMap({
+    await getInitialDetailsDataWithNextCache({
       locale,
       showId,
       showType,
@@ -133,35 +150,223 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
 
     if (decodedSlug !== correctSlug) {
       const encodedSlug = encodeURIComponent(correctSlug);
-      redirect(`/${locale}/watch/${showType}/${showId}/${encodedSlug}`);
+      if (showType === "tv")
+        redirect(
+          `/${locale}/watch/${showType}/${showId}/${encodedSlug}?season=${season ?? 1}&episode=${episode ?? 1}`,
+        );
+      else redirect(`/${locale}/watch/${showType}/${showId}/${encodedSlug}`);
     }
   }
+
+  if (showType === "tv" && (!sParams.season || !sParams.episode))
+    redirect(
+      `/${locale}/watch/${showType}/${showId}/${slug}?season=${season ?? 1}&episode=${episode ?? 1}`,
+    );
 
   if (showType !== "movie" && showType !== "tv") {
     return notFound();
   }
 
+  const rtkArr = [
+    {
+      endpointName: "getMTDetails",
+      args: {
+        showId,
+        showType,
+      },
+      data: initialData,
+    },
+    initialTranslations && {
+      endpointName: "getTranslations",
+      args: {
+        showId,
+        showType,
+      },
+      data: initialTranslations,
+    },
+  ].filter(Boolean);
+
   return (
     <>
+      <RTKPreloader preloadedQueries={rtkArr as PreloadedQuery[]} />
       <PageHeader />
       <AdsModal />
       {showType === "movie" && (
-        <WatchMovie
-          showId={showId}
-          showType={showType}
-          initialData={initialData as MovieDetailsResponse}
-          initialTranslations={initialTranslations as MovieTranslationsResponse}
-        />
+        <>
+          {initialData && "original_title" in initialData && (
+            <>
+              <header className="sr-only">
+                <h1>
+                  {locale === "ar"
+                    ? `مشاهدة فيلم ${initialData.original_title}`
+                    : `Watch Movie ${initialData.title}`}
+                </h1>
+              </header>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Movie",
+                    "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_title
+                        : initialData.title,
+                    )}`,
+                    name: initialData.title ?? initialData.original_title,
+                    description: initialData.overview,
+                    image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                    datePublished: initialData.release_date,
+                    genre: initialData.genres?.map((g) => g.name),
+                    aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue: initialData.vote_average,
+                      ratingCount: initialData.vote_count,
+                    },
+                    mainEntityOfPage: {
+                      "@type": "WebPage",
+                      "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                        locale === "ar"
+                          ? initialData.original_title
+                          : initialData.title,
+                      )}`,
+                    },
+                    url: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_title
+                        : initialData.title,
+                    )}`,
+                  }),
+                }}
+              />
+              {initialData.belongs_to_collection && (
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                      "@context": "https://schema.org",
+                      "@id": `${siteBaseUrl}/${locale}/collection/${initialData.belongs_to_collection.id}/${initialData.belongs_to_collection.name}`,
+                      "@type": "CollectionPage",
+                      name: initialData.belongs_to_collection.name,
+                      image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.belongs_to_collection.backdrop_path}`,
+                    }),
+                  }}
+                />
+              )}
+              <article
+                className="sr-only"
+                itemScope
+                itemType={itemTypeMap[showType]}
+              >
+                <h1 itemProp="name">
+                  {locale === "ar"
+                    ? initialData.original_title
+                    : initialData.title}
+                </h1>
+                <p itemProp="description">
+                  {locale === "en"
+                    ? initialData.overview
+                    : (initialTranslations?.translations.find(
+                        (translation) =>
+                          translation.iso_639_1 === "ar" &&
+                          translation.data.overview,
+                      )?.data.overview ?? initialData.overview)}
+                </p>
+                <p itemProp="genre">
+                  {initialData.genres.map((g) => g.name).join(", ")}
+                </p>
+                <time itemProp="datePublished">{initialData.release_date}</time>
+              </article>
+            </>
+          )}
+          <WatchMovie showId={showId} showType={showType} />
+        </>
       )}
       {showType === "tv" && (
-        <WatchTv
-          showId={showId}
-          showType={showType}
-          episode={Number(episode) ?? 1}
-          season={Number(season) ?? 1}
-          initialData={initialData as TvDetailsResponse}
-          initialTranslations={initialTranslations as TvTranslationsResponse}
-        />
+        <>
+          {initialData && "original_name" in initialData && (
+            <>
+              <header className="sr-only">
+                <h1>
+                  {locale === "ar"
+                    ? `مشاهدة مسلسل ${initialData.original_name}`
+                    : `Watch TV Series ${initialData.name}`}
+                </h1>
+              </header>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "TVSeries",
+                    "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_name
+                        : initialData.name,
+                    )}`,
+                    name: initialData.name ?? initialData.original_name,
+                    description: initialData.overview,
+                    image: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${initialData.poster_path}`,
+                    datePublished: initialData.first_air_date,
+                    genre: initialData.genres?.map((g) => g.name),
+                    aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue: initialData.vote_average,
+                      ratingCount: initialData.vote_count,
+                    },
+                    mainEntityOfPage: {
+                      "@type": "WebPage",
+                      "@id": `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                        locale === "ar"
+                          ? initialData.original_name
+                          : initialData.name,
+                      )}`,
+                    },
+                    url: `${siteBaseUrl}/${locale}/details/${showType}/${showId}/${nameToSlug(
+                      locale === "ar"
+                        ? initialData.original_name
+                        : initialData.name,
+                    )}`,
+                  }),
+                }}
+              />
+              <article
+                className="sr-only"
+                itemScope
+                itemType={itemTypeMap[showType]}
+              >
+                <h1 itemProp="name">
+                  {locale === "ar"
+                    ? initialData.original_name
+                    : initialData.name}
+                </h1>
+                <p itemProp="description">
+                  {locale === "en"
+                    ? initialData.overview
+                    : (initialTranslations?.translations.find(
+                        (translation) =>
+                          translation.iso_639_1 === "ar" &&
+                          translation.data.overview,
+                      )?.data.overview ?? initialData.overview)}
+                </p>
+                <p itemProp="genre">
+                  {initialData.genres.map((g) => g.name).join(", ")}
+                </p>
+                <time itemProp="datePublished">
+                  {initialData.first_air_date}
+                </time>
+              </article>
+            </>
+          )}
+          <WatchTv
+            showId={showId}
+            showType={showType}
+            episode={episode}
+            season={season}
+            initialData={initialData as TvDetailsResponse}
+            initialTranslations={initialTranslations as TvTranslationsResponse}
+          />
+        </>
       )}
     </>
   );

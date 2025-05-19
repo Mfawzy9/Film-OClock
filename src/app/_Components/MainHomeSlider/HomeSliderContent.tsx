@@ -1,3 +1,4 @@
+"use client";
 import { Variants } from "framer-motion";
 import Image from "next/image";
 import { memo, useMemo } from "react";
@@ -11,6 +12,7 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle } from "../../../../helpers/helpers";
 import MotionWrapper from "../helpers/MotionWrapper";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
 
 const imgVariants: Variants = {
   hidden: { opacity: 0, transform: "scale(0.8)" },
@@ -35,38 +37,28 @@ const HomeSliderContent = ({
   isActive,
   genreNames,
   isVisible,
-  genresLoading,
 }: {
   movie: MovieTrendsI;
   isActive: boolean;
   isVisible: boolean;
   genreNames: string[];
-  genresLoading: boolean;
 }) => {
   const { isArabic } = useIsArabic();
+  const isDesktop = useIsDesktop();
 
   const genreList = useMemo(() => {
-    return genreNames.map((genre, idx) =>
-      genresLoading ? (
-        <span
-          key={`skeleton-genre-${idx}`}
-          className="bg-gray-800 text-transparent px-1 sm:font-semibold animate-pulse rounded"
-        >
-          Genress
-        </span>
-      ) : (
-        <span
-          key={`${genre}-${idx}`}
-          className="bg-gray-900 text-white px-1 py-0.5 sm:font-semibold"
-        >
-          {genre}
-        </span>
-      ),
-    );
-  }, [genreNames, genresLoading]);
+    return genreNames.map((genre, idx) => (
+      <span
+        key={`${genre}-${idx}`}
+        className="bg-gray-900 text-white px-1 py-0.5 sm:font-semibold"
+      >
+        {genre}
+      </span>
+    ));
+  }, [genreNames]);
 
   const imgSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.poster_path}`;
-  const backdropSrc = `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`;
+  const backdropSrc = `${isDesktop ? process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280 : process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.backdrop_path}`;
 
   const dispatch = useDispatch();
   const isLoaded = useSelector(
@@ -84,11 +76,12 @@ const HomeSliderContent = ({
             alt={(movie.title || movie.original_title) ?? "Backdrop"}
             fill
             priority={isActive && isVisible}
+            loading={isActive && isVisible ? "eager" : "lazy"}
             sizes="100vw"
+            quality={isDesktop ? 85 : 75}
             className="object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/80" />
-          <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-black to-transparent" />
         </div>
       </div>
 

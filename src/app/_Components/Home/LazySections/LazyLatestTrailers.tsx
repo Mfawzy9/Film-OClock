@@ -13,7 +13,9 @@ const LazyLatestTrailers = () => {
   const { data: trendingMovies, isLoading: trendingLoading } =
     useGetTrendsQuery({
       showType: "movie",
+      dayOrWeek: "day",
       page: 1,
+      lang: "en",
     });
   return (
     <VideosSlider

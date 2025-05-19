@@ -2,6 +2,8 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { parseYouTubeDuration } from "../../../../helpers/helpers";
 
 const videoDurationSlice = createApi({
+  reducerPath: "videoDurationApi",
+  refetchOnReconnect: true,
   baseQuery: fakeBaseQuery(),
   tagTypes: ["VideoDuration"],
   endpoints: (builder) => ({
@@ -29,6 +31,7 @@ const videoDurationSlice = createApi({
           };
         }
       },
+      providesTags: ["VideoDuration"],
     }),
   }),
 });

@@ -1,3 +1,4 @@
+"use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PageSection from "../PageSection/PageSection";
 
@@ -41,8 +42,8 @@ const HoriSkeletonSlider = () => {
             {[...Array(5)].map((_, index) => (
               <SwiperSlide key={index} className="!flex !justify-center">
                 <div
-                  className="rounded-md w-[450px] h-[200px] bg-gray-800 animate-pulse relative
-                    overflow-hidden"
+                  className="rounded-md w-[450px] h-[190px] sm:h-[160px] md:h-[250px] lg:h-[200px]
+                    xl:h-[180px] 3xl:h-[150px] bg-gray-800 animate-pulse relative overflow-hidden"
                 >
                   <div
                     className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex

@@ -1,6 +1,6 @@
 "use client";
 import { JSX, memo, useCallback } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 interface Tab {
   name: string;

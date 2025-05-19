@@ -1,29 +1,20 @@
+import {
+  getTrendingWithNextCache,
+  getPopularWithNextCache,
+} from "@/lib/tmdbRequests";
 import type { MetadataRoute } from "next";
-import { Languages } from "next/dist/lib/metadata/types/alternative-urls-types";
+import { getShowTitle, nameToSlug } from "../../helpers/helpers";
+import {
+  MoviesTrendsResponse,
+  TVShowsTrendsResponse,
+} from "./interfaces/apiInterfaces/trendsInterfaces";
+import { PopularPersonResponse } from "./interfaces/apiInterfaces/popularMoviesTvInterfaces";
+import { locales } from "@/i18n/routing";
+import { siteBaseUrl } from "../../helpers/serverHelpers";
 
-type Sitemap = Array<{
-  url: string;
-  lastModified?: string | Date;
-  changeFrequency?:
-    | "always"
-    | "hourly"
-    | "daily"
-    | "weekly"
-    | "monthly"
-    | "yearly"
-    | "never";
-  priority?: number;
-  alternates?: {
-    languages?: Languages<string>;
-  };
-}>;
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://film-oclock.vercel.app";
-  const locales = ["en", "ar"];
-
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [
-    "", // Home
+    "",
     "Movies",
     "shows/explore/movie",
     "shows/all/movie",
@@ -47,18 +38,87 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "people/Trending",
   ];
 
-  const urls: Sitemap = [];
+  const urls: MetadataRoute.Sitemap = [];
 
   locales.forEach((locale) => {
     staticPaths.forEach((path) => {
       urls.push({
-        url: `${baseUrl}/${locale}/${path}`,
+        url: `${siteBaseUrl}/${locale}/${path}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: path === "" ? 1 : 0.8,
       });
     });
   });
+
+  const [trendingMovies, trendingTvShows, popularPeople] = await Promise.all([
+    getTrendingWithNextCache({ showType: "movie", locale: "en" }),
+    getTrendingWithNextCache({ showType: "tv", locale: "en" }),
+    getPopularWithNextCache({ showType: "person", locale: "en" }),
+  ]);
+
+  (trendingMovies?.trending as MoviesTrendsResponse)?.results.forEach(
+    (movie) => {
+      locales.forEach((locale) => {
+        const title =
+          getShowTitle({ isArabic: locale === "ar", show: movie }) ??
+          movie.title;
+        const slug = nameToSlug(title);
+
+        urls.push({
+          url: `${siteBaseUrl}/${locale}/details/movie/${movie.id}/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.6,
+        });
+
+        urls.push({
+          url: `${siteBaseUrl}/${locale}/watch/movie/${movie.id}/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.7,
+        });
+      });
+    },
+  );
+
+  (trendingTvShows?.trending as TVShowsTrendsResponse)?.results.forEach(
+    (tv) => {
+      locales.forEach((locale) => {
+        const title =
+          getShowTitle({ isArabic: locale === "ar", show: tv }) ?? tv.name;
+        const slug = nameToSlug(title);
+
+        urls.push({
+          url: `${siteBaseUrl}/${locale}/details/tv/${tv.id}/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.6,
+        });
+
+        urls.push({
+          url: `${siteBaseUrl}/${locale}/watch/tv/${tv.id}/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.7,
+        });
+      });
+    },
+  );
+
+  (popularPeople?.popular as PopularPersonResponse)?.results.forEach(
+    (person) => {
+      locales.forEach((locale) => {
+        const slug = nameToSlug(person.name);
+        urls.push({
+          url: `${siteBaseUrl}/${locale}/details/person/${person.id}/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.6,
+        });
+      });
+    },
+  );
 
   return urls;
 }

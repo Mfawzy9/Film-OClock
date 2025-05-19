@@ -18,7 +18,7 @@ import { FaUserPlus } from "@react-icons/all-files/fa/FaUserPlus";
 import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill";
 import { VscSignIn } from "@react-icons/all-files/vsc/VscSignIn";
 import { VscSignOut } from "@react-icons/all-files/vsc/VscSignOut";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { memo, useMemo } from "react";
 
