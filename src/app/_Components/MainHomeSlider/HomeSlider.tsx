@@ -6,12 +6,13 @@ import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper/types";
 import HomeSliderContent from "./HomeSliderContent";
 import { memo, useEffect, useMemo, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { RootState } from "@/lib/Redux/store";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import dynamic from "next/dynamic";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import ScrollToSection from "../ScrollToSection/ScrollToSection";
+import { setSliderRendered } from "@/lib/Redux/localSlices/hasRenderedSlice";
+import type { RootState } from "@/lib/Redux/store";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
 
@@ -22,13 +23,17 @@ const HomeSlider = ({
   data: MoviesTrendsResponse;
   genres: GenresResponse | null;
 }) => {
-  const [hasRendered, setHasRendered] = useState(false);
-  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(true);
+  const dispatch = useDispatch();
+  const hasRendered = useSelector(
+    (state: RootState) => state.homeReducer.hasSliderRendered,
+    shallowEqual,
+  );
 
   useEffect(() => {
-    setHasRendered(true);
-    setShouldShowSkeleton(false);
-  }, []);
+    if (!hasRendered) {
+      dispatch(setSliderRendered(true));
+    }
+  }, [hasRendered, dispatch]);
 
   const isOpen = useSelector(
     (state: RootState) => state.videoModalReducer.isOpen,
@@ -60,7 +65,7 @@ const HomeSlider = ({
     <>
       <ScrollToSection reference={null} />
 
-      {!hasRendered || shouldShowSkeleton ? (
+      {!hasRendered ? (
         <HomeSliderSkeleton />
       ) : (
         <Swiper
