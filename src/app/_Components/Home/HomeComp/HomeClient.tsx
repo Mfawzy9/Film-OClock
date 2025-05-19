@@ -6,23 +6,18 @@ import dynamic from "next/dynamic";
 
 const ShortDetailsSkeleton = dynamic(
   () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
-  { ssr: false },
 );
 const GenresSkeletonSlider = dynamic(
   () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
-  { ssr: false },
 );
 const VideosSkelsetonSlider = dynamic(
   () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
-  { ssr: false },
 );
 const HoriSkeletonSlider = dynamic(
   () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
-  { ssr: false },
 );
 const CardsSkeletonSlider = dynamic(
   () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
-  { ssr: false },
 );
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
