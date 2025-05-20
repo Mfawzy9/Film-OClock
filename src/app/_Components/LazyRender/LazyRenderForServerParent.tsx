@@ -29,7 +29,7 @@ const LazyRenderForServerParent = ({
   rootMargin = "0px 0px",
   persistKey,
 }: LazyRenderForServerParentProps) => {
-  const isOnline = useOnlineStatus();
+  // const isOnline = useOnlineStatus();
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold,
@@ -51,13 +51,13 @@ const LazyRenderForServerParent = ({
 
   if (typeof window === "undefined") return loading;
 
-  if (!isOnline && !hasBeenInView) {
-    return loading;
-  } else if (!isOnline && hasBeenInView) {
-    return children;
-  }
+  // if (!isOnline && !hasBeenInView) {
+  //   return loading;
+  // } else if (!isOnline && hasBeenInView) {
+  //   return children;
+  // }
 
-  return <div ref={ref}>{hasBeenInView && isOnline ? children : loading}</div>;
+  return <div ref={ref}>{hasBeenInView ? children : loading}</div>;
 };
 
 export default memo(LazyRenderForServerParent);
