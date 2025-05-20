@@ -36,6 +36,7 @@ const LazyRenderForServerComponents = ({
     triggerOnce: true,
     threshold,
     rootMargin,
+    skip: typeof window === "undefined",
   });
 
   const [hasBeenInView, setHasBeenInView] = useState(
@@ -51,6 +52,8 @@ const LazyRenderForServerComponents = ({
       }
     }
   }, [inView, persistKey, noLazy]);
+
+  if (typeof window === "undefined") return loading;
 
   if (!isOnline && !hasBeenInView && !noLazy) return loading;
 
