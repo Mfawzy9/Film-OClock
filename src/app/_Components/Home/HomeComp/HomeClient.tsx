@@ -8,18 +8,7 @@ import ShortDetailsSkeleton from "../../ShortDetails/ShortDetailsSkeleton";
 import VideosSkelsetonSlider from "../../VideosSlider/VideosSkelsetonSlider";
 import LazyWatchlist from "../LazySections/LazyWatchlist";
 import LazyRenderForServerParent from "../../LazyRender/LazyRenderForServerParent";
-
-// const LazyWatchlist = dynamic(() => import("../LazySections/LazyWatchlist"), {
-//   ssr: false,
-//   loading: () => (
-//     <div
-//       className="bg-gray-900 border border-gray-700 rounded-lg min-h-[460px] flex items-center
-//         justify-center"
-//     >
-//       <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
-//     </div>
-//   ),
-// });
+import { motion } from "framer-motion";
 
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
@@ -79,7 +68,7 @@ const LazyGenres = dynamic(
 
 const HomeClient = () => {
   return (
-    <>
+    <motion.div layout>
       {/* Top Rated Movies */}
       <LazyRenderForServerParent
         persistKey="topRatedMovies"
@@ -144,7 +133,7 @@ const HomeClient = () => {
       >
         <LazyGenres />
       </LazyRenderForServerParent>
-    </>
+    </motion.div>
   );
 };
 
