@@ -23,7 +23,7 @@ const HomeServer = () => {
       <HomeSliderFetcher />
       <WatchHistory />
       <PopularPplHomeSlider />
-      <HomeClient />
+      {/* <HomeClient /> */}
     </>
   );
 };
