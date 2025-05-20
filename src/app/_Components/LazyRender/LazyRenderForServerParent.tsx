@@ -1,10 +1,14 @@
 "use client";
 
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
+import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
 import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
 
-interface LazyRenderForServerParentProps {
+// Cache seen components (for persistKey)
+const viewedComponents = new Set<string>();
+
+interface SafeLazyRenderProps {
   children: ReactNode;
   loading?: ReactNode;
   threshold?: number;
@@ -13,7 +17,7 @@ interface LazyRenderForServerParentProps {
   className?: string;
 }
 
-export default function LazyRenderForServerParent({
+export default function SafeLazyRender({
   children,
   className = "min-h-[400px] flex items-center justify-center",
   loading = (
@@ -23,20 +27,39 @@ export default function LazyRenderForServerParent({
   ),
   threshold = 0.1,
   rootMargin = "0px",
-}: LazyRenderForServerParentProps) {
+  persistKey,
+}: SafeLazyRenderProps) {
   const [isClient, setIsClient] = useState(false);
+  const isOnline = useOnlineStatus();
+
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold,
     rootMargin,
   });
 
+  const [hasBeenInView, setHasBeenInView] = useState(
+    persistKey ? viewedComponents.has(persistKey) : false,
+  );
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    if (inView) {
+      setHasBeenInView(true);
+      if (persistKey) {
+        viewedComponents.add(persistKey);
+      }
+    }
+  }, [inView, persistKey]);
+
   if (!isClient) return loading;
-  return <div ref={ref}>{inView ? children : loading}</div>;
+
+  if (!isOnline && !hasBeenInView) return loading;
+
+  return <div ref={ref}>{hasBeenInView ? children : loading}</div>;
 }
 
 // "use client";
