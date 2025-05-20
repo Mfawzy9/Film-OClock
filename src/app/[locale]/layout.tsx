@@ -171,7 +171,7 @@ export default async function LocaleLayout({
       </head>
       <ErrorBoundary errorComponent={Error}>
         <body
-          suppressHydrationWarning
+          // suppressHydrationWarning
           className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
             ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50`}
         >
