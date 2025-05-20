@@ -1,3 +1,4 @@
+"use client";
 import { memo } from "react";
 import CardsSlider from "../../CardsSlider/CardsSlider";
 import { useTranslations } from "next-intl";

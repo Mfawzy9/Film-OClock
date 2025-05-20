@@ -1,3 +1,4 @@
+"use client";
 import { useGetMoviesTvShowsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useTranslations } from "next-intl";
 import { memo } from "react";

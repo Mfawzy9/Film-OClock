@@ -1,3 +1,4 @@
+"use client";
 import { useGetUpcomingMoviesQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import CardsSlider from "../../CardsSlider/CardsSlider";
 import { useTranslations } from "next-intl";
