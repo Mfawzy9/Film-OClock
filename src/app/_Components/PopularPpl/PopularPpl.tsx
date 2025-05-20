@@ -81,7 +81,6 @@ const PopularPpl = () => {
 
   if (
     isLoading ||
-    isFetching ||
     isError ||
     !popular ||
     !data ||
