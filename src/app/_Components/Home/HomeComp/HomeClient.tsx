@@ -1,31 +1,18 @@
 "use client";
 import PageSection from "@/app/_Components/PageSection/PageSection";
 import dynamic from "next/dynamic";
-import LazyRender from "../../LazyRender/LazyRender";
-
-const ShortDetailsSkeleton = dynamic(
-  () => import("@/app/_Components/ShortDetails/ShortDetailsSkeleton"),
-);
-
-const GenresSkeletonSlider = dynamic(
-  () => import("@/app/_Components/GenresSlider/GenresSkeletonSlider"),
-);
-
-const VideosSkelsetonSlider = dynamic(
-  () => import("@/app/_Components/VideosSlider/VideosSkelsetonSlider"),
-);
-
-const HoriSkeletonSlider = dynamic(
-  () => import("@/app/_Components/HoriCardsSlider/HoriSkeletonSlider"),
-);
-
-const CardsSkeletonSlider = dynamic(
-  () => import("@/app/_Components/CardsSlider/CardsSkeletonSlider"),
-);
+import LazyRenderForServerComponents from "../../LazyRender/LazyRenderForServerComponents";
+import CardsSkeletonSlider from "../../CardsSlider/CardsSkeletonSlider";
+import GenresSkeletonSlider from "../../GenresSlider/GenresSkeletonSlider";
+import HoriSkeletonSlider from "../../HoriCardsSlider/HoriSkeletonSlider";
+import ShortDetailsSkeleton from "../../ShortDetails/ShortDetailsSkeleton";
+import VideosSkelsetonSlider from "../../VideosSlider/VideosSkelsetonSlider";
+import LazyWatchlist from "../LazySections/LazyWatchlist";
 
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
   {
+    ssr: false,
     loading: () => <HoriSkeletonSlider />,
   },
 );
@@ -33,6 +20,7 @@ const LazyTopRatedMovies = dynamic(
 const LazyLastWatched = dynamic(
   () => import("@/app/_Components/Home/WatchHistory/LastWatched"),
   {
+    ssr: false,
     loading: () => <ShortDetailsSkeleton />,
   },
 );
@@ -40,17 +28,15 @@ const LazyLastWatched = dynamic(
 const LazyTrendingTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTrendingTvShows"),
   {
+    ssr: false,
     loading: () => <CardsSkeletonSlider />,
   },
-);
-
-const LazyWatchlist = dynamic(
-  () => import("@/app/_Components/Home/LazySections/LazyWatchlist"),
 );
 
 const LazyLatestTrailers = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyLatestTrailers"),
   {
+    ssr: false,
     loading: () => <VideosSkelsetonSlider />,
   },
 );
@@ -58,6 +44,7 @@ const LazyLatestTrailers = dynamic(
 const LazyUpcomingMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyUpcomingMovies"),
   {
+    ssr: false,
     loading: () => <CardsSkeletonSlider />,
   },
 );
@@ -65,6 +52,7 @@ const LazyUpcomingMovies = dynamic(
 const LazyMostVotedTvShows = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyMostVotedTvShows"),
   {
+    ssr: false,
     loading: () => <HoriSkeletonSlider />,
   },
 );
@@ -72,6 +60,7 @@ const LazyMostVotedTvShows = dynamic(
 const LazyGenres = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyGenres"),
   {
+    ssr: false,
     loading: () => <GenresSkeletonSlider />,
   },
 );
@@ -81,23 +70,22 @@ const HomeClient = () => {
     <>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* top rated movies */}
-      <LazyRender
-        Component={LazyTopRatedMovies}
-        loading={<HoriSkeletonSlider />}
-      />
+      <LazyRenderForServerComponents loading={<HoriSkeletonSlider />}>
+        <LazyTopRatedMovies />
+      </LazyRenderForServerComponents>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* last watched show */}
-      <LazyRender
-        Component={LazyLastWatched}
+      <LazyRenderForServerComponents
         loading={<ShortDetailsSkeleton className="!py-0 mt-14" />}
-      />
+      >
+        <LazyLastWatched />
+      </LazyRenderForServerComponents>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* trending today tv shows */}
       <PageSection>
-        <LazyRender
-          Component={LazyTrendingTvShows}
-          loading={<CardsSkeletonSlider />}
-        />
+        <LazyRenderForServerComponents loading={<CardsSkeletonSlider />}>
+          <LazyTrendingTvShows />
+        </LazyRenderForServerComponents>
       </PageSection>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Watchlist */}
@@ -106,27 +94,26 @@ const HomeClient = () => {
       </PageSection>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* latest trailers */}
-      <LazyRender
-        Component={LazyLatestTrailers}
-        loading={<VideosSkelsetonSlider />}
-      />
+      <LazyRenderForServerComponents loading={<VideosSkelsetonSlider />}>
+        <LazyLatestTrailers />
+      </LazyRenderForServerComponents>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* Upcoming Movies */}
       <PageSection className="!py-5">
-        <LazyRender
-          Component={LazyUpcomingMovies}
-          loading={<CardsSkeletonSlider />}
-        />
+        <LazyRenderForServerComponents loading={<CardsSkeletonSlider />}>
+          <LazyUpcomingMovies />
+        </LazyRenderForServerComponents>
       </PageSection>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* most rated Tv Shows */}
-      <LazyRender
-        Component={LazyMostVotedTvShows}
-        loading={<HoriSkeletonSlider />}
-      />
+      <LazyRenderForServerComponents loading={<HoriSkeletonSlider />}>
+        <LazyMostVotedTvShows />
+      </LazyRenderForServerComponents>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
       {/* genres Section */}
-      <LazyRender Component={LazyGenres} loading={<GenresSkeletonSlider />} />
+      <LazyRenderForServerComponents loading={<GenresSkeletonSlider />}>
+        <LazyGenres />
+      </LazyRenderForServerComponents>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import CardsSlider from "../../CardsSlider/CardsSlider";
 import { useTranslations } from "next-intl";
 import { useGetTrendsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
