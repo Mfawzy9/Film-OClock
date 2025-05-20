@@ -1,12 +1,13 @@
 "use client";
 
 import { useInView } from "react-intersection-observer";
-import React, {
+import {
   memo,
   useState,
   useEffect,
   ReactElement,
   ReactNode,
+  Children,
 } from "react";
 import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
 import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
@@ -69,9 +70,7 @@ const LazyRenderForServerComponents = ({
   }
 
   return (
-    <div ref={ref}>
-      {hasBeenInView ? React.Children.only(children) : loading}
-    </div>
+    <div ref={ref}>{hasBeenInView ? Children.only(children) : loading}</div>
   );
 };
 

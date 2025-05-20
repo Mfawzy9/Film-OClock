@@ -79,6 +79,7 @@ const LazyGenres = dynamic(
 );
 
 const HomeClient = () => {
+  if (typeof window === "undefined") return null;
   return (
     <>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
