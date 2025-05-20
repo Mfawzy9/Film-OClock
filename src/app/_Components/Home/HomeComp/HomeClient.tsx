@@ -7,20 +7,19 @@ import GenresSkeletonSlider from "../../GenresSlider/GenresSkeletonSlider";
 import HoriSkeletonSlider from "../../HoriCardsSlider/HoriSkeletonSlider";
 import ShortDetailsSkeleton from "../../ShortDetails/ShortDetailsSkeleton";
 import VideosSkelsetonSlider from "../../VideosSlider/VideosSkelsetonSlider";
-import { FaCircle } from "@react-icons/all-files/fa/FaCircle";
-// import LazyWatchlist from "../LazySections/LazyWatchlist";
+import LazyWatchlist from "../LazySections/LazyWatchlist";
 
-const LazyWatchlist = dynamic(() => import("../LazySections/LazyWatchlist"), {
-  ssr: false,
-  loading: () => (
-    <div
-      className="bg-gray-900 border border-gray-700 rounded-lg min-h-[460px] flex items-center
-        justify-center"
-    >
-      <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
-    </div>
-  ),
-});
+// const LazyWatchlist = dynamic(() => import("../LazySections/LazyWatchlist"), {
+//   ssr: false,
+//   loading: () => (
+//     <div
+//       className="bg-gray-900 border border-gray-700 rounded-lg min-h-[460px] flex items-center
+//         justify-center"
+//     >
+//       <FaCircle className="text-6xl mx-auto animate-ping text-blue-300" />
+//     </div>
+//   ),
+// });
 
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
@@ -79,7 +78,6 @@ const LazyGenres = dynamic(
 );
 
 const HomeClient = () => {
-  if (typeof window === "undefined") return null;
   return (
     <>
       {/* ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- */}
