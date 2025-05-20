@@ -75,7 +75,8 @@ const EpisodeCard = ({
       onClick={onReadMore}
       className="relative flex flex-col rounded-xl bg-gradient-to-br from-black to-gray-800
         shadow-blue-700 text-gray-700 shadow lg:hover:shadow-md lg:hover:shadow-blue-500
-        cursor-pointer transition-all duration-200 hover:-translate-y-1"
+        cursor-pointer transition-all duration-200 hover:-translate-y-1 min-w-64
+        xs:min-w-[unset]"
     >
       <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl shadow shadow-blue-700">
         {!isImgLoaded && <BgPlaceholder />}

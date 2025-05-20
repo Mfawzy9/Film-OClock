@@ -9,6 +9,7 @@ declare namespace NodeJS {
     TMDB_ACCESS_TOKEN: string;
     NEXT_PUBLIC_BASE_URL: string;
     NEXT_PUBLIC_BASE_IMG_URL_W500: string;
+    NEXT_PUBLIC_BASE_IMG_URL_w780: string;
     NEXT_PUBLIC_BASE_IMG_URL_W200: string;
     NEXT_PUBLIC_BASE_IMG_URL_W1280: string;
     NEXT_PUBLIC_BASE_IMG_URL_ORI: string;

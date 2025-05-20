@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { TFunction } from "../../../global";
 import { clearLibrary } from "../Redux/localSlices/librarySlice";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import firestoreApi from "../Redux/apiSlices/firestoreSlice";
 
 const auth = getAuth(app);
 
@@ -143,6 +144,7 @@ export const signOutUser = async (t?: TFunction) => {
     document.cookie = "loggedOut=true; path=/;";
     await signOut(auth);
     if (t) toast.success(t("LogOutSuccess"));
+    store.dispatch(firestoreApi.util.resetApiState());
     store.dispatch(logout());
     store.dispatch(clearLibrary());
   } catch (error) {
@@ -167,6 +169,7 @@ export const listenToAuthChanges = async () => {
       await signOutUser();
       store.dispatch(logout());
       store.dispatch(clearLibrary());
+      store.dispatch(firestoreApi.util.resetApiState());
       document.cookie = "loggedOut=true; path=/;";
       await fetch("/api/auth/session", {
         method: "DELETE",
@@ -194,6 +197,7 @@ export const listenToAuthChanges = async () => {
       });
       store.dispatch(logout());
       store.dispatch(clearLibrary());
+      store.dispatch(firestoreApi.util.resetApiState());
     }
     store.dispatch(setUserStatusLoading(false));
   });

@@ -100,7 +100,9 @@ const ImageModal = () => {
         className="relative w-full lg:w-3/4 flex justify-center items-center"
       >
         {/* Background Effect */}
-        <SiSpinrilla className="absolute animate-spin text-6xl text-white -z-10" />
+        {!isImgLoaded && (
+          <SiSpinrilla className="absolute animate-spin text-6xl text-white -z-10" />
+        )}
         {/* Image */}
         <Image
           onDoubleClick={handleDoubleClick}

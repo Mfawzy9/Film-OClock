@@ -35,7 +35,7 @@ const ImgCard = memo(
         state.imgPlaceholderReducer.loadedImgs?.[img.file_path],
     );
     return (
-      <motion.div
+      <div
         onClick={() => openModal(index + idx)}
         key={img.file_path}
         className="relative w-full rounded-lg cursor-pointer overflow-hidden"
@@ -56,7 +56,7 @@ const ImgCard = memo(
             dispatch(setImageLoaded(img.file_path));
           }}
         />
-      </motion.div>
+      </div>
     );
   },
 );
@@ -137,7 +137,7 @@ const ImgsSlider = ({ images, name }: ImgsSliderProps) => {
                   initial={{ opacity: 0, x: direction * 100 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -direction * 100 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.13 }}
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragEnd={(e, { offset, velocity }) => {

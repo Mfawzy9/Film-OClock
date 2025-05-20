@@ -56,6 +56,7 @@
     "HomeSlider": {
       "WatchNowBtn": "مشاهدة",
       "WatchTrailerBtn": "الإعلان",
+      "TrailerNotFound!": "عذراً الإعلان غير متاح حاليًا!",
       "DetailsBtn": "التفاصيل"
     },
     "WatchHistorySliderTitle": "سجل المشاهدة",

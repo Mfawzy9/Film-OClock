@@ -62,6 +62,7 @@
     "HomeSlider": {
       "WatchNowBtn": "Watch Now",
       "WatchTrailerBtn": "Trailer",
+      "TrailerNotFound!": "the trailer is not available for now!",
       "DetailsBtn": "More Info"
     },
     "WatchHistorySliderTitle": "Your Watch History",

@@ -30,7 +30,7 @@ interface ErrorResponse {
 export const firestoreApi = createApi({
   reducerPath: "firestoreApi",
   baseQuery: fakeBaseQuery(),
-  tagTypes: ["Watchlist", "Favorites", "WatchlistItem", "WatchedShows"],
+  tagTypes: ["Watchlist", "Favorites", "WatchedShows"],
   endpoints: (builder) => ({
     // --- GET WATCHLIST / FAVORITES ---
     getLibrary: builder.query<

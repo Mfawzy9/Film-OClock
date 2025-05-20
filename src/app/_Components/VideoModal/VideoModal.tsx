@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "@/lib/Redux/store";
 import { motion } from "framer-motion";
 import { IoIosClose } from "@react-icons/all-files/io/IoIosClose";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import { useEffect } from "react";
 
 const VideoModal = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,6 +15,19 @@ const VideoModal = () => {
   const handleCloseModal = () => {
     dispatch(closeModal());
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   if (!isOpen || !videoSrc) return null;
   return (
     <>

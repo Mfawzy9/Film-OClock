@@ -23,11 +23,11 @@ const imageModalSlice = createSlice({
       state.isOpen = true;
       state.images = action.payload.images;
       state.selectedIndex = action.payload.index;
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("overflow-hidden");
     },
     closeImgModal: (state) => {
       state.isOpen = false;
-      document.body.style.removeProperty("overflow");
+      document.body.classList.remove("overflow-hidden");
     },
     nextImage: (state) => {
       if (state.selectedIndex === null || state.images.length === 0) return;

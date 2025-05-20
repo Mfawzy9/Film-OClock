@@ -5,12 +5,18 @@ type LibraryState = {
   watchlist: FirestoreTheShowI[];
   favorites: FirestoreTheShowI[];
   watchedShows: FirestoreTheShowI[];
+  watchlistLoading: boolean;
+  favoritesLoading: boolean;
+  watchedShowsLoading: boolean;
 };
 
 const initialState: LibraryState = {
   watchlist: [],
   favorites: [],
   watchedShows: [],
+  watchlistLoading: true,
+  favoritesLoading: true,
+  watchedShowsLoading: true,
 };
 
 const librarySlice = createSlice({
@@ -67,6 +73,20 @@ const librarySlice = createSlice({
       state.favorites = [];
       state.watchedShows = [];
     },
+    setLibraryLoading: (
+      state,
+      action: PayloadAction<{
+        type: "watchlist" | "favorites" | "watchedShows";
+        loading: boolean;
+      }>,
+    ) => {
+      if (action.payload.type === "watchlist")
+        state.watchlistLoading = action.payload.loading;
+      if (action.payload.type === "favorites")
+        state.favoritesLoading = action.payload.loading;
+      if (action.payload.type === "watchedShows")
+        state.watchedShowsLoading = action.payload.loading;
+    },
   },
 });
 
@@ -84,6 +104,7 @@ export const {
   clearFavorites,
   clearWatchedShows,
   clearLibrary,
+  setLibraryLoading,
 } = librarySlice.actions;
 
 export const libraryReducer = librarySlice.reducer;

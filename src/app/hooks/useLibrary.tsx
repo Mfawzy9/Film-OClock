@@ -6,7 +6,6 @@ import {
   useRemoveFromLibraryMutation,
   useLazyIsInLibraryQuery,
   useClearLibraryMutation,
-  useLazyGetLibraryQuery,
 } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { RootState } from "@/lib/Redux/store";
 import {
@@ -112,14 +111,10 @@ const useLibrary = ({
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.authReducer);
-  const { watchlist, favorites } = useSelector(
+  const { watchlist, favorites, watchlistLoading } = useSelector(
     (state: RootState) => state.libraryReducer,
   );
 
-  const [
-    getLibrary,
-    { isLoading: getLibraryLoading, isFetching: getLibraryFetching },
-  ] = useLazyGetLibraryQuery();
   const [addToLibrary] = useAddToLibraryMutation();
   const [removeFromLibrary] = useRemoveFromLibraryMutation();
   const [isInLibrary] = useLazyIsInLibraryQuery();
@@ -316,9 +311,7 @@ const useLibrary = ({
     watchlist,
     favorites,
     user,
-    getLibrary,
-    getLibraryLoading,
-    getLibraryFetching,
+    watchlistLoading,
   };
 };
 

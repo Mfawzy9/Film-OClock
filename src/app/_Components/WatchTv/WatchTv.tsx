@@ -329,6 +329,7 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
           <LazyRender
             Component={TvEpisodes}
             props={{
+              tvShow,
               tvShowName: tvShow?.name || tvShow?.original_name || "",
               seasonsCount: seasonsCount,
               tvShowId: tvShow.id,

@@ -29,8 +29,7 @@ const LazyWatchlist = () => {
     user,
     isClearLoading,
     handleClearLibrary,
-    getLibraryLoading,
-    getLibrary,
+    watchlistLoading,
   } = useLibrary({
     dropDownMenu: false,
   });
@@ -47,14 +46,7 @@ const LazyWatchlist = () => {
     [watchlist, t],
   );
 
-  const isLibrarySynced = watchlist.length === getLibrary?.length;
-
-  if (
-    userStatusLoading ||
-    getLibraryLoading ||
-    !watchlist ||
-    !isLibrarySynced
-  ) {
+  if (userStatusLoading || !watchlist || watchlistLoading) {
     return (
       <div
         className="bg-gray-900 border border-gray-700 rounded-lg min-h-[460px] flex items-center

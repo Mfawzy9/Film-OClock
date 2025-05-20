@@ -2,15 +2,16 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Autoplay, Virtual } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper/types";
 import HomeSliderContent from "./HomeSliderContent";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
 import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInterfaces";
 import dynamic from "next/dynamic";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
 const ScrollToSection = dynamic(
@@ -31,6 +32,8 @@ const HomeSlider = ({
 }) => {
   const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
 
+  const isDesktop = useIsDesktop();
+
   useEffect(() => {
     if (!hasAppRendered) {
       hasAppRendered = true;
@@ -42,9 +45,7 @@ const HomeSlider = ({
     (state: RootState) => state.videoModalReducer.isOpen,
     shallowEqual,
   );
-  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(
-    null as SwiperType | null,
-  );
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const moviesWithGenres = useMemo(() => {
     return (
@@ -53,16 +54,17 @@ const HomeSlider = ({
         genreNames: genres?.genres
           ?.filter((genre) => movie.genre_ids.includes(genre.id))
           .slice(0, 2)
+
           .map(({ name }) => name),
       })) || []
     );
   }, [data, genres]);
 
   useEffect(() => {
-    if (!swiperInstance) return;
+    if (!swiperRef.current) return;
 
-    swiperInstance.autoplay?.[isOpen ? "stop" : "start"]();
-  }, [isOpen, swiperInstance]);
+    swiperRef.current.autoplay?.[isOpen ? "stop" : "start"]();
+  }, [isOpen, swiperRef]);
 
   return (
     <>
@@ -71,34 +73,39 @@ const HomeSlider = ({
         <HomeSliderSkeleton />
       ) : (
         <Swiper
-          resistanceRatio={0.7}
-          threshold={5}
-          onSwiper={(swiper) => setSwiperInstance(swiper)}
+          resistanceRatio={isDesktop ? 0.7 : 0.4}
+          threshold={isDesktop ? 5 : 1}
+          onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
           spaceBetween={10}
-          grabCursor={true}
-          autoplay={{ delay: 10000, disableOnInteraction: false }}
-          modules={[Virtual, Autoplay]}
+          autoplay={
+            isDesktop
+              ? {
+                  delay: 10000,
+                  disableOnInteraction: false,
+                  waitForTransition: true,
+                }
+              : false
+          }
           className="mySwiper"
-          virtual={{
-            cache: true,
-          }}
-          style={{ willChange: "transform" }}
+          modules={[Autoplay]}
+          style={!isDesktop ? undefined : { willChange: "transform" }}
+          grabCursor={isDesktop}
         >
           {moviesWithGenres?.map((movie, idx) => {
             return (
               <SwiperSlide
                 key={movie.id}
                 virtualIndex={idx}
-                style={{ willChange: "transform" }}
-                className="transition-[transform,opacity] transform-gpu relative"
+                style={!isDesktop ? undefined : { willChange: "transform" }}
+                className={`${isDesktop ? "transition-[transform,opacity] transform-gpu" : ""} relative`}
               >
-                {({ isActive, isVisible }) => (
+                {({ isActive }) => (
                   <HomeSliderContent
                     movie={movie}
                     isActive={isActive}
-                    isVisible={isVisible}
                     genreNames={movie?.genreNames || []}
+                    isDesktop={isDesktop}
                   />
                 )}
               </SwiperSlide>

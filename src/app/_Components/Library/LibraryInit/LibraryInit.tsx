@@ -6,6 +6,7 @@ import {
 } from "@/lib/Redux/apiSlices/firestoreSlice";
 import {
   setFavorites,
+  setLibraryLoading,
   setWatchedShows,
   setWatchlist,
 } from "@/lib/Redux/localSlices/librarySlice";
@@ -41,6 +42,9 @@ const LibraryInit = () => {
       dispatch(setWatchlist(watchlist));
       dispatch(setFavorites(favorites));
       dispatch(setWatchedShows(watchedShows));
+      dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
+    } else {
+      dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
     }
   }, [user, watchlist, favorites, dispatch, watchedShows]);
 

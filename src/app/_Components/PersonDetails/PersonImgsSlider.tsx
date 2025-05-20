@@ -61,6 +61,16 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
     [imagesPerSlide, activeImgs.length],
   );
 
+  const handleImageClick = (img: string) => {
+    setSelectedImg(img);
+    document.body.classList.add("overflow-hidden");
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImg(null);
+    document.body.classList.remove("overflow-hidden");
+  };
+
   return (
     <>
       {images?.profiles?.length === 0 || !images?.profiles ? (
@@ -90,7 +100,7 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
                   initial={{ opacity: 0, x: direction * 100 }} // Dynamic direction
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -direction * 100 }} // Dynamic direction
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.13 }}
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   onDragEnd={(e, { offset, velocity }) => {
@@ -112,7 +122,7 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
                       return (
                         <motion.div
                           key={img.file_path}
-                          onClick={() => setSelectedImg(img.file_path)}
+                          onClick={() => handleImageClick(img.file_path)}
                           className="rounded-lg cursor-pointer overflow-hidden w-fit relative"
                         >
                           {!isImgLoaded && <BgPlaceholder />}
@@ -156,7 +166,7 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
           <ImgViewer
             imgViewerSrc={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_ORI}${selectedImg}`}
             alt={`profile picture from ${name}`}
-            onClose={() => setSelectedImg(null)}
+            onClose={handleCloseModal}
           />
         )}
       </AnimatePresence>
@@ -184,9 +194,9 @@ const ImgViewer = memo(({ imgViewerSrc, onClose, alt }: ImgViewerProps) => {
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.8 }}
+        initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
-        exit={{ scale: 0.8 }}
+        exit={{ scale: 0.9 }}
         transition={{ duration: 0.1 }}
         className="relative max-w-[450px] max-h-[660px] w-[450px] aspect-[2/3] flex items-center
           justify-center"
