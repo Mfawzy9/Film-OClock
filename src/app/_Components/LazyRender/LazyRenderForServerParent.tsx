@@ -51,17 +51,13 @@ const LazyRenderForServerParent = ({
 
   if (typeof window === "undefined") return loading;
 
-  if (!hasBeenInView) return loading;
-
-  if (isOnline) {
-    return children;
-  } else if (!isOnline && !hasBeenInView) {
+  if (!isOnline && !hasBeenInView) {
     return loading;
   } else if (!isOnline && hasBeenInView) {
     return children;
   }
 
-  return <div ref={ref}>{hasBeenInView ? children : loading}</div>;
+  return <div ref={ref}>{hasBeenInView && isOnline ? children : loading}</div>;
 };
 
 export default memo(LazyRenderForServerParent);
@@ -77,6 +73,7 @@ export default memo(LazyRenderForServerParent);
 //   children: ReactNode;
 //   loading?: ReactNode;
 //   threshold?: number;
+//   noLazy?: boolean;
 //   rootMargin?: string;
 //   className?: string;
 //   persistKey?: string;
@@ -94,6 +91,7 @@ export default memo(LazyRenderForServerParent);
 //   </div>
 // ),
 // threshold = 0.1,
+// noLazy = false,
 // rootMargin = "0px 0px",
 // persistKey,
 // }: LazyRenderForServerParentProps) => {
@@ -111,23 +109,23 @@ export default memo(LazyRenderForServerParent);
 
 //   useEffect(() => {
 //     if (typeof window === "undefined") return;
-//     if (inView ) {
+//     if (inView || noLazy) {
 //       setHasBeenInView(true);
 //       if (persistKey) {
 //         viewedComponents.add(persistKey);
 //       }
 //     }
-//   }, [inView, persistKey]);
+//   }, [inView, persistKey, noLazy]);
 
 //   if (typeof window === "undefined") return loading;
 
-// if (!isOnline && !hasBeenInView) return loading;
+// if (!isOnline && !hasBeenInView && !noLazy) return loading;
 
-// if ( isOnline) {
+// if (noLazy && isOnline) {
 //   return children;
-// } else if ( !isOnline && !hasBeenInView) {
+// } else if (noLazy && !isOnline && !hasBeenInView) {
 //   return loading;
-// } else if ( !isOnline && hasBeenInView) {
+// } else if (noLazy && !isOnline && hasBeenInView) {
 //   return children;
 // }
 
