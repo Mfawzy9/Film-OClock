@@ -37,7 +37,6 @@ const LazyRenderForServerParent = ({
     threshold,
     rootMargin,
     skip: typeof window === "undefined",
-    trackVisibility: true,
   });
 
   const [hasBeenInView, setHasBeenInView] = useState(false);
@@ -112,7 +111,6 @@ export default memo(LazyRenderForServerParent);
 //     threshold,
 //     rootMargin,
 //     skip: typeof window === "undefined",
-//     trackVisibility: true,
 //   });
 
 // const [hasBeenInView, setHasBeenInView] = useState(
