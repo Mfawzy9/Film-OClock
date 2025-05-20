@@ -88,7 +88,7 @@ const HomeSlider = ({
               : false
           }
           className="mySwiper"
-          modules={[Autoplay]}
+          modules={isDesktop ? [Autoplay] : []}
           style={!isDesktop ? undefined : { willChange: "transform" }}
           grabCursor={isDesktop}
         >
