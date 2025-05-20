@@ -18,19 +18,18 @@ export default function SafeLazyRender({
   rootMargin = "0px",
 }: SafeLazyRenderProps) {
   const [isClient, setIsClient] = useState(false);
-  // const { ref, inView } = useInView({
-  //   triggerOnce: true,
-  //   threshold,
-  //   rootMargin,
-  // });
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold,
+    rootMargin,
+  });
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   if (!isClient) return loading;
-  return <>{children}</>;
-  // <div ref={ref}>{inView ? children : loading}</div>;
+  return <div ref={ref}>{inView ? children : loading}</div>;
 }
 
 // "use client";
