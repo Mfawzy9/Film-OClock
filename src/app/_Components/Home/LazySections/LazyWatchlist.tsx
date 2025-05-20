@@ -14,8 +14,8 @@ const CardsSkeletonSlider = dynamic(
   () => import("../../CardsSlider/CardsSkeletonSlider"),
 );
 const CardsSlider = dynamic(() => import("../../CardsSlider/CardsSlider"));
-const LazyRenderForServerComponents = dynamic(
-  () => import("../../LazyRender/LazyRenderForServerComponents"),
+const LazyRenderForServerParent = dynamic(
+  () => import("../../LazyRender/LazyRenderForServerParent"),
 );
 
 const LazyWatchlist = () => {
@@ -78,7 +78,7 @@ const LazyWatchlist = () => {
         )}
         {user && watchlist && watchlist.length > 0 && !userStatusLoading && (
           <div className="p-2 sm:p-4 relative">
-            <LazyRenderForServerComponents
+            <LazyRenderForServerParent
               loading={
                 <CardsSkeletonSlider arrLength={sliderProps.arrLength} />
               }
@@ -90,7 +90,7 @@ const LazyWatchlist = () => {
                 title={t("WatchlistSection.YourWatchlistSliderTitle")}
                 pageLink="/library/watchlist"
               />
-            </LazyRenderForServerComponents>
+            </LazyRenderForServerParent>
             <div className="relative md:absolute top-2 end-2 p-2 md:p-0 flex justify-center">
               <WlFClearBtn
                 handleClearLibrary={handleClearLibrary}
