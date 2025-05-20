@@ -1,17 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export const useOnlineStatus = () => {
-  const [isOnline, setIsOnline] = useState(true);
+export function useOnlineStatus() {
+  const [isOnline, setIsOnline] = useState(
+    typeof navigator !== "undefined" &&
+      navigator &&
+      typeof window !== "undefined"
+      ? navigator.onLine
+      : true,
+  );
+
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const updateStatus = () => setIsOnline(navigator.onLine);
-    window.addEventListener("online", updateStatus);
-    window.addEventListener("offline", updateStatus);
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+
     return () => {
-      window.removeEventListener("online", updateStatus);
-      window.removeEventListener("offline", updateStatus);
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
     };
   }, []);
+
   return isOnline;
-};
+}
