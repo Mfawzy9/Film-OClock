@@ -1,8 +1,7 @@
 "use client";
 
 import { useInView } from "react-intersection-observer";
-import { memo, useState, useEffect, ReactNode } from "react";
-import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
+import { useState, useEffect, ReactNode } from "react";
 import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
 
 interface LazyRenderForServerParentProps {
@@ -10,14 +9,11 @@ interface LazyRenderForServerParentProps {
   loading?: ReactNode;
   threshold?: number;
   rootMargin?: string;
-  className?: string;
   persistKey?: string;
+  className?: string;
 }
 
-// Simple memory cache outside component
-// const viewedComponents = new Set<string>();
-
-const LazyRenderForServerParent = ({
+export default function LazyRenderForServerParent({
   children,
   className = "min-h-[400px] flex items-center justify-center",
   loading = (
@@ -26,41 +22,22 @@ const LazyRenderForServerParent = ({
     </div>
   ),
   threshold = 0.1,
-  rootMargin = "0px 0px",
-  persistKey,
-}: LazyRenderForServerParentProps) => {
-  // const isOnline = useOnlineStatus();
+  rootMargin = "0px",
+}: LazyRenderForServerParentProps) {
+  const [isClient, setIsClient] = useState(false);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold,
     rootMargin,
-    skip: typeof window === "undefined",
   });
 
-  const [hasBeenInView, setHasBeenInView] = useState(false);
-
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (inView) {
-      setHasBeenInView(true);
-      // if (persistKey) {
-      //   viewedComponents.add(persistKey);
-      // }
-    }
-  }, [inView]);
+    setIsClient(true);
+  }, []);
 
-  if (typeof window === "undefined") return loading;
-
-  // if (!isOnline && !hasBeenInView) {
-  //   return loading;
-  // } else if (!isOnline && hasBeenInView) {
-  //   return children;
-  // }
-
-  return <div ref={ref}>{hasBeenInView ? children : loading}</div>;
-};
-
-export default memo(LazyRenderForServerParent);
+  if (!isClient) return loading;
+  return <div ref={ref}>{inView ? children : loading}</div>;
+}
 
 // "use client";
 
