@@ -63,8 +63,8 @@ const LazyRenderForServerComponents = ({
   }
 
   return (
-    <div ref={ref} className={className} suppressHydrationWarning>
-      <div>{hasBeenInView ? children : loading}</div>
+    <div ref={ref} suppressHydrationWarning>
+      {hasBeenInView ? children : loading}
     </div>
   );
 };
