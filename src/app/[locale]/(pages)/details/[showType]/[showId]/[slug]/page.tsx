@@ -8,7 +8,10 @@ import {
   PersonDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import { getInitialDetailsDataWithNextCache } from "../../../../../../../lib/tmdbRequests";
+import {
+  getImagesWithNextCache,
+  getInitialDetailsDataWithNextCache,
+} from "../../../../../../../lib/tmdbRequests";
 import {
   getStaticShowParams,
   itemTypeMap,
@@ -156,6 +159,15 @@ const Details = async ({ params }: Props) => {
       showType,
     });
 
+  let showImages = null;
+  if (showType !== "person") {
+    const { images } = await getImagesWithNextCache({
+      showType,
+      showId,
+    });
+    if (images) showImages = images;
+  }
+
   if (initialData && showType !== "person") {
     const title =
       "original_title" in initialData
@@ -183,6 +195,14 @@ const Details = async ({ params }: Props) => {
     return notFound();
 
   const rtkArr = [
+    showImages && {
+      endpointName: "getImages",
+      args: {
+        showId,
+        showType,
+      },
+      data: showImages,
+    },
     {
       endpointName: "getMTDetails",
       args: {

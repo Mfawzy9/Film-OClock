@@ -19,6 +19,7 @@
     "formik": "^2.4.6",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
+    "lru-cache": "^11.1.0",
     "motion": "^12.4.7",
     "next": "15.2.0",
     "next-intl": "^4.0.2",

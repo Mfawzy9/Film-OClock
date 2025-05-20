@@ -4,6 +4,10 @@ import {
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
+import {
+  MovieImagesResponse,
+  TvImagesResponse,
+} from "@/app/interfaces/apiInterfaces/imagesInterfaces";
 import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
 import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 import {
@@ -135,6 +139,8 @@ export const getInitialDetailsDataWithNextCache = ({
 
   return withNextCache();
 };
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // getInitialDetailsDataCached with Map
 export const getInitialDetailsDataCachedWithMap = ({
@@ -149,7 +155,6 @@ export const getInitialDetailsDataCachedWithMap = ({
   getOrSet(`${locale}-${showType}-${showId}`, () =>
     getInitialDetailsDataWithNextCache({ locale, showId, showType }),
   );
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -383,6 +388,45 @@ export const getPopularWithNextCache = ({
     [`popular-app-${showType}-${locale}`],
     {
       tags: [`popular-app-${showType}-${locale}`],
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get images
+export const getImagesWithNextCache = ({
+  showType,
+  showId,
+}: {
+  showType: "movie" | "tv";
+  showId: number;
+}) => {
+  const fetchImages = async () => {
+    const imagesRes = await fetch(
+      `${BASE_URL}${showType}/${showId}/images?api_key=${API_KEY}`,
+      { headers },
+    );
+
+    if (!imagesRes.ok) return { images: null };
+
+    const images = (await imagesRes.json()) as
+      | MovieImagesResponse
+      | TvImagesResponse;
+
+    return { images };
+  };
+
+  const withReactCache = reactCache(fetchImages);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`images-app-${showType}-${showId}`],
+    {
+      tags: [`images-app-${showType}-${showId}`],
       revalidate: 3600,
     },
   );

@@ -4,9 +4,13 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState, ReactNode } from "react";
 import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
 import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
+import { LRUCache } from "lru-cache";
 
 // Cache seen components (for persistKey)
-const viewedComponents = new Set<string>();
+const viewedComponents = new LRUCache<string, true>({
+  max: 100,
+  ttl: 1000 * 60 * 30,
+});
 
 interface SafeLazyRenderProps {
   children: ReactNode;
@@ -50,7 +54,7 @@ export default function SafeLazyRender({
     if (inView) {
       setHasBeenInView(true);
       if (persistKey) {
-        viewedComponents.add(persistKey);
+        viewedComponents.set(persistKey || "", true);
       }
     }
   }, [inView, persistKey]);

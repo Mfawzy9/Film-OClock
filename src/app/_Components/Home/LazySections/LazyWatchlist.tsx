@@ -82,6 +82,7 @@ const LazyWatchlist = () => {
               loading={
                 <CardsSkeletonSlider arrLength={sliderProps.arrLength} />
               }
+              persistKey="watchlist-home"
             >
               <CardsSlider
                 theShows={watchlist}

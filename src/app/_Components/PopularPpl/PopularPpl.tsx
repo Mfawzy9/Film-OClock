@@ -105,6 +105,7 @@ const PopularPpl = () => {
 
           {/* Featured Cast */}
           <LazyRender
+            persistKey="featuredCast"
             Component={CastCardSlider}
             props={{ featuredCast, isLoading }}
             loading={<CastCardsSkeletonSlider />}
@@ -112,6 +113,7 @@ const PopularPpl = () => {
         </section>
 
         <LazyRender
+          persistKey="allPpl"
           Component={AllPpl}
           props={{
             allData,

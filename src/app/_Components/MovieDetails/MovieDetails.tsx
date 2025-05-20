@@ -379,6 +379,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
         {/* Movie Casts */}
         {movie?.credits?.cast?.length > 0 && (
           <LazyRender
+            persistKey={`casts-${movie?.id}-movie`}
             Component={Casts}
             loading={
               <CastsSkeletonSlider length={movie?.credits?.cast?.length} />
@@ -394,8 +395,8 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
 
         {/* collection */}
         {movie?.belongs_to_collection && (
-          // <MovieCollectionBanner movie={movie} className="my-10" />
           <LazyRender
+            persistKey={`collection-${movie?.id}-movie`}
             Component={MovieCollectionBanner}
             props={{ movie, className: "my-10" }}
             loading={<SkeletonMovieCollectionBanner className="my-10" />}
@@ -405,6 +406,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
         {/* Recommendations & Similar Movies */}
         <div className="flex flex-col gap-6">
           <LazyRender
+            persistKey={`recommendations-${movie?.id}-movie`}
             Component={CardsSlider}
             loading={<CardsSkeletonSlider />}
             props={{
@@ -418,6 +420,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
           />
 
           <LazyRender
+            persistKey={`similar-${movie?.id}-movie`}
             Component={CardsSlider}
             loading={<CardsSkeletonSlider />}
             props={{

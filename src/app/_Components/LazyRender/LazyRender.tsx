@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { ComponentType, memo, useState, useEffect } from "react";
 import { useOnlineStatus } from "@/app/hooks/useOnlineStatus";
 import { ImSpinner9 } from "@react-icons/all-files/im/ImSpinner9";
-
+import { LRUCache } from "lru-cache";
 interface LazyRenderProps {
   Component: ComponentType<any>;
   loading?: React.ReactNode;
@@ -16,7 +16,10 @@ interface LazyRenderProps {
 }
 
 // Simple memory cache outside component
-const viewedComponents = new Set<string>();
+const viewedComponents = new LRUCache<string, true>({
+  max: 100,
+  ttl: 1000 * 60 * 30,
+});
 
 const LazyRender = ({
   Component,
@@ -47,7 +50,7 @@ const LazyRender = ({
     if (inView) {
       setHasBeenInView(true);
       if (persistKey) {
-        viewedComponents.add(persistKey);
+        viewedComponents.set(persistKey || "", true);
       }
     }
   }, [inView, persistKey]);

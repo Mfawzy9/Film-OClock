@@ -8,7 +8,6 @@ import ShortDetailsSkeleton from "../../ShortDetails/ShortDetailsSkeleton";
 import VideosSkelsetonSlider from "../../VideosSlider/VideosSkelsetonSlider";
 import LazyWatchlist from "../LazySections/LazyWatchlist";
 import LazyRenderForServerParent from "../../LazyRender/LazyRenderForServerParent";
-import { motion } from "framer-motion";
 
 const LazyTopRatedMovies = dynamic(
   () => import("@/app/_Components/Home/LazySections/LazyTopRatedMovies"),
@@ -68,10 +67,10 @@ const LazyGenres = dynamic(
 
 const HomeClient = () => {
   return (
-    <motion.div layout>
+    <>
       {/* Top Rated Movies */}
       <LazyRenderForServerParent
-        persistKey="topRatedMovies"
+        persistKey="topRatedMovies-home"
         loading={<HoriSkeletonSlider />}
       >
         <LazyTopRatedMovies />
@@ -79,7 +78,7 @@ const HomeClient = () => {
 
       {/* Last Watched */}
       <LazyRenderForServerParent
-        persistKey="lastWatched"
+        persistKey="lastWatched-home"
         loading={<ShortDetailsSkeleton className="!py-0 mt-14" />}
       >
         <LazyLastWatched />
@@ -88,7 +87,7 @@ const HomeClient = () => {
       {/* Trending Today TV Shows */}
       <PageSection>
         <LazyRenderForServerParent
-          persistKey="trendingTv"
+          persistKey="trendingTv-home"
           loading={<CardsSkeletonSlider />}
         >
           <LazyTrendingTvShows />
@@ -102,7 +101,7 @@ const HomeClient = () => {
 
       {/* Latest Trailers */}
       <LazyRenderForServerParent
-        persistKey="latestTrailers"
+        persistKey="latestTrailers-home"
         loading={<VideosSkelsetonSlider />}
       >
         <LazyLatestTrailers />
@@ -111,7 +110,7 @@ const HomeClient = () => {
       {/* Upcoming Movies */}
       <PageSection className="!py-5">
         <LazyRenderForServerParent
-          persistKey="upcomingMovies"
+          persistKey="upcomingMovies-home"
           loading={<CardsSkeletonSlider />}
         >
           <LazyUpcomingMovies />
@@ -120,7 +119,7 @@ const HomeClient = () => {
 
       {/* Most Rated TV Shows */}
       <LazyRenderForServerParent
-        persistKey="mostRatedTv"
+        persistKey="mostRatedTv-home"
         loading={<HoriSkeletonSlider />}
       >
         <LazyMostVotedTvShows />
@@ -128,12 +127,12 @@ const HomeClient = () => {
 
       {/* Genres Section */}
       <LazyRenderForServerParent
-        persistKey="genres"
+        persistKey="genres-home"
         loading={<GenresSkeletonSlider />}
       >
         <LazyGenres />
       </LazyRenderForServerParent>
-    </motion.div>
+    </>
   );
 };
 

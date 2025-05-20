@@ -143,7 +143,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                 }) || tvShow?.original_name,
             }}
             loading={<EpisodesSkeletons />}
-            persistKey={`tv-episodes-tab-${tvShow?.id}`}
+            persistKey={`tv-episodes-${tvShow?.id}`}
           />
         ),
       },
@@ -449,6 +449,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
         {/* tv Casts */}
         {tvShow?.credits?.cast?.length > 0 && (
           <LazyRender
+            persistKey={`casts-${tvShow?.id}`}
             Component={Casts}
             props={{
               casts: tvShow?.credits?.cast as TvCast[],
@@ -475,6 +476,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
         {/* Recommendations & Similar Movies */}
         <div className="flex flex-col gap-6">
           <LazyRender
+            persistKey={`recommendations-${tvShow?.id}`}
             Component={CardsSlider}
             props={{
               theShows: tvShow?.recommendations?.results as TVShow[],
@@ -488,6 +490,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
           />
 
           <LazyRender
+            persistKey={`similar-${tvShow?.id}`}
             Component={CardsSlider}
             props={{
               theShows: tvShow?.similar?.results as TVShow[],

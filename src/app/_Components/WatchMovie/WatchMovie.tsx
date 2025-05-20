@@ -391,6 +391,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
         </main>
 
         <LazyRender
+          persistKey={`collection-${movie?.id}-movie`}
           Component={MovieCollectionBanner}
           props={{ movie }}
           loading={<SkeletonMovieCollectionBanner />}
@@ -398,6 +399,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
 
         <div className="flex flex-col gap-6">
           <LazyRender
+            persistKey={`recommendations-${movie?.id}-movie`}
             Component={CardsSlider}
             props={{
               theShows: recommendations,
@@ -411,6 +413,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
             }
           />
           <LazyRender
+            persistKey={`similar-${movie?.id}-movie`}
             Component={CardsSlider}
             props={{
               theShows: similarMovies,

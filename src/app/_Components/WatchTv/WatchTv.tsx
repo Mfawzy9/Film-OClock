@@ -335,11 +335,13 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
               onWatchClick: scrollToPlayer,
             }}
             loading={<EpisodesSkeletons />}
+            persistKey={`tv-episodes-${tvShow?.id}`}
           />
         </div>
 
         <div className="flex flex-col gap-6">
           <LazyRender
+            persistKey={`recommendations-${tvShow?.id}`}
             Component={CardsSlider}
             props={{
               theShows: recommendations,
@@ -353,6 +355,7 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
           />
 
           <LazyRender
+            persistKey={`similar-${tvShow?.id}`}
             Component={CardsSlider}
             props={{
               theShows: similarShows,

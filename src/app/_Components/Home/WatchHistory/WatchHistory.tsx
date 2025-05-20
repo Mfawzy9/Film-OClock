@@ -71,6 +71,7 @@ const WatchHistory = () => {
 
   return (
     <LazyRender
+      persistKey="WatchHistory-home"
       props={{ watchHistory, deleteHistoryItem, t }}
       Component={WatchHistorySection}
       loading={<WatchHistorySkeleton length={historyLength} />}

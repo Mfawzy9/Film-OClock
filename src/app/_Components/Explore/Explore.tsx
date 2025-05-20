@@ -210,6 +210,7 @@ const Explore = () => {
       ) : randomTrendingShow ? (
         <PageSection className="!my-0 !py-0">
           <LazyRender
+            persistKey="randomTrendingShow-explore"
             Component={ShortDetails}
             props={{
               className: "!my-0",
@@ -241,6 +242,7 @@ const Explore = () => {
         <VideosSkelsetonSlider />
       ) : (
         <LazyRender
+          persistKey="latestTrailers-explore"
           Component={VideosSlider}
           props={{
             theShows: filterTrending as Movie[] | TVShow[],
@@ -265,6 +267,7 @@ const Explore = () => {
         <HoriSkeletonSlider />
       ) : (
         <LazyRender
+          persistKey="actionShows-explore"
           Component={HoriCardsSlider}
           props={{
             data: filteredAction as Movie[] | TVShow[],
@@ -294,6 +297,7 @@ const Explore = () => {
         randomTopRatedShow && (
           <PageSection className="!my-0 !pt-10 !pb-0">
             <LazyRender
+              persistKey="randomTopRatedShow-explore"
               Component={ShortDetails}
               props={{
                 className: "!my-0",
@@ -329,6 +333,7 @@ const Explore = () => {
       ) : (
         <PageSection className="!pb-0">
           <LazyRender
+            persistKey="arabicShows-explore"
             Component={CardsSlider}
             props={{
               showType,
@@ -354,6 +359,7 @@ const Explore = () => {
         <HoriSkeletonSlider />
       ) : (
         <LazyRender
+          persistKey="familyShows-explore"
           Component={HoriCardsSlider}
           props={{
             data: filteredFamily as Movie[] | TVShow[],
@@ -377,6 +383,7 @@ const Explore = () => {
         <GenresSkeletonSlider />
       ) : (
         <LazyRender
+          persistKey="genres-explore"
           Component={GenresSection}
           props={{
             showType,
