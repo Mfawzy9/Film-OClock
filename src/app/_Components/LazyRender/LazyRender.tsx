@@ -10,7 +10,6 @@ interface LazyRenderProps {
   loading?: React.ReactNode;
   props?: any;
   threshold?: number;
-  noLazy?: boolean;
   rootMargin?: string;
   className?: string;
   persistKey?: string;
@@ -29,7 +28,6 @@ const LazyRender = ({
   ),
   props = {},
   threshold = 0.1,
-  noLazy = false,
   rootMargin = "0px 0px",
   persistKey,
 }: LazyRenderProps) => {
@@ -46,21 +44,21 @@ const LazyRender = ({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (inView || noLazy) {
+    if (inView) {
       setHasBeenInView(true);
       if (persistKey) {
         viewedComponents.add(persistKey);
       }
     }
-  }, [inView, persistKey, noLazy]);
+  }, [inView, persistKey]);
 
-  if (!isOnline && !hasBeenInView && !noLazy) return loading;
+  if (!isOnline && !hasBeenInView) return loading;
 
-  if (noLazy && isOnline) {
+  if (isOnline) {
     return <Component {...props} />;
-  } else if (noLazy && !isOnline && !hasBeenInView) {
+  } else if (!isOnline && !hasBeenInView) {
     return loading;
-  } else if (noLazy && !isOnline && hasBeenInView) {
+  } else if (!isOnline && hasBeenInView) {
     return <Component {...props} />;
   }
 
