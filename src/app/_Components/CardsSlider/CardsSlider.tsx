@@ -69,12 +69,15 @@ const CardsSlider = ({
     }
   }, [theShows]);
 
-  const handleSwiper = useCallback((swiper: SwiperType) => {
-    swiperRef.current = swiper;
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-    setIsSwiperReady(true);
-  }, []);
+  const handleSwiper = useCallback(
+    (swiper: SwiperType) => {
+      swiperRef.current = swiper;
+      setIsBeginning(swiper.isBeginning);
+      setIsEnd(swiper.isEnd);
+      if (!isSwiperReady) setIsSwiperReady(true);
+    },
+    [isSwiperReady],
+  );
 
   const handleSlideChange = useCallback((swiper: SwiperType) => {
     setIsBeginning(swiper.isBeginning);
@@ -98,6 +101,10 @@ const CardsSlider = ({
   const filtered = useMemo(() => {
     return removeDuplicatesById({ items: sliderData });
   }, [sliderData]);
+
+  useEffect(() => {
+    setIsSwiperReady(true);
+  }, []);
 
   if (isLoading) {
     return <CardsSkeletonSlider arrLength={arrLength} className={className} />;
