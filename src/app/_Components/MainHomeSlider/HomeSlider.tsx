@@ -11,6 +11,7 @@ import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInter
 import dynamic from "next/dynamic";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import useIsDesktop from "@/app/hooks/useIsDesktop";
+import { Virtual } from "swiper/modules";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
 const ScrollToSection = dynamic(
@@ -58,7 +59,7 @@ const HomeSlider = ({
 
   const moviesWithGenres = useMemo(() => {
     return (
-      data?.results?.slice(0, isDesktop ? 10 : 5).map((movie) => ({
+      data?.results?.slice(0, isDesktop ? 20 : 5).map((movie) => ({
         ...movie,
         genreNames: genres?.genres
           ?.filter((genre) => movie.genre_ids.includes(genre.id))
@@ -92,12 +93,16 @@ const HomeSlider = ({
         <HomeSliderSkeleton />
       ) : (
         <Swiper
-          watchOverflow
+          virtual={{
+            enabled: true,
+            slides: moviesWithGenres?.map((movie) => movie.id) || [],
+            cache: true,
+          }}
+          passiveListeners
           resistanceRatio={isDesktop ? 0.7 : 0.4}
           threshold={isDesktop ? 5 : 1}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
-          spaceBetween={isDesktop ? 10 : 0}
           autoplay={
             isDesktop
               ? {
@@ -108,7 +113,7 @@ const HomeSlider = ({
               : false
           }
           className="mySwiper"
-          modules={modules}
+          modules={[...modules, Virtual]}
           style={!isDesktop ? undefined : { willChange: "transform" }}
           grabCursor={isDesktop}
         >
