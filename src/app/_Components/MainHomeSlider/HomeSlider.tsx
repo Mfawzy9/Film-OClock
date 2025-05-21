@@ -2,8 +2,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Autoplay } from "swiper/modules";
-import { Swiper as SwiperType } from "swiper/types";
+import { SwiperModule, Swiper as SwiperType } from "swiper/types";
 import HomeSliderContent from "./HomeSliderContent";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -31,7 +30,7 @@ const HomeSlider = ({
   genres: GenresResponse | null;
 }) => {
   const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
-
+  const [modules, setModules] = useState<SwiperModule[]>([]);
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
@@ -41,6 +40,16 @@ const HomeSlider = ({
     setShouldShowSkeleton(false);
   }, []);
 
+  useEffect(() => {
+    if (isDesktop) {
+      import("swiper/modules").then((mod) => {
+        setModules([mod.Autoplay]);
+      });
+    } else {
+      setModules([]);
+    }
+  }, [isDesktop]);
+
   const isOpen = useSelector(
     (state: RootState) => state.videoModalReducer.isOpen,
     shallowEqual,
@@ -49,7 +58,7 @@ const HomeSlider = ({
 
   const moviesWithGenres = useMemo(() => {
     return (
-      data?.results?.slice(0, 10).map((movie) => ({
+      data?.results?.slice(0, isDesktop ? 10 : 5).map((movie) => ({
         ...movie,
         genreNames: genres?.genres
           ?.filter((genre) => movie.genre_ids.includes(genre.id))
@@ -58,13 +67,23 @@ const HomeSlider = ({
           .map(({ name }) => name),
       })) || []
     );
-  }, [data, genres]);
+  }, [data, genres, isDesktop]);
 
   useEffect(() => {
-    if (!swiperRef.current) return;
+    const swiper = swiperRef.current;
 
-    swiperRef.current.autoplay?.[isOpen ? "stop" : "start"]();
-  }, [isOpen, swiperRef]);
+    if (!swiper) return;
+
+    if (isOpen || !isDesktop) swiper.autoplay?.stop();
+    else {
+      if (!swiper.autoplay?.running) {
+        swiper.autoplay?.start();
+      }
+    }
+    return () => {
+      swiper.autoplay?.stop();
+    };
+  }, [isOpen, isDesktop]);
 
   return (
     <>
@@ -73,11 +92,12 @@ const HomeSlider = ({
         <HomeSliderSkeleton />
       ) : (
         <Swiper
+          watchOverflow
           resistanceRatio={isDesktop ? 0.7 : 0.4}
           threshold={isDesktop ? 5 : 1}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
-          spaceBetween={10}
+          spaceBetween={isDesktop ? 10 : 0}
           autoplay={
             isDesktop
               ? {
@@ -88,7 +108,7 @@ const HomeSlider = ({
               : false
           }
           className="mySwiper"
-          modules={isDesktop ? [Autoplay] : []}
+          modules={modules}
           style={!isDesktop ? undefined : { willChange: "transform" }}
           grabCursor={isDesktop}
         >
