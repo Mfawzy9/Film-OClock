@@ -93,6 +93,7 @@ const HomeSlider = ({
         <HomeSliderSkeleton />
       ) : (
         <Swiper
+          followFinger={isDesktop}
           virtual={{
             enabled: true,
             slides: moviesWithGenres?.map((movie) => movie.id) || [],
