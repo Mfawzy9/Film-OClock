@@ -99,7 +99,7 @@ const HomeSliderContent = ({
       <section className="px-3 sm:px-7 md:max-w-screen-sm lg:max-w-screen-xl mx-auto">
         <div
           className="flex min-h-screen xs:py-10 4xl:min-h-[unset] items-center justify-center
-            xl:justify-around relative gap-6 4xl:pt-48"
+            xl:justify-around relative gap-6 md:pt-32 4xl:pt-48"
         >
           {/* Text Content */}
           {isActive && (

@@ -91,6 +91,7 @@ const HomeSlider = ({
           modules={isDesktop ? [Autoplay] : []}
           style={!isDesktop ? undefined : { willChange: "transform" }}
           grabCursor={isDesktop}
+          cssMode={!isDesktop}
         >
           {moviesWithGenres?.map((movie, idx) => {
             return (

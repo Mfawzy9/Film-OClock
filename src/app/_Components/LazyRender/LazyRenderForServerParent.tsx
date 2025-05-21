@@ -12,7 +12,7 @@ const viewedComponents = new LRUCache<string, true>({
   ttl: 1000 * 60 * 30,
 });
 
-interface SafeLazyRenderProps {
+interface LazyRenderForServerParentProps {
   children: ReactNode;
   loading?: ReactNode;
   threshold?: number;
@@ -21,7 +21,7 @@ interface SafeLazyRenderProps {
   className?: string;
 }
 
-export default function SafeLazyRender({
+export default function LazyRenderForServerParent({
   children,
   className = "min-h-[400px] flex items-center justify-center",
   loading = (
@@ -32,7 +32,7 @@ export default function SafeLazyRender({
   threshold = 0.1,
   rootMargin = "0px",
   persistKey,
-}: SafeLazyRenderProps) {
+}: LazyRenderForServerParentProps) {
   const [isClient, setIsClient] = useState(false);
   const isOnline = useOnlineStatus();
 

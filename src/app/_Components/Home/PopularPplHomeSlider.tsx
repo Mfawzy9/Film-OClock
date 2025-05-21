@@ -4,8 +4,12 @@ import { getTranslations } from "next-intl/server";
 import { RTKPreloader } from "../helpers/RTKPreloader";
 import PageSection from "../PageSection/PageSection";
 import { PopularPersonResponse } from "@/app/interfaces/apiInterfaces/popularMoviesTvInterfaces";
-import CardsSlider from "../CardsSlider/CardsSlider";
-import { itemTypeMap } from "../../../../helpers/serverHelpers";
+import { ensureMutable, itemTypeMap } from "../../../../helpers/serverHelpers";
+import LazyRenderForServerParent from "../LazyRender/LazyRenderForServerParent";
+import CardsSkeletonSlider from "../CardsSlider/CardsSkeletonSlider";
+import dynamic from "next/dynamic";
+
+const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 
 const PopularPplHomeSlider = async () => {
   const t = await getTranslations("HomePage");
@@ -47,14 +51,22 @@ const PopularPplHomeSlider = async () => {
         </>
       )}
       <PageSection>
-        <CardsSlider
-          showType="person"
-          sliderType="People"
-          title={t("PopularCelebritiesSliderTitle")}
-          pageLink="/people/Popular"
-          theShows={(popularPeople?.results as SearchPerson[]) || []}
-          autoPlay={false}
-        />
+        <LazyRenderForServerParent
+          persistKey="popularPpl-home"
+          loading={<CardsSkeletonSlider />}
+        >
+          <CardsSlider
+            showType="person"
+            sliderType="People"
+            title={t("PopularCelebritiesSliderTitle")}
+            pageLink="/people/Popular"
+            theShows={
+              ensureMutable((popularPeople?.results as SearchPerson[]) || []) ||
+              []
+            }
+            autoPlay={false}
+          />
+        </LazyRenderForServerParent>
       </PageSection>
     </>
   );

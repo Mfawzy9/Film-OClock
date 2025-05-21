@@ -92,3 +92,5 @@ export async function getStaticShowParams({
 
   return [...movieParams, ...tvParams, ...personParams];
 }
+
+export const ensureMutable = <T>(data: T): T => structuredClone(data);
