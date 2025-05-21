@@ -147,6 +147,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const updateWatchedHistory = useCallback(
     (progressData: { watched: number; duration: number }) => {
       if (!movie) return;
+      if (new Date(movie?.release_date) >= new Date()) return;
 
       const now = new Date();
       const duration = progressData.duration || durationRef.current;
@@ -276,7 +277,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [updateWatchedHistory, movie?.id]);
+  }, [updateWatchedHistory, movie?.id, movie]);
 
   // Save progress when unmounting or server changes
   useEffect(() => {
@@ -290,8 +291,8 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
 
   const isLoading = movieLoading || genresLoading || movieTranslationsLoading;
 
-  if (isLoading) return <WatchMovieSkeleton />;
   if (new Date(movie?.release_date) >= new Date()) return <ComingSoon />;
+  if (isLoading) return <WatchMovieSkeleton />;
 
   return (
     <>

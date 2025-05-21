@@ -135,6 +135,7 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
   const updateWatchedHistory = useCallback(
     (progressData: ProgressData) => {
       if (!tvShow || !currentEpisode) return;
+      if (new Date(tvShow?.first_air_date) >= new Date()) return;
 
       const now = new Date();
       const duration = progressData.duration || durationRef.current;
