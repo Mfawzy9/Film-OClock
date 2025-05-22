@@ -99,7 +99,7 @@ const HomeSlider = ({
           autoplay={
             isDesktop
               ? {
-                  delay: 1000,
+                  delay: 10000,
                   disableOnInteraction: false,
                   waitForTransition: true,
                 }
