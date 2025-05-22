@@ -35,6 +35,7 @@ import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
+import WatchedBtn from "../WatchedBtn/WatchedBtn";
 
 const SkeletonMovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/SkeletonMovieCollectionBanner"),
@@ -377,7 +378,6 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
               label={t("Servers")}
             />
           </div>
-
           <iframe
             loading="lazy"
             src={
@@ -386,8 +386,16 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
             allowFullScreen
             style={{ overflow: "hidden" }}
             width="100%"
-            className="aspect-video shadow-blueGlow rounded-md"
+            className="aspect-video border-2 border-gray-600 md:border-none md:shadow-blueGlow
+              rounded-md"
             title={movie?.title || movie?.original_title || "movie"}
+          />
+
+          <WatchedBtn
+            className="md:shadow-blueGlow rounded-md"
+            showId={movie?.id}
+            showName={movie?.title}
+            theShow={movie}
           />
         </main>
 
