@@ -1,21 +1,35 @@
-import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
-import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 import Image from "next/image";
 import PageSection from "../PageSection/PageSection";
 import { Movie } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import ScrollToSection from "../ScrollToSection/ScrollToSection";
 import CardsSlider from "../CardsSlider/CardsSlider";
+import { getMovieCollectionWithNextCache } from "@/lib/tmdbRequests";
+import { redirect } from "next/navigation";
+import { nameToSlug } from "../../../../helpers/helpers";
 
 interface MovieCollectionCompProps {
-  collectionDetails: MovieCollectionResponse | null;
-  collectionTranslations: MovieCollectionTranslationsResponse | null;
+  collectionId: string;
   locale: "en" | "ar";
+  slug: string;
 }
-const MovieCollectionComp = ({
-  collectionDetails,
-  collectionTranslations,
+const MovieCollectionComp = async ({
+  collectionId,
   locale,
+  slug,
 }: MovieCollectionCompProps) => {
+  const { collectionDetails, collectionTranslations } =
+    await getMovieCollectionWithNextCache({ collectionId, locale });
+
+  // correct url
+  if (collectionDetails) {
+    const decodedSlug = decodeURIComponent(slug);
+    const correctSlug = nameToSlug(collectionDetails?.name);
+    if (decodedSlug !== correctSlug) {
+      const encodedSlug = encodeURIComponent(correctSlug);
+      redirect(`/collection/${collectionDetails?.id}/${encodedSlug}`);
+    }
+  }
+
   const finalOverview = () => {
     if (collectionDetails && collectionTranslations) {
       const arabicSaOverview = collectionTranslations.translations
