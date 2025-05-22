@@ -8,7 +8,6 @@ import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
-import useIsArabic from "@/app/hooks/useIsArabic";
 import { getShowTitle } from "../../../../helpers/helpers";
 import MotionWrapper from "../helpers/MotionWrapper";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
@@ -36,14 +35,14 @@ const HomeSliderContent = ({
   isActive,
   genreNames,
   isDesktop,
+  isArabic,
 }: {
   movie: MovieTrendsI;
   isActive: boolean;
   genreNames: string[];
   isDesktop: boolean;
+  isArabic: boolean;
 }) => {
-  const { isArabic } = useIsArabic();
-
   const genreList = useMemo(() => {
     return genreNames.map((genre, idx) => (
       <span
@@ -60,13 +59,12 @@ const HomeSliderContent = ({
     [movie.poster_path],
   );
 
-  const backdropSrc = useMemo(
-    () =>
-      isDesktop
-        ? `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`
-        : `${process.env.NEXT_PUBLIC_BASE_IMG_URL_w780}${movie.backdrop_path}`,
-    [movie.backdrop_path, isDesktop],
-  );
+  const backdropSrc = useMemo(() => {
+    if (!movie.backdrop_path) return "";
+    return isDesktop
+      ? `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`
+      : `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.backdrop_path}`;
+  }, [movie.backdrop_path, isDesktop]);
 
   const dispatch = useDispatch();
   const isLoaded = useSelector(
@@ -87,7 +85,7 @@ const HomeSliderContent = ({
               priority={isActive}
               loading={isActive ? "eager" : "lazy"}
               sizes="100vw"
-              quality={85}
+              quality={isDesktop ? 85 : 50}
               className="object-cover object-top"
             />
             <div className="absolute inset-0 bg-black/80" />
@@ -109,8 +107,8 @@ const HomeSliderContent = ({
                 initial: "hidden",
                 animate: "visible",
               }}
-              className="flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
-                lg:max-w-screen-sm 2xl:max-w-screen-md transform-gpu"
+              className={`flex flex-col gap-4 items-center sm:items-start text-center sm:text-start
+              lg:max-w-screen-sm 2xl:max-w-screen-md ${isDesktop ? "transform-gpu" : ""}`}
             >
               <h2
                 className="flex gap-3 items-center text-3xl sm:text-4xl font-righteous border-s-4
@@ -161,8 +159,8 @@ const HomeSliderContent = ({
             >
               {!isLoaded && <BgPlaceholder />}
               <Image
-                priority
-                loading="eager"
+                priority={isActive && isDesktop}
+                loading={isActive ? "eager" : "lazy"}
                 src={imgSrc}
                 fill
                 sizes="300px"

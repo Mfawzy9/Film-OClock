@@ -11,6 +11,7 @@ import { MoviesTrendsResponse } from "@/app/interfaces/apiInterfaces/trendsInter
 import dynamic from "next/dynamic";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import useIsDesktop from "@/app/hooks/useIsDesktop";
+import useIsArabic from "@/app/hooks/useIsArabic";
 
 const HomeSliderSkeleton = dynamic(() => import("./HomeSliderSkeleton"));
 const ScrollToSection = dynamic(
@@ -19,6 +20,19 @@ const ScrollToSection = dynamic(
     ssr: false,
   },
 );
+
+let cachedModules: SwiperModule[] = [];
+
+async function getModules(isDesktop: boolean) {
+  if (isDesktop) {
+    if (cachedModules.length === 0) {
+      const mod = await import("swiper/modules");
+      cachedModules = [mod.Autoplay, mod.Virtual];
+    }
+    return cachedModules;
+  }
+  return [];
+}
 
 let hasAppRendered = false;
 
@@ -30,8 +44,9 @@ const HomeSlider = ({
   genres: GenresResponse | null;
 }) => {
   const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
-  const [modules, setModules] = useState<SwiperModule[]>([]);
+  const swiperRef = useRef<SwiperType | null>(null);
   const isDesktop = useIsDesktop();
+  const { isArabic } = useIsArabic();
 
   useEffect(() => {
     if (!hasAppRendered) {
@@ -40,13 +55,25 @@ const HomeSlider = ({
     setShouldShowSkeleton(false);
   }, []);
 
+  const [modules, setModules] = useState<SwiperModule[]>([]);
+  const [modulesLoading, setModulesLoading] = useState(false);
+
   useEffect(() => {
     if (isDesktop) {
-      import("swiper/modules").then((mod) => {
-        setModules([mod.Autoplay]);
+      if (cachedModules.length > 0) {
+        setModules(cachedModules);
+        setModulesLoading(false);
+        return;
+      }
+      setModulesLoading(true);
+      getModules(true).then((loadedModules) => {
+        cachedModules = loadedModules;
+        setModules(loadedModules);
+        setModulesLoading(false);
       });
     } else {
       setModules([]);
+      setModulesLoading(false);
     }
   }, [isDesktop]);
 
@@ -54,7 +81,6 @@ const HomeSlider = ({
     (state: RootState) => state.videoModalReducer.isOpen,
     shallowEqual,
   );
-  const swiperRef = useRef<SwiperType | null>(null);
 
   const moviesWithGenres = useMemo(() => {
     return (
@@ -88,14 +114,25 @@ const HomeSlider = ({
   return (
     <>
       <ScrollToSection />
-      {shouldShowSkeleton ? (
+      {shouldShowSkeleton || (isDesktop && modulesLoading) ? (
         <HomeSliderSkeleton />
       ) : (
         <Swiper
+          key={`${isDesktop ? "desktop" : "mobile"}-${modules.length}`}
           resistanceRatio={isDesktop ? 0.7 : 0.4}
           threshold={isDesktop ? 5 : 1}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
+          virtual={
+            isDesktop
+              ? {
+                  cache: true,
+                  enabled: true,
+                  addSlidesBefore: 1,
+                  addSlidesAfter: 1,
+                }
+              : false
+          }
           autoplay={
             isDesktop
               ? {
@@ -120,6 +157,7 @@ const HomeSlider = ({
               >
                 {({ isActive }) => (
                   <HomeSliderContent
+                    isArabic={isArabic}
                     movie={movie}
                     isActive={isActive}
                     genreNames={movie?.genreNames || []}
