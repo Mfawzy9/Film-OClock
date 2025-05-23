@@ -207,7 +207,10 @@ const Casts = ({
                       >
                         {!cast.profile_path && (
                           <>
-                            <h3 className="relative z-30 flex flex-col justify-center items-center gap-1 text-lg h-full">
+                            <h3
+                              className="relative z-30 flex flex-col justify-center items-center gap-1 text-lg h-full
+                                text-center"
+                            >
                               {cast.name}{" "}
                             </h3>
                             <BgPlaceholder />

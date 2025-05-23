@@ -4,7 +4,13 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   experimental: {
-    optimizePackageImports: ["motion", "framer-motion", "swiper"],
+    optimizePackageImports: [
+      "motion",
+      "framer-motion",
+      "swiper",
+      "firebase",
+      "firebase-admin",
+    ],
   },
   images: {
     unoptimized: true,

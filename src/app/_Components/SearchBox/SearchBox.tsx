@@ -2,15 +2,12 @@
 import { useLazyGetSearchQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import debounce from "lodash/debounce";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "@/i18n/navigation";
 import {
   SearchMultiTVShow,
   SearchMultiPerson,
   SearchMultiMovie,
 } from "@/app/interfaces/apiInterfaces/SearchMultiInterfaces";
-import BgPlaceholder from "../BgPlaceholder/BgPlaceholder";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import {
   getShowTitle,
@@ -24,9 +21,20 @@ import { useParams } from "next/navigation";
 import { AiOutlineFileSearch } from "@react-icons/all-files/ai/AiOutlineFileSearch";
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
-import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import ResultContent from "./ResultContent";
 
-type SearchResult = SearchMultiPerson | SearchMultiTVShow | SearchMultiMovie;
+export type SearchResult =
+  | SearchMultiPerson
+  | SearchMultiTVShow
+  | SearchMultiMovie;
+
+// Type guards
+export const isPerson = (result: SearchResult): result is SearchMultiPerson =>
+  result.media_type === "person";
+export const isMovie = (result: SearchResult): result is SearchMultiMovie =>
+  result.media_type === "movie";
+export const isTVShow = (result: SearchResult): result is SearchMultiTVShow =>
+  result.media_type === "tv";
 
 const SearchBox = () => {
   const router = useRouter({ customRouter: useNextIntlRouter });
@@ -102,30 +110,91 @@ const SearchBox = () => {
     setQuery("");
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.preventDefault();
-    closeSearch();
-    const isSameQuery = decodeURIComponent(params.query) === query;
+  const handleSubmit = useCallback(
+    async (
+      e:
+        | React.FormEvent<HTMLFormElement>
+        | React.MouseEvent<HTMLButtonElement>
+        | React.KeyboardEvent<HTMLInputElement>
+        | React.MouseEvent<HTMLAnchorElement>,
+    ) => {
+      e.preventDefault();
+      closeSearch();
+      const isSameQuery = decodeURIComponent(params.query) === query;
 
-    if (query && !isSameQuery) {
-      try {
-        const { data } = await search(
-          { query, lang: isArabic ? "ar" : "en" },
-          true,
-        );
+      if (query && !isSameQuery) {
+        try {
+          const { data } = await search(
+            { query, lang: isArabic ? "ar" : "en" },
+            true,
+          );
 
-        const resultCount = data?.results?.length ?? 0;
+          const resultCount = data?.results?.length ?? 0;
 
-        router.push(`/Search/${query}?page=1&results=${resultCount}`);
-        setQuery("");
-        scrollToTop();
-      } catch (error) {
-        console.error("Search failed during submit:", error);
+          router.push(`/Search/${query}?page=1&results=${resultCount}`);
+          setQuery("");
+          scrollToTop();
+        } catch (error) {
+          console.error("Search failed during submit:", error);
+        }
       }
-    }
-  };
+    },
+    [params.query, query, search, router, isArabic],
+  );
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+  const totalResults = results.length + (results.length >= 20 ? 1 : 0);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!results.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightedIndex((prev) => {
+          if (prev === null || prev >= totalResults - 1) return 0;
+          return prev + 1;
+        });
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightedIndex((prev) => {
+          if (prev === null || prev <= 0) return totalResults - 1;
+          return prev - 1;
+        });
+      } else if (e.key === "Enter" && highlightedIndex !== null) {
+        e.preventDefault();
+
+        if (highlightedIndex === results.length) {
+          handleSubmit(e);
+          setIsResultsContainerOpen(false);
+          setQuery("");
+          setHighlightedIndex(null);
+          return;
+        }
+
+        const item = results[highlightedIndex];
+        if (item) {
+          const title = isMovie(item)
+            ? getShowTitle({ isArabic, show: item }) || item.original_title
+            : isTVShow(item)
+              ? getShowTitle({ isArabic, show: item }) || item.original_name
+              : item.name;
+
+          router.push(
+            `/details/${item.media_type}/${item.id}/${nameToSlug(title)}`,
+          );
+          setIsResultsContainerOpen(false);
+          setQuery("");
+          setHighlightedIndex(null);
+        }
+      }
+    },
+    [results, isArabic, router, highlightedIndex, totalResults, handleSubmit],
+  );
+
+  useEffect(() => {
+    setHighlightedIndex(null);
+  }, [results]);
+
   return (
     <>
       {/* Mobile search box */}
@@ -165,6 +234,7 @@ const SearchBox = () => {
 
               <input
                 autoFocus={isMobileSearchOpen}
+                onKeyDown={handleKeyDown}
                 type="search"
                 className="h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                   focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-black
@@ -186,10 +256,12 @@ const SearchBox = () => {
         <main className="fixed inset-0 bg-black/20" onClick={closeSearch}>
           <div
             className="fixed top-20 start-2 end-2 sm:hidden bg-black max-h-96 overflow-y-auto border-2
-              border-gray-800 rounded-lg custom-scrollbar shadow-blueGlow shadow-blue-700/50"
+              border-gray-800 rounded-lg custom-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             <ResultContent
+              setHighlightedIndex={setHighlightedIndex}
+              highlightedIndex={highlightedIndex}
               closeSearchAndClear={closeSearchAndClear}
               isLoading={isLoading}
               isFetching={isFetching}
@@ -213,6 +285,7 @@ const SearchBox = () => {
             <FaSearch />
           </div>
           <input
+            onKeyDown={handleKeyDown}
             type="search"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
               focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-black
@@ -260,6 +333,8 @@ const SearchBox = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <ResultContent
+                setHighlightedIndex={setHighlightedIndex}
+                highlightedIndex={highlightedIndex}
                 closeSearchAndClear={closeSearchAndClear}
                 results={results}
                 isLoading={isLoading}
@@ -277,129 +352,3 @@ const SearchBox = () => {
 };
 
 export default SearchBox;
-
-interface ResultContentProps {
-  results: SearchResult[];
-  isLoading: boolean;
-  isFetching: boolean;
-  closeSearchAndClear: () => void;
-  isArabic: boolean;
-  query: string;
-  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
-}
-const ResultContent = ({
-  results,
-  isLoading,
-  isFetching,
-  closeSearchAndClear,
-  isArabic,
-  query,
-  handleSubmit,
-}: ResultContentProps) => {
-  const t = useTranslations("Navbar");
-  const tPerson = useTranslations("PopularPeople.Person.PersonCard");
-
-  const editedPersonJob = useMemo(() => {
-    return (personJob: string) => {
-      return personJob === "Acting"
-        ? tPerson("Acting")
-        : personJob === "Directing"
-          ? tPerson("Directing")
-          : personJob === "Producing"
-            ? tPerson("Producing")
-            : "";
-    };
-  }, [tPerson]);
-  // Type guards
-  const isPerson = (result: SearchResult): result is SearchMultiPerson =>
-    result.media_type === "person";
-  const isMovie = (result: SearchResult): result is SearchMultiMovie =>
-    result.media_type === "movie";
-  const isTVShow = (result: SearchResult): result is SearchMultiTVShow =>
-    result.media_type === "tv";
-  if (isFetching || isLoading)
-    return (
-      <span className="text-center flex justify-center items-center h-full py-6">
-        <SiSpinrilla className="animate-spin text-5xl text-blue-200" />
-      </span>
-    );
-
-  return (
-    <>
-      {/* Search result item */}
-      {results.length > 0 ? (
-        <>
-          {results.map((result) => {
-            // Get media-specific data in a type-safe way
-            const title = isMovie(result)
-              ? getShowTitle({ isArabic, show: result }) ||
-                result.original_title
-              : isTVShow(result)
-                ? getShowTitle({ isArabic, show: result }) ||
-                  result.original_name
-                : result.name;
-
-            const dateOrJob = isMovie(result)
-              ? result.release_date
-              : isTVShow(result)
-                ? result.first_air_date
-                : editedPersonJob(result.known_for_department);
-
-            const imagePath = isPerson(result)
-              ? result.profile_path
-              : result.poster_path;
-            return (
-              <Link
-                key={result.id}
-                href={`/details/${result.media_type}/${result.id}/${nameToSlug(title)}`}
-                className="flex items-center gap-2 p-2 hover:bg-gray-900"
-                onClick={closeSearchAndClear}
-              >
-                {/* Poster */}
-                <div className="w-14 h-20 relative">
-                  {imagePath ? (
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${imagePath}`}
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                      alt={title}
-                    />
-                  ) : (
-                    <BgPlaceholder />
-                  )}
-                </div>
-
-                {/* Details */}
-                <div className="flex flex-col gap-1">
-                  <h4 className="font-semibold line-clamp-1">{title}</h4>
-                  <p className="text-xs text-gray-400">
-                    {isMovie(result)
-                      ? t("SearchMovie")
-                      : isTVShow(result)
-                        ? t("SearchTvShow")
-                        : t("SearchPerson")}
-                  </p>
-
-                  {dateOrJob && (
-                    <p className="text-xs text-gray-400">{dateOrJob}</p>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-          {results.length >= 20 && !isLoading && !isFetching && (
-            <button className="w-full" onClick={handleSubmit}>
-              <p className="text-center py-2 border-t border-gray-700 hover:bg-gray-900">
-                {t("AllSearchResults", { query: query })} &quot;{query}
-                &quot;
-              </p>
-            </button>
-          )}
-        </>
-      ) : (
-        <p className="text-center py-3">{t("SearchNotFound")}</p>
-      )}
-    </>
-  );
-};

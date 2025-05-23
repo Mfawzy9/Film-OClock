@@ -44,6 +44,8 @@ const HomeSlider = ({
   genres: GenresResponse | null;
 }) => {
   const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!hasAppRendered);
+  const [modules, setModules] = useState<SwiperModule[]>([]);
+  const [modulesLoading, setModulesLoading] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
   const isDesktop = useIsDesktop();
   const { isArabic } = useIsArabic();
@@ -54,9 +56,6 @@ const HomeSlider = ({
     }
     setShouldShowSkeleton(false);
   }, []);
-
-  const [modules, setModules] = useState<SwiperModule[]>([]);
-  const [modulesLoading, setModulesLoading] = useState(false);
 
   useEffect(() => {
     if (isDesktop) {

@@ -191,8 +191,7 @@ const Details = async ({ params }: Props) => {
     }
   }
 
-  if (showType !== "movie" && showType !== "tv" && showType !== "person")
-    return notFound();
+  if (!["movie", "tv", "person"].includes(showType)) return notFound();
 
   const rtkArr = [
     showImages && {
