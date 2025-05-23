@@ -64,10 +64,12 @@ const VideosSlider = ({
   }, []);
 
   const [videosResults, setVideosResults] = useState<VideoResult[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
+        setLoading(true);
         const results = await Promise.all(
           theShows?.map(async (theShow) => {
             const res = await getVideos(
@@ -93,6 +95,8 @@ const VideosSlider = ({
         setVideosResults(results);
       } catch (error) {
         console.error("Error fetching videos:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -108,7 +112,7 @@ const VideosSlider = ({
     }
   }, [theShows, videosResults]);
 
-  if (isLoading || !videosResults) {
+  if (isLoading || !videosResults || loading) {
     return <VideosSkelsetonSlider />;
   }
 
