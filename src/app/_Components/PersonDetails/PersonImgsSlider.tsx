@@ -75,7 +75,6 @@ const PersonImgsSlider = ({ images, name }: PImgsSliderProps) => {
     <>
       {images?.profiles?.length === 0 || !images?.profiles ? (
         <p className="text-center text-2xl font-bold">
-          {" "}
           {isArabic ? "لم يتم العثور على صور" : "No Images Found"}
         </p>
       ) : (
@@ -184,6 +183,12 @@ interface ImgViewerProps {
 
 const ImgViewer = memo(({ imgViewerSrc, onClose, alt }: ImgViewerProps) => {
   const [isImgLoaded, setIsImgLoaded] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, []);
 
   return (
     <motion.div

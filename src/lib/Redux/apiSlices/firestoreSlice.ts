@@ -89,10 +89,10 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, library }) => [
+      invalidatesTags: (result, error, { userId, library, theShow }) => [
         {
           type: library === "watchlist" ? "Watchlist" : "Favorites",
-          id: userId,
+          id: `${userId}-${theShow.id}`,
         },
       ],
     }),
@@ -120,10 +120,10 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, library }) => [
+      invalidatesTags: (result, error, { userId, library, showId }) => [
         {
           type: library === "watchlist" ? "Watchlist" : "Favorites",
-          id: userId,
+          id: `${userId}-${showId}`,
         },
       ],
     }),

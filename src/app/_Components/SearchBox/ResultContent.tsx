@@ -50,13 +50,16 @@ const ResultContent = ({
 
   const editedPersonJob = useMemo(() => {
     return (personJob: string) => {
-      return personJob === "Acting"
-        ? tPerson("Acting")
-        : personJob === "Directing"
-          ? tPerson("Directing")
-          : personJob === "Producing"
-            ? tPerson("Producing")
-            : "";
+      switch (personJob) {
+        case "Acting":
+          return tPerson("Acting");
+        case "Directing":
+          return tPerson("Directing");
+        case "Producing":
+          return tPerson("Producing");
+        default:
+          return "";
+      }
     };
   }, [tPerson]);
 
@@ -94,7 +97,6 @@ const ResultContent = ({
               <Link
                 ref={(el) => {
                   itemRefs.current[idx] = el;
-                  return;
                 }}
                 key={result.id}
                 href={`/details/${result.media_type}/${result.id}/${nameToSlug(title)}`}
@@ -144,7 +146,6 @@ const ResultContent = ({
               href={`/search/${encodeURIComponent(query)}`}
               ref={(el) => {
                 itemRefs.current[results.length] = el;
-                return;
               }}
               className={`flex items-center justify-center w-full py-2 border-t border-gray-700
                 hover:bg-gray-900 ${highlightedIndex === results.length ? "bg-blue-950/90" : ""}`}

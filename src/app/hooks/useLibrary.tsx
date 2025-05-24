@@ -131,16 +131,22 @@ const useLibrary = ({
       (async () => {
         setLoadingState((prev) => ({ ...prev, initialLoading: true }));
         const [isInWatchlist, isInFavorites] = await Promise.all([
-          isInLibrary({
-            userId: user.uid,
-            showId,
-            library: "watchlist",
-          }).unwrap(),
-          isInLibrary({
-            userId: user.uid,
-            showId,
-            library: "favorites",
-          }).unwrap(),
+          isInLibrary(
+            {
+              userId: user.uid,
+              showId,
+              library: "watchlist",
+            },
+            true,
+          ).unwrap(),
+          isInLibrary(
+            {
+              userId: user.uid,
+              showId,
+              library: "favorites",
+            },
+            true,
+          ).unwrap(),
         ]);
         setLibraryState({ watchlist: isInWatchlist, favorites: isInFavorites });
         setLoadingState((prev) => ({ ...prev, initialLoading: false }));

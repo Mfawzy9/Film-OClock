@@ -73,7 +73,7 @@ const ImgsSlider = ({ images, name }: ImgsSliderProps) => {
   const [direction, setDirection] = useState(1);
 
   const imageUrls = activeImgs.map(
-    (img) => `https://image.tmdb.org/t/p/original/${img.file_path}`,
+    (img) => `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${img.file_path}`,
   );
 
   // Function to determine the number of images per slide dynamically
