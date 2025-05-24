@@ -89,10 +89,10 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, library, theShow }) => [
+      invalidatesTags: (result, error, { userId, library }) => [
         {
           type: library === "watchlist" ? "Watchlist" : "Favorites",
-          id: `${userId}-${theShow.id}`,
+          id: userId,
         },
       ],
     }),
@@ -120,10 +120,10 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, library, showId }) => [
+      invalidatesTags: (result, error, { userId, library }) => [
         {
           type: library === "watchlist" ? "Watchlist" : "Favorites",
-          id: `${userId}-${showId}`,
+          id: userId,
         },
       ],
     }),
@@ -187,10 +187,10 @@ export const firestoreApi = createApi({
           };
         }
       },
-      providesTags: (result, error, { userId, showId, library }) => [
+      providesTags: (result, error, { userId, library }) => [
         {
           type: library === "watchlist" ? "Watchlist" : "Favorites",
-          id: `${userId}-${showId}`,
+          id: userId,
         },
       ],
     }),
@@ -246,8 +246,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, theShow }) => [
-        { type: "WatchedShows", id: `${userId}-${theShow.id}` },
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
       ],
     }),
     // --- remove from watched list ---
@@ -273,8 +273,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId, showId }) => [
-        { type: "WatchedShows", id: `${userId}-${showId}` },
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
       ],
     }),
     //--- check if item exists in watched list ---
@@ -293,8 +293,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      providesTags: (result, error, { userId, showId }) => [
-        { type: "WatchedShows", id: `${userId}-${showId}` },
+      providesTags: (result, error, { userId }) => [
+        { type: "WatchedShows", id: userId },
       ],
     }),
   }),

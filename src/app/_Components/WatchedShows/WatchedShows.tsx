@@ -84,8 +84,11 @@ const WatchedShows = () => {
                 <motion.div
                   key={`watched-${show.id}`}
                   layout
-                  className={`flex flex-col gap-1 border border-gray-800 p-1 rounded-md relative ${ (isLoading
-                    || watchedShowsFetching) && "pointer-events-none opacity-50 animate-pulse" }`}
+                  className={`flex flex-col gap-1 border border-gray-800 p-1 rounded-md relative ${
+                    isLoading || watchedShowsFetching
+                      ? "pointer-events-none opacity-50 animate-pulse"
+                      : ""
+                    }`}
                 >
                   <button
                     className="absolute -top-3 -end-3 text-lg bg-red-600 hover:bg-red-800 rounded-full p-0.5"
