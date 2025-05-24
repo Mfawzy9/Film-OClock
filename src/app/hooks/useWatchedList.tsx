@@ -43,7 +43,10 @@ const useWatchedList = ({ showId }: { showId?: number }) => {
   useEffect(() => {
     if (user && showId) {
       (async () => {
-        const { data: res } = await isInWatched({ showId, userId: user.uid });
+        const { data: res } = await isInWatched(
+          { showId, userId: user.uid },
+          true,
+        );
         if (res) {
           setIsInWatchedShows(true);
         }

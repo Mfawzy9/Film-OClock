@@ -246,8 +246,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId }) => [
-        { type: "WatchedShows", id: userId },
+      invalidatesTags: (result, error, { userId, theShow }) => [
+        { type: "WatchedShows", id: `${userId}-${theShow.id}` },
       ],
     }),
     // --- remove from watched list ---
@@ -273,8 +273,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      invalidatesTags: (result, error, { userId }) => [
-        { type: "WatchedShows", id: userId },
+      invalidatesTags: (result, error, { userId, showId }) => [
+        { type: "WatchedShows", id: `${userId}-${showId}` },
       ],
     }),
     //--- check if item exists in watched list ---
@@ -293,8 +293,8 @@ export const firestoreApi = createApi({
           };
         }
       },
-      providesTags: (result, error, { userId }) => [
-        { type: "WatchedShows", id: userId },
+      providesTags: (result, error, { userId, showId }) => [
+        { type: "WatchedShows", id: `${userId}-${showId}` },
       ],
     }),
   }),
