@@ -45,7 +45,7 @@ const WatchTvNavBtns = ({
                 e.preventDefault();
                 return;
               }
-              onWatchClick();
+              onWatchClick?.();
             }}
             scroll={false}
             href={
@@ -80,7 +80,7 @@ const WatchTvNavBtns = ({
                 e.preventDefault();
                 return;
               }
-              onWatchClick();
+              onWatchClick?.();
             }}
             scroll={false}
             href={

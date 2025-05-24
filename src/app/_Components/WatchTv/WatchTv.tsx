@@ -111,10 +111,12 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
     [seasonData?.episodes, episode],
   );
 
-  const currentEpisode = useMemo(
-    () => seasonData?.episodes?.[episode - 1] ?? null,
-    [seasonData?.episodes, episode],
-  );
+  const currentEpisode = useMemo(() => {
+    const episodes = seasonData?.episodes;
+    return episodes && episode > 0 && episode <= episodes.length
+      ? episodes[episode - 1]
+      : null;
+  }, [seasonData?.episodes, episode]);
 
   const recommendations = useMemo(
     () => (tvShow?.recommendations?.results as TVShow[]) ?? [],
@@ -277,11 +279,16 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
 
   // Handlers
   const scrollToPlayer = () => {
+    if (!videoPlayerRef.current || typeof window === "undefined") return;
     videoPlayerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  if (isLoading || !tvShow) return <WatchTvSkeleton />;
-  if (new Date(tvShow?.first_air_date) >= new Date()) return <ComingSoon />;
+  const isUpcoming = useMemo(() => {
+    return new Date(tvShow?.first_air_date) >= new Date();
+  }, [tvShow?.first_air_date]);
+
+  if (isLoading || !tvShow || !seasonData) return <WatchTvSkeleton />;
+  if (isUpcoming) return <ComingSoon />;
 
   const playerProps = {
     episode,

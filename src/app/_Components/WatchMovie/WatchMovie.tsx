@@ -59,7 +59,7 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const t = useTranslations("WatchMovie");
   const [activeServer, setActiveServer] = useState(
     (typeof window !== "undefined" &&
-      JSON.parse(sessionStorage.getItem("activeServer") as string)) ??
+      JSON.parse(sessionStorage.getItem("activeServer") as string)) ||
       serversNames[0],
   );
 
@@ -292,7 +292,11 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
 
   const isLoading = movieLoading || genresLoading || movieTranslationsLoading;
 
-  if (new Date(movie?.release_date) >= new Date()) return <ComingSoon />;
+  const isUpcoming = useMemo(() => {
+    return new Date(movie?.release_date) >= new Date();
+  }, [movie?.release_date]);
+
+  if (isUpcoming) return <ComingSoon />;
   if (isLoading) return <WatchMovieSkeleton />;
 
   return (

@@ -25,7 +25,7 @@ const WatchTvPlayer = ({
   const t = useTranslations("WatchTv");
   const [activeServer, setActiveServer] = useState(
     (typeof window !== "undefined" &&
-      JSON.parse(sessionStorage.getItem("activeServer") as string)) ??
+      JSON.parse(sessionStorage.getItem("activeServer") as string)) ||
       serversNames[0],
   );
 
@@ -52,7 +52,7 @@ const WatchTvPlayer = ({
       </div>
 
       <iframe
-        loading="lazy"
+        loading="eager"
         src={
           getTvWatchServers({
             server: activeServer.name,
