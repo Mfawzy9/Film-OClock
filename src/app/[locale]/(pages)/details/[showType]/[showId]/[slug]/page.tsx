@@ -117,7 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: description() || t("MainPage.Description"),
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_w780}${
             (initialData as MovieDetailsResponse | TvDetailsResponse)
               .backdrop_path ||
             (initialData as MovieDetailsResponse | TvDetailsResponse)
@@ -138,7 +138,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: description() || t("MainPage.Description"),
       title: title || t("MainPage.Title"),
       images: [
-        `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${
+        `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W780}${
           (initialData as MovieDetailsResponse | TvDetailsResponse)
             .backdrop_path ||
           (initialData as MovieDetailsResponse | TvDetailsResponse)

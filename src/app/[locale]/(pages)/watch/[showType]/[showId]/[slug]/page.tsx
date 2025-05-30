@@ -106,6 +106,22 @@ export async function generateMetadata({
       images: [
         {
           url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${
+            initialData?.backdrop_path
+          }`,
+          width: 1280,
+          height: 720,
+          alt:
+            showType === "movie" ? movieTitle : tvTitle || t("MainPage.Title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: showType === "movie" ? movieTitle : tvTitle || t("MainPage.Title"),
+      description: description() || t("MainPage.Description"),
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${
             initialData.backdrop_path
           }`,
           width: 1280,
