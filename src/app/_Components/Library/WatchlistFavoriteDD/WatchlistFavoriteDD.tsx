@@ -131,12 +131,13 @@ const WatchlistFavoriteDD = ({
   return (
     <>
       <div
-        className="absolute top-1 sm:top-2 end-2 z-30 cursor-pointer p-0.5 text-white
-          bg-gray-950/90 hover:bg-blue-700 rounded-full border border-gray-700"
+        className="absolute top-1 sm:top-2 end-2 z-30 cursor-pointer p-0.5 text-black
+          hover:text-white bg-gray-300 border border-gray-400 hover:border-blue-600
+          hover:bg-blue-700 rounded-full"
         ref={dropdownRef}
       >
         <BsThreeDots
-          className="text-3xl sm:text-xl 4xl:text-2xl"
+          className="text-2xl sm:text-lg 4xl:text-xl"
           onClick={() => setDropDownMenu(!dropDownMenu)}
         />
       </div>
@@ -148,7 +149,7 @@ const WatchlistFavoriteDD = ({
           <ul
             onClick={(e) => e.stopPropagation()}
             ref={listRef}
-            className="absolute top-3 end-6 md:top-9 md:end-2 bg-black/90 rounded shadow-blueGlow px-2
+            className="absolute top-3 end-7 md:top-9 md:end-2 bg-black/90 rounded shadow-blueGlow px-2
               py-2 space-y-2 text-xs min-w-[150px]"
           >
             {renderLibraryItem(

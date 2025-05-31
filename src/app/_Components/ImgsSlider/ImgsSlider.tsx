@@ -123,7 +123,7 @@ const ImgsSlider = ({ images, name }: ImgsSliderProps) => {
             <button
               onClick={prevSlide}
               className="absolute left-0 sm:-left-6 xl:-left-12 2xl:-left-16 top-1/2 -translate-y-1/2
-                z-10 p-2 bg-black/60 text-white rounded-full hover:bg-gray-800 transition
+                z-20 p-2 bg-black/60 text-white rounded-full hover:bg-gray-800 transition
                 [box-shadow:0_0_5px_#1c64f2]"
             >
               <FaChevronLeft className="text-2xl sm:text-3xl" />
@@ -175,7 +175,7 @@ const ImgsSlider = ({ images, name }: ImgsSliderProps) => {
             <button
               onClick={nextSlide}
               className="absolute right-0 sm:-right-6 xl:-right-12 2xl:-right-16 top-1/2 -translate-y-1/2
-                z-10 p-2 bg-black/60 text-white rounded-full hover:bg-gray-800 transition
+                z-20 p-2 bg-black/60 text-white rounded-full hover:bg-gray-800 transition
                 shadow-blueGlow"
             >
               <FaChevronRight className="text-2xl sm:text-3xl" />

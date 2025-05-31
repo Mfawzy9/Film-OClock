@@ -31,7 +31,6 @@ const HoriSkeletonSlider = () => {
               768: { slidesPerView: 2, spaceBetween: 10 },
               1024: { slidesPerView: 3, spaceBetween: 10 },
               1280: { slidesPerView: 4, spaceBetween: 10 },
-              1600: { slidesPerView: 5, spaceBetween: 10 },
             }}
             autoHeight={false}
             watchSlidesProgress={false}
