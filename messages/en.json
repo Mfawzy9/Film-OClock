@@ -485,6 +485,35 @@
     "Similar": "Similar"
   },
 
+  "serversNames": {
+    "server1": "server 1 (Continuity feature)",
+    "server2": "server 2 (Continuity feature)",
+    "server3": "server 3 (Continuity feature)",
+    "server4": "server 4 (Continuity feature)",
+    "server5": "server 5 (Continuity feature)",
+    "server6": "server 6",
+    "server7": "server 7 (Multi)",
+    "server8": "server 8",
+    "server9": "server 9 (Continuity feature)",
+    "server10": "server 10",
+    "server11": "server 11",
+    "server12": "server 12",
+    "server13": "server 13 (Continuity feature)",
+    "server14": "server 14 (Multi)",
+    "server15": "server 15",
+    "server16": "server 16",
+    "server17": "server 17 (Multi)",
+    "server18": "server 18",
+    "server19": "server 19",
+    "server20": "server 20",
+    "server21": "server 21",
+    "server22": "server 22 (Continuity feature)",
+    "server23": "server 23 (Continuity feature)",
+    "server24": "server 24 (Multi)",
+    "server25": "server 25 (Continuity feature)",
+    "server26": "server 26 (Continuity feature)"
+  },
+
   "ComingSoon": {
     "title": "Coming Soon",
     "description": "The show you are looking for is not available yet.",

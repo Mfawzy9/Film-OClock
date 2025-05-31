@@ -36,6 +36,8 @@ import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/Redux/store";
 
 const SkeletonMovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/SkeletonMovieCollectionBanner"),
@@ -57,10 +59,26 @@ interface WatchMovieProps {
 const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchMovie");
-  const [activeServer, setActiveServer] = useState(
-    (typeof window !== "undefined" &&
-      JSON.parse(sessionStorage.getItem("activeServer") as string)) ||
-      serversNames[0],
+  const tServerNames = useTranslations("serversNames");
+  const [activeServer, setActiveServer] = useState(() => {
+    if (typeof window === "undefined") return serversNames({ tServerNames })[2];
+
+    try {
+      const stored = JSON.parse(
+        sessionStorage.getItem("activeServer") || "null",
+      );
+      const currentServers = serversNames({ tServerNames });
+
+      const isValid = currentServers.some(
+        (server) => server.query === stored?.query,
+      );
+      return isValid ? stored : currentServers[2];
+    } catch {
+      return serversNames({ tServerNames })[2];
+    }
+  });
+  const { isUserInMiddleEast } = useSelector(
+    (state: RootState) => state.authReducer,
   );
 
   //save active server in session storage
@@ -75,7 +93,10 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   ) as { data: MovieDetailsResponse; isLoading: boolean };
 
   const videoPlayerRef = useRef<HTMLDivElement>(null);
-  const serverOptions = useMemo(() => serversNames, []);
+  const serverOptions = useMemo(
+    () => serversNames({ tServerNames }),
+    [tServerNames],
+  );
 
   //get translated genres
   const { genresLoading, translatedGenres } = useGetGenres({
@@ -385,7 +406,12 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
           <iframe
             loading="lazy"
             src={
-              getMovieWatchServers({ server: activeServer.query, showId })?.url
+              getMovieWatchServers({
+                server: activeServer.query,
+                showId,
+                isUserInMiddleEast,
+                tServerNames,
+              })?.url
             }
             allowFullScreen
             style={{ overflow: "hidden" }}

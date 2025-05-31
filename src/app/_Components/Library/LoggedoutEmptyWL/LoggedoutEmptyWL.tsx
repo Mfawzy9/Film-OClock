@@ -1,13 +1,13 @@
 import { Link } from "@/i18n/navigation";
-import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
+import { BsBookmarksFill } from "@react-icons/all-files/bs/BsBookmarksFill";
 import { useTranslations } from "next-intl";
 
 const LoggedoutEmptyWL = () => {
   const t = useTranslations("HomePage");
   return (
     <>
-      <div className="flex flex-col items-center justify-start gap-3 px-2">
-        <FaNotesMedical className="text-8xl" />
+      <div className="flex flex-col items-center justify-start gap-3 md:gap-6 px-2">
+        <BsBookmarksFill className="text-8xl" />
 
         <div className="flex items-center gap-2 text-center">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold">

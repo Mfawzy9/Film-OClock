@@ -20,6 +20,7 @@ interface AuthState {
   error: string | null;
   isGoogleLoading: boolean;
   userStatusLoading: boolean;
+  isUserInMiddleEast: boolean;
 }
 
 const initialState: AuthState = {
@@ -28,12 +29,16 @@ const initialState: AuthState = {
   error: null,
   isGoogleLoading: false,
   userStatusLoading: true,
+  isUserInMiddleEast: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setIsUserInMiddleEast: (state, action: PayloadAction<boolean>) => {
+      state.isUserInMiddleEast = action.payload;
+    },
     setUser: (state, action: PayloadAction<AuthState["user"] | null>) => {
       state.user = action.payload;
       state.isLoading = false;
@@ -60,6 +65,7 @@ const authSlice = createSlice({
 });
 
 export const {
+  setIsUserInMiddleEast,
   setUser,
   setLoading,
   setGoogleLoading,

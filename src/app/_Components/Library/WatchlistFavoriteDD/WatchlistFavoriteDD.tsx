@@ -11,7 +11,7 @@ import { handleShare, nameToSlug } from "../../../../../helpers/helpers";
 import { FaNotesMedical } from "@react-icons/all-files/fa/FaNotesMedical";
 import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
 import { FiShare2 } from "@react-icons/all-files/fi/FiShare2";
-import { HiDotsCircleHorizontal } from "@react-icons/all-files/hi/HiDotsCircleHorizontal";
+import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import { MdAssignmentTurnedIn } from "@react-icons/all-files/md/MdAssignmentTurnedIn";
 import { RiHeartAddFill } from "@react-icons/all-files/ri/RiHeartAddFill";
 import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill";
@@ -131,11 +131,12 @@ const WatchlistFavoriteDD = ({
   return (
     <>
       <div
-        className="absolute top-1 sm:top-2 end-2 z-30 cursor-pointer"
+        className="absolute top-1 sm:top-2 end-2 z-30 cursor-pointer p-0.5 text-white
+          bg-gray-950/90 hover:bg-blue-700 rounded-full border border-gray-700"
         ref={dropdownRef}
       >
-        <HiDotsCircleHorizontal
-          className="text-3xl sm:text-2xl text-gray-300 bg-black hover:text-blue-500 rounded-full"
+        <BsThreeDots
+          className="text-3xl sm:text-xl 4xl:text-2xl"
           onClick={() => setDropDownMenu(!dropDownMenu)}
         />
       </div>

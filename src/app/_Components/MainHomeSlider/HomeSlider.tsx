@@ -83,7 +83,7 @@ const HomeSlider = ({
 
   const moviesWithGenres = useMemo(() => {
     return (
-      data?.results?.slice(0, isDesktop ? 20 : 5).map((movie) => ({
+      data?.results?.slice(0, isDesktop ? 20 : 4).map((movie) => ({
         ...movie,
         genreNames: genres?.genres
           ?.filter((genre) => movie.genre_ids.includes(genre.id))
@@ -112,7 +112,7 @@ const HomeSlider = ({
 
   return (
     <>
-      <ScrollToSection />
+      {isDesktop && <ScrollToSection />}
       {shouldShowSkeleton || (isDesktop && modulesLoading) ? (
         <HomeSliderSkeleton />
       ) : (

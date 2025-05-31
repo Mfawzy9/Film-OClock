@@ -63,7 +63,7 @@ const HomeSliderContent = ({
     if (!movie.backdrop_path) return "";
     return isDesktop
       ? `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W1280}${movie.backdrop_path}`
-      : `${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${movie.backdrop_path}`;
+      : `${process.env.NEXT_PUBLIC_BASE_IMG_URL_w780}${movie.backdrop_path}`;
   }, [movie.backdrop_path, isDesktop]);
 
   const dispatch = useDispatch();
@@ -114,8 +114,7 @@ const HomeSliderContent = ({
                 className="flex gap-3 items-center text-3xl sm:text-4xl font-righteous border-s-4
                   border-blue-700 ps-2 !line-clamp-2"
               >
-                {getShowTitle({ isArabic, show: movie }) ||
-                  movie?.original_title}
+                {getShowTitle({ isArabic, show: movie }) || movie?.title}
               </h2>
 
               <h6 className="flex items-center gap-1.5 xs:gap-2 text-sm flex-wrap justify-center">

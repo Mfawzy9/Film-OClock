@@ -78,7 +78,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_TV_SERVER_24_URL: string;
     NEXT_PUBLIC_TV_SERVER_25_URL: string;
     NEXT_PUBLIC_TV_SERVER_26_URL: string;
-    NEXT_PUBLIC_TV_SERVER_27_URL: string;
 
     // ======================
     // Movie Watch Servers
@@ -109,7 +108,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_MOVIE_SERVER_24_URL: string;
     NEXT_PUBLIC_MOVIE_SERVER_25_URL: string;
     NEXT_PUBLIC_MOVIE_SERVER_26_URL: string;
-    NEXT_PUBLIC_MOVIE_SERVER_27_URL: string;
 
     // Other environment variables
     NODE_ENV: "development" | "production" | "test";

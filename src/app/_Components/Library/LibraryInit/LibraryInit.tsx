@@ -11,6 +11,8 @@ import {
   setWatchlist,
 } from "@/lib/Redux/localSlices/librarySlice";
 import { RootState } from "@/lib/Redux/store";
+import { fetchUserCountry } from "../../../../../helpers/userLocation";
+import { setIsUserInMiddleEast } from "@/lib/Redux/localSlices/authSlice";
 
 const LibraryInit = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,10 @@ const LibraryInit = () => {
       skip: !user?.uid,
     },
   );
+
+  useEffect(() => {
+    fetchUserCountry().then((res) => dispatch(setIsUserInMiddleEast(res)));
+  }, [dispatch]);
 
   useEffect(() => {
     if (user && watchlist && favorites && watchedShows) {

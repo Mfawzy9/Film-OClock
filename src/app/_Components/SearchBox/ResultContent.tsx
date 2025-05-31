@@ -100,8 +100,11 @@ const ResultContent = ({
                 }}
                 key={result.id}
                 href={`/details/${result.media_type}/${result.id}/${nameToSlug(title)}`}
-                className={`flex items-center gap-2 p-2 hover:bg-gray-900 ${
-                  highlightedIndex === idx ? "bg-blue-950/90" : "" }`}
+                className={`flex items-center gap-2 p-2 ${
+                  highlightedIndex === idx
+                    ? "bg-blue-950/90"
+                    : "hover:bg-gray-900"
+                  }`}
                 tabIndex={-1}
                 onClick={() => {
                   closeSearchAndClear();
@@ -148,7 +151,7 @@ const ResultContent = ({
                 itemRefs.current[results.length] = el;
               }}
               className={`flex items-center justify-center w-full py-2 border-t border-gray-700
-                hover:bg-gray-900 ${highlightedIndex === results.length ? "bg-blue-950/90" : ""}`}
+                ${highlightedIndex === results.length ? "bg-blue-950/90" : "hover:bg-gray-900"}`}
               tabIndex={-1}
               onClick={(e) => {
                 handleSubmit(e);

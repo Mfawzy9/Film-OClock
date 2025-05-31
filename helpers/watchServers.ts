@@ -1,66 +1,65 @@
-export const serversNames = [
+export const serversNames = ({ tServerNames }: { tServerNames: any }) => [
   {
-    query: "server 1 (Continuity feature)",
-    name: "server 1 (Continuity feature)",
+    query: tServerNames("server1"),
+    name: tServerNames("server1"),
   },
   {
-    query: "server 2 (Continuity feature)",
-    name: "server 2 (Continuity feature)",
+    query: tServerNames("server2"),
+    name: tServerNames("server2"),
   },
   {
-    query: "server 3 (Continuity feature)",
-    name: "server 3 (Continuity feature)",
+    query: tServerNames("server3"),
+    name: tServerNames("server3"),
   },
   {
-    query: "server 4 (Continuity feature)",
-    name: "server 4 (Continuity feature)",
+    query: tServerNames("server4"),
+    name: tServerNames("server4"),
   },
   {
-    query: "server 5 (Continuity feature)",
-    name: "server 5 (Continuity feature)",
+    query: tServerNames("server5"),
+    name: tServerNames("server5"),
   },
-  { query: "server 6", name: "server 6" },
-  { query: "server 7 (Multi)", name: "server 7 (Multi)" },
-  { query: "server 8", name: "server 8" },
+  { query: tServerNames("server6"), name: tServerNames("server6") },
+  { query: tServerNames("server7"), name: tServerNames("server7") },
+  { query: tServerNames("server8"), name: tServerNames("server8") },
   {
-    query: "server 9 (Continuity feature)",
-    name: "server 9 (Continuity feature)",
+    query: tServerNames("server9"),
+    name: tServerNames("server9"),
   },
-  { query: "server 10", name: "server 10" },
-  { query: "server 11", name: "server 11" },
-  { query: "server 12", name: "server 12" },
+  { query: tServerNames("server10"), name: tServerNames("server10") },
+  { query: tServerNames("server11"), name: tServerNames("server11") },
+  { query: tServerNames("server12"), name: tServerNames("server12") },
   {
-    query: "server 13 (Continuity feature)",
-    name: "server 13 (Continuity feature)",
+    query: tServerNames("server13"),
+    name: tServerNames("server13"),
   },
-  { query: "server 14 (Multi)", name: "server 14 (Multi)" },
-  { query: "server 15 (Multi)", name: "server 15 (Multi)" },
-  { query: "server 16", name: "server 16" },
-  { query: "server 17", name: "server 17" },
-  { query: "server 18 (Multi)", name: "server 18 (Multi)" },
-  { query: "server 19", name: "server 19" },
-  { query: "server 20", name: "server 20" },
-  { query: "server 21", name: "server 21" },
-  { query: "server 22", name: "server 22" },
+  { query: tServerNames("server14"), name: tServerNames("server14") },
+  { query: tServerNames("server15"), name: tServerNames("server15") },
+  { query: tServerNames("server16"), name: tServerNames("server16") },
+  { query: tServerNames("server17"), name: tServerNames("server17") },
+  { query: tServerNames("server18"), name: tServerNames("server18") },
+  { query: tServerNames("server19"), name: tServerNames("server19") },
+  { query: tServerNames("server20"), name: tServerNames("server20") },
+  { query: tServerNames("server21"), name: tServerNames("server21") },
   {
-    query: "server 23 (Continuity feature)",
-    name: "server 23 (Continuity feature)",
-  },
-  {
-    query: "server 24 (Continuity feature)",
-    name: "server 24 (Continuity feature)",
+    query: tServerNames("server22"),
+    name: tServerNames("server22"),
   },
   {
-    query: "server 25 (Multi)",
-    name: "server 25 (Multi)",
+    query: tServerNames("server23"),
+    name: tServerNames("server23"),
   },
   {
-    query: "server 26 (Continuity feature)",
-    name: "server 26 (Continuity feature)",
+    query: tServerNames("server24"),
+    name: tServerNames("server24"),
   },
   {
-    query: "server 27 (Continuity feature)",
-    name: "server 27 (Continuity feature)",
+    query: tServerNames("server25"),
+    name: tServerNames("server25"),
+  },
+  {
+    query: tServerNames("server26"),
+    name: tServerNames("server26"),
   },
 ];
 
@@ -69,6 +68,8 @@ interface TvWatchServers {
   showId: number;
   season: number;
   episode: number;
+  isUserInMiddleEast: boolean;
+  tServerNames: any;
 }
 
 // tvShow watch servers
@@ -77,146 +78,142 @@ export const getTvWatchServers = ({
   showId,
   season,
   episode,
+  isUserInMiddleEast,
+  tServerNames,
 }: TvWatchServers) => {
   const watchServers = [
     {
       id: 1,
-      name: "server 1 (Continuity feature)",
+      name: tServerNames("server1"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_1_URL}/${showId}/${season}/${episode}?autoplay=false`,
     },
     {
       id: 2,
-      name: "server 2 (Continuity feature)",
+      name: tServerNames("server2"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_2_URL}/${showId}/${season}/${episode}?autoplay=false`,
     },
     {
       id: 3,
-      name: "server 3 (Continuity feature)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_3_URL}?tmdb=${showId}&season=${season}&episode=${episode}`,
+      name: tServerNames("server3"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_3_URL}?tmdb=${showId}&season=${season}&episode=${episode}&ds_lang=${isUserInMiddleEast ? "ar" : "en"}`,
     },
     {
       id: 4,
-      name: "server 4 (Continuity feature)",
+      name: tServerNames("server4"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_4_URL}/${showId}/${season}/${episode}?autoPlay=false`,
     },
     {
       id: 5,
-      name: "server 5 (Continuity feature)",
+      name: tServerNames("server5"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_5_URL}/${showId}-${season}-${episode}?autoplay=false`,
     },
     {
       id: 6,
-      name: "server 6",
+      name: tServerNames("server6"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_6_URL}/${showId}/${season}/${episode}?autoplay=false`,
     },
     {
       id: 7,
-      name: "server 7 (Multi)",
+      name: tServerNames("server7"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_7_URL}/?video_id=${showId}&tmdb=1&s=${season}&e=${episode}`,
       multi: true,
     },
     {
       id: 8,
-      name: "server 8",
+      name: tServerNames("server8"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_8_URL}?tmdb=${showId}&sea=${season}&epi=${episode}`,
     },
     {
       id: 9,
-      name: "server 9 (Continuity feature)",
+      name: tServerNames("server9"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_9_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
     },
     {
       id: 10,
-      name: "server 10",
+      name: tServerNames("server10"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_10_URL}/${showId}/${season}/${episode}`,
     },
     {
       id: 11,
-      name: "server 11",
+      name: tServerNames("server11"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_11_URL}/${showId}?s=${season}&e=${episode}`,
     },
     {
       id: 12,
-      name: "server 12",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_12_URL}?tmdb=${showId}&season=${season}&episode=${episode}`,
+      name: tServerNames("server12"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_12_URL}?tmdb=${showId}&season=${season}&episode=${episode}&ds_lang=${isUserInMiddleEast ? "ar" : "en"}`,
     },
     {
       id: 13,
-      name: "server 13 (Continuity feature)",
+      name: tServerNames("server13"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_13_URL}/${showId}/${season}/${episode}?autoPlay=false`,
     },
     {
       id: 14,
-      name: "server 14 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_14_URL}/${showId}?s=${season}&e=${episode}`,
+      name: tServerNames("server14"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_14_URL}?tmdb=${showId}&season=${season}&episode=${episode}&autoplay=false`,
       multi: true,
     },
     {
       id: 15,
-      name: "server 15 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_15_URL}?tmdb=${showId}&season=${season}&episode=${episode}&autoplay=false`,
-      multi: true,
+      name: tServerNames("server15"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_15_URL}/${showId}-${season}-${episode}?autoplay=false`,
     },
     {
       id: 16,
-      name: "server 16",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_16_URL}/${showId}-${season}-${episode}?autoplay=false`,
+      name: tServerNames("server16"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_16_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
     },
     {
       id: 17,
-      name: "server 17",
+      name: tServerNames("server17"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_17_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
-    },
-    {
-      id: 18,
-      name: "server 18 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_18_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
       multi: true,
     },
     {
+      id: 18,
+      name: tServerNames("server18"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_18_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
+    },
+    {
       id: 19,
-      name: "server 19",
+      name: tServerNames("server19"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_19_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
     },
     {
       id: 20,
-      name: "server 20",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_20_URL}/?id=${showId}&s=${season}&e=${episode}&autoplay=false`,
+      name: tServerNames("server20"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_20_URL}/${showId}/${season}/${episode}`,
     },
     {
       id: 21,
-      name: "server 21",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_21_URL}/${showId}/${season}/${episode}`,
+      name: tServerNames("server21"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_21_URL}?tmdb=${showId}&season=${season}&episode=${episode}`,
     },
     {
       id: 22,
-      name: "server 22",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_22_URL}?tmdb=${showId}&season=${season}&episode=${episode}`,
+      name: tServerNames("server22"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_22_URL}/${showId}/${season}/${episode}?autoplay=false`,
     },
     {
       id: 23,
-      name: "server 23 (Continuity feature)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_23_URL}/${showId}/${season}/${episode}?autoplay=false`,
+      name: tServerNames("server23"),
+      url: `${process.env.NEXT_PUBLIC_TV_SERVER_23_URL}/${showId}/${season}/${episode}`,
     },
     {
       id: 24,
-      name: "server 24 (Continuity feature)",
+      name: tServerNames("server24"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_24_URL}/${showId}/${season}/${episode}`,
     },
     {
       id: 25,
-      name: "server 25 (Multi)",
+      name: tServerNames("server25"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_25_URL}/${showId}/${season}/${episode}`,
     },
     {
       id: 26,
-      name: "server 26 (Continuity feature)",
+      name: tServerNames("server26"),
       url: `${process.env.NEXT_PUBLIC_TV_SERVER_26_URL}/${showId}/${season}/${episode}`,
-    },
-    {
-      id: 27,
-      name: "server 27 (Continuity feature)",
-      url: `${process.env.NEXT_PUBLIC_TV_SERVER_27_URL}/${showId}/${season}/${episode}`,
     },
   ];
   return watchServers.find((_server) => _server.name === server);
@@ -225,149 +222,150 @@ export const getTvWatchServers = ({
 interface MovieWatchServers {
   server: string;
   showId: number;
+  isUserInMiddleEast: boolean;
+  tServerNames: any;
 }
 
 // movies watch servers-------------------------------------------------------------------------------------------------
-export const getMovieWatchServers = ({ server, showId }: MovieWatchServers) => {
+export const getMovieWatchServers = ({
+  server,
+  showId,
+  isUserInMiddleEast,
+  tServerNames,
+}: MovieWatchServers) => {
   const watchServers = [
     {
       id: 1,
-      name: "server 1 (Continuity feature)",
+      name: tServerNames("server1"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_1_URL}/${showId}?autoplay=false`,
     },
     {
       id: 2,
-      name: "server 2 (Continuity feature)",
+      name: tServerNames("server2"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_2_URL}/${showId}?autoplay=false`,
     },
     {
       id: 3,
-      name: "server 3 (Continuity feature)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_3_URL}?tmdb=${showId}`,
+      name: tServerNames("server3"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_3_URL}?tmdb=${showId}&ds_lang=${isUserInMiddleEast ? "ar" : "en"}`,
     },
     {
       id: 4,
-      name: "server 4 (Continuity feature)",
+      name: tServerNames("server4"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_4_URL}/${showId}?autoPlay=false`,
     },
     {
       id: 5,
-      name: "server 5 (Continuity feature)",
+      name: tServerNames("server5"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_5_URL}/${showId}`,
     },
     {
       id: 6,
-      name: "server 6",
+      name: tServerNames("server6"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_6_URL}/${showId}`,
     },
     {
       id: 7,
-      name: "server 7 (Multi)",
+      name: tServerNames("server7"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_7_URL}/?video_id=${showId}&tmdb=1`,
       multi: true,
     },
     {
       id: 8,
-      name: "server 8",
+      name: tServerNames("server8"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_8_URL}/${showId}`,
     },
     {
       id: 9,
-      name: "server 9 (Continuity feature)",
+      name: tServerNames("server9"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_9_URL}/?id=${showId}&autoplay=false`,
     },
     {
       id: 10,
-      name: "server 10",
+      name: tServerNames("server10"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_10_URL}/${showId}`,
     },
     {
       id: 11,
-      name: "server 11",
+      name: tServerNames("server11"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_11_URL}/${showId}`,
     },
     {
       id: 12,
-      name: "server 12",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_12_URL}/${showId}`,
+      name: tServerNames("server12"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_12_URL}/${showId}?ds_lang=${isUserInMiddleEast ? "ar" : "en"}`,
     },
     {
       id: 13,
-      name: "server 13 (Continuity feature)",
+      name: tServerNames("server13"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_13_URL}/${showId}?autoPlay=false`,
     },
     {
       id: 14,
-      name: "server 14 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_14_URL}/${showId}`,
+      name: tServerNames("server14"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_14_URL}?tmdb=${showId}&autoplay=false`,
       multi: true,
     },
     {
       id: 15,
-      name: "server 15 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_15_URL}?tmdb=${showId}&autoplay=false`,
-      multi: true,
+      name: tServerNames("server15"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_15_URL}/${showId}?autoplay=false`,
     },
     {
       id: 16,
-      name: "server 16",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_16_URL}/${showId}?autoplay=false`,
+      name: tServerNames("server16"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_16_URL}/?id=${showId}&autoplay=false`,
     },
     {
       id: 17,
-      name: "server 17",
+      name: tServerNames("server17"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_17_URL}/?id=${showId}&autoplay=false`,
-    },
-    {
-      id: 18,
-      name: "server 18 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_18_URL}/?id=${showId}&autoplay=false`,
       multi: true,
     },
     {
+      id: 18,
+      name: tServerNames("server18"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_18_URL}/?id=${showId}&autoplay=false`,
+    },
+    {
       id: 19,
-      name: "server 19",
+      name: tServerNames("server19"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_19_URL}/?id=${showId}&autoplay=false`,
     },
     {
       id: 20,
-      name: "server 20",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_20_URL}/?id=${showId}&autoplay=false`,
+      name: tServerNames("server20"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_20_URL}/${showId}`,
     },
     {
       id: 21,
-      name: "server 21",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_21_URL}/${showId}`,
+      name: tServerNames("server21"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_21_URL}?tmdb=${showId}&i=1`,
     },
     {
       id: 22,
-      name: "server 22",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_22_URL}?tmdb=${showId}&i=1`,
+      name: tServerNames("server22"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_22_URL}/${showId}`,
     },
     {
       id: 23,
-      name: "server 23 (Continuity feature)",
+      name: tServerNames("server23"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_23_URL}/${showId}`,
     },
     {
       id: 24,
-      name: "server 24 (Continuity feature)",
+      name: tServerNames("server24"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_24_URL}/${showId}`,
     },
     {
       id: 25,
-      name: "server 25 (Multi)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_25_URL}/${showId}`,
+      name: tServerNames("server25"),
+      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_25_URL}/${showId}?autoPlay=false`,
     },
     {
       id: 26,
-      name: "server 26 (Continuity feature)",
+      name: tServerNames("server26"),
       url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_26_URL}/${showId}?autoPlay=false`,
-    },
-    {
-      id: 27,
-      name: "server 27 (Continuity feature)",
-      url: `${process.env.NEXT_PUBLIC_MOVIE_SERVER_27_URL}/${showId}?autoPlay=false`,
     },
   ];
   return watchServers.find((_server) => _server.name === server);

@@ -41,7 +41,7 @@ const SelectComp = ({
       <select
         className="px-4 pb-2 pt-3 border border-gray-600 rounded-lg bg-gray-900 text-gray-200
           focus:ring-2 focus:ring-blue-700 focus:border-blue-700 custom-scrollbar
-          [box-shadow:0_0_3px_#1c64f2] relative font-roboto"
+          [box-shadow:0_0_3px_#1c64f2] relative"
         defaultValue={activeSelect?.name}
         onChange={(e) => handleSelectOption(e.target.value, e.target.value)}
       >

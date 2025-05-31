@@ -72,8 +72,8 @@ const HoriCard = ({
     <>
       <div
         className={`lg:hover:border-s-4 border-opacity-0 lg:hover:border-opacity-100 border-blue-600
-          rounded-md cursor-pointer transition-all duration-200 relative
-          lg:hover:translate-y-1.5 lg:hover:shadow-lg lg:hover:shadow-blue-600/30 w-full
+          cursor-pointer transition-all duration-200 relative lg:hover:translate-y-1.5
+          lg:hover:shadow-lg lg:hover:shadow-blue-600/30 w-full
           ${isActive ? "border-opacity-100 translate-y-1.5 shadow-lg shadow-blue-600/30 border-s-4" : "ring-1 ring-gray-600/25 rounded-md"}`}
       >
         {/* dropdown */}
