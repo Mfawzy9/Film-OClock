@@ -189,11 +189,22 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (
-        event.origin === "https://vidsrc.cc" &&
-        event.data.type === "PLAYER_EVENT"
+        (event.origin === "https://vidsrc.cc" &&
+          event.data.type === "PLAYER_EVENT") ||
+        event?.data?.data?.event === "time"
       ) {
         const watched = event?.data?.data?.currentTime;
         const duration = event?.data?.data?.duration;
+        watchedRef.current = watched;
+        durationRef.current = duration;
+        updateWatchedHistory({ watched, duration });
+      } else if (
+        (event.origin === "https://vidsrc.xyz" ||
+          event.origin === "https://vidsrc.net") &&
+        event?.data?.event === "time"
+      ) {
+        const watched = event?.data?.time;
+        const duration = event?.data?.duration;
         watchedRef.current = watched;
         durationRef.current = duration;
         updateWatchedHistory({ watched, duration });

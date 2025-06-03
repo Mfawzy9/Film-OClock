@@ -127,7 +127,9 @@ const WatchTvDetails = ({
         <Link href={tvLink} className="hover:underline w-fit">
           <Title
             title={
-              (tvShow?.name ?? tvShow?.original_name) +
+              (isArabic && tvShow?.original_language === "ar"
+                ? tvShow?.original_name
+                : tvShow?.name) +
                 ` | ${t("Season")} ` +
                 season +
                 ` | ${t("Episode")} ` +
