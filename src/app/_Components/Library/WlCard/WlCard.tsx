@@ -68,7 +68,7 @@ const WlCard = ({ show }: { show: FirestoreTheShowI }) => {
           </h2>
 
           <p
-            className="text-sm text-start text-gray-400 leading-relaxed tracking-wide line-clamp-5
+            className="text-sm text-start text-gray-300 leading-relaxed tracking-wide line-clamp-5
               md:mt-5 max-w-xl"
           >
             {overview}

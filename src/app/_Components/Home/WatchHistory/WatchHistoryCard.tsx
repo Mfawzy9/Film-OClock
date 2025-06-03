@@ -56,7 +56,7 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
         <div className="relative rounded-md overflow-hidden">
           {!isImgLoaded && <BgPlaceholder />}
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${show.backdropPath}`}
+            src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${show.backdropPath}`}
             width={208}
             height={130}
             alt={show.title}
