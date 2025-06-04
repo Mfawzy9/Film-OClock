@@ -10,14 +10,15 @@ import { useTranslations } from "next-intl";
 
 const TopOneCard = dynamic(() => import("../TopOneCard/TopOneCard"));
 const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
-const CastCardsSkeletonSlider = dynamic(
-  () => import("../CastCardSlider/CastCardsSkeletonSlider"),
+const FeaturedCastCardsSkeletonSlider = dynamic(
+  () => import("../FeaturedCastCardSlider/FeaturedCastCardsSkeletonSlider"),
 );
 const TopOneCardSkeleton = dynamic(
   () => import("../TopOneCard/TopOneCardSkeleton"),
 );
-const CastCardSlider = dynamic(
-  () => import("@/app/_Components/CastCardSlider/CastCardSlider"),
+const FeaturedCastCardsSlider = dynamic(
+  () =>
+    import("@/app/_Components/FeaturedCastCardSlider/FeaturedCastCardsSlider"),
 );
 const AllPpl = dynamic(() => import("./AllPpl"));
 
@@ -105,9 +106,9 @@ const PopularPpl = () => {
           {/* Featured Cast */}
           <LazyRender
             persistKey="featuredCast"
-            Component={CastCardSlider}
+            Component={FeaturedCastCardsSlider}
             props={{ featuredCast, isLoading }}
-            loading={<CastCardsSkeletonSlider />}
+            loading={<FeaturedCastCardsSkeletonSlider />}
           />
         </section>
 

@@ -1,4 +1,4 @@
-const CastCardSkeleton = () => {
+const FeaturedCastCardSkeleton = () => {
   return (
     <div className="block rounded-lg shadow bg-gray-900 shadow-blue-700/70 animate-pulse">
       {/* backdrop */}
@@ -35,13 +35,13 @@ const CastCardSkeleton = () => {
         </div>
 
         {/* latest works */}
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col items-center gap-2 mt-2">
           <div
             className="h-4 w-24 bg-gray-600 rounded relative after:content-[''] after:absolute
-              after:-bottom-1 after:start-0 after:w-6 after:h-1 after:bg-blue-800 mb-2"
+              after:-bottom-1 after:start-0 after:w-full after:h-1 after:bg-blue-800 mb-2"
           />
 
-          <div className="flex flex-wrap justify-between gap-4">
+          <div className="flex flex-col items-center w-full flex-wrap gap-4">
             {/* image placeholders */}
             <div className="flex flex-wrap gap-2">
               {[...Array(3)].map((_, i) => (
@@ -53,7 +53,7 @@ const CastCardSkeleton = () => {
             </div>
 
             {/* view profile button */}
-            <div className="h-10 w-36 bg-blue-700 rounded self-end" />
+            <div className="h-10 bg-blue-700 rounded w-full" />
           </div>
         </div>
       </div>
@@ -61,4 +61,4 @@ const CastCardSkeleton = () => {
   );
 };
 
-export default CastCardSkeleton;
+export default FeaturedCastCardSkeleton;

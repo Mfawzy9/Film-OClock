@@ -22,11 +22,11 @@ import {
   TVShow,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { FaChevronCircleUp } from "@react-icons/all-files/fa/FaChevronCircleUp";
+import { FaAddressCard } from "@react-icons/all-files/fa/FaAddressCard";
 import { FcRating } from "@react-icons/all-files/fc/FcRating";
 import { FcReading } from "@react-icons/all-files/fc/FcReading";
 
-function getCastCardWorkLink(
+function getFeaturedCastCardWorkLink(
   work: PopularPersonMovieI | PopularPersonTvShowI,
   isArabic: boolean,
 ) {
@@ -46,7 +46,13 @@ function getCastCardWorkLink(
   return `/details/${work?.media_type}/${work?.id}/${slug}`;
 }
 
-const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
+const FeaturedCastCard = ({
+  person,
+  t,
+}: {
+  person: PopularPersonI;
+  t: TFunction;
+}) => {
   const { isArabic } = useIsArabic();
   const editedPersonJob = useMemo(() => {
     return person.known_for_department === "Acting"
@@ -131,16 +137,16 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
           </h4>
         </div>
         {/* latest works imgs*/}
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col items-center gap-2 mt-2">
           <h2
             className="italic relative after:content-[''] after:absolute after:-bottom-1 after:start-0
-              after:w-6 after:h-1 after:bg-blue-800 mb-2 text-sm"
+              after:w-full after:h-1 after:bg-blue-800 mb-2 pb-0.5 text-sm"
           >
             {t("featuredCast.KnownFor")}
           </h2>
-          <div className="flex flex-wrap justify-between gap-4">
+          <div className="flex flex-col items-center w-full flex-wrap gap-4">
             <div className="flex flex-wrap gap-2">
-              {person.known_for?.map((work, idx) => {
+              {person.known_for?.slice(0, 3).map((work, idx) => {
                 if (!work?.poster_path) return null;
                 const isImgLoaded = work?.poster_path
                   ? loadedImgs[work?.poster_path]
@@ -148,7 +154,7 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
                 return (
                   <Link
                     key={idx}
-                    href={getCastCardWorkLink(work, isArabic)}
+                    href={getFeaturedCastCardWorkLink(work, isArabic)}
                     className="group"
                   >
                     <div
@@ -184,11 +190,11 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
               href={`/details/person/${person?.id}/${nameToSlug(person?.name ?? "")}`}
               title={t("featuredCast.ViewProfile")}
               onClick={scrollToTop}
-              className="flex items-center gap-2 bg-blue-800 hover:bg-blue-600 lg:hover:shadow-blueGlow
-                px-4 py-2 h-10 self-end rounded text-white flex-none"
+              className="flex items-center justify-center gap-2 bg-blue-800 hover:bg-blue-600
+                lg:hover:shadow-blueGlow px-4 py-2 h-10 rounded text-white flex-none w-full"
             >
               <span>{t("featuredCast.ViewProfile")}</span>
-              <FaChevronCircleUp />
+              <FaAddressCard />
             </Link>
           </div>
         </div>
@@ -197,4 +203,4 @@ const CastCard = ({ person, t }: { person: PopularPersonI; t: TFunction }) => {
   );
 };
 
-export default memo(CastCard);
+export default memo(FeaturedCastCard);

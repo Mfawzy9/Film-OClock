@@ -3,7 +3,7 @@ import { PopularPersonI } from "@/app/interfaces/apiInterfaces/popularMoviesTvIn
 import { Autoplay, Virtual } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import CastCard from "../CastCard/CastCard";
+import FeaturedCastCard from "../FeaturedCastCard/FeaturedCastCard";
 import Title from "../Title/Title";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -12,11 +12,11 @@ import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
 import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 import dynamic from "next/dynamic";
 
-const CastCardsSkeletonSlider = dynamic(
-  () => import("./CastCardsSkeletonSlider"),
+const FeaturedCastCardsSkeletonSlider = dynamic(
+  () => import("./FeaturedCastCardsSkeletonSlider"),
 );
 
-const CastCardSlider = ({
+const FeaturedCastCardsSlider = ({
   featuredCast,
   isLoading,
 }: {
@@ -55,7 +55,7 @@ const CastCardSlider = ({
     }
   }, [featuredCast]);
 
-  if (isLoading) return <CastCardsSkeletonSlider />;
+  if (isLoading) return <FeaturedCastCardsSkeletonSlider />;
 
   return (
     <>
@@ -98,9 +98,9 @@ const CastCardSlider = ({
             lazyPreloadPrevNext={2}
             className="!py-5 !px-1"
           >
-            {featuredCast.map((person, index) => (
+            {featuredCast?.map((person, index) => (
               <SwiperSlide key={person.id} virtualIndex={index}>
-                <CastCard person={person} t={t} />
+                <FeaturedCastCard person={person} t={t} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -141,4 +141,4 @@ const CastCardSlider = ({
   );
 };
 
-export default CastCardSlider;
+export default FeaturedCastCardsSlider;

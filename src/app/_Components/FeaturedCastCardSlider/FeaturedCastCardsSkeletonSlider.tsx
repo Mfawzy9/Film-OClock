@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import CastCardSkeleton from "../CastCard/CastCardSkeleton";
+import FeaturedCastCardSkeleton from "../FeaturedCastCard/FeaturedCastCardSkeleton";
 import { Virtual } from "swiper/modules";
 
-const CastCardsSkeletonSlider = () => {
+const FeaturedCastCardsSkeletonSlider = () => {
   return (
     <>
       <main>
@@ -48,7 +48,7 @@ const CastCardsSkeletonSlider = () => {
           >
             {[...Array(5)].map((_, index) => (
               <SwiperSlide key={index} virtualIndex={index}>
-                <CastCardSkeleton />
+                <FeaturedCastCardSkeleton />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -57,18 +57,18 @@ const CastCardsSkeletonSlider = () => {
             aria-label="Previous slide"
             className="absolute start-0 sm:-start-6 2xl:-start-16 top-1/2 -translate-y-1/2 z-10 p-2
               bg-gray-700/60 text-white rounded-full hover:bg-gray-800 transition
-              shadow-blueGlow animate-pulse"
+              animate-pulse"
           >
-            <div className="w-6 h-6 bg-gray-600 rounded-full" />
+            <div className="w-7 h-7 bg-gray-600 rounded-full" />
           </button>
 
           <button
             aria-label="Next slide"
             className="absolute end-0 sm:-end-6 2xl:-end-16 top-1/2 -translate-y-1/2 z-10 p-2
               bg-gray-700/60 text-white rounded-full hover:bg-gray-800 transition
-              shadow-blueGlow animate-pulse"
+              animate-pulse"
           >
-            <div className="w-6 h-6 bg-gray-600 rounded-full" />
+            <div className="w-7 h-7 bg-gray-600 rounded-full" />
           </button>
         </div>
       </main>
@@ -76,4 +76,4 @@ const CastCardsSkeletonSlider = () => {
   );
 };
 
-export default CastCardsSkeletonSlider;
+export default FeaturedCastCardsSkeletonSlider;
