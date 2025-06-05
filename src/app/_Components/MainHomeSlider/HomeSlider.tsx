@@ -122,6 +122,7 @@ const HomeSlider = ({
           threshold={isDesktop ? 5 : 1}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
+          cssMode={!isDesktop}
           virtual={
             isDesktop
               ? {

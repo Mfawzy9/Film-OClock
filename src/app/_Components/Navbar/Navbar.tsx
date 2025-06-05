@@ -136,7 +136,7 @@ const Navbar = () => {
           : "py-2 xs:py-6"
         }`}
     >
-      <nav className="py-2 flex items-center justify-between px-2 xl:container lg:px-6 relative">
+      <nav className="py-2 flex items-center justify-between px-2 xl:container xl:px-6 relative">
         {/* Logo */}
         <Link
           onClick={(e) => handleLinkClick(e, "/")}
