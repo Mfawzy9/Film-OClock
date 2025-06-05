@@ -100,7 +100,8 @@
     "Watch": "Watch",
     "Share": "Share",
     "ShareTitle": "Explore {title} on FilmO'Clock!",
-    "Share2Title": "Check this out!"
+    "Share2Title": "Check this out!",
+    "linkCopied": "Link copied to clipboard!"
   },
 
   "Pagination": {
@@ -315,6 +316,7 @@
     "Share": "Share",
     "ShareTitle": "Explore {title} on FilmO'Clock!",
     "Share2Title": "Check this out!",
+    "linkCopied": "Link copied to clipboard!",
 
     "WatchedList": {
       "AM": "AM",
@@ -779,7 +781,7 @@
     "Movie": " Movie ",
     "TvShow": " TV Show ",
     "MainPage": {
-      "Title": "FilmO'Clock",
+      "Title": "Film O'Clock",
       "Description": "Film OClock is your ultimate movie companion — discover, track, and explore the latest movies and TV shows with stunning visuals, personalized watchlists, and multi-language support. Your next favorite film is just a tick away!"
     },
     "Library": {

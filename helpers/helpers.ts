@@ -239,7 +239,7 @@ export const handleShare = async ({
       });
     } else {
       await navigator.clipboard.writeText(shareUrl);
-      toast.success("Link copied to clipboard!");
+      toast.success(t("linkCopied"));
     }
   } catch (error) {
     if (error === "AbortError") {
