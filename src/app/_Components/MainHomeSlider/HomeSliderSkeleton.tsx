@@ -12,16 +12,14 @@ const HomeSliderSkeleton = () => {
         >
           <div className="h-8 w-2/3 bg-gray-700 rounded" />
           <div className="flex flex-wrap gap-2">
-            {Array(3)
-              .fill(0)
-              .map((_, idx) => (
-                <span
-                  key={`skeleton-genre-${idx}`}
-                  className="bg-gray-700 text-transparent px-1 sm:font-semibold animate-pulse"
-                >
-                  Genre
-                </span>
-              ))}
+            {[...Array(3)].map((_, idx) => (
+              <span
+                key={`skeleton-genre-${idx}`}
+                className="bg-gray-700 text-transparent px-1 sm:font-semibold animate-pulse"
+              >
+                Genre
+              </span>
+            ))}
           </div>
 
           <div className="space-y-2 w-full">

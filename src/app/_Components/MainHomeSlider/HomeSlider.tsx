@@ -110,66 +110,70 @@ const HomeSlider = ({
     };
   }, [isOpen, isDesktop]);
 
-  return (
+  return shouldShowSkeleton || (isDesktop && modulesLoading) ? (
+    <HomeSliderSkeleton />
+  ) : (
     <>
       {isDesktop && <ScrollToSection />}
-      {shouldShowSkeleton || (isDesktop && modulesLoading) ? (
-        <HomeSliderSkeleton />
-      ) : (
-        <Swiper
-          key={`${isDesktop ? "desktop" : "mobile"}-${modules.length}`}
-          resistanceRatio={isDesktop ? 0.7 : 0.4}
-          threshold={isDesktop ? 5 : 1}
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          slidesPerView={1}
-          cssMode={!isDesktop}
-          virtual={
-            isDesktop
-              ? {
-                  cache: true,
-                  enabled: true,
-                  addSlidesBefore: 1,
-                  addSlidesAfter: 1,
-                }
-              : false
-          }
-          autoplay={
-            isDesktop
-              ? {
-                  delay: 10000,
-                  disableOnInteraction: false,
-                  waitForTransition: true,
-                }
-              : false
-          }
-          className="mySwiper"
-          modules={modules}
-          style={!isDesktop ? undefined : { willChange: "transform" }}
-          grabCursor={isDesktop}
-        >
-          {moviesWithGenres?.map((movie, idx) => {
-            return (
-              <SwiperSlide
-                key={movie.id}
-                virtualIndex={idx}
-                style={!isDesktop ? undefined : { willChange: "transform" }}
-                className={`${isDesktop ? "transition-[transform,opacity] transform-gpu" : ""} relative`}
-              >
-                {({ isActive }) => (
-                  <HomeSliderContent
-                    isArabic={isArabic}
-                    movie={movie}
-                    isActive={isActive}
-                    genreNames={movie?.genreNames || []}
-                    isDesktop={isDesktop}
-                  />
-                )}
-              </SwiperSlide>
-            );
-          })}
-          <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-black to-transparent z-10" />
-        </Swiper>
-      )}
+      <Swiper
+        key={`${isDesktop ? "desktop" : "mobile"}-${modules.length}`}
+        resistanceRatio={isDesktop ? 0.7 : 0}
+        threshold={isDesktop ? 5 : 1}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        cssMode={!isDesktop}
+        {...(!isDesktop && {
+          touchRatio: 0.4,
+          shortSwipes: false,
+          // Disable unneeded features
+          watchOverflow: true, // Prevents glitches with few slides
+          preventInteractionOnTransition: true, // Avoids conflicts
+        })}
+        virtual={
+          isDesktop
+            ? {
+                cache: true,
+                enabled: true,
+                addSlidesBefore: 1,
+                addSlidesAfter: 1,
+              }
+            : false
+        }
+        autoplay={
+          isDesktop
+            ? {
+                delay: 10000,
+                disableOnInteraction: false,
+                waitForTransition: true,
+              }
+            : false
+        }
+        className="mySwiper"
+        modules={modules}
+        style={!isDesktop ? undefined : { willChange: "transform" }}
+        grabCursor={isDesktop}
+      >
+        {moviesWithGenres?.map((movie, idx) => {
+          return (
+            <SwiperSlide
+              key={movie.id}
+              virtualIndex={idx}
+              style={!isDesktop ? undefined : { willChange: "transform" }}
+              className={`${isDesktop ? "transition-[transform,opacity] transform-gpu" : ""} relative`}
+            >
+              {({ isActive }) => (
+                <HomeSliderContent
+                  isArabic={isArabic}
+                  movie={movie}
+                  isActive={isActive}
+                  genreNames={movie?.genreNames || []}
+                  isDesktop={isDesktop}
+                />
+              )}
+            </SwiperSlide>
+          );
+        })}
+        <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-black to-transparent z-10" />
+      </Swiper>
     </>
   );
 };
