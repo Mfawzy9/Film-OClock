@@ -254,18 +254,20 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
-            <WatchedBtn
-              showId={showId}
-              showName={
-                getShowTitle({
-                  isArabic,
-                  show: tvShow,
-                }) ||
-                tvShow?.original_name ||
-                ""
-              }
-              theShow={tvShow}
-            />
+            {new Date(tvShow?.first_air_date) <= new Date() && (
+              <WatchedBtn
+                showId={showId}
+                showName={
+                  getShowTitle({
+                    isArabic,
+                    show: tvShow,
+                  }) ||
+                  tvShow?.original_name ||
+                  ""
+                }
+                theShow={tvShow}
+              />
+            )}
             <div className="flex justify-center">
               <SocialLinks externalIds={tvShow?.external_ids as PExternalIds} />
             </div>

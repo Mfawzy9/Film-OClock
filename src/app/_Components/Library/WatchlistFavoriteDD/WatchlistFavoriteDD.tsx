@@ -135,11 +135,9 @@ const WatchlistFavoriteDD = ({
           hover:text-white bg-gray-300 border border-gray-400 hover:border-blue-600
           hover:bg-blue-700 rounded-full"
         ref={dropdownRef}
+        onClick={() => setDropDownMenu(!dropDownMenu)}
       >
-        <BsThreeDots
-          className="text-2xl sm:text-lg 4xl:text-xl"
-          onClick={() => setDropDownMenu(!dropDownMenu)}
-        />
+        <BsThreeDots className="text-2xl sm:text-lg 4xl:text-xl" />
       </div>
       {dropDownMenu && (
         <div

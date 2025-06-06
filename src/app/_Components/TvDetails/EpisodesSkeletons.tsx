@@ -16,7 +16,8 @@ const EpisodesSkeletons = () => {
             <div
               key={idx}
               className="relative flex flex-col rounded-xl bg-gradient-to-br from-gray-800 to-gray-900
-                shadow-lg cursor-pointer animate-pulse w-full"
+                shadow-lg cursor-pointer animate-pulse max-w-80 sm:max-w-[unset] w-full
+                xs:min-w-80 sm:min-w-full min-h-[386px]"
             >
               {/* Image placeholder */}
               <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-gray-700">
