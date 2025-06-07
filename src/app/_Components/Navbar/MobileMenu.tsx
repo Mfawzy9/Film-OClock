@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { NavbarlinksI } from "./Navbar";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -24,7 +24,11 @@ const listVariants: Variants = {
   closed: { x: "100vw" },
   opened: {
     x: 0,
-    transition: { when: "beforeChildren", staggerChildren: 0.2 },
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.15,
+      duration: 0.15,
+    },
   },
   exit: { x: "100vw" },
 };

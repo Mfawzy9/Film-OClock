@@ -102,10 +102,9 @@ const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scaleY: 0 }}
-      animate={{ opacity: 1, scaleY: 1 }}
-      exit={{ opacity: 0, scaleY: 0 }}
-      transition={{ duration: 0.2 }}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.1 }}
       className="absolute z-20 top-10 end-0 bg-black/90 shadow shadow-blue-700 text-white
         min-w-10 rounded-md px-1 origin-top-right"
     >
