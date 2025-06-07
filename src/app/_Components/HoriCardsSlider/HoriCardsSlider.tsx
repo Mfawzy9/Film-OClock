@@ -167,6 +167,7 @@ const HoriCardsSlider = ({
 
         <div className="relative z-10">
           <Swiper
+            touchStartPreventDefault={false}
             onInit={handleSwiper}
             onSlideChange={handleSlideChange}
             onSwiper={handleSwiper}

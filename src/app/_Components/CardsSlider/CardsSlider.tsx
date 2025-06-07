@@ -131,6 +131,7 @@ const CardsSlider = ({
       )}
       <div className="relative">
         <Swiper
+          touchStartPreventDefault={false}
           onInit={handleSwiper}
           onSlideChange={handleSlideChange}
           onSwiper={handleSwiper}

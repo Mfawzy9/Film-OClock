@@ -16,7 +16,9 @@ import { setIsUserInMiddleEast } from "@/lib/Redux/localSlices/authSlice";
 
 const LibraryInit = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.authReducer);
+  const { user, userStatusLoading } = useSelector(
+    (state: RootState) => state.authReducer,
+  );
 
   const { data: watchedShows } = useGetWatchedQuery(
     { userId: user?.uid || "" },
@@ -44,15 +46,16 @@ const LibraryInit = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (userStatusLoading) return;
     if (user && watchlist && favorites && watchedShows) {
       dispatch(setWatchlist(watchlist));
       dispatch(setFavorites(favorites));
       dispatch(setWatchedShows(watchedShows));
       dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
-    } else {
+    } else if (!user) {
       dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
     }
-  }, [user, watchlist, favorites, dispatch, watchedShows]);
+  }, [user, watchlist, favorites, dispatch, watchedShows, userStatusLoading]);
 
   return null;
 };
