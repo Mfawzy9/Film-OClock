@@ -1,10 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useAddToLibraryMutation,
   useRemoveFromLibraryMutation,
-  useLazyIsInLibraryQuery,
   useClearLibraryMutation,
 } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { RootState } from "@/lib/Redux/store";
@@ -24,6 +23,7 @@ import {
   clearWatchlist,
   removeFromFavorites,
   removeFromWatchlist,
+  setLibraryLoading,
 } from "@/lib/Redux/localSlices/librarySlice";
 import { Link } from "@/i18n/navigation";
 import { useLazyGetTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
@@ -78,11 +78,9 @@ export const updatedTheShow = (
 });
 
 const useLibrary = ({
-  dropDownMenu,
   showId,
   theShow,
 }: {
-  dropDownMenu: boolean;
   showId?: number;
   theShow?:
     | Movie
@@ -99,25 +97,14 @@ const useLibrary = ({
       : theShow && "title" in theShow
         ? "movie"
         : "tv";
-  const [libraryState, setLibraryState] = useState({
-    watchlist: false,
-    favorites: false,
-  });
-  const [loadingState, setLoadingState] = useState({
-    watchlist: false,
-    favorites: false,
-    initialLoading: true,
-  });
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.authReducer);
-  const { watchlist, favorites, watchlistLoading } = useSelector(
-    (state: RootState) => state.libraryReducer,
-  );
+  const { watchlist, favorites, watchlistLoading, favoritesLoading } =
+    useSelector((state: RootState) => state.libraryReducer);
 
   const [addToLibrary] = useAddToLibraryMutation();
   const [removeFromLibrary] = useRemoveFromLibraryMutation();
-  const [isInLibrary] = useLazyIsInLibraryQuery();
   const [clearLibrary, { isLoading: isClearLoading }] =
     useClearLibraryMutation();
 
@@ -126,40 +113,14 @@ const useLibrary = ({
   //translate to arabic
   const [translate] = useTranslateWithGoogleMutation();
 
-  useEffect(() => {
-    if (user && dropDownMenu && showId) {
-      (async () => {
-        setLoadingState((prev) => ({ ...prev, initialLoading: true }));
-        const [isInWatchlist, isInFavorites] = await Promise.all([
-          isInLibrary(
-            {
-              userId: user.uid,
-              showId,
-              library: "watchlist",
-            },
-            true,
-          ).unwrap(),
-          isInLibrary(
-            {
-              userId: user.uid,
-              showId,
-              library: "favorites",
-            },
-            true,
-          ).unwrap(),
-        ]);
-        setLibraryState({ watchlist: isInWatchlist, favorites: isInFavorites });
-        setLoadingState((prev) => ({ ...prev, initialLoading: false }));
-      })();
-    } else {
-      setLibraryState({ watchlist: false, favorites: false });
-      setLoadingState({
-        watchlist: false,
-        favorites: false,
-        initialLoading: false,
-      });
-    }
-  }, [user, showId, isInLibrary, dropDownMenu]);
+  const isInWatchlist = useMemo(
+    () => watchlist.some((show) => show.id.toString() === showId?.toString()),
+    [watchlist, showId],
+  );
+  const isInFavorites = useMemo(
+    () => favorites.some((show) => show.id.toString() === showId?.toString()),
+    [favorites, showId],
+  );
 
   const handleLibraryClick = async (library: LibraryType) => {
     const libraryName =
@@ -177,15 +138,15 @@ const useLibrary = ({
       });
     }
 
-    const isInLibraryState = libraryState[library];
+    const isInLibraryState =
+      library === "watchlist" ? isInWatchlist : isInFavorites;
 
     try {
-      setLoadingState((prev) => ({ ...prev, [library]: true }));
+      dispatch(setLibraryLoading({ type: library, loading: true }));
 
       if (isInLibraryState) {
         // REMOVE
         await removeFromLibrary({ userId: user.uid, showId, library });
-        setLibraryState((prevState) => ({ ...prevState, [library]: false }));
 
         const formattedShow =
           "showType" in theShow
@@ -203,9 +164,6 @@ const useLibrary = ({
         let arTitle = "";
         let arOverview = "";
         if (library === "watchlist") {
-          // const show = (await getMTDetails({ showId, showType }).unwrap()) as
-          //   | MovieDetailsResponse
-          //   | TvDetailsResponse;
           const { data: tmdbTranslations } = await getTranslations(
             {
               showId,
@@ -259,8 +217,6 @@ const useLibrary = ({
           theShow: updatedShow,
         });
 
-        setLibraryState((prevState) => ({ ...prevState, [library]: true }));
-
         dispatch(
           library === "watchlist"
             ? addToWatchlist(updatedShow)
@@ -282,7 +238,7 @@ const useLibrary = ({
       console.error(error);
       toast.error(`Error modifying ${library}`);
     } finally {
-      setLoadingState((prev) => ({ ...prev, [library]: false }));
+      dispatch(setLibraryLoading({ type: library, loading: false }));
     }
   };
 
@@ -309,8 +265,6 @@ const useLibrary = ({
   };
 
   return {
-    libraryState,
-    loadingState,
     handleLibraryClick,
     handleClearLibrary,
     isClearLoading,
@@ -318,6 +272,9 @@ const useLibrary = ({
     favorites,
     user,
     watchlistLoading,
+    favoritesLoading,
+    isInWatchlist,
+    isInFavorites,
   };
 };
 

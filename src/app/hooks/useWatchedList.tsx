@@ -1,12 +1,11 @@
 import { Link } from "@/i18n/navigation";
 import {
   useAddToWatchedMutation,
-  useLazyIsInWatchedQuery,
   useRemoveFromWatchedMutation,
 } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { RootState } from "@/lib/Redux/store";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import {
@@ -17,44 +16,28 @@ import { FirestoreTheShowI, updatedTheShow } from "./useLibrary";
 import {
   addToWatchedShows,
   removeFromWatchedShows,
+  setLibraryLoading,
 } from "@/lib/Redux/localSlices/librarySlice";
 
 const useWatchedList = ({ showId }: { showId?: number }) => {
   const t = useTranslations("Library.WatchedList");
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.authReducer);
-  const { watchedShows } = useSelector(
+  const { watchedShows, watchedShowsLoading } = useSelector(
     (state: RootState) => state.libraryReducer,
   );
-  const [isInWatchedShows, setIsInWatchedShows] = useState(false);
 
-  //isInWatched shows
-  const [
-    isInWatched,
-    { isLoading: isInWatchedLoading, isFetching: isInWatchedFetching },
-  ] = useLazyIsInWatchedQuery();
-  // add to watched
   const [addToWatchedList, { isLoading: addToWatchedListLoading }] =
     useAddToWatchedMutation();
   // remove from watched
   const [removeFromWatchedList, { isLoading: removeFromWatchedListLoading }] =
     useRemoveFromWatchedMutation();
 
-  useEffect(() => {
-    if (user && showId) {
-      (async () => {
-        const { data: res } = await isInWatched(
-          { showId, userId: user.uid },
-          true,
-        );
-        if (res) {
-          setIsInWatchedShows(true);
-        }
-      })();
-    } else {
-      setIsInWatchedShows(false);
-    }
-  }, [isInWatched, user, showId]);
+  const isInWatchedShows = useMemo(
+    () =>
+      watchedShows.some((show) => show.id.toString() === showId?.toString()),
+    [watchedShows, showId],
+  );
 
   const handleClick = async ({
     showName,
@@ -75,53 +58,55 @@ const useWatchedList = ({ showId }: { showId?: number }) => {
       });
     }
 
-    const { data: isInWatchedShows } = await isInWatched({
-      showId,
-      userId: user.uid,
-    });
+    const isInWatched = watchedShows.some(
+      (show) => show.id.toString() === showId.toString(),
+    );
 
-    if (isInWatchedShows) {
-      const formattedShow =
-        "showType" in theShow
-          ? (theShow as FirestoreTheShowI)
-          : updatedTheShow(theShow);
-      await removeFromWatchedList({ userId: user.uid, showId });
-      dispatch(removeFromWatchedShows(formattedShow));
-      setIsInWatchedShows(false);
-      toast.success(t("Toasts.RemovedFromWatchedList", { title: showName }));
-    } else {
-      const watchedAtDate = new Date().toLocaleDateString();
-      const watchedAtTime = new Date().toLocaleTimeString();
-      const formattedShow =
-        "showType" in theShow
-          ? (theShow as FirestoreTheShowI)
-          : updatedTheShow(theShow, {}, { watchedAtDate, watchedAtTime });
-      await addToWatchedList({
-        userId: user.uid,
-        theShow: formattedShow,
-      });
-      dispatch(addToWatchedShows(formattedShow));
-      setIsInWatchedShows(true);
-      toast.success(t("Toasts.AddedToWatchedList", { title: showName }), {
-        description: (
-          <Link href={`/watchedShows`} className="underline text-blue-500">
-            {t("Toasts.ViewWatchedList")}
-          </Link>
-        ),
-      });
+    try {
+      if (isInWatched) {
+        const formattedShow =
+          "showType" in theShow
+            ? (theShow as FirestoreTheShowI)
+            : updatedTheShow(theShow);
+        await removeFromWatchedList({ userId: user.uid, showId });
+        dispatch(removeFromWatchedShows(formattedShow));
+        toast.success(t("Toasts.RemovedFromWatchedList", { title: showName }));
+      } else {
+        const watchedAtDate = new Date().toLocaleDateString();
+        const watchedAtTime = new Date().toLocaleTimeString();
+        const formattedShow =
+          "showType" in theShow
+            ? (theShow as FirestoreTheShowI)
+            : updatedTheShow(theShow, {}, { watchedAtDate, watchedAtTime });
+        await addToWatchedList({
+          userId: user.uid,
+          theShow: formattedShow,
+        });
+        dispatch(addToWatchedShows(formattedShow));
+        toast.success(t("Toasts.AddedToWatchedList", { title: showName }), {
+          description: (
+            <Link href={`/watchedShows`} className="underline text-blue-500">
+              {t("Toasts.ViewWatchedList")}
+            </Link>
+          ),
+        });
+      }
+    } catch (error) {
+      console.error("Error updating watched list:", error);
+      toast.error(t("Toasts.NoDocumentToUpdate", { title: showName }));
+    } finally {
+      dispatch(setLibraryLoading({ type: "watchedShows", loading: false }));
     }
   };
 
   const isLoading = useMemo(() => {
     return (
-      isInWatchedLoading ||
-      isInWatchedFetching ||
+      watchedShowsLoading ||
       addToWatchedListLoading ||
       removeFromWatchedListLoading
     );
   }, [
-    isInWatchedLoading,
-    isInWatchedFetching,
+    watchedShowsLoading,
     addToWatchedListLoading,
     removeFromWatchedListLoading,
   ]);

@@ -41,7 +41,7 @@ const Badge = ({ count }: { count: number }) => (
 const UserMenu = ({ setUserMenu, user, handleLinkClick }: UserMenuProps) => {
   const pathname = usePathname();
   const router = useRouter({ customRouter: useNextIntlRouter });
-  const { favorites, watchlist } = useLibrary({ dropDownMenu: false });
+  const { favorites, watchlist } = useLibrary({});
   const { watchedShows } = useWatchedList({});
   const t = useTranslations("Navbar.UserMenu");
 

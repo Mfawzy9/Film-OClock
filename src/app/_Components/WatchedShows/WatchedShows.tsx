@@ -94,7 +94,7 @@ const WatchedShows = () => {
                     className="absolute -top-3 -end-3 text-lg bg-red-600 hover:bg-red-800 rounded-full p-0.5"
                     onClick={() =>
                       handleClick({
-                        showId: Number(show.id),
+                        showId: show.id,
                         showName: show.title,
                         theShow: show,
                       })

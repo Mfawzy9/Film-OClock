@@ -26,11 +26,17 @@ const WatchlistFavoriteBtns = ({
 }) => {
   const t = useTranslations("Library");
 
-  const { libraryState, loadingState, handleLibraryClick } = useLibrary({
+  const {
+    isInFavorites,
+    isInWatchlist,
+    handleLibraryClick,
+    watchlistLoading,
+    favoritesLoading,
+  } = useLibrary({
     showId,
     theShow,
-    dropDownMenu: true,
   });
+
   if (!theShow) return null;
   const showType = "original_title" in theShow ? "movie" : "tv";
 
@@ -39,11 +45,8 @@ const WatchlistFavoriteBtns = ({
     isInLibrary: boolean,
     addIcon: JSX.Element,
     removeIcon: JSX.Element,
+    libraryLoading: boolean,
   ) => {
-    const isLoading =
-      loadingState[library] ||
-      (loadingState.initialLoading && !libraryState[library]);
-
     const libraryName =
       library === "watchlist"
         ? t("Watchlist.WatchlistName")
@@ -51,12 +54,12 @@ const WatchlistFavoriteBtns = ({
 
     return (
       <button
-        disabled={isLoading}
+        disabled={libraryLoading}
         onClick={() => handleLibraryClick(library)}
         className="relative group cursor-pointer hover:text-blue-500 disabled:cursor-not-allowed
           disabled:opacity-70 disabled:hover:text-white"
       >
-        {isLoading ? (
+        {libraryLoading ? (
           <RiLoader2Fill className="animate-spin text-4xl" />
         ) : !isInLibrary ? (
           <>
@@ -92,17 +95,19 @@ const WatchlistFavoriteBtns = ({
       {/* Watchlist */}
       {renderButton(
         "watchlist",
-        libraryState.watchlist,
+        isInWatchlist,
         <FaNotesMedical className="text-3xl" />,
         <MdAssignmentTurnedIn className="text-3xl text-green-600" />,
+        watchlistLoading,
       )}
 
       {/* Favorites */}
       {renderButton(
         "favorites",
-        libraryState.favorites,
+        isInFavorites,
         <RiHeartAddFill className="text-3xl" />,
         <RiHeartsFill className="text-3xl text-green-600" />,
+        favoritesLoading,
       )}
 
       <button

@@ -52,8 +52,12 @@ const LibraryInit = () => {
       dispatch(setFavorites(favorites));
       dispatch(setWatchedShows(watchedShows));
       dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
+      dispatch(setLibraryLoading({ type: "favorites", loading: false }));
+      dispatch(setLibraryLoading({ type: "watchedShows", loading: false }));
     } else if (!user) {
       dispatch(setLibraryLoading({ type: "watchlist", loading: false }));
+      dispatch(setLibraryLoading({ type: "favorites", loading: false }));
+      dispatch(setLibraryLoading({ type: "watchedShows", loading: false }));
     }
   }, [user, watchlist, favorites, dispatch, watchedShows, userStatusLoading]);
 

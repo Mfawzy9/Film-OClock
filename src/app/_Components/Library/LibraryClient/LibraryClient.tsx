@@ -45,7 +45,7 @@ const LibraryClient = () => {
   );
 
   const { handleClearLibrary, isClearLoading, favorites, watchlist } =
-    useLibrary({ dropDownMenu: false });
+    useLibrary({});
 
   useEffect(() => {
     if (getLibrary) {

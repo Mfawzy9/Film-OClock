@@ -35,10 +35,15 @@ const WatchlistFavoriteDD = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const { libraryState, loadingState, handleLibraryClick } = useLibrary({
+  const {
+    isInFavorites,
+    isInWatchlist,
+    favoritesLoading,
+    watchlistLoading,
+    handleLibraryClick,
+  } = useLibrary({
     showId,
     theShow: theShow as Movie | TVShow,
-    dropDownMenu: dropDownMenu,
   });
 
   // Close dropdown on click outside
@@ -74,11 +79,8 @@ const WatchlistFavoriteDD = ({
     removeIcon: JSX.Element,
     addText: string,
     removeText: string,
+    libraryLoading: boolean,
   ) => {
-    const isLoading =
-      loadingState[library] ||
-      (loadingState.initialLoading && !libraryState[library]);
-
     return (
       <li
         onClick={(e) => {
@@ -87,9 +89,9 @@ const WatchlistFavoriteDD = ({
         }}
         className={`flex relative items-center gap-2 px-2 py-0.5 transition-all duration-200
           whitespace-nowrap
-          ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-blue-700 lg:hover:shadow-blueGlow"}`}
+          ${libraryLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-blue-700 lg:hover:shadow-blueGlow"}`}
       >
-        {isLoading ? (
+        {libraryLoading ? (
           <RiLoader2Fill className="animate-spin text-xl" />
         ) : !isInLibrary ? (
           <>
@@ -152,19 +154,21 @@ const WatchlistFavoriteDD = ({
           >
             {renderLibraryItem(
               "watchlist",
-              libraryState.watchlist,
+              isInWatchlist,
               <FaNotesMedical className="text-xl" />,
               <MdAssignmentTurnedIn className="text-xl text-green-600" />,
               t("AddToWatchlist"),
               t("RemoveFromWatchlist"),
+              watchlistLoading,
             )}
             {renderLibraryItem(
               "favorites",
-              libraryState.favorites,
+              isInFavorites,
               <RiHeartAddFill className="text-xl" />,
               <RiHeartsFill className="text-xl text-green-600" />,
               t("AddToFavorites"),
               t("RemoveFromFavorites"),
+              favoritesLoading,
             )}
             {new Date(
               (theShow as FirestoreTheShowI | WatchHistoryItem).releaseDate ||

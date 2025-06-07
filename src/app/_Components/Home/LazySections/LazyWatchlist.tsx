@@ -30,9 +30,7 @@ const LazyWatchlist = () => {
     isClearLoading,
     handleClearLibrary,
     watchlistLoading,
-  } = useLibrary({
-    dropDownMenu: false,
-  });
+  } = useLibrary({});
 
   const sliderProps = useMemo(
     () => ({
