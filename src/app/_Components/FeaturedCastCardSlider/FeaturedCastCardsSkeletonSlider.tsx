@@ -17,11 +17,6 @@ const FeaturedCastCardsSkeletonSlider = () => {
         </div>
         <div className="relative">
           <Swiper
-            autoplay={{
-              delay: 12000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
             modules={[Virtual]}
             autoHeight={false}
             watchSlidesProgress={false}

@@ -2,9 +2,9 @@ const TopOneCardSkeleton = () => {
   return (
     <section>
       <div
-        className="italic animate-pulse mb-4 mx-auto lg:mx-0 w-fit lg:-mb-6 relative
-          after:content-[''] after:animate-bounce after:absolute after:-bottom-3
-          after:start-0 after:w-14 lg:after:h-1 after:bg-blue-800"
+        className="italic animate-pulse mb-4 w-fit lg:-mb-6 relative after:content-['']
+          after:animate-bounce after:absolute after:-bottom-3 after:start-0 after:w-14
+          lg:after:h-1 after:bg-blue-800"
       >
         <div className="h-6 w-40 bg-gray-700 rounded" />
       </div>
