@@ -39,7 +39,7 @@ const PersonDetailsSkeleton = () => {
           <div>
             <div className="h-5 w-32 bg-gray-700 rounded relative animate-pulse mb-2" />
             <div className="flex flex-wrap gap-2 animate-pulse">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
                   className="w-[75px] h-[110px] bg-gray-700 rounded-md"

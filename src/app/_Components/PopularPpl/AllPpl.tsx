@@ -38,11 +38,11 @@ const AllPpl = ({
       {/* all cast */}
       <main className="mt-28">
         <div
-          className="italic animate-pulse mb-10 mx-auto lg:mx-0 w-fit relative after:content-['']
+          className="italic animate-pulse lg:mb-7 lg:mx-0 w-fit relative after:content-['']
             after:animate-bounce after:absolute after:-bottom-3 after:left-0 after:w-14
             lg:after:h-1 after:bg-blue-800"
         >
-          <Title title={t("AllStars")} />
+          <Title title={t("AllStars")} className="!text-2xl xs:!text-3xl" />
         </div>
         <div
           className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6

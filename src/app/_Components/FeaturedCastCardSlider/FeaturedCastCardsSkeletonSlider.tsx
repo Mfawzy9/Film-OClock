@@ -7,12 +7,12 @@ const FeaturedCastCardsSkeletonSlider = () => {
     <>
       <main>
         <div
-          className="italic animate-pulse mx-auto lg:mx-0 w-fit relative after:content-['']
+          className="italic animate-pulse lg:mx-0 w-1/5 relative after:content-['']
             after:animate-bounce after:absolute after:-bottom-3 after:start-0 after:w-14
             lg:after:h-1 after:bg-blue-800"
         >
           <div className="flex justify-between items-center mb-6">
-            <div className="h-8 w-1/4 bg-gray-700 rounded animate-pulse"></div>
+            <div className="h-8 w-full bg-gray-700 rounded animate-pulse"></div>
           </div>
         </div>
         <div className="relative">

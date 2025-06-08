@@ -50,7 +50,7 @@ const TopOneCardSkeleton = () => {
                   after:-bottom-1 after:start-0 after:w-12 after:h-1 after:bg-blue-800 mb-2"
               />
               <div className="flex flex-wrap gap-2">
-                {[...Array(3)].map((_, i) => (
+                {[...Array(6)].map((_, i) => (
                   <div
                     key={i}
                     className="w-[75px] h-[110px] bg-gray-700 rounded-md"

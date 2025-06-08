@@ -109,6 +109,7 @@ const PopularPpl = () => {
             Component={FeaturedCastCardsSlider}
             props={{ featuredCast, isLoading }}
             loading={<FeaturedCastCardsSkeletonSlider />}
+            threshold={0.5}
           />
         </section>
 

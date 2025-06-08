@@ -81,7 +81,7 @@ const LatestWorks = ({
         (work, index, self) =>
           index === self.findIndex((w) => w.id === work.id), // Remove duplicates based on `id`
       )
-      .slice(0, 5); // Get the latest 5 unique works
+      .slice(0, 6); // Get the latest 5 unique works
   }, [person]);
 
   return (

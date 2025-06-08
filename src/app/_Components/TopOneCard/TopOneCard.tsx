@@ -68,17 +68,20 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
   return (
     <section>
       <div
-        className="italic animate-pulse mb-4 mx-auto lg:mx-0 w-fit lg:-mb-6 relative
-          after:content-[''] after:animate-bounce after:absolute after:-bottom-3
-          after:start-0 after:w-14 lg:after:h-1 after:bg-blue-800"
+        className="italic animate-pulse mb-4 w-fit lg:-mb-6 relative after:content-['']
+          after:animate-bounce after:absolute after:-bottom-3 after:start-0 after:w-14
+          lg:after:h-1 after:bg-blue-800"
       >
-        <Title title={t("TopOne.TopOneTitle")} />
+        <Title
+          title={t("TopOne.TopOneTitle")}
+          className="!text-2xl xs:!text-3xl"
+        />
       </div>
       <main className="flex flex-col lg:flex-row items-center rounded-md max-w-[992px] mx-auto">
         {/* top actor details */}
         <div
-          className="bg-black flex flex-col gap-2 grow md:h-72 shadow-blueGlow -me-2 ps-4 pe-6 py-2
-            rounded-md"
+          className="bg-black flex flex-col gap-2 grow md:h-72 shadow-blueGlow -me-2 px-4 lg:ps-4
+            lg:pe-6 py-2 rounded-md"
         >
           {/* Name and social links */}
           <div className="flex items-center justify-between flex-wrap gap-1">

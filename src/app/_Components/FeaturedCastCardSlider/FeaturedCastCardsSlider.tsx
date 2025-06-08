@@ -61,11 +61,14 @@ const FeaturedCastCardsSlider = ({
     <>
       <main>
         <div
-          className="italic animate-pulse mx-auto lg:mx-0 w-fit relative after:content-['']
+          className="italic animate-pulse lg:mb-3 lg:mx-0 w-fit relative after:content-['']
             after:animate-bounce after:absolute after:-bottom-3 after:start-0 after:w-14
             lg:after:h-1 after:bg-blue-800"
         >
-          <Title title={t("featuredCast.title")} />
+          <Title
+            title={t("featuredCast.title")}
+            className="!text-2xl xs:!text-3xl !mb-0"
+          />
         </div>
         <div className="relative">
           <Swiper
