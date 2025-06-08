@@ -148,19 +148,32 @@ const VideosSlider = ({
           lazyPreloadPrevNext={2}
           className="!py-5 !px-2"
         >
-          {videosResults?.map((theShow, idx) => {
-            if (theShow.trailers.length > 0)
+          {videosResults
+            ?.filter(
+              (show) =>
+                show.trailers.some((v) => v.site === "YouTube") &&
+                show.trailers.some(
+                  (v) => v.site === "YouTube" && v.type === "Trailer",
+                ),
+            )
+            .map((show, idx) => {
+              const videoKey = show.trailers.find(
+                (v) => v.site === "YouTube" && v.type === "Trailer",
+              )?.key;
+
+              if (!videoKey) return null;
+
               return (
-                <SwiperSlide key={idx} virtualIndex={idx} className="">
+                <SwiperSlide key={idx} virtualIndex={idx}>
                   <TrailerCard
-                    name={theShow.showName}
-                    showId={theShow.showId}
+                    name={show.showName}
+                    showId={show.showId}
                     showType={showType}
-                    videoKey={theShow.trailers[0].key}
+                    videoKey={videoKey}
                   />
                 </SwiperSlide>
               );
-          })}
+            })}
         </Swiper>
 
         {/* Navigation buttons */}
