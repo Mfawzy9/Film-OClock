@@ -2,8 +2,6 @@ import MovieCollectionComp from "@/app/_Components/MovieCollectionComp/MovieColl
 import { getTranslations } from "next-intl/server";
 import { getMovieCollectionWithNextCache } from "../../../../../../lib/tmdbRequests";
 import { Metadata } from "next";
-import CollectionSkeleton from "@/app/_Components/MovieCollectionComp/CollectionSkeleton";
-import { Suspense } from "react";
 
 interface params {
   params: Promise<{
@@ -98,13 +96,11 @@ const MovieCollectionPage = async ({ params }: params) => {
   const { locale, collectionId, slug } = await params;
 
   return (
-    <Suspense fallback={<CollectionSkeleton />}>
-      <MovieCollectionComp
-        locale={locale}
-        collectionId={collectionId}
-        slug={slug}
-      />
-    </Suspense>
+    <MovieCollectionComp
+      locale={locale}
+      collectionId={collectionId}
+      slug={slug}
+    />
   );
 };
 

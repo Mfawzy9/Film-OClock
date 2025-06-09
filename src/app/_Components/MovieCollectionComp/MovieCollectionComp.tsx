@@ -37,18 +37,27 @@ const MovieCollectionComp = async ({
           (translation) =>
             translation.iso_639_1 === "ar" && translation.iso_3166_1 === "SA",
         )
-        ?.data?.overview.trim();
+        ?.data?.overview?.trim();
       const arabicAeOverview = collectionTranslations.translations
         .find(
           (translation) =>
             translation.iso_639_1 === "ar" && translation.iso_3166_1 === "AE",
         )
-        ?.data?.overview.trim();
+        ?.data?.overview?.trim();
       return arabicSaOverview || arabicAeOverview || collectionDetails.overview;
     } else {
       return collectionDetails?.overview || null;
     }
   };
+
+  const overview = finalOverview();
+
+  if (!collectionDetails) {
+    const { default: CollectionSkeleton } = await import(
+      "./CollectionSkeleton"
+    );
+    return <CollectionSkeleton />;
+  }
 
   return (
     <>
@@ -90,7 +99,7 @@ const MovieCollectionComp = async ({
               {collectionDetails?.name}
             </h2>
 
-            {finalOverview() && (
+            {overview && (
               <div>
                 <h4 className="font-bold text-xl mb-1">
                   {locale === "en" ? "Overview" : "الملخص"}
@@ -100,7 +109,7 @@ const MovieCollectionComp = async ({
                     "tracking-wide leading-relaxed text-gray-200 text-sm "
                   }
                 >
-                  {finalOverview()}
+                  {overview}
                 </p>
               </div>
             )}
