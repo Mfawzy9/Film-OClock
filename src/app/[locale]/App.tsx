@@ -50,7 +50,7 @@ const App = ({
         <BackToTop />
         <ImgModal />
         <VideoModal />
-        <Navbar />
+        <Navbar isDesktop={isDesktop} />
         <div className="min-h-screen">{children}</div>
         <Footer />
       </ProgressProvider>

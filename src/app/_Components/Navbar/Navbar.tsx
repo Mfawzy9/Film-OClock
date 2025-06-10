@@ -22,7 +22,7 @@ export interface NavbarlinksI {
   children?: { name: string; href: string }[];
 }
 
-const Navbar = () => {
+const Navbar = ({ isDesktop }: { isDesktop: boolean }) => {
   const pathname = usePathname();
   const [userMenu, setUserMenu] = useState(false);
   const { scrollY } = useScroll();
@@ -33,7 +33,7 @@ const Navbar = () => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("Navbar");
 
-  const links = useMemo(
+  const links: NavbarlinksI[] = useMemo(
     () => [
       {
         name: t("Home"),
@@ -112,8 +112,8 @@ const Navbar = () => {
           width={40}
           height={40}
           alt={
-            user?.displayName?.charAt(0).toUpperCase() ??
-            user.email?.charAt(0).toUpperCase() ??
+            user?.displayName?.charAt(0).toUpperCase() ||
+            user.email?.charAt(0).toUpperCase() ||
             ""
           }
         />
@@ -155,19 +155,21 @@ const Navbar = () => {
         <SearchBox />
 
         {/* Desktop Navigation */}
-        <ul
-          className={`items-center hidden lg:flex gap-3 lg:gap-5 xl:gap-8 text-lg
-            ${isArabic ? "font-cairo" : "font-righteous"} lg:text-xl`}
-        >
-          {links.map((link) => (
-            <NavLink
-              key={link.name}
-              link={link}
-              pathname={pathname}
-              handleLinkClick={handleLinkClick}
-            />
-          ))}
-        </ul>
+        {isDesktop && (
+          <ul
+            className={`items-center flex gap-3 lg:gap-5 xl:gap-8 text-lg
+            ${isArabic ? "font-cairo" : "font-righteous"} text-xl`}
+          >
+            {links.map((link) => (
+              <NavLink
+                key={link.name}
+                link={link}
+                pathname={pathname}
+                handleLinkClick={handleLinkClick}
+              />
+            ))}
+          </ul>
+        )}
 
         <div className="flex items-center gap-2 pe-1">
           {/* Language Switcher */}
@@ -220,7 +222,7 @@ const Navbar = () => {
           )}
 
           {/* Mobile Menu */}
-          <MobileMenu links={links} isArabic={isArabic} />
+          {!isDesktop && <MobileMenu links={links} isArabic={isArabic} />}
         </div>
       </nav>
     </header>
@@ -295,7 +297,7 @@ const NavLink = memo(
     }
 
     return (
-      <motion.li
+      <li
         className={`${
           currentPath === link.href.split("?")[0]
             ? "text-white"
@@ -317,7 +319,7 @@ const NavLink = memo(
         >
           {link.name}
         </Link>
-      </motion.li>
+      </li>
     );
   },
 );

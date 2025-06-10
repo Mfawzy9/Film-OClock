@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
         lg:hover:shadow-blueGlow transition-all rounded-full px-2 py-1 text-white
         font-semibold"
     >
-      <FaGlobeAmericas className="text-lg" />{" "}
+      <FaGlobeAmericas className="text-lg" />
       <span>{locale === "en" ? "ع" : "EN"}</span>
     </button>
   );

@@ -30,6 +30,7 @@ const Videos = ({ videos, name }: VideosProps) => {
   const nameQuery =
     videos?.results?.find((video) => video.type === "Trailer")?.type ||
     t("AllVideos");
+
   const [activeSelect, setActiveSelect] = useState({
     query: nameQuery,
     name: nameQuery,
