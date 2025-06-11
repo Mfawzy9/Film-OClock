@@ -11,7 +11,7 @@ import {
   setWatchlist,
 } from "@/lib/Redux/localSlices/librarySlice";
 import { RootState } from "@/lib/Redux/store";
-import { fetchUserCountry } from "../../../../../helpers/userLocation";
+import { isUserInArabicCountry } from "../../../../../helpers/userLocation";
 import { setIsUserInMiddleEast } from "@/lib/Redux/localSlices/authSlice";
 
 const LibraryInit = () => {
@@ -42,7 +42,7 @@ const LibraryInit = () => {
   );
 
   useEffect(() => {
-    fetchUserCountry().then((res) => dispatch(setIsUserInMiddleEast(res)));
+    isUserInArabicCountry().then((res) => dispatch(setIsUserInMiddleEast(res)));
   }, [dispatch]);
 
   useEffect(() => {

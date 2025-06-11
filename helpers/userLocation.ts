@@ -23,20 +23,39 @@ export const arabicCountries = [
   { code: "KM", name: "Comoros" },
 ];
 
-export const isArabicCountry = async (
-  countryCode: string,
-): Promise<boolean> => {
-  return arabicCountries.some((country) => country.code === countryCode);
-};
+const CACHE_KEY = "isArabicCountry";
+const CACHE_TIME_KEY = "isArabicCountryTimestamp";
+const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10; // 10 days
 
-export const fetchUserCountry = async (): Promise<boolean> => {
+export const isUserInArabicCountry = async (): Promise<boolean> => {
+  if (typeof window === "undefined") return false;
+
   try {
+    // Check localStorage
+    const cached = localStorage.getItem(CACHE_KEY);
+    const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+
+    if (cached && cachedTime) {
+      const age = Date.now() - Number(cachedTime);
+      if (age < TEN_DAYS_MS) return cached === "true";
+    }
+
+    // Fetch country from IP
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
-    const countryCode = data?.country;
-    return isArabicCountry(countryCode);
+    const countryCode = data?.country?.toUpperCase();
+
+    const isArabic = arabicCountries.some(
+      (country) => country.code === countryCode,
+    );
+
+    // Save to localStorage
+    localStorage.setItem(CACHE_KEY, String(isArabic));
+    localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
+
+    return isArabic;
   } catch (err) {
-    console.error("Failed to fetch location:", err);
+    console.error("Failed to fetch country:", err);
     return false;
   }
 };
