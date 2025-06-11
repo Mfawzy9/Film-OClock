@@ -23,24 +23,27 @@ export const arabicCountries = [
   { code: "KM", name: "Comoros" },
 ];
 
-const CACHE_KEY = "isArabicCountry";
-const CACHE_TIME_KEY = "isArabicCountryTimestamp";
-const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10; // 10 days
+const CACHE_KEY = "isArabicCountryCache";
+const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10; // 10 days in milliseconds
 
 export const isUserInArabicCountry = async (): Promise<boolean> => {
-  if (typeof window === "undefined") return false;
+  if (typeof window === "undefined") return false; // Don't run on the server
 
   try {
-    // Check localStorage
+    // 1. Try reading the cache
     const cached = localStorage.getItem(CACHE_KEY);
-    const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
 
-    if (cached && cachedTime) {
-      const age = Date.now() - Number(cachedTime);
-      if (age < TEN_DAYS_MS) return cached === "true";
+    if (cached) {
+      const { isArabic, timestamp } = JSON.parse(cached);
+      const age = Date.now() - timestamp;
+
+      // 2. Use cached value if it's still valid
+      if (age < TEN_DAYS_MS) {
+        return isArabic;
+      }
     }
 
-    // Fetch country from IP
+    // 3. If no valid cache, fetch the user's country from IP
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
     const countryCode = data?.country?.toUpperCase();
@@ -49,9 +52,13 @@ export const isUserInArabicCountry = async (): Promise<boolean> => {
       (country) => country.code === countryCode,
     );
 
-    // Save to localStorage
-    localStorage.setItem(CACHE_KEY, String(isArabic));
-    localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
+    // 4. Cache the result
+    const cacheData = {
+      isArabic,
+      timestamp: Date.now(),
+    };
+
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
 
     return isArabic;
   } catch (err) {
