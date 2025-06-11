@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DESKTOP_BREAKPOINT = 1024;
 
 export default function useIsDesktop(): boolean {
-  const [isDesktop, setIsDesktop] = useState(() =>
-    typeof window !== "undefined"
-      ? window.innerWidth >= DESKTOP_BREAKPOINT
-      : true,
-  );
+  const [isDesktop, setIsDesktop] = useState(false);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -26,6 +23,11 @@ export default function useIsDesktop(): boolean {
         timeout = null;
       }, 150);
     };
+
+    if (!hasMounted.current) {
+      handleResize();
+      hasMounted.current = true;
+    }
 
     window.addEventListener("resize", throttledResize);
     return () => {

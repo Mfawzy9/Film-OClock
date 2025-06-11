@@ -157,7 +157,7 @@ const Navbar = ({ isDesktop }: { isDesktop: boolean }) => {
         {/* Desktop Navigation */}
         {isDesktop && (
           <ul
-            className={`items-center flex gap-3 lg:gap-5 xl:gap-8 text-lg
+            className={`items-center hidden lg:flex gap-3 lg:gap-5 xl:gap-8 text-lg
             ${isArabic ? "font-cairo" : "font-righteous"} text-xl`}
           >
             {links.map((link) => (
