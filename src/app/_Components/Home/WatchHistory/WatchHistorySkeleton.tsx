@@ -39,7 +39,10 @@ const WatchHistorySkeleton = ({ length = 4 }: { length?: number }) => {
               </div>
 
               {/* duration */}
-              <div className="h-3 w-16 bg-gray-700 animate-pulse rounded self-start" />
+              <div className="flex justify-between text-gray-500 border-t border-dashed border-gray-700 pt-2">
+                <div className="h-3 w-16 bg-gray-700 animate-pulse rounded self-start" />
+                <div className="h-3 w-16 bg-gray-700 animate-pulse rounded self-start" />
+              </div>
             </div>
           </div>
         ))}
