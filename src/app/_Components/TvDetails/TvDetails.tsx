@@ -32,7 +32,7 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import { notFound } from "next/navigation";
 import LazyRender from "../LazyRender/LazyRender";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
-import { getShowTitle } from "../../../../helpers/helpers";
+import { formatDate, getShowTitle } from "../../../../helpers/helpers";
 import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
 import { FaComments } from "@react-icons/all-files/fa/FaComments";
 import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
@@ -180,7 +180,12 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
       {
         name: t("Tabs.Reviews"),
         icon: <FaComments />,
-        content: <Reviews reviews={tvShow?.reviews as TvReviewsResponse} />,
+        content: (
+          <Reviews
+            reviews={tvShow?.reviews as TvReviewsResponse}
+            isArabic={isArabic}
+          />
+        ),
       },
     ],
     [tvShow, TvShowImages, t, isArabic],
@@ -340,13 +345,9 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                 <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="font-bold">{t("FirstAirDate")}</h4>
                   <p className="text-gray-200">
-                    {new Date(tvShow?.first_air_date).toLocaleString(
+                    {formatDate(
+                      tvShow?.first_air_date,
                       isArabic ? "ar" : "en-US",
-                      {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      },
                     )}
                   </p>
                 </div>
@@ -356,13 +357,9 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                 <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="font-bold">{t("LastAirDate")}</h4>
                   <p className="text-gray-200">
-                    {new Date(tvShow?.last_air_date).toLocaleString(
+                    {formatDate(
+                      tvShow?.last_air_date,
                       isArabic ? "ar" : "en-US",
-                      {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      },
                     )}
                   </p>
                 </div>

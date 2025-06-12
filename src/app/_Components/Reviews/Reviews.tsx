@@ -9,8 +9,10 @@ import { useTranslations } from "next-intl";
 
 const Reviews = ({
   reviews,
+  isArabic,
 }: {
   reviews: MovieReviewsResponse | TvReviewsResponse;
+  isArabic: boolean;
 }) => {
   const t = useTranslations("MovieDetails");
   // to get the reviews with avatar as first
@@ -59,7 +61,7 @@ const Reviews = ({
                     {review.author || review.author_details.username}
                   </p>
                   <p className="text-stone-400 text-sm">
-                    {formatDate(review.created_at, "en-US")}
+                    {formatDate(review.created_at, isArabic ? "ar" : "en")}
                   </p>
                 </span>
               </div>

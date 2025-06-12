@@ -172,7 +172,12 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
       {
         name: t("Tabs.Reviews"),
         icon: <FaComments />,
-        content: <Reviews reviews={movie?.reviews as MovieReviewsResponse} />,
+        content: (
+          <Reviews
+            reviews={movie?.reviews as MovieReviewsResponse}
+            isArabic={isArabic}
+          />
+        ),
       },
     ],
     [movie, movieImages, t, showId, showType, isArabic],
