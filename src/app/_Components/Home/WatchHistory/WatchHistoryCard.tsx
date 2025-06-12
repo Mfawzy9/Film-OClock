@@ -4,11 +4,9 @@ import Link from "next/link";
 import {
   secondsToHMS,
   minutesToHMS,
-  minutesToHours,
   nameToSlug,
 } from "../../../../../helpers/helpers";
 import Image from "next/image";
-import useIsArabic from "@/app/hooks/useIsArabic";
 import { memo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
@@ -22,7 +20,6 @@ interface props {
 }
 
 const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
-  const { isArabic } = useIsArabic();
   const dispatch = useDispatch();
   const isImgLoaded = useSelector(
     (state: RootState) =>
@@ -87,7 +84,7 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
         {/* details */}
         <div className="flex flex-col mt-2 gap-1.5 px-2 pb-1">
           {/* progress bar */}
-          <div className="bg-gray-200 rounded-full h-2 dark:bg-gray-700 max-w-52">
+          <div className="rounded-full h-2 bg-gray-700 max-w-52">
             <div
               className="bg-blue-600 h-2 rounded-full"
               style={{ width: `${show.progress.percentage}%` }}
@@ -107,12 +104,15 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
             </span>
           </div>
           {/* time */}
-          <div className="flex justify-between text-xs text-gray-400">
+          <div
+            className="flex justify-between text-xs text-gray-400 border-t border-dashed
+              border-gray-700 pt-2"
+          >
             <span>
-              {minutesToHours(
-                (show.movieRuntime ?? 0) || (show.episodeRuntime ?? 0),
-                isArabic,
-              )}
+              <span>
+                {show.watchedTime.split(":").slice(0, 2).join(":")}{" "}
+                {t(show.watchedTime.split(" ")[1])}
+              </span>
             </span>
             <span>{show.watchedAt}</span>
           </div>
