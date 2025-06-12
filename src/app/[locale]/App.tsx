@@ -19,7 +19,7 @@ const App = ({
   locale,
 }: {
   children: React.ReactNode;
-  locale: string;
+  locale: "en" | "ar";
 }) => {
   const isDesktop = useIsDesktop();
   useEffect(() => {
@@ -46,7 +46,7 @@ const App = ({
         }}
       >
         <RouteTracker />
-        <LibraryInit />
+        <LibraryInit locale={locale} />
         <BackToTop />
         <ImgModal />
         <VideoModal />

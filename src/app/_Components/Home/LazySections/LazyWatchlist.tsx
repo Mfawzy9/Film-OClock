@@ -67,7 +67,7 @@ const LazyWatchlist = () => {
           !user && !userStatusLoading && <LoggedoutEmptyWL />
         )}
         {user && watchlist && watchlist.length > 0 && !userStatusLoading && (
-          <div className="p-2 sm:p-4 relative">
+          <div className="p-2 md:p-4 relative">
             <LazyRenderForServerParent
               loading={
                 <CardsSkeletonSlider arrLength={sliderProps.arrLength} />
@@ -80,9 +80,10 @@ const LazyWatchlist = () => {
                 sliderType="movies"
                 title={t("WatchlistSection.YourWatchlistSliderTitle")}
                 pageLink="/library/watchlist"
+                className="space-y-3"
               />
             </LazyRenderForServerParent>
-            <div className="relative md:absolute top-2 end-2 p-2 md:p-0 flex justify-center">
+            <div className="relative md:absolute top-4 md:end-4 p-2 md:p-0 flex justify-center">
               <WlFClearBtn
                 handleClearLibrary={handleClearLibrary}
                 libraryType="watchlist"
