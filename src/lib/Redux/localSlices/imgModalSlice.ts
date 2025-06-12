@@ -28,6 +28,8 @@ const imageModalSlice = createSlice({
     closeImgModal: (state) => {
       state.isOpen = false;
       document.body.classList.remove("overflow-hidden");
+      state.images = [];
+      state.selectedIndex = null;
     },
     nextImage: (state) => {
       if (state.selectedIndex === null || state.images.length === 0) return;

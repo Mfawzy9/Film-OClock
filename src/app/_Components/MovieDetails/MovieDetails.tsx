@@ -230,8 +230,8 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
       <section className="px-3 sm:px-7 pt-28 md:pt-0 lg:max-w-screen-xl mx-auto mb-24">
         <div
           className={`flex flex-col min-h-screen 3xl:min-h-[unset] md:flex-row
-            ${isOverviewExpanded ? "items-start" : "items-center"} justify-center relative
-            md:pt-32 gap-6 4xl:pt-48`}
+            ${isOverviewExpanded ? "md:items-start" : "md:items-center"} relative md:pt-32
+            gap-6 4xl:pt-48`}
         >
           {/* Movie Poster */}
           <div className="sm:w-[300px] sm:h-fit mx-auto md:mx-0 flex-none relative flex flex-col gap-4">
@@ -268,7 +268,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
           </div>
 
           {/* Movie Info */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:flex-1">
             <h2 className="text-4xl font-righteous flex gap-3 items-center ps-2 border-s-4 border-blue-700">
               {isArabic && movie?.original_language === "ar"
                 ? arabicTranslations?.title || movie?.original_title

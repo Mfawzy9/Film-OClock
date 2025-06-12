@@ -176,7 +176,7 @@ const MobileMenu = ({
 
       {isMobileMenuOpen && (
         <motion.div
-          initial={{ opacity: 0, x: -10 }}
+          initial={{ opacity: 0, x: isArabic ? 10 : -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
           className="absolute z-40 top-4 start-4 text-base md:hidden"

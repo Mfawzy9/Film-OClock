@@ -114,6 +114,7 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
                 isArabic,
               )}
             </span>
+            <span>{show.watchedAt}</span>
           </div>
         </div>
       </Link>
