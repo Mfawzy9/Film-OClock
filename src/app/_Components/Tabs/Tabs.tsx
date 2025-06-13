@@ -33,7 +33,7 @@ const Tabs = ({ tabs, setActiveTab, activeTab }: TabsProps) => {
           font-semibold rounded shadow-sm shadow-gray-600"
       >
         {tabs.map((tab, idx) => (
-          <motion.button
+          <button
             key={idx}
             onClick={() => handleTabClick(tab.name)}
             className={`px-2 py-1.5 hover:text-white xs:px-4 xs:py-2 rounded-md relative text-sm
@@ -50,7 +50,7 @@ const Tabs = ({ tabs, setActiveTab, activeTab }: TabsProps) => {
                 style={{ willChange: "transform" }}
               />
             )}
-          </motion.button>
+          </button>
         ))}
       </main>
 

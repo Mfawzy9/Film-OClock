@@ -84,9 +84,9 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
         {/* details */}
         <div className="flex flex-col mt-2 gap-1.5 px-2 pb-1">
           {/* progress bar */}
-          <div className="rounded-full h-2 bg-gray-700 max-w-52">
+          <div className="rounded-full h-2.5 bg-gray-700 max-w-52">
             <div
-              className="bg-blue-600 h-2 rounded-full"
+              className="bg-blue-600 h-2.5 rounded-full"
               style={{ width: `${show.progress.percentage}%` }}
             />
           </div>
@@ -105,13 +105,13 @@ const WatchHistoryCard = ({ show, t, deleteHistoryItem }: props) => {
           </div>
           {/* time */}
           <div
-            className="flex justify-between text-xs text-gray-400 border-t border-dashed
+            className="flex justify-between font-bold text-sm text-gray-300 border-t border-dashed
               border-gray-700 pt-2"
           >
             <span>
               <span>
                 {show.watchedTime.split(":").slice(0, 2).join(":")}{" "}
-                {t(show.watchedTime.split(" ")[1])}
+                {show.watchedTime.split(" ")[1] === "AM" ? t("AM") : t("PM")}
               </span>
             </span>
             <span>{show.watchedAt}</span>
