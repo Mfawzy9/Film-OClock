@@ -110,7 +110,7 @@ const CompanyComp = ({
     );
 
   return (
-    <main className={`relative ${true ? "min-h-screen" : ""}`}>
+    <main className="relative min-h-screen">
       {/* Company Details Background */}
       {companyDetails.logo_path && (
         <div className="min-h-screen fixed w-full -z-10">
@@ -203,9 +203,7 @@ const CompanyComp = ({
           </>
         )}
 
-        <div
-          className={`${true ? "absolute bottom-0 left-1/2 transform -translate-x-1/2 py-5" : ""} `}
-        >
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 py-5">
           {data?.total_pages && data?.total_pages > 1 && (
             <Pagination
               isLoading={isLoading}
