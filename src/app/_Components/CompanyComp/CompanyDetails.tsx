@@ -28,7 +28,7 @@ const CompanyDetails = ({
               alt={`${companyDetails.name} logo`}
               width={160}
               height={160}
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full drop-shadow-[0_0_0.5px_white]"
             />
           ) : (
             <span className="text-gray-500 text-lg font-medium">

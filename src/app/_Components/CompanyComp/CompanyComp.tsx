@@ -110,7 +110,7 @@ const CompanyComp = ({
     );
 
   return (
-    <>
+    <main className={`relative ${true ? "min-h-screen" : ""}`}>
       {/* Company Details Background */}
       {companyDetails.logo_path && (
         <div className="min-h-screen fixed w-full -z-10">
@@ -126,8 +126,9 @@ const CompanyComp = ({
           <div className="absolute inset-0 bg-black/90" />
         </div>
       )}
-
-      <PageSection className={`${companyDetails?.logo_path ? "pt-48" : ""}`}>
+      <PageSection
+        className={`${companyDetails?.logo_path ? "pt-48" : ""} pb-28`}
+      >
         {/* company details */}
         <CompanyDetails
           companyDetails={companyDetails}
@@ -163,7 +164,7 @@ const CompanyComp = ({
         {/* cards */}
         {isLoading ? (
           <CardsSkeletons needSection={false} />
-        ) : !data?.results.length ? (
+        ) : !filteredData?.length ? (
           <p className="text-center text-2xl text-red-400 font-semibold mt-20">
             {movieOrTv === "movie" ? t("noMovies") : t("noTvShows")}
           </p>
@@ -199,21 +200,25 @@ const CompanyComp = ({
                 );
               })}
             </main>
-
-            {data?.total_pages > 1 && (
-              <Pagination
-                isLoading={isLoading}
-                isFetching={isFetching}
-                currentPage={page}
-                setPage={setPage}
-                totalPages={data?.total_pages}
-                scrollPx={400}
-              />
-            )}
           </>
         )}
+
+        <div
+          className={`${true ? "absolute bottom-0 left-1/2 transform -translate-x-1/2 py-5" : ""} `}
+        >
+          {data?.total_pages && data?.total_pages > 1 && (
+            <Pagination
+              isLoading={isLoading}
+              isFetching={isFetching}
+              currentPage={page}
+              setPage={setPage}
+              totalPages={data?.total_pages}
+              scrollPx={400}
+            />
+          )}
+        </div>
       </PageSection>
-    </>
+    </main>
   );
 };
 
