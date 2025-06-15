@@ -20,6 +20,7 @@ export interface DiscoverQueryParams {
   year?: string;
   ori_lang?: string;
   rating?: string;
+  companies?: string[] | string;
 }
 
 export interface MoviesResponse {

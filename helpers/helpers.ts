@@ -268,3 +268,12 @@ export const getShowTitle = ({
         (show as FirestoreTheShowI | WatchHistoryItem)?.oriTitle
     : (show as Movie)?.title || (show as TVShow)?.name || null;
 };
+
+// format currency
+export const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+};

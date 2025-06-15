@@ -132,8 +132,9 @@ const tmdbApi = mainApiSlice.injectEndpoints({
         year = "",
         ori_lang = "",
         rating = "",
+        companies = "",
       }) => ({
-        url: `?path=discover/${showType}&language=${lang}&page=${page}&sort_by=${sortBy}&with_genres=${genreNum}&${showType === "movie" ? "primary_release_year" : "first_air_date_year"}=${year}&with_original_language=${ori_lang}&vote_average.gte=${rating}`,
+        url: `?path=discover/${showType}&language=${lang}&page=${page}&sort_by=${sortBy}&with_genres=${genreNum}&${showType === "movie" ? "primary_release_year" : "first_air_date_year"}=${year}&with_original_language=${ori_lang}&vote_average.gte=${rating}&with_companies=${companies}`,
         method: "GET",
       }),
       providesTags: (result, error, { showType }) => [

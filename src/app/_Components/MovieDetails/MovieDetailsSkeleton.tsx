@@ -9,7 +9,7 @@ const MovieDetailsSkeleton = () => {
 
       <section className="px-3 sm:px-7 pt-28 md:pt-0 lg:max-w-screen-xl mx-auto mb-24">
         <div
-          className="flex flex-col min-h-screen 3xl:min-h-[unset] md:flex-row items-center
+          className="flex flex-col min-h-screen 3xl:min-h-[unset] md:flex-row md:items-center
             justify-center relative md:pt-32 gap-6 4xl:pt-48"
         >
           {/* Poster Placeholder */}

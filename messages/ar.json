@@ -68,7 +68,7 @@
     "TopMoviesSliderTitle": "أفضل الأفلام",
     "LastWatchedTitle": "آخر ما شاهدته",
     "LastWatchedEpisode": "الحلقة",
-    "LastWatchedSeason": "الجزء",
+    "LastWatchedSeason": "الموسم",
     "TrendingTvShowsSliderTitle": "المسلسلات الرائجة",
     "LatestTrailersSliderTitle": "أحدث الإعلانات",
     "UpcomingMoviesSliderTitle": "الأفلام القادمة",
@@ -394,12 +394,39 @@
     "Director": "المخرج",
     "TopBilledCast": "الممثلين الرئيسيين",
     "Tabs": {
+      "LoadMore": "اظهار المزيد",
       "Reviews": "التقييمات",
       "NoReviewsFound": "لم يتم العثور على تقييمات",
       "Videos": "فيديو",
-
       "Images": "الصور",
-      "NoImagesFound": "لم يتم العثور على صور"
+      "NoImagesFound": "لم يتم العثور على صور",
+      "MoreInfo": {
+        "Header": "المزيد",
+        "ProductionCompanies": "شركات الإنتاج",
+        "ProductionCountries": "بلدان الإنتاج",
+        "SpokenLanguages": "لغات التحدّث",
+        "FinancialInformation": {
+          "Header": "معلومات المالية",
+          "Budget": "الميزانية",
+          "Revenue": "الأرباح"
+        },
+        "Status": {
+          "Header": "الحالة",
+          "ReleaseStatus": "حالة الفيلم",
+          "OriginalLanguage": "لغة الفيلم الأصلية",
+          "Values": {
+            "Released": "تم الإصدار",
+            "PostProduction": "مرحلة ما بعد الإنتاج",
+            "InProduction": "قيد الإنتاج",
+            "Planned": "مخطط",
+            "Rumored": "إشاعة",
+            "InDevelopment": "قيد التطوير",
+            "Ended": "انتهى",
+            "ReturningSeries": "مستمر",
+            "Canceled": "تم إلغاؤه"
+          }
+        }
+      }
     },
     "Similar": "أفلام مشابهة",
     "Recommendations": "توصيات",
@@ -424,8 +451,8 @@
   "TvDetails": {
     "Overview": "القصة",
     "Creator": "المخرج:",
-    "Seasons": "أجزاء",
-    "Season": "جزء",
+    "Seasons": "مواسم",
+    "Season": "موسم",
     "Episodes": "حلقات",
     "FirstAirDate": "تاريخ أول حلقة:",
     "LastAirDate": "تاريخ اخر حلقة:",
@@ -436,6 +463,7 @@
     "Canceled": "تم إلغاؤه",
     "TvShowLanguage": "اللغة",
     "Tabs": {
+      "LoadMore": "اظهار المزيد",
       "Reviews": "التقييمات",
       "NoReviewsFound": "لم يتم العثور على تقييمات",
       "Videos": "فيديو",
@@ -449,12 +477,46 @@
         "Loading": "جاري التحميل"
       },
       "Episodes": "حلقات",
-      "TheSeason": "الجزء",
+      "TheSeason": "الموسم",
       "LoadMoreEpisodes": "اظهار المزيد من الحلقات",
       "EpisodeModal": {
         "WatchEpisode": "مشاهدة الحلقة",
-        "Season": "الجزء",
+        "Season": "الموسم",
         "Episode": "الحلقة"
+      },
+      "MoreInfo": {
+        "Header": "المزيد",
+        "ProductionCompanies": "شركات الإنتاج",
+        "ProductionCountries": "بلدان الإنتاج",
+        "SpokenLanguages": "لغات التحدّث",
+        "FinancialInformation": {
+          "Header": "معلومات المالية",
+          "Budget": "الميزانية",
+          "Revenue": "الأرباح"
+        },
+        "Status": {
+          "Header": "الحالة",
+          "ReleaseStatus": "حالة المسلسل",
+          "OriginalLanguage": "لغة العرض الأصلية",
+          "Values": {
+            "Released": "تم الإصدار",
+            "PostProduction": "مرحلة ما بعد الإنتاج",
+            "InProduction": "قيد الإنتاج",
+            "Planned": "مخطط",
+            "Rumored": "إشاعة",
+            "InDevelopment": "قيد التطوير",
+            "Ended": "انتهى",
+            "ReturningSeries": "مستمر",
+            "Canceled": "تم إلغاؤه"
+          }
+        },
+        "SeasonsAndEpisodes": {
+          "Header": "المواسم والحلقات",
+          "Seasons": "عدد المواسم",
+          "Episodes": "إجمالي عدد الحلقات",
+          "FirstAirDate": "تاريخ أول حلقة",
+          "LastAirDate": "تاريخ آخر حلقة"
+        }
       }
     },
     "Similar": "مسلسلات مشابهة",
@@ -465,7 +527,7 @@
 
   "WatchTv": {
     "Episode": "الحلقة",
-    "Season": "الجزء",
+    "Season": "الموسم",
     "Overview": "القصة",
     "Loading": "جاري التحميل",
     "GuestStars": "ضيوف الحلقة",
@@ -778,6 +840,25 @@
     "gotIt": "حسنًا"
   },
 
+  "CompanyPage": {
+    "moviesTitle": "أفلام {name}",
+    "tvShowsTitle": "مسلسلات {name}",
+    "tabs": {
+      "moviesTab": "أفلام",
+      "tvShowsTab": "مسلسلات"
+    },
+    "CompanyDetails": {
+      "NoLogo": "لا يوجد شعار",
+      "Headquarters": "المقر الرئيسي",
+      "Country": "الدولة",
+      "About": "نبذة",
+      "VisitWebsite": "زيارة الموقع",
+      "ParentCompany": "الشركة الأم"
+    },
+    "noMovies": "لا يوجد أفلام",
+    "noTvShows": "لا يوجد مسلسلات"
+  },
+
   "MetaData": {
     "Keywords": "أفلام، مسلسلات ، برامج تلفزيونية، بث مباشر، مراجعات، ممثلون، ممثلات، صور، تقييمات، ملخص، مقاطع دعائية، تشويقات، شارة النهاية، طاقم العمل، فيلم أوكْلوك ، فيلمو كلوك ، فيلم اوكلوك",
     "Movie": " فيلم ",
@@ -916,6 +997,14 @@
     "NotFound": {
       "Title": "404 - صفحة غير موجودة",
       "description": "الصفحة التي تبحث عنها غير موجودة. قد تكون تم نقلها أو تم حذفها."
+    },
+    "CompanyPage": {
+      "siteName": "فيلم اوكلوك",
+      "NotFoundTitle": "الشركة غير موجودة",
+      "TitleSuffix": "{type} بواسطة الشركة",
+      "MetaDescriptionFallback": "استكشف محتوى {type} من إنتاج {companyName}. تعرف على التفاصيل والمقر والمزيد.",
+      "movie": "أفلام",
+      "tv": "مسلسلات"
     }
   }
 }

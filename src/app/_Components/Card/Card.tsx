@@ -9,7 +9,6 @@ import {
   scrollToTop,
 } from "../../../../helpers/helpers";
 import { memo, useMemo } from "react";
-import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import WatchlistFavoriteDD from "../Library/WatchlistFavoriteDD/WatchlistFavoriteDD";
 import { Link } from "@/i18n/navigation";
 import {
@@ -19,7 +18,6 @@ import {
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
-import { useRouter } from "@bprogress/next/app";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 
 interface CardProps {
@@ -64,27 +62,32 @@ const Card = ({
     (state: RootState) => state.imgPlaceholderReducer.loadedImgs[src],
     shallowEqual,
   );
-  const router = useRouter({ customRouter: useNextIntlRouter });
-
-  const handleNavigate = () => {
-    router.push(
-      `/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`,
-    );
-    scrollToTop();
-  };
 
   const updatedShowType =
     theShow && "showType" in theShow ? theShow.showType : showType;
 
-  const isArabicShow =
-    theShow && isArabic && theShow.original_language === "ar";
+  const showTitle = useMemo(() => {
+    if (!theShow) return name;
+    if (isArabic && theShow.original_language === "ar") {
+      if ("original_title" in theShow)
+        return theShow.original_title || theShow.title;
+      if ("original_name" in theShow)
+        return theShow.original_name || theShow.name;
+    }
+    return (theShow as TVShow)?.name || (theShow as Movie)?.title || name;
+  }, [theShow, isArabic, name]);
 
-  const showTitle =
-    isArabicShow && "original_title" in theShow
-      ? theShow.original_title || theShow.title
-      : isArabicShow && "original_name" in theShow
-        ? theShow.original_name || theShow.name
-        : (theShow as TVShow)?.name || (theShow as Movie)?.title || name;
+  const slug = useMemo(
+    () =>
+      nameToSlug(
+        showType === "person"
+          ? name
+          : theShow
+            ? (getShowTitle({ show: theShow, isArabic }) ?? name)
+            : name,
+      ),
+    [showType, name, theShow, isArabic],
+  );
 
   return (
     <div className="relative group w-full border border-gray-700 xs:border-none rounded">
@@ -97,13 +100,14 @@ const Card = ({
         />
       )}
       <Link
-        href={`/details/${showType}/${id}/${nameToSlug(showType === "person" ? name : theShow ? (getShowTitle({ show: theShow, isArabic }) ?? name) : name)}`}
+        scroll={false}
+        href={`/details/${showType}/${id}/${slug}`}
         className="block relative overflow-hidden pb-1 rounded w-full"
-        onClick={handleNavigate}
+        onClick={() => scrollToTop()}
       >
         {/* Image Container */}
         <div
-          className={`relative ${!isImgLoaded && ` w-full ${ImgContainerHeight}`}`}
+          className={`relative ${!isImgLoaded ? ` w-full ${ImgContainerHeight}` : ""}`}
         >
           {!isImgLoaded && <BgPlaceholder />}
           <Image
@@ -115,8 +119,8 @@ const Card = ({
             className={`object-cover ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out
               lg:group-hover:scale-105 `}
-            priority={idx < 3}
-            loading={idx < 3 ? "eager" : "lazy"}
+            priority={idx < 6}
+            loading={idx < 6 ? "eager" : "lazy"}
             onLoad={() => dispatch(setImageLoaded(src))}
           />
         </div>

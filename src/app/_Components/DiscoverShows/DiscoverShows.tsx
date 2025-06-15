@@ -26,12 +26,12 @@ import {
   yearsWithT,
 } from "./showsNeeds";
 import { useLocale, useTranslations } from "next-intl";
-import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 import dynamic from "next/dynamic";
 
 const DiscoverShowsSkeletons = dynamic(
   () => import("./DiscoverShowsSkeletons"),
 );
+const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
 
 type ShowType = "movie" | "tv";
 
@@ -236,9 +236,7 @@ const DiscoverShows = ({ showType, pageTitle }: Props) => {
 
       <div className="mt-10 min-h-screen relative">
         {isFetching ? (
-          <div className="absolute left-1/2 -translate-x-1/2 top-20 flex items-center justify-center">
-            <SiSpinrilla className="text-6xl text-white animate-spin" />
-          </div>
+          <CardsSkeletons needSection={false} />
         ) : (
           <div
             className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5

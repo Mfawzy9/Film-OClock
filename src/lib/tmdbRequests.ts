@@ -1,8 +1,13 @@
+import { CompanyDetailsResponse } from "@/app/interfaces/apiInterfaces/CompanyDetailsInterfaces";
 import {
   MovieDetailsResponse,
   PersonDetailsResponse,
   TvDetailsResponse,
 } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
+import {
+  MoviesResponse,
+  TVShowsResponse,
+} from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { GenresResponse } from "@/app/interfaces/apiInterfaces/genresInterfaces";
 import {
   MovieImagesResponse,
@@ -413,9 +418,8 @@ export const getImagesWithNextCache = ({
 
     if (!imagesRes.ok) return { images: null };
 
-    const images = (await imagesRes.json()) as
-      | MovieImagesResponse
-      | TvImagesResponse;
+    const images: MovieImagesResponse | TvImagesResponse =
+      await imagesRes.json();
 
     return { images };
   };
@@ -427,6 +431,76 @@ export const getImagesWithNextCache = ({
     [`images-app-${showType}-${showId}`],
     {
       tags: [`images-app-${showType}-${showId}`],
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get company shows
+export const getCompanyShowsWithNextCache = ({
+  companyId,
+  showType,
+}: {
+  companyId: string;
+  showType: "movie" | "tv";
+}) => {
+  const fetchCompanyShows = async () => {
+    const res = await fetch(
+      `${BASE_URL}discover/${showType}?api_key=${API_KEY}&with_companies=${companyId}&page=1`,
+      { headers },
+    );
+    const data: MoviesResponse | TVShowsResponse = await res.json();
+
+    const filteredData = data.results.filter((show) => show.poster_path);
+
+    return { ...data, results: filteredData } as
+      | MoviesResponse
+      | TVShowsResponse;
+  };
+
+  const withReactCache = reactCache(fetchCompanyShows);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`company-shows-app-${companyId}-${showType}`],
+    {
+      tags: [`company-shows-app-${companyId}-${showType}`],
+      revalidate: 3600,
+    },
+  );
+
+  return withNextCache();
+};
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// get company details
+export const getCompanyDetailsWithNextCache = ({
+  companyId,
+}: {
+  companyId: string;
+}) => {
+  const fetchCompanyDetails = async () => {
+    const res = await fetch(
+      `${BASE_URL}company/${companyId}?api_key=${API_KEY}`,
+      { headers },
+    );
+    const data: CompanyDetailsResponse = await res.json();
+
+    return data;
+  };
+
+  const withReactCache = reactCache(fetchCompanyDetails);
+
+  const withNextCache = nextCache(
+    withReactCache,
+    [`company-details-app-${companyId}`],
+    {
+      tags: [`company-details-app-${companyId}`],
       revalidate: 3600,
     },
   );

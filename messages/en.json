@@ -395,11 +395,39 @@
     "Director": "Director",
     "TopBilledCast": "Top Billed Cast",
     "Tabs": {
+      "LoadMore": "Load More",
       "Reviews": "Reviews",
       "NoReviewsFound": "No reviews found",
       "Videos": "Videos",
       "Images": "Images",
-      "NoImagesFound": "No images found"
+      "NoImagesFound": "No images found",
+      "MoreInfo": {
+        "Header": "More Info",
+        "ProductionCompanies": "Production Companies",
+        "ProductionCountries": "Production Countries",
+        "SpokenLanguages": "Spoken Languages",
+        "FinancialInformation": {
+          "Header": "Financial Information",
+          "Budget": "Budget",
+          "Revenue": "Revenue"
+        },
+        "Status": {
+          "Header": "Status",
+          "ReleaseStatus": "Release Status",
+          "OriginalLanguage": "Original Language",
+          "Values": {
+            "Released": "Released",
+            "PostProduction": "Post Production",
+            "InProduction": "In Production",
+            "Planned": "Planned",
+            "Rumored": "Rumored",
+            "InDevelopment": "In Development",
+            "Ended": "Ended",
+            "ReturningSeries": "Returning Series",
+            "Canceled": "Canceled"
+          }
+        }
+      }
     },
     "Similar": "Similar",
     "Recommendations": "Recommendations",
@@ -436,6 +464,7 @@
     "Canceled": "Canceled",
     "TvShowLanguage": "Language",
     "Tabs": {
+      "LoadMore": "Load More",
       "Reviews": "Reviews",
       "NoReviewsFound": "No reviews found",
       "Videos": "Videos",
@@ -455,6 +484,40 @@
         "WatchEpisode": "Watch Episode",
         "Season": "Season",
         "Episode": "Episode"
+      },
+      "MoreInfo": {
+        "Header": "More Info",
+        "ProductionCompanies": "Production Companies",
+        "ProductionCountries": "Production Countries",
+        "SpokenLanguages": "Spoken Languages",
+        "FinancialInformation": {
+          "Header": "Financial Information",
+          "Budget": "Budget",
+          "Revenue": "Revenue"
+        },
+        "Status": {
+          "Header": "Status",
+          "ReleaseStatus": "Release Status",
+          "OriginalLanguage": "Original Language",
+          "Values": {
+            "Released": "Released",
+            "PostProduction": "Post Production",
+            "InProduction": "In Production",
+            "Planned": "Planned",
+            "Rumored": "Rumored",
+            "InDevelopment": "In Development",
+            "Ended": "Ended",
+            "ReturningSeries": "Returning Series",
+            "Canceled": "Canceled"
+          }
+        },
+        "SeasonsAndEpisodes": {
+          "Header": "Seasons and Episodes",
+          "Seasons": "Number of Seasons",
+          "Episodes": "Number of Episodes",
+          "FirstAirDate": "First Air Date",
+          "LastAirDate": "Last Air Date"
+        }
       }
     },
     "Similar": "Similar",
@@ -778,6 +841,25 @@
     "gotIt": "Got it"
   },
 
+  "CompanyPage": {
+    "moviesTitle": "{name} Movies",
+    "tvShowsTitle": "{name} TV Shows",
+    "tabs": {
+      "moviesTab": "Movies",
+      "tvShowsTab": "TV Shows"
+    },
+    "CompanyDetails": {
+      "NoLogo": "No Logo",
+      "Headquarters": "Headquarters",
+      "Country": "Country",
+      "About": "About",
+      "VisitWebsite": "Visit Website",
+      "ParentCompany": "Parent Company"
+    },
+    "noMovies": "No Movies Found",
+    "noTvShows": "No TV Shows Found"
+  },
+
   "MetaData": {
     "Keywords": "Film O'Clock, Movies, TV Shows , Series , Streaming, Reviews, API, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast, Movies, TV Shows, Streaming, Reviews,  Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast, film oclock, film clock, film-oclock, filmo clock",
     "Movie": " Movie ",
@@ -916,6 +998,14 @@
     "NotFound": {
       "Title": "404 - Page Not Found",
       "description": "The page you are looking for does not exist. It might have been moved or deleted."
+    },
+    "CompanyPage": {
+      "siteName": "FilmO'Clock",
+      "NotFoundTitle": "Company Not Found",
+      "TitleSuffix": "{type} by Company",
+      "MetaDescriptionFallback": "Explore {type} content by {companyName}. Discover details, headquarters, and more.",
+      "movie": "Movies",
+      "tv": "TV Shows"
     }
   }
 }

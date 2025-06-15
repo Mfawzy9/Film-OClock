@@ -43,6 +43,7 @@ import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { GiPapers } from "@react-icons/all-files/gi/GiPapers";
 import { TvTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 
 const TvDetailsSkeleton = dynamic(() => import("./TvDetailsSkeleton"));
 const EpisodesSkeletons = dynamic(() => import("./EpisodesSkeletons"));
@@ -58,6 +59,7 @@ const Reviews = dynamic(() => import("../Reviews/Reviews"));
 const Casts = dynamic(() => import("../Casts/Casts"));
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const Tabs = dynamic(() => import("../Tabs/Tabs"));
+const MoreTvDetails = dynamic(() => import("./MoreTvDetails"));
 const TvEpisodes = dynamic(() => import("./TvEpisodes"));
 
 const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
@@ -123,6 +125,10 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
     showType,
   });
 
+  const [openedAccordion, setOpenedAccordion] = useState<string | null>(
+    "production-companies",
+  );
+
   const tabs = useMemo(
     () => [
       {
@@ -187,8 +193,20 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
           />
         ),
       },
+      {
+        name: t("Tabs.MoreInfo.Header"),
+        icon: <FaInfoCircle />,
+        content: (
+          <MoreTvDetails
+            tvShow={tvShow}
+            isArabic={isArabic}
+            openedAccordion={openedAccordion}
+            setOpenedAccordion={setOpenedAccordion}
+          />
+        ),
+      },
     ],
-    [tvShow, TvShowImages, t, isArabic],
+    [tvShow, TvShowImages, t, isArabic, openedAccordion],
   );
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
@@ -344,7 +362,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
               {tvShow?.first_air_date && (
                 <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="font-bold">{t("FirstAirDate")}</h4>
-                  <p className="text-gray-200">
+                  <p className="text-gray-300 text-sm">
                     {formatDate(
                       tvShow?.first_air_date,
                       isArabic ? "ar" : "en-US",
@@ -352,11 +370,10 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                   </p>
                 </div>
               )}
-
               {tvShow?.last_air_date && (
                 <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="font-bold">{t("LastAirDate")}</h4>
-                  <p className="text-gray-200">
+                  <p className="text-gray-300 text-sm">
                     {formatDate(
                       tvShow?.last_air_date,
                       isArabic ? "ar" : "en-US",
@@ -378,10 +395,6 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                     ? t("Canceled")
                     : t("ReturningSeries")}
               </p>
-              <TrailerBtn
-                showType={showType as "movie" | "tv"}
-                showId={showId}
-              />
             </div>
 
             {/* tagline & overview */}
@@ -410,8 +423,10 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
               </div>
             )}
 
+            {/* watchlist & favorites */}
+            <WatchlistFavoriteBtns showId={showId} theShow={tvShow} />
             {/* Buttons */}
-            <div className="flex items-center flex-wrap gap-4">
+            <div className="flex flex-row items-center flex-wrap gap-3">
               {new Date(tvShow?.first_air_date) <= new Date() && (
                 <WatchBtn
                   name={
@@ -425,8 +440,10 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                   showId={showId}
                 />
               )}
-              {/* watchlist & favorites */}
-              <WatchlistFavoriteBtns showId={showId} theShow={tvShow} />
+              <TrailerBtn
+                showType={showType as "movie" | "tv"}
+                showId={showId}
+              />
             </div>
 
             {/* Creator */}
@@ -485,7 +502,6 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
               title: t("Recommendations"),
             }}
             loading={<CardsSkeletonSlider />}
-            rootMargin="200px 0px"
           />
 
           <LazyRender
@@ -499,7 +515,6 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
               title: t("Similar"),
             }}
             loading={<CardsSkeletonSlider />}
-            rootMargin="200px 0px"
           />
         </div>
       </section>

@@ -15,7 +15,6 @@ import {
   MoviesResponse,
   TVShowsResponse,
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
-import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
 import dynamic from "next/dynamic";
 
 const CardsSkeletons = dynamic(() => import("../Card/CardsSkeletons"));
@@ -120,51 +119,53 @@ const GenresComp = () => {
           </div>
         </div>
 
-        <main
-          className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4
-            lg:grid-cols-5 gap-4 place-items-center min-h-screen relative"
-        >
-          {isFetching ? (
-            <SiSpinrilla className="absolute top-20 text-6xl text-white animate-spin" />
-          ) : (
-            content?.results?.map((item, idx: number) => {
-              if (!item.poster_path) return null;
-              const name =
-                "original_title" in item
-                  ? (item.title ?? item.original_title)
-                  : (item.name ?? item.original_name);
-              const releaseDate =
-                "release_date" in item
-                  ? item.release_date
-                  : item.first_air_date;
+        {isFetching ? (
+          <CardsSkeletons needSection={false} />
+        ) : (
+          <>
+            <main
+              className="mt-10 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4
+                lg:grid-cols-5 gap-4 place-items-center min-h-screen relative"
+            >
+              {content?.results?.map((item, idx: number) => {
+                if (!item.poster_path) return null;
+                const name =
+                  "original_title" in item
+                    ? (item.title ?? item.original_title)
+                    : (item.name ?? item.original_name);
+                const releaseDate =
+                  "release_date" in item
+                    ? item.release_date
+                    : item.first_air_date;
 
-              return (
-                <motion.div key={item.id} layoutId={String(item.id)}>
-                  <Card
-                    theShow={item}
-                    name={name}
-                    id={item.id}
-                    src={baseImgUrl + item.poster_path}
-                    showType={showType}
-                    rating={item.vote_average}
-                    release_date={releaseDate}
-                    alt={name}
-                    idx={idx}
-                  />
-                </motion.div>
-              );
-            })
-          )}
-        </main>
+                return (
+                  <motion.div key={item.id} layoutId={String(item.id)}>
+                    <Card
+                      theShow={item}
+                      name={name}
+                      id={item.id}
+                      src={baseImgUrl + item.poster_path}
+                      showType={showType}
+                      rating={item.vote_average}
+                      release_date={releaseDate}
+                      alt={name}
+                      idx={idx}
+                    />
+                  </motion.div>
+                );
+              })}
+            </main>
 
-        {content && content.total_pages > 1 && (
-          <Pagination
-            isLoading={isLoading}
-            isFetching={isFetching}
-            currentPage={page}
-            totalPages={content.total_pages}
-            setPage={setPage}
-          />
+            {content && content.total_pages > 1 && (
+              <Pagination
+                isLoading={isLoading}
+                isFetching={isFetching}
+                currentPage={page}
+                totalPages={content.total_pages}
+                setPage={setPage}
+              />
+            )}
+          </>
         )}
       </PageSection>
     </>

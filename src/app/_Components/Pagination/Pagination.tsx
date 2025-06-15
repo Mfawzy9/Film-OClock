@@ -14,6 +14,7 @@ interface PaginationProps {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
   isFetching: boolean;
+  scrollPx?: number;
 }
 
 const Pagination = ({
@@ -22,6 +23,7 @@ const Pagination = ({
   setPage,
   isLoading,
   isFetching,
+  scrollPx = 160,
 }: PaginationProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("Pagination");
@@ -43,9 +45,9 @@ const Pagination = ({
       router.push(`?page=${selected + 1}`, { scroll: false });
       setPage(selected + 1);
       if (!isLoading && !isFetching)
-        window.scrollTo({ top: 160, behavior: "smooth" });
+        window.scrollTo({ top: scrollPx, behavior: "smooth" });
     },
-    [setPage, isLoading, isFetching, router],
+    [setPage, isLoading, isFetching, router, scrollPx],
   );
 
   return (

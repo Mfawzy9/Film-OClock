@@ -4,8 +4,10 @@ import {
 } from "@/app/interfaces/apiInterfaces/reviewsInterfaces";
 import { formatDate } from "../../../../helpers/helpers";
 import Image from "next/image";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+
+const REVIEWS_LIMIT = 3;
 
 const Reviews = ({
   reviews,
@@ -15,12 +17,20 @@ const Reviews = ({
   isArabic: boolean;
 }) => {
   const t = useTranslations("MovieDetails");
+  const [visableReviews, setVisableReviews] = useState<number>(REVIEWS_LIMIT);
+  const handleLoadMore = useCallback(() => {
+    setVisableReviews((prev) => prev + REVIEWS_LIMIT);
+  }, []);
   // to get the reviews with avatar as first
   const sortedReviews = useMemo(() => {
     return [...(reviews?.results || [])].sort((a, b) =>
       b.author_details.avatar_path ? 1 : -1,
     );
   }, [reviews?.results]);
+
+  const canLoadMore = useMemo(() => {
+    return sortedReviews.length > visableReviews;
+  }, [sortedReviews, visableReviews]);
 
   return (
     <>
@@ -30,7 +40,7 @@ const Reviews = ({
         </p>
       ) : (
         <>
-          {sortedReviews.map((review) => (
+          {sortedReviews.slice(0, visableReviews).map((review) => (
             <div
               key={review.id}
               className="relative w-full h-auto my-5 rounded-xl bg-black shadow shadow-blue-700 flex
@@ -68,6 +78,17 @@ const Reviews = ({
               <p className="leading-relaxed tracking-wide">{review.content}</p>
             </div>
           ))}
+
+          {canLoadMore && (
+            <div className="flex justify-center mt-6 w-full">
+              <button
+                onClick={handleLoadMore}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md w-full"
+              >
+                {t("Tabs.LoadMore")}
+              </button>
+            </div>
+          )}
         </>
       )}
     </>

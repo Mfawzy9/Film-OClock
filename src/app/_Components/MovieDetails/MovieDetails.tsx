@@ -40,6 +40,7 @@ import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
 import { MovieTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 
 const MovieDetailsSkeleton = dynamic(() => import("./MovieDetailsSkeleton"));
 const SkeletonMovieCollectionBanner = dynamic(
@@ -60,6 +61,7 @@ const Reviews = dynamic(() => import("../Reviews/Reviews"));
 const Casts = dynamic(() => import("../Casts/Casts"));
 const CardsSlider = dynamic(() => import("../CardsSlider/CardsSlider"));
 const Tabs = dynamic(() => import("../Tabs/Tabs"));
+const MoreMovieDetails = dynamic(() => import("./MoreMovieDetails"));
 const MovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/MovieCollectionBanner"),
 );
@@ -125,6 +127,10 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
     showType,
   });
 
+  const [openedAccordion, setOpenedAccordion] = useState<string | null>(
+    "production-companies",
+  );
+
   const tabs = useMemo(
     () => [
       {
@@ -179,8 +185,20 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
           />
         ),
       },
+      {
+        name: t("Tabs.MoreInfo.Header"),
+        icon: <FaInfoCircle />,
+        content: (
+          <MoreMovieDetails
+            movie={movie}
+            openedAccordion={openedAccordion}
+            setOpenedAccordion={setOpenedAccordion}
+            isArabic={isArabic}
+          />
+        ),
+      },
     ],
-    [movie, movieImages, t, showId, showType, isArabic],
+    [movie, movieImages, t, showId, showType, isArabic, openedAccordion],
   );
   const [activeTab, setActiveTab] = useState(tabs[0]?.name || "");
 
@@ -346,7 +364,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
             <WatchlistFavoriteBtns showId={showId} theShow={movie} />
 
             {/* Buttons */}
-            <div className="flex flex-col xs:flex-row items-center flex-wrap gap-3">
+            <div className="flex items-center flex-wrap gap-3">
               {new Date(movie?.release_date) <= new Date() && (
                 <WatchBtn
                   showType={showType as "movie" | "tv"}
@@ -421,7 +439,6 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
               className: "mt-10",
               title: t("Recommendations"),
             }}
-            rootMargin="200px "
           />
 
           <LazyRender
@@ -435,7 +452,6 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
               className: "mt-10",
               title: t("Similar"),
             }}
-            rootMargin="200px "
           />
         </div>
       </section>
