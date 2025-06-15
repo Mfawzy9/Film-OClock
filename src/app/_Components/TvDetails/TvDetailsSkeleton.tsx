@@ -78,7 +78,7 @@ const TvDetailsSkeleton = () => {
                 />
               ))}
             </div>
-            <div className="flex items-center justify-center xs:justify-start gap-3">
+            <div className="flex items-center gap-3">
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
@@ -90,7 +90,7 @@ const TvDetailsSkeleton = () => {
               <div className="h-12 w-32 bg-gray-700 rounded-2xl animate-pulse" />
               <div className="w-14 h-14 rounded-full bg-gray-700 animate-pulse" />
             </div>
-            <div className="h-5 w-1/5 bg-gray-700 rounded animate-pulse" />
+            <div className="h-5 w-44 bg-gray-700 rounded animate-pulse" />
           </div>
         </div>
       </section>

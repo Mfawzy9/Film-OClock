@@ -70,10 +70,7 @@ const MovieDetailsSkeleton = () => {
                 />
               ))}
             </div>
-            <div
-              className="flex flex-col xs:flex-row justify-center sm:justify-start items-center gap-3
-                flex-wrap"
-            >
+            <div className="flex items-center gap-3 flex-wrap">
               <div className="h-12 w-32 bg-gray-700 rounded-2xl animate-pulse" />
               <div className="w-14 h-14 rounded-full bg-gray-700 animate-pulse" />
             </div>
