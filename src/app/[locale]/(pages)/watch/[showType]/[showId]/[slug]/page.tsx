@@ -18,10 +18,7 @@ import {
 } from "../../../../../../../../helpers/helpers";
 import { notFound, redirect } from "next/navigation";
 import AdsModal from "@/app/_Components/AdsModal/AdsModal";
-import {
-  PreloadedQuery,
-  RTKPreloader,
-} from "@/app/_Components/helpers/RTKPreloader";
+import { RTKPreloader } from "@/app/_Components/helpers/RTKPreloader";
 import {
   getStaticShowParams,
   itemTypeMap,
@@ -183,28 +180,20 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
     return notFound();
   }
 
-  const rtkArr = [
-    {
-      endpointName: "getMTDetails",
-      args: {
-        showId,
-        showType,
-      },
-      data: initialData,
-    },
-    initialTranslations && {
-      endpointName: "getTranslations",
-      args: {
-        showId,
-        showType,
-      },
-      data: initialTranslations,
-    },
-  ].filter(Boolean);
-
   return (
     <>
-      <RTKPreloader preloadedQueries={rtkArr as PreloadedQuery[]} />
+      <RTKPreloader
+        preloadedQueries={[
+          {
+            endpointName: "getMTDetails",
+            args: {
+              showId,
+              showType,
+            },
+            data: initialData,
+          },
+        ]}
+      />
       <PageHeader />
       <AdsModal />
       {showType === "movie" && (
@@ -295,7 +284,11 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
               </article>
             </>
           )}
-          <WatchMovie showId={showId} showType={showType} />
+          <WatchMovie
+            showId={showId}
+            showType={showType}
+            movieTranslations={initialTranslations as MovieTranslationsResponse}
+          />
         </>
       )}
       {showType === "tv" && (
@@ -379,8 +372,7 @@ const WatchPage = async ({ params, searchParams }: WatchParams) => {
             showType={showType}
             episode={episode}
             season={season}
-            initialData={initialData as TvDetailsResponse}
-            initialTranslations={initialTranslations as TvTranslationsResponse}
+            tvShowTranslations={initialTranslations as TvTranslationsResponse}
           />
         </>
       )}

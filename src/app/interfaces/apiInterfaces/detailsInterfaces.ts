@@ -10,6 +10,10 @@ import {
   MovieSimilarsResponse,
   TvShowSimilarsResponse,
 } from "./similarInterfaces";
+import {
+  MovieTranslationsResponse,
+  TvTranslationsResponse,
+} from "./translationsInterfaces";
 import { VideosResponse } from "./videosInterfaces";
 
 export interface MovieDetailsGenre {
@@ -70,6 +74,7 @@ export interface MovieDetailsResponse {
   recommendations: MovieRecommendationsResponse;
   similar: MovieSimilarsResponse;
   reviews: Omit<MovieReviewsResponse, "id">;
+  translations: Omit<MovieTranslationsResponse, "id">;
 }
 
 export interface BelongsToCollection {
@@ -188,6 +193,7 @@ export interface TvDetailsResponse {
   recommendations: TvRecommendationsResponse;
   similar: TvShowSimilarsResponse;
   reviews: Omit<TvReviewsResponse, "id">;
+  translations: Omit<TvTranslationsResponse, "id">;
 }
 
 // Person --------------------------------------------------------------

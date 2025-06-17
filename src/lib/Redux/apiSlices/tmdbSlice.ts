@@ -233,7 +233,7 @@ const tmdbApi = mainApiSlice.injectEndpoints({
       DetailsQueryParams
     >({
       query: ({ showId, showType, lang = "en" }: DetailsQueryParams) => ({
-        url: `?path=${showType}/${showId}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits&language=${lang}`,
+        url: `?path=${showType}/${showId}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits,translations&language=${lang}`,
         method: "GET",
       }),
       providesTags: (result, err, { showId, showType }) => [
@@ -353,7 +353,7 @@ const tmdbApi = mainApiSlice.injectEndpoints({
       { personId: number; lang?: string }
     >({
       query: ({ personId, lang = "en" }) => ({
-        url: `?path=person/${personId}&append_to_response=images,combined_credits,movie_credits,tv_credits,external_ids&language=${lang}`,
+        url: `?path=person/${personId}&append_to_response=images,combined_credits,movie_credits,tv_credits,external_ids,translations&language=${lang}`,
         method: "GET",
       }),
       providesTags: (result, error, { personId }) => [
@@ -371,7 +371,7 @@ const tmdbApi = mainApiSlice.injectEndpoints({
       TvSeasonDetailsQueryParams
     >({
       query: ({ tvShowId, seasonNumber, lang = "en" }) => ({
-        url: `?path=tv/${tvShowId}/season/${seasonNumber}&language=${lang}`,
+        url: `?path=tv/${tvShowId}/season/${seasonNumber}&language=${lang}&append_to_response=images,credits,translations`,
         method: "GET",
       }),
       providesTags: (result, error, { tvShowId, seasonNumber }) => [
@@ -543,7 +543,7 @@ const tmdbApi = mainApiSlice.injectEndpoints({
       MovieCollectionQueryParams
     >({
       query: ({ lang = "en", collectionId }) => ({
-        url: `?path=collection/${collectionId}&language=${lang}`,
+        url: `?path=collection/${collectionId}&language=${lang}&append_to_response=images,translations`,
         method: "GET",
       }),
       providesTags: ["MovieCollection"],

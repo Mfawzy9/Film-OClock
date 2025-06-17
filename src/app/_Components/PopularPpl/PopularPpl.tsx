@@ -25,7 +25,13 @@ const AllPpl = dynamic(() => import("./AllPpl"));
 const PopularPpl = () => {
   const t = useTranslations("PopularPeople");
   const [page, setPage] = useState(1);
-  const [topOneId, setTopOneId] = useState<number | null>(null);
+  const [topOneObj, setTopOneObj] = useState<{
+    id: number | null;
+    topOneProfilePath: string;
+  }>({
+    id: null,
+    topOneProfilePath: "",
+  });
   const [allData, setAllData] = useState<PopularPersonI[]>([]);
   const [featuredCast, setFeaturedCast] = useState<PopularPersonI[]>([]);
   const { start, stop } = useProgress();
@@ -51,15 +57,15 @@ const PopularPpl = () => {
     if (popular && page === 1) {
       // Find the first person with a profile_path
       const topOne = popular.find((person) => person.profile_path);
-      if (topOne && !topOneId) {
-        setTopOneId(topOne.id);
+      if (topOne && !topOneObj.id && topOne.profile_path) {
+        setTopOneObj({ id: topOne.id, topOneProfilePath: topOne.profile_path });
       }
 
       if (featuredCast.length === 0) {
         setFeaturedCast(filteredCast);
       }
     }
-  }, [popular, page, filteredCast, topOneId, featuredCast.length]);
+  }, [popular, page, filteredCast, topOneObj, featuredCast.length]);
 
   // Append new results while avoiding duplicates
   useEffect(() => {
@@ -87,7 +93,7 @@ const PopularPpl = () => {
     !data ||
     !allData ||
     !featuredCast ||
-    !topOneId
+    !topOneObj.id
   ) {
     return (
       <PageSection>
@@ -101,7 +107,7 @@ const PopularPpl = () => {
       <PageSection>
         <section className="flex flex-col gap-28">
           {/* top one */}
-          {topOneId && <TopOneCard topOneId={topOneId} />}
+          {topOneObj.id && <TopOneCard topOneObj={topOneObj} />}
 
           {/* Featured Cast */}
           <LazyRender

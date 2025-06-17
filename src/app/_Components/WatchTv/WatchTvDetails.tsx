@@ -8,16 +8,13 @@ import { useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useGetGenres } from "@/app/hooks/useGetGenres";
-import {
-  useGetEpisodeTranslationsQuery,
-  useGetTranslationsQuery,
-} from "@/lib/Redux/apiSlices/tmdbSlice";
-import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
+import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
 import dynamic from "next/dynamic";
+import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 const OverviewSkeleton = dynamic(
   () => import("../OverviewSkeleton/OverviewSkeleton"),
@@ -30,6 +27,7 @@ interface WatchTvDetailsProps {
   episode: number;
   tvLink: string;
   isArabic: boolean;
+  tvShowTranslations: TvTranslationsResponse;
 }
 
 const WatchTvDetails = ({
@@ -39,6 +37,7 @@ const WatchTvDetails = ({
   episode,
   tvLink,
   isArabic,
+  tvShowTranslations,
 }: WatchTvDetailsProps) => {
   const t = useTranslations("WatchTv");
 
@@ -46,7 +45,13 @@ const WatchTvDetails = ({
   const { genresLoading, translatedGenres } = useGetGenres({
     showType: "tv",
     lang: isArabic ? "ar" : "en",
+    isDetailsPage: true,
   });
+
+  const finalGenres = useMemo(
+    () => (isArabic ? translatedGenres(tvShow) : tvShow?.genres),
+    [tvShow, translatedGenres, isArabic],
+  );
 
   const { data: episodeTranslations, isLoading: episodeTranslationsLoading } =
     useGetEpisodeTranslationsQuery(
@@ -78,12 +83,6 @@ const WatchTvDetails = ({
       return arabicSaEpisodeOverviewTranslation;
   }, [episodeTranslations]);
 
-  const { data: tvShowTranslations, isLoading: tvShowTranslationsLoading } =
-    useGetTranslationsQuery(
-      { showId: tvShow.id, showType: "tv" },
-      { skip: !isArabic || !!arabicEpisodeOverviewTranslation?.trim() },
-    );
-
   const arabicTvShowOverviewTranslation = useMemo(() => {
     const arabicAeTvShowOverviewTranslation = tvShowTranslations?.translations
       .find(
@@ -104,14 +103,13 @@ const WatchTvDetails = ({
   }, [tvShowTranslations]);
 
   const finalOverview = useMemo(() => {
-    return (
-      arabicEpisodeOverviewTranslation ??
-      arabicTvShowOverviewTranslation ??
-      currentEpisode?.overview ??
-      tvShow?.overview ??
-      ""
-    );
+    return isArabic
+      ? (arabicEpisodeOverviewTranslation ??
+          arabicTvShowOverviewTranslation ??
+          "")
+      : (currentEpisode?.overview ?? tvShow?.overview ?? "");
   }, [
+    isArabic,
     arabicEpisodeOverviewTranslation,
     arabicTvShowOverviewTranslation,
     currentEpisode,
@@ -153,24 +151,26 @@ const WatchTvDetails = ({
           {tvShow?.original_language.toUpperCase()}
         </h6>
 
-        {translatedGenres?.length > 0 && (
+        {finalGenres?.length > 0 && (
           <div className="flex items-center gap-2 flex-wrap">
-            {translatedGenres(tvShow)?.map((genre, idx) => (
+            {finalGenres?.map((genre, idx) => (
               <span
                 key={idx}
                 className="bg-gray-900 text-white px-1.5 rounded-md py-0.5 text-sm font-semibold"
               >
                 {genresLoading ? (
-                  <CgSpinner className="animate-spin" />
-                ) : (
+                  <span className="animate-pulse w-14 h-6 bg-gray-700 rounded-md block" />
+                ) : "genreName" in genre ? (
                   genre.genreName
+                ) : (
+                  genre.name
                 )}
               </span>
             ))}
           </div>
         )}
         {/* overview */}
-        {episodeTranslationsLoading || tvShowTranslationsLoading ? (
+        {episodeTranslationsLoading ? (
           <OverviewSkeleton />
         ) : (
           finalOverview && (

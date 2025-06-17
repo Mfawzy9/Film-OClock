@@ -2,7 +2,6 @@
 import {
   useGetImagesQuery,
   useGetMTDetailsQuery,
-  useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
 import {
@@ -33,7 +32,6 @@ import { notFound } from "next/navigation";
 import LazyRender from "../LazyRender/LazyRender";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { formatDate, getShowTitle } from "../../../../helpers/helpers";
-import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
 import { FaComments } from "@react-icons/all-files/fa/FaComments";
 import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt";
 import { FaFilm } from "@react-icons/all-files/fa/FaFilm";
@@ -42,7 +40,7 @@ import { FaImages } from "@react-icons/all-files/fa/FaImages";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { GiPapers } from "@react-icons/all-files/gi/GiPapers";
-import { TvTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 
 const TvDetailsSkeleton = dynamic(() => import("./TvDetailsSkeleton"));
@@ -62,7 +60,11 @@ const Tabs = dynamic(() => import("../Tabs/Tabs"));
 const MoreTvDetails = dynamic(() => import("./MoreTvDetails"));
 const TvEpisodes = dynamic(() => import("./TvEpisodes"));
 
-const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
+const TvDetails = ({
+  showId,
+  showType,
+  translations,
+}: DetailsQueryParams & { translations: TvTranslationsResponse }) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -85,9 +87,6 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
   };
 
   //translations
-  const { data: translations, isLoading: translationsLoading } =
-    useGetTranslationsQuery({ showId, showType }, { skip: !isArabic });
-
   const arabicTranslations = useMemo(() => {
     const arabicSaTranslations = translations?.translations.find(
       (translation) =>
@@ -99,7 +98,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
     )?.data;
     if (arabicSaTranslations?.overview.trim()) return arabicSaTranslations;
     if (arabicAeTranslations?.overview.trim()) return arabicAeTranslations;
-  }, [translations]) as TvTranslationData | undefined;
+  }, [translations]);
 
   const { finalOverview, finalTagline } = useMemo(() => {
     const getTranslatedText = (field: "overview" | "tagline") => {
@@ -118,7 +117,13 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
   const { genresLoading, translatedGenres } = useGetGenres({
     showType: "tv",
     lang: isArabic ? "ar" : "en",
+    isDetailsPage: true,
   });
+
+  const finalGenres = useMemo(
+    () => (isArabic ? translatedGenres(tvShow) : tvShow?.genres),
+    [tvShow, translatedGenres, isArabic],
+  );
 
   const { data: TvShowImages } = useGetImagesQuery({
     showId,
@@ -127,6 +132,11 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
 
   const [openedAccordion, setOpenedAccordion] = useState<string | null>(
     "production-companies",
+  );
+
+  const isReleased = useMemo(
+    () => new Date(tvShow?.first_air_date) <= new Date(),
+    [tvShow],
   );
 
   const tabs = useMemo(
@@ -139,6 +149,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
             Component={TvEpisodes}
             props={{
               tvShow,
+              isReleased,
               seasonsCount:
                 tvShow?.number_of_seasons || tvShow?.seasons?.length - 1 || 1,
               tvShowId: tvShow?.id || 0,
@@ -206,7 +217,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
         ),
       },
     ],
-    [tvShow, TvShowImages, t, isArabic, openedAccordion],
+    [tvShow, TvShowImages, t, isArabic, openedAccordion, isReleased],
   );
   const [activeTab, setActiveTab] = useState(tabs[0].name);
 
@@ -238,7 +249,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
     }
   }, [isLoading, finalOverview]);
 
-  if (isLoading || translationsLoading) return <TvDetailsSkeleton />;
+  if (isLoading) return <TvDetailsSkeleton />;
   if (isError) return notFound();
 
   return (
@@ -277,7 +288,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
-            {new Date(tvShow?.first_air_date) <= new Date() && (
+            {isReleased && (
               <WatchedBtn
                 showId={showId}
                 showName={
@@ -339,23 +350,25 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
             </h6>
 
             {/* genres */}
-            {translatedGenres?.length > 0 && (
-              <div className="flex items-center gap-2 flex-wrap">
-                {translatedGenres(tvShow)?.map((genre, idx) => (
-                  <Link
-                    href={`/shows/all/tv?page=1&genre=${genre.id}&genreName=${genre.genreName}`}
-                    key={idx}
-                    className="bg-gray-900 rounded-md text-white px-1.5 py-0.5 text-sm font-semibold"
-                  >
-                    {genresLoading ? (
-                      <CgSpinner className="animate-spin" />
-                    ) : (
-                      genre.genreName
-                    )}
-                  </Link>
-                ))}
-              </div>
-            )}
+            <div className="flex items-center gap-2 flex-wrap">
+              {genresLoading
+                ? [...Array(3)].map((_, i) => (
+                    <span
+                      key={i}
+                      className="animate-pulse w-14 h-6 bg-gray-700 rounded-md"
+                    />
+                  ))
+                : finalGenres?.length > 0 &&
+                  finalGenres?.map((genre, idx) => (
+                    <Link
+                      href={`/shows/all/tv?page=1&genre=${genre.id}&genreName=${"genreName" in genre ? genre.genreName : genre.name}`}
+                      key={idx}
+                      className="bg-gray-900 rounded-md text-white px-1.5 py-0.5 text-sm font-semibold"
+                    >
+                      {"genreName" in genre ? genre.genreName : genre.name}
+                    </Link>
+                  ))}
+            </div>
 
             {/* dates */}
             <div className="space-y-3">
@@ -427,7 +440,7 @@ const TvDetails = ({ showId, showType }: DetailsQueryParams) => {
             <WatchlistFavoriteBtns showId={showId} theShow={tvShow} />
             {/* Buttons */}
             <div className="flex flex-row items-center flex-wrap gap-3">
-              {new Date(tvShow?.first_air_date) <= new Date() && (
+              {isReleased && (
                 <WatchBtn
                   name={
                     getShowTitle({

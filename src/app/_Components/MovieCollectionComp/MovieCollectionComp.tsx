@@ -44,7 +44,9 @@ const MovieCollectionComp = async ({
             translation.iso_639_1 === "ar" && translation.iso_3166_1 === "AE",
         )
         ?.data?.overview?.trim();
-      return arabicSaOverview || arabicAeOverview || collectionDetails.overview;
+      return locale === "ar"
+        ? arabicSaOverview || arabicAeOverview || ""
+        : collectionDetails.overview || "";
     } else {
       return collectionDetails?.overview || null;
     }

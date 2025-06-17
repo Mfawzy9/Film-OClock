@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useGetMTDetailsQuery,
-  useGetTranslationsQuery,
-} from "@/lib/Redux/apiSlices/tmdbSlice";
+import { useGetMTDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Title from "../Title/Title";
 import { MovieDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
@@ -30,7 +27,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import LazyRender from "../LazyRender/LazyRender";
 import ComingSoon from "../ComingSoon/ComingSoon";
-import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
 import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
@@ -38,6 +34,7 @@ import { FcClock } from "@react-icons/all-files/fc/FcClock";
 import WatchedBtn from "../WatchedBtn/WatchedBtn";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/Redux/store";
+import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 const SkeletonMovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/SkeletonMovieCollectionBanner"),
@@ -54,9 +51,14 @@ const WatchMovieSkeleton = dynamic(() => import("./WatchMovieSkeleton"));
 interface WatchMovieProps {
   showType: "movie" | "tv";
   showId: number;
+  movieTranslations: MovieTranslationsResponse;
 }
 
-const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
+const WatchMovie = ({
+  showType,
+  showId,
+  movieTranslations,
+}: WatchMovieProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchMovie");
   const tServerNames = useTranslations("serversNames");
@@ -102,13 +104,13 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const { genresLoading, translatedGenres } = useGetGenres({
     showType: "movie",
     lang: isArabic ? "ar" : "en",
+    isDetailsPage: true,
   });
 
-  const { data: movieTranslations, isLoading: movieTranslationsLoading } =
-    useGetTranslationsQuery(
-      { showId, showType },
-      { skip: !isArabic || !showId },
-    );
+  const finalGenres = useMemo(
+    () => (isArabic ? translatedGenres(movie) : movie?.genres),
+    [movie, translatedGenres, isArabic],
+  );
 
   const finalOverview = useMemo(() => {
     const arabicAeOverview = movieTranslations?.translations
@@ -124,10 +126,10 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
       )
       ?.data?.overview.trim();
 
-    return (
-      arabicAeOverview || arabicSaOverview || movie?.overview?.trim() || ""
-    );
-  }, [movieTranslations?.translations, movie?.overview]);
+    return isArabic
+      ? arabicAeOverview || arabicSaOverview || ""
+      : movie?.overview?.trim() || "";
+  }, [movieTranslations?.translations, movie?.overview, isArabic]);
 
   const cast = useMemo(
     () =>
@@ -169,7 +171,11 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
   const updateWatchedHistory = useCallback(
     (progressData: { watched: number; duration: number }) => {
       if (!movie) return;
-      if (new Date(movie?.release_date) >= new Date()) return;
+      if (
+        new Date(movie?.release_date) >= new Date() &&
+        movie?.status !== "Released"
+      )
+        return;
 
       const now = new Date();
       const duration = progressData.duration || durationRef.current;
@@ -322,14 +328,12 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
     };
   }, [updateWatchedHistory]);
 
-  const isLoading = movieLoading || genresLoading || movieTranslationsLoading;
-
   const isUpcoming = useMemo(() => {
     return new Date(movie?.release_date) >= new Date();
   }, [movie?.release_date]);
 
   if (isUpcoming) return <ComingSoon />;
-  if (isLoading) return <WatchMovieSkeleton />;
+  if (movieLoading) return <WatchMovieSkeleton />;
 
   return (
     <>
@@ -379,17 +383,19 @@ const WatchMovie = ({ showType, showId }: WatchMovieProps) => {
             {movie?.original_language?.toUpperCase()}
           </div>
 
-          {translatedGenres(movie)?.length > 0 && (
+          {finalGenres?.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap">
-              {translatedGenres(movie).map((genre) => (
+              {finalGenres.map((genre) => (
                 <span
                   key={genre.id}
                   className="bg-gray-900 text-white px-1.5 rounded-md py-0.5 text-sm font-semibold"
                 >
                   {genresLoading ? (
-                    <CgSpinner className="animate-spin" />
-                  ) : (
+                    <span className="animate-pulse w-14 h-6 bg-gray-700 rounded-md block" />
+                  ) : "genreName" in genre ? (
                     genre.genreName
+                  ) : (
+                    genre.name
                   )}
                 </span>
               ))}

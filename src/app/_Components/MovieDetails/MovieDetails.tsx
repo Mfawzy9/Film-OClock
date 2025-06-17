@@ -2,7 +2,6 @@
 import {
   useGetImagesQuery,
   useGetMTDetailsQuery,
-  useGetTranslationsQuery,
 } from "@/lib/Redux/apiSlices/tmdbSlice";
 import Image from "next/image";
 import {
@@ -39,7 +38,7 @@ import { FaImages } from "@react-icons/all-files/fa/FaImages";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import { FcCalendar } from "@react-icons/all-files/fc/FcCalendar";
 import { FcClock } from "@react-icons/all-files/fc/FcClock";
-import { MovieTranslationData } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
+import { MovieTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 
 const MovieDetailsSkeleton = dynamic(() => import("./MovieDetailsSkeleton"));
@@ -66,7 +65,11 @@ const MovieCollectionBanner = dynamic(
   () => import("../MovieCollectionBanner/MovieCollectionBanner"),
 );
 
-const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
+const MovieDetails = ({
+  showId,
+  showType,
+  translations,
+}: DetailsQueryParams & { translations: MovieTranslationsResponse }) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("MovieDetails");
   const dispatch = useDispatch<AppDispatch>();
@@ -81,9 +84,6 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
     isError: boolean;
   };
 
-  const { data: translations, isLoading: translationsLoading } =
-    useGetTranslationsQuery({ showId, showType }, { skip: !isArabic });
-
   const arabicTranslations = useMemo(() => {
     const arabicSaTranslations = translations?.translations?.find(
       (translation) =>
@@ -95,7 +95,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
     )?.data;
     if (arabicSaTranslations?.overview.trim()) return arabicSaTranslations;
     if (arabicAeTranslations?.overview.trim()) return arabicAeTranslations;
-  }, [translations]) as MovieTranslationData | undefined;
+  }, [translations]);
 
   const { finalOverview, finalTagline } = useMemo(() => {
     const getTranslatedText = (field: "overview" | "tagline") => {
@@ -114,7 +114,13 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
   const { genresLoading, translatedGenres } = useGetGenres({
     showType: "movie",
     lang: isArabic ? "ar" : "en",
+    isDetailsPage: true,
   });
+
+  const finalGenres = useMemo(
+    () => (isArabic ? translatedGenres(movie) : movie?.genres),
+    [movie, translatedGenres, isArabic],
+  );
 
   const director = useMemo(
     () => movie?.credits?.crew?.find((crew) => crew.job === "Director") || null,
@@ -230,8 +236,14 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
     }
   }, [finalOverview, isLoading]);
 
-  if (isLoading || translationsLoading || genresLoading)
-    return <MovieDetailsSkeleton />;
+  const isReleased = useMemo(
+    () =>
+      new Date(movie?.release_date) <= new Date() &&
+      movie?.status === "Released",
+    [movie],
+  );
+
+  if (isLoading) return <MovieDetailsSkeleton />;
   if (isError) return notFound();
 
   return (
@@ -271,7 +283,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
-            {new Date(movie?.release_date) <= new Date() && (
+            {isReleased && (
               <WatchedBtn
                 showId={showId}
                 showName={
@@ -324,15 +336,22 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
             </h6>
 
             <div className="flex items-center gap-2 flex-wrap">
-              {translatedGenres(movie)?.map((genre, idx) => (
-                <Link
-                  href={`/shows/all/movie?page=1&genre=${genre.id}&genreName=${genre.genreName}`}
-                  key={idx}
-                  className="bg-gray-900 rounded-md text-white px-1.5 py-0.5 text-sm font-semibold"
-                >
-                  {genre.genreName}
-                </Link>
-              ))}
+              {genresLoading
+                ? [...Array(3)].map((_, i) => (
+                    <span
+                      key={i}
+                      className="animate-pulse w-14 h-6 bg-gray-700 rounded-md"
+                    />
+                  ))
+                : finalGenres?.map((genre, idx) => (
+                    <Link
+                      href={`/shows/all/movie?page=1&genre=${genre.id}&genreName=${"genreName" in genre ? genre.genreName : genre.name}`}
+                      key={idx}
+                      className="bg-gray-900 rounded-md text-white px-1.5 py-0.5 text-sm font-semibold"
+                    >
+                      {"genreName" in genre ? genre.genreName : genre.name}
+                    </Link>
+                  ))}
             </div>
 
             {finalTagline && (
@@ -365,7 +384,7 @@ const MovieDetails = ({ showId, showType }: DetailsQueryParams) => {
 
             {/* Buttons */}
             <div className="flex items-center flex-wrap gap-3">
-              {new Date(movie?.release_date) <= new Date() && (
+              {isReleased && (
                 <WatchBtn
                   showType={showType as "movie" | "tv"}
                   showId={showId}

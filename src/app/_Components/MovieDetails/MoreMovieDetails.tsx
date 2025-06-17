@@ -36,52 +36,54 @@ const MoreMovieDetails = ({
   return (
     <div className="space-y-4">
       {/* Production Companies */}
-      <Accordion
-        id="production-companies"
-        openedAccordion={openedAccordion}
-        setOpenedAccordion={setOpenedAccordion}
-        title={t("ProductionCompanies")}
-      >
-        <div className="p-4 bg-gray-950 flex flex-wrap gap-2">
-          {movie?.production_companies?.map((company) => {
-            const isImgLoaded =
-              company?.logo_path && loadedImgs[company?.logo_path];
-            return (
-              <Link
-                key={company.id}
-                href={`/company/${company.id}/movie/${nameToSlug(company.name)}?page=1`}
-                className="flex flex-col justify-center items-center gap-2 bg-gray-900 hover:bg-gray-800
-                  rounded-lg p-2 transition-colors w-full sm:w-auto min-h-[104px] grow relative"
-              >
-                {company.logo_path ? (
-                  <>
-                    {!isImgLoaded && <BgPlaceholder />}
-                    <div className="relative w-full sm:w-48 h-[64px]">
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${company.logo_path}`}
-                        alt={company.name}
-                        fill
-                        className={`object-contain drop-shadow-[0_0_0.5px_white]
-                          ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
-                          transition-[transform,opacity] duration-300 transform-gpu ease-out`}
-                        loading="lazy"
-                        onLoad={() =>
-                          dispatch(setImageLoaded(company.logo_path ?? ""))
-                        }
-                      />
-                    </div>
-                    <h3 className="text-xs">{company.name}</h3>
-                  </>
-                ) : (
-                  <span className="font-semibold flex items-center text-center">
-                    {company.name}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
-      </Accordion>
+      {movie?.production_companies?.length > 0 && (
+        <Accordion
+          id="production-companies"
+          openedAccordion={openedAccordion}
+          setOpenedAccordion={setOpenedAccordion}
+          title={t("ProductionCompanies")}
+        >
+          <div className="p-4 bg-gray-950 flex flex-wrap gap-2">
+            {movie?.production_companies?.map((company) => {
+              const isImgLoaded =
+                company?.logo_path && loadedImgs[company?.logo_path];
+              return (
+                <Link
+                  key={company.id}
+                  href={`/company/${company.id}/movie/${nameToSlug(company.name)}?page=1`}
+                  className="flex flex-col justify-center items-center gap-2 bg-gray-900 hover:bg-gray-800
+                    rounded-lg p-2 transition-colors w-full sm:w-auto min-h-[104px] grow relative"
+                >
+                  {company.logo_path ? (
+                    <>
+                      {!isImgLoaded && <BgPlaceholder />}
+                      <div className="relative w-full sm:w-48 h-[64px]">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W200}${company.logo_path}`}
+                          alt={company.name}
+                          fill
+                          className={`object-contain drop-shadow-[0_0_0.5px_white]
+                            ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+                            transition-[transform,opacity] duration-300 transform-gpu ease-out`}
+                          loading="lazy"
+                          onLoad={() =>
+                            dispatch(setImageLoaded(company.logo_path ?? ""))
+                          }
+                        />
+                      </div>
+                      <h3 className="text-xs">{company.name}</h3>
+                    </>
+                  ) : (
+                    <span className="font-semibold flex items-center text-center">
+                      {company.name}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </Accordion>
+      )}
       {/* Financial Information */}
       <Accordion
         id="financial-info"

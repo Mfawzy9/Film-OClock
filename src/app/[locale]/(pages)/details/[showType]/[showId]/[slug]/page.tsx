@@ -27,6 +27,10 @@ import {
   PreloadedQuery,
   RTKPreloader,
 } from "@/app/_Components/helpers/RTKPreloader";
+import {
+  MovieTranslationsResponse,
+  TvTranslationsResponse,
+} from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -211,14 +215,6 @@ const Details = async ({ params }: Props) => {
       },
       data: initialData,
     },
-    initialTranslations && {
-      endpointName: "getTranslations",
-      args: {
-        showId,
-        showType,
-      },
-      data: initialTranslations,
-    },
   ].filter(Boolean);
 
   return (
@@ -308,7 +304,11 @@ const Details = async ({ params }: Props) => {
             </>
           )}
 
-          <MovieDetails showId={showId} showType={showType} />
+          <MovieDetails
+            showId={showId}
+            showType={showType}
+            translations={initialTranslations as MovieTranslationsResponse}
+          />
         </>
       )}
       {showType === "tv" && (
@@ -380,7 +380,11 @@ const Details = async ({ params }: Props) => {
               </article>
             </>
           )}
-          <TvDetails showId={showId} showType={showType} />
+          <TvDetails
+            showId={showId}
+            showType={showType}
+            translations={initialTranslations as TvTranslationsResponse}
+          />
         </>
       )}
       {showType === "person" && (

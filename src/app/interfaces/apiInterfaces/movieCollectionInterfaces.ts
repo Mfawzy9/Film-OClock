@@ -1,3 +1,5 @@
+import { MovieCollectionTranslationsResponse } from "./movieCollectionTranslationsInterfaces";
+
 export interface MovieCollectionResponse {
   id: number;
   name: string;
@@ -5,6 +7,7 @@ export interface MovieCollectionResponse {
   poster_path: string | null;
   backdrop_path: string | null;
   parts: MoviePart[];
+  translations: Omit<MovieCollectionTranslationsResponse, "id">;
 }
 
 export interface MoviePart {

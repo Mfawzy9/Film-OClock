@@ -114,15 +114,17 @@ const CompanyPage = async ({ params, searchParams }: CompanyPageProps) => {
 
   return (
     <>
-      <RTKPreloader
-        preloadedQueries={[
-          {
-            endpointName: "getMoviesTvShows",
-            args: { companies: companyId, showType, page: 1, sortBy: "" },
-            data: companyShows,
-          },
-        ]}
-      />
+      {companyShows && (
+        <RTKPreloader
+          preloadedQueries={[
+            {
+              endpointName: "getMoviesTvShows",
+              args: { companies: companyId, showType, page: 1, sortBy: "" },
+              data: companyShows,
+            },
+          ]}
+        />
+      )}
       {!companyDetails?.logo_path && <PageHeader />}
       <CompanyComp
         companyShows={companyShows}

@@ -17,11 +17,11 @@ import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { WatchedTvShowHistoryItem } from "@/app/interfaces/localInterfaces/watchHistoryInterfaces";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import { getShowTitle, nameToSlug } from "../../../../helpers/helpers";
 import LazyRender from "../LazyRender/LazyRender";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import ComingSoon from "../ComingSoon/ComingSoon";
+import { TvTranslationsResponse } from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 
 const WatchTvSkeleton = dynamic(() => import("./WatchTvSkeleton"));
 const CardsSkeletonSlider = dynamic(
@@ -44,8 +44,7 @@ interface WatchTvProps {
   showId: number;
   season: number;
   episode: number;
-  initialData: TvDetailsResponse | null;
-  initialTranslations: TvTranslationsResponse | null;
+  tvShowTranslations: TvTranslationsResponse;
 }
 
 interface ProgressData {
@@ -53,7 +52,13 @@ interface ProgressData {
   duration: number;
 }
 
-const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
+const WatchTv = ({
+  showType,
+  showId,
+  season,
+  episode,
+  tvShowTranslations,
+}: WatchTvProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("WatchTv");
   const videoPlayerRef = useRef<HTMLVideoElement>(null);
@@ -294,12 +299,13 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
     videoPlayerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const isUpcoming = useMemo(() => {
-    return new Date(tvShow?.first_air_date) >= new Date();
-  }, [tvShow?.first_air_date]);
+  const isReleased = useMemo(
+    () => new Date(tvShow?.first_air_date) <= new Date(),
+    [tvShow],
+  );
 
   if (isLoading || !tvShow || !seasonData) return <WatchTvSkeleton />;
-  if (isUpcoming) return <ComingSoon />;
+  if (!isReleased) return <ComingSoon />;
 
   const playerProps = {
     episode,
@@ -316,6 +322,7 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
 
       <PageSection className="xs:px-7 flex flex-col gap-16">
         <WatchTvDetails
+          tvShowTranslations={tvShowTranslations}
           tvLink={`/details/${showType}/${showId}/${nameToSlug(getShowTitle({ isArabic, show: tvShow }) || tvShow?.original_name || "")}`}
           currentEpisode={currentEpisode}
           tvShow={tvShow}
@@ -348,6 +355,7 @@ const WatchTv = ({ showType, showId, season, episode }: WatchTvProps) => {
           <LazyRender
             Component={TvEpisodes}
             props={{
+              isReleased,
               tvShow,
               tvShowName: tvShow?.name || tvShow?.original_name || "",
               seasonsCount: seasonsCount,

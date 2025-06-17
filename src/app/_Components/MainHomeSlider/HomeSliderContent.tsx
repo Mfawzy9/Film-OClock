@@ -134,7 +134,7 @@ const HomeSliderContent = ({
 
               <div>
                 <HomeSliderBtns
-                  showType={movie.media_type as "movie" | "tv"}
+                  showType={movie.media_type}
                   showId={movie.id}
                   name={
                     getShowTitle({ isArabic, show: movie }) ||

@@ -12,7 +12,7 @@ export interface AllTrendsI {
   original_title: string;
   overview: string;
   poster_path: string;
-  media_type: string;
+  media_type: "movie" | "tv" | "person";
   adult: boolean;
   original_language: string;
   genre_ids: number[];
@@ -37,7 +37,7 @@ export interface MovieTrendsI {
   original_title: string;
   overview: string;
   poster_path: string;
-  media_type: string;
+  media_type: "movie";
   adult: boolean;
   original_language: string;
   genre_ids: number[];
@@ -62,7 +62,7 @@ export interface TVShowTrendsI {
   original_name: string;
   overview: string;
   poster_path: string;
-  media_type: string;
+  media_type: "tv";
   adult: boolean;
   original_language: string;
   genre_ids: number[];
@@ -84,7 +84,7 @@ export interface PplTrendsI {
   id: number;
   name: string;
   original_name: string;
-  media_type: string;
+  media_type: "person";
   adult: boolean;
   popularity: number;
   gender: number;

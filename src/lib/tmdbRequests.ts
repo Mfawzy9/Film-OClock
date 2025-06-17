@@ -14,7 +14,6 @@ import {
   TvImagesResponse,
 } from "@/app/interfaces/apiInterfaces/imagesInterfaces";
 import { MovieCollectionResponse } from "@/app/interfaces/apiInterfaces/movieCollectionInterfaces";
-import { MovieCollectionTranslationsResponse } from "@/app/interfaces/apiInterfaces/movieCollectionTranslationsInterfaces";
 import {
   PopularMoviesResponse,
   PopularPersonResponse,
@@ -23,10 +22,6 @@ import {
 import { SearchMovieResponse } from "@/app/interfaces/apiInterfaces/searchMovieInterfaces";
 import { SearchPersonResponse } from "@/app/interfaces/apiInterfaces/searchPersonInterfaces";
 import { SearchTvShowResponse } from "@/app/interfaces/apiInterfaces/SearchTvshowInterfaces";
-import {
-  TvTranslationsResponse,
-  MovieTranslationsResponse,
-} from "@/app/interfaces/apiInterfaces/translationsInterfaces";
 import {
   MoviesTrendsResponse,
   MovieTrendsI,
@@ -86,18 +81,11 @@ export const getInitialDetailsDataWithNextCache = ({
   showType: "movie" | "tv" | "person";
   locale: "en" | "ar";
 }) => {
-  const tags = [
-    `details-${showId}-${showType}`,
-    ...(locale === "ar" && showType !== "person"
-      ? [`${showType}-translations-${showId}`]
-      : []),
-  ];
-
   const fetchData = async () => {
     const lang = showType === "person" ? locale : "en";
 
     const detailsRes = await fetch(
-      `${BASE_URL}${showType}/${showId}?api_key=${API_KEY}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits&language=${lang}`,
+      `${BASE_URL}${showType}/${showId}?api_key=${API_KEY}&append_to_response=videos,images,external_ids,credits,recommendations,reviews,similar,combined_credits,movie_credits,tv_credits,translations&language=${lang}`,
       {
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -114,21 +102,8 @@ export const getInitialDetailsDataWithNextCache = ({
 
     let initialTranslations = null;
 
-    if (locale === "ar" && showType !== "person") {
-      const translationsRes = await fetch(
-        `${BASE_URL}${showType}/${showId}/translations?api_key=${API_KEY}`,
-        {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        },
-      );
-
-      if (translationsRes.ok) {
-        initialTranslations = (await translationsRes.json()) as
-          | TvTranslationsResponse
-          | MovieTranslationsResponse;
-      }
+    if (initialData && !("biography" in initialData)) {
+      initialTranslations = initialData.translations;
     }
 
     return { initialData, initialTranslations };
@@ -139,7 +114,7 @@ export const getInitialDetailsDataWithNextCache = ({
   const withNextCache = nextCache(
     withReactCache,
     [`details-app-${locale}-${showType}-${showId}`],
-    { tags, revalidate: 3600 },
+    { tags: [`details-${showId}-${showType}`], revalidate: 3600 },
   );
 
   return withNextCache();
@@ -228,30 +203,19 @@ export const getMovieCollectionWithNextCache = ({
 }) => {
   const fetchData = async () => {
     const detailsRes = await fetch(
-      `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}`,
+      `${BASE_URL}collection/${collectionId}?api_key=${API_KEY}&append_to_response=images,translations`,
       { headers },
     );
 
     if (!detailsRes.ok)
       return { collectionDetails: null, collectionTranslations: null };
 
-    const collectionDetails =
-      (await detailsRes.json()) as MovieCollectionResponse;
+    const collectionDetails: MovieCollectionResponse = await detailsRes.json();
 
     let collectionTranslations = null;
 
-    if (locale === "ar") {
-      const translationsRes = await fetch(
-        `${BASE_URL}collection/${collectionId}/translations?api_key=${API_KEY}`,
-        {
-          headers,
-        },
-      );
-
-      if (translationsRes.ok) {
-        collectionTranslations =
-          (await translationsRes.json()) as MovieCollectionTranslationsResponse;
-      }
+    if (collectionDetails) {
+      collectionTranslations = collectionDetails.translations;
     }
 
     return { collectionDetails, collectionTranslations };
@@ -486,7 +450,7 @@ export const getCompanyDetailsWithNextCache = ({
 }) => {
   const fetchCompanyDetails = async () => {
     const res = await fetch(
-      `${BASE_URL}company/${companyId}?api_key=${API_KEY}`,
+      `${BASE_URL}company/${companyId}?api_key=${API_KEY}&append_to_response=images,alternative_names`,
       { headers },
     );
     const data: CompanyDetailsResponse = await res.json();

@@ -3,13 +3,12 @@ import BgPlaceholder from "@/app/_Components/BgPlaceholder/BgPlaceholder";
 import LatestWorks from "@/app/_Components/LatestWorks/LatestWorks";
 import SocialLinks from "@/app/_Components/SocialLinks/SocialLinks";
 import Title from "@/app/_Components/Title/Title";
-import { PersonDetailsResponse } from "@/app/interfaces/apiInterfaces/detailsInterfaces";
-import { useLazyGetPersonDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
+import { useGetPersonDetailsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { setImageLoaded } from "@/lib/Redux/localSlices/imgPlaceholderSlice";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
@@ -23,44 +22,41 @@ import dynamic from "next/dynamic";
 
 const TopOneCardSkeleton = dynamic(() => import("./TopOneCardSkeleton"));
 
-const TopOneCard = ({ topOneId }: { topOneId: number }) => {
+const TopOneCard = ({
+  topOneObj: { id, topOneProfilePath },
+}: {
+  topOneObj: { id: number | null; topOneProfilePath: string };
+}) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("PopularPeople");
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const loadedImgs = useSelector(
-    (state: RootState) => state.imgPlaceholderReducer.loadedImgs,
-    shallowEqual,
-  );
-  const [topOne, setTopOne] = useState<PersonDetailsResponse>(
-    {} as PersonDetailsResponse,
-  );
-
-  const [getPersonDetails, { isLoading, isFetching }] =
-    useLazyGetPersonDetailsQuery();
-  useEffect(() => {
-    const fetchPersonDetails = async () => {
-      if (topOneId) {
-        const res = await getPersonDetails({ personId: topOneId }, true);
-        if (res?.data) {
-          setTopOne(res.data);
-        }
-      }
-    };
-
-    fetchPersonDetails();
-  }, [topOneId, getPersonDetails]);
+  const {
+    data: topOne,
+    isLoading,
+    isFetching,
+  } = useGetPersonDetailsQuery({ personId: id || 0 }, { skip: !id });
 
   const editedPersonJob = useMemo(() => {
-    return topOne.known_for_department === "Acting"
-      ? t("Person.PersonCard.Acting")
-      : topOne.known_for_department === "Directing"
-        ? t("Person.PersonCard.Directing")
-        : topOne.known_for_department === "Producing"
-          ? t("Person.PersonCard.Producing")
-          : "";
-  }, [topOne.known_for_department, t]);
+    const map: Record<string, string> = {
+      Acting: t("Person.PersonCard.Acting"),
+      Directing: t("Person.PersonCard.Directing"),
+      Producing: t("Person.PersonCard.Producing"),
+    };
+
+    return topOne?.known_for_department
+      ? map[topOne.known_for_department] || ""
+      : "";
+  }, [topOne?.known_for_department, t]);
+
+  const isImgLoaded = useSelector(
+    (state: RootState) =>
+      state.imgPlaceholderReducer.loadedImgs[
+        topOneProfilePath || topOne?.profile_path || ""
+      ],
+    shallowEqual,
+  );
 
   if (isLoading || isFetching) return <TopOneCardSkeleton />;
   if (!topOne) return null;
@@ -183,18 +179,22 @@ const TopOneCard = ({ topOneId }: { topOneId: number }) => {
           className="w-[250px] h-[375px] flex-none relative rounded-md order-first lg:order-last
             border border-gray-600"
         >
-          {!loadedImgs[topOne?.profile_path] && <BgPlaceholder />}
-          {topOne?.profile_path && (
+          {!isImgLoaded && <BgPlaceholder />}
+          {(topOne?.profile_path || topOneProfilePath) && (
             <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${topOne?.profile_path}`}
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL_W500}${topOneProfilePath ?? topOne?.profile_path}`}
               fill
               sizes="100%"
               alt={topOne?.name ?? ""}
               priority
               className={`rounded-md w-auto h-auto object-cover
-              ${loadedImgs[topOne?.profile_path] ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+              ${isImgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}
               transition-[transform,opacity] duration-300 transform-gpu ease-out `}
-              onLoad={() => dispatch(setImageLoaded(topOne?.profile_path))}
+              onLoad={() =>
+                dispatch(
+                  setImageLoaded(topOneProfilePath ?? topOne?.profile_path),
+                )
+              }
             />
           )}
         </div>

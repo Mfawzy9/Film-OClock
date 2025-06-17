@@ -9,14 +9,19 @@ import {
 export const useGetGenres = ({
   showType,
   lang = "en",
+  isDetailsPage = false,
 }: {
   showType: "movie" | "tv";
   lang?: "en" | "ar";
+  isDetailsPage?: boolean;
 }) => {
-  const { data, isLoading: genresLoading } = useGetGenresQuery({
-    showType,
-    lang,
-  });
+  const { data, isLoading: genresLoading } = useGetGenresQuery(
+    {
+      showType,
+      lang,
+    },
+    { skip: isDetailsPage && lang === "en" },
+  );
 
   const genres = useMemo(() => {
     return (genresIds: number[]) =>

@@ -11,7 +11,6 @@ import { useTranslations } from "next-intl";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { useMemo } from "react";
 import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
-import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
 import { FaRegPlayCircle } from "@react-icons/all-files/fa/FaRegPlayCircle";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
@@ -28,7 +27,7 @@ interface EpisodeModalProps {
   onWatchClick?: () => void;
   episodeId: number;
   tvShowName: string;
-  tvShow: TVShow;
+  isReleased: boolean;
 }
 
 const EpisodeModal = ({
@@ -41,7 +40,7 @@ const EpisodeModal = ({
   onWatchClick,
   episodeId,
   tvShowName,
-  tvShow,
+  isReleased,
 }: EpisodeModalProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
@@ -143,7 +142,7 @@ const EpisodeModal = ({
               <FcClock title="Duration" className="text-black" />
               {minutesToHours(episode?.runtime ?? 0, isArabic)}
             </h6>
-            {new Date(tvShow?.first_air_date) <= new Date() && (
+            {isReleased && (
               <Link
                 scroll={false}
                 onClick={() => {

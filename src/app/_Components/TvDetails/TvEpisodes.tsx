@@ -8,7 +8,6 @@ import {
 import EpisodeModal from "./EpisodeModal";
 import EpisodeCard from "../EpisodeCard/EpisodeCard";
 import { useTranslations } from "next-intl";
-import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import dynamic from "next/dynamic";
 
 const EpisodesSkeletons = dynamic(() => import("./EpisodesSkeletons"));
@@ -18,7 +17,7 @@ interface TvEpisodesProps {
   tvShowId: number;
   onWatchClick?: () => void;
   tvShowName: string;
-  tvShow: TVShow;
+  isReleased: boolean;
 }
 
 const EPISODES_PER_PAGE = 4;
@@ -28,7 +27,7 @@ const TvEpisodes = ({
   tvShowId,
   onWatchClick,
   tvShowName,
-  tvShow,
+  isReleased,
 }: TvEpisodesProps) => {
   const t = useTranslations("TvDetails");
   const [seasonNumber, setSeasonNumber] = useState(1);
@@ -119,7 +118,7 @@ const TvEpisodes = ({
               {episodesToShow.map((episode) => {
                 return (
                   <EpisodeCard
-                    tvShow={tvShow}
+                    isReleased={isReleased}
                     tvShowName={tvShowName}
                     episodeId={episode.id}
                     showId={tvShowId}
@@ -156,7 +155,7 @@ const TvEpisodes = ({
 
       {/* Modal for episode details */}
       <EpisodeModal
-        tvShow={tvShow}
+        isReleased={isReleased}
         tvShowName={tvShowName}
         episodeId={selectedEpisode?.id || 0}
         showId={tvShowId}

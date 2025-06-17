@@ -9,7 +9,6 @@ import { useTranslations } from "next-intl";
 import { useGetEpisodeTranslationsQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import useIsArabic from "@/app/hooks/useIsArabic";
 import { nameToSlug } from "../../../../helpers/helpers";
-import { TVShow } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import { CgSpinner } from "@react-icons/all-files/cg/CgSpinner";
 import { FaRegPlayCircle } from "@react-icons/all-files/fa/FaRegPlayCircle";
 
@@ -24,7 +23,7 @@ interface EpisodeCardProps {
   onWatchClick?: (e: React.MouseEvent) => void;
   episodeId: number;
   tvShowName: string;
-  tvShow: TVShow;
+  isReleased: boolean;
 }
 
 const EpisodeCard = ({
@@ -38,7 +37,7 @@ const EpisodeCard = ({
   episodeId,
   onWatchClick,
   tvShowName,
-  tvShow,
+  isReleased,
 }: EpisodeCardProps) => {
   const { isArabic } = useIsArabic();
   const t = useTranslations("TvDetails");
@@ -132,7 +131,7 @@ const EpisodeCard = ({
         >
           {t("Tabs.EpisodeCard.ReadMore")}
         </button>
-        {new Date(tvShow?.first_air_date) <= new Date() && (
+        {isReleased && (
           <Link
             scroll={false}
             onClick={(e) => {
