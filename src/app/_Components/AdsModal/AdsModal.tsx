@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
@@ -58,28 +58,19 @@ const extensions = {
   ],
 };
 
+const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10;
+
 const AdsModal = () => {
-  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("adsModal");
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, [ref]);
+    const lastShown = localStorage.getItem("adsModalLastShown");
+    const now = Date.now();
 
-  useEffect(() => {
-    const hasSeenModal = localStorage.getItem("hasSeenAdsModal");
-    if (!hasSeenModal) {
+    if (!lastShown || now - Number(lastShown) > TEN_DAYS_MS) {
       setIsOpen(true);
-      localStorage.setItem("hasSeenAdsModal", "true");
+      localStorage.setItem("adsModalLastShown", String(now));
     }
   }, []);
 
@@ -91,11 +82,12 @@ const AdsModal = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.2, delay: 0.2 } }}
           exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          onClick={() => setIsOpen(false)}
         >
           <div
-            ref={ref}
             className="bg-white dark:bg-gray-900 rounded-md border border-gray-700 px-1 py-2 max-w-lg
               w-full shadow-lg scroll-hidden overflow-y-auto max-h-[92vh] relative"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col mb-4 flex-wrap">
               <button

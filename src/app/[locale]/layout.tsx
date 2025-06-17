@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import App from "./App";
-import { Toaster } from "sonner";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { cairo, righteous, roboto } from "@/lib/fonts";
 import { getTranslations } from "next-intl/server";
 import { siteBaseUrl } from "../../../helpers/serverHelpers";
-import NoInternetToast from "../_Components/NoInternetToast/NoInternetToast";
 import { WithContext, Organization } from "schema-dts";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import Error from "../error";
 import ChunkErrorBoundary from "../_Components/ChunkErrorBoundary";
 
 import "swiper/css";
+import Footer from "../_Components/Footer/Footer";
 
 type Props = {
   params: Promise<{ locale: "en" | "ar" }>;
@@ -177,20 +176,8 @@ export default async function LocaleLayout({
         >
           <NextIntlClientProvider>
             <ChunkErrorBoundary>
-              <NoInternetToast />
-              <App locale={locale}>
-                {children}
-                <Toaster
-                  position={isArabic ? "bottom-left" : "bottom-right"}
-                  theme="dark"
-                  toastOptions={{
-                    classNames: {
-                      error: "!border !border-red-500 !text-red-500",
-                      success: "!border !border-green-500 !text-green-500",
-                    },
-                  }}
-                />
-              </App>
+              <App isArabic={isArabic}>{children}</App>
+              <Footer />
             </ChunkErrorBoundary>
           </NextIntlClientProvider>
         </body>

@@ -14,7 +14,7 @@ import { RootState } from "@/lib/Redux/store";
 import { isUserInArabicCountry } from "../../../../../helpers/userLocation";
 import { setIsUserInMiddleEast } from "@/lib/Redux/localSlices/authSlice";
 
-const LibraryInit = ({ locale }: { locale: "en" | "ar" }) => {
+const LibraryInit = ({ isArabic }: { isArabic: boolean }) => {
   const dispatch = useDispatch();
   const { user, userStatusLoading } = useSelector(
     (state: RootState) => state.authReducer,
@@ -43,13 +43,13 @@ const LibraryInit = ({ locale }: { locale: "en" | "ar" }) => {
 
   useEffect(() => {
     const handleUserInArabicCountry = async () => {
-      if (locale === "ar") return dispatch(setIsUserInMiddleEast(true));
+      if (isArabic) return dispatch(setIsUserInMiddleEast(true));
       const res = await isUserInArabicCountry();
       dispatch(setIsUserInMiddleEast(res));
     };
 
     handleUserInArabicCountry();
-  }, [dispatch, locale]);
+  }, [dispatch, isArabic]);
 
   useEffect(() => {
     if (userStatusLoading) return;

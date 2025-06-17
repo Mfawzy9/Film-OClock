@@ -798,6 +798,125 @@
     "GoBackBtn": "Go Home"
   },
 
+  "Legal": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "dmca": "DMCA Notice",
+    "content-removal": "Content Removal",
+    "TermsPage": {
+      "Title": "Terms of Service",
+      "NoticeTitle": "Important Notice",
+      "NoticeDescription": "This application is a personal project built for educational and portfolio purposes. It does not host, stream, or distribute any copyrighted content. All data is pulled from external public APIs for interface testing and UI/UX demonstration only.",
+
+      "Section1Title": "1. Purpose",
+      "Section1Description": "This project serves as a demonstration of frontend technologies such as Next.js, TypeScript, and third-party API integration. It is not intended for public use or media consumption.",
+
+      "Section2Title": "2. Use at Your Own Risk",
+      "Section2Description": "This app is provided \"as is\" for experimentation and learning. There are no guarantees regarding uptime, accuracy of data, or stability of features. Any usage is at your own discretion.",
+
+      "Section3Title": "3. API Data Usage",
+      "Section3Description": "All movie and TV information shown in this project is fetched from public APIs such as TMDB. This project does not claim any ownership of the media or data retrieved.",
+
+      "Section4Title": "4. Content Accuracy",
+      "Section4Description": "While efforts are made to display accurate information, data may be outdated or incomplete due to reliance on external sources. We are not responsible for any inaccuracies presented.",
+
+      "Section5Title": "5. No Commercial Intent",
+      "Section5Description": "This app is non-commercial. It is not monetized, does not collect user data, and does not offer paid features. Its sole intent is to showcase frontend development skills.",
+
+      "Section6Title": "6. Intellectual Property",
+      "Section6Description": "All logos, posters, and media belong to their respective copyright holders. This project includes references for design and functionality only, not for redistribution.",
+
+      "Section7Title": "7. Modifications",
+      "Section7Description": "These terms may be updated if the project evolves or becomes publicly deployed. Continued usage after updates implies your acceptance of any revised terms.",
+
+      "LastUpdated": "Last updated: June 17, 2025"
+    },
+
+    "PrivacyPage": {
+      "Title": "Privacy Policy",
+      "IntroTitle": "Introduction",
+      "IntroDescription": "This Privacy Policy outlines how we handle information in this educational demonstration project. Note that this is a demonstration and does not collect personal data beyond what is necessary for functionality.",
+
+      "Section1Title": "1. Information We Collect",
+      "Section1Note": "As a demonstration:",
+      "Section1ListItem1": "We may temporarily store browsing preferences",
+      "Section1ListItem2": "No personal identifiable information is permanently stored",
+      "Section1ListItem3": "Third-party APIs may collect data per their own policies",
+
+      "Section2Title": "2. How We Use Information",
+      "Section2Note": "Information is used solely to:",
+      "Section2ListItem1": "Enhance the demonstration experience",
+      "Section2ListItem2": "Showcase frontend development techniques",
+      "Section2ListItem3": "No data is sold or shared with third parties beyond API providers",
+
+      "Section3Title": "3. Third-Party Services",
+      "Section3Description": "This demo relies on third-party APIs. Please refer to their privacy policies for details on data handling.",
+
+      "Section4Title": "4. Changes to This Policy",
+      "Section4Description": "We may update this policy at any time. Changes will be reflected on this page.",
+
+      "LastUpdated": "Last updated: June 17, 2025"
+    },
+
+    "DmcaPage": {
+      "Title": "DMCA Notice",
+      "IntroTitle": "Important Notice",
+      "IntroDescription": "This is an educational demonstration project that does not host any content. All content is fetched from third-party APIs. DMCA notices should be directed to the respective content owners or hosting services.",
+
+      "Section1Title": "Our Role",
+      "Section1Note": "This application is a frontend demonstration that:",
+      "Section1ListItem1": "Does not host or store any media content",
+      "Section1ListItem2": "Uses third-party APIs for educational purposes only",
+      "Section1ListItem3": "Has no control over the content provided by these APIs",
+      "Section1ListItem4": "May be discontinued at any time",
+
+      "Section2Title": "Third-Party Content",
+      "Section2Note": "For any copyright concerns:",
+      "Section2ListItem1": "Identify the specific content in question",
+      "Section2ListItem2": "Contact the actual hosting service or content owner",
+      "Section2ListItem3": "Submit DMCA notices to the appropriate content provider",
+
+      "Section3Title": "Contact Information",
+      "Section3Description": "While we do not host content, if you have questions about our educational demonstration, contact us at:\nEmail: mah.fawzy96@gmail.com",
+
+      "DisclaimerTitle": "Disclaimer",
+      "DisclaimerDescription": "We are not responsible for any content displayed through third-party APIs. This is purely an educational demonstration of frontend development techniques.",
+
+      "LastUpdated": "Last updated: June 17, 2025"
+    },
+
+    "ContentRemovalPage": {
+      "Title": "Content Removal",
+      "IntroTitle": "Educational Project Notice",
+      "IntroDescription": "This is an educational demonstration project. We do not host or store any media content. All content removal requests should be directed to the appropriate content owners or hosting services.",
+
+      "Section1Title": "Understanding Our Role",
+      "Section1Description": "As an educational frontend demonstration:",
+      "Section1Item1": "We do not host any media content",
+      "Section1Item2": "Content is displayed through third-party APIs",
+      "Section1Item3": "We have no control over the content provided by these services",
+      "Section1Item4": "This project is for educational purposes only",
+
+      "Section2Title": "How to Remove Content",
+      "Section2Description": "If you wish to have content removed:",
+      "Section2Item1": "Identify the specific content in question",
+      "Section2Item2": "Determine which third-party service is hosting the content",
+      "Section2Item3": "Contact the appropriate content host or owner directly",
+      "Section2Item4": "Follow their content removal procedures",
+
+      "Section3Title": "Third-Party Services",
+      "Section3Description": "Content removal requests should be directed to the respective content owners or hosting services. We cannot process content removal requests as we do not host or control any media content.",
+
+      "Section4Title": "Important Note",
+      "Section4Description": "This application may be discontinued at any time as it exists solely for educational and demonstration purposes. We are not responsible for any content displayed through third-party APIs.",
+
+      "Section5Title": "Contact",
+      "Section5Description": "For questions about this educational demonstration, contact:\nEmail: mah.fawzy96@gmail.com",
+
+      "LastUpdated": "Last updated: June 17, 2025"
+    }
+  },
+
   "Footer": {
     "description1": "Dive into the world of cinema with FilmO'Clock. Explore trending movies, discover TV shows across genres, and never miss upcoming releases. Your entertainment hub, anytime, anywhere.",
     "description2": "Movies, TV Shows, Streaming, Reviews, Actors, Actresses, Photos, Ratings, Synopsis, Trailers, Teasers, Credits, Cast",
@@ -817,7 +936,13 @@
     "madeWith": "Made with",
     "by": "by",
     "myName": "Mahmoud Fawzy",
-    "LogoName": "FilmO'Clock"
+    "LogoName": "FilmO'Clock",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "dmca": "DMCA Notice",
+    "contentRemoval": "Content Removal",
+    "disclaimer": "This site does not store any files on its server. All contents are provided by non-affiliated third parties."
   },
 
   "NoConnection": {
@@ -1006,6 +1131,22 @@
       "MetaDescriptionFallback": "Explore {type} content by {companyName}. Discover details, headquarters, and more.",
       "movie": "Movies",
       "tv": "TV Shows"
+    },
+    "Terms": {
+      "Title": "Terms of Service | Film O'Clock",
+      "Description": "Review the terms and conditions of using this demo project."
+    },
+    "Privacy": {
+      "Title": "Privacy Policy | Film O'Clock",
+      "Description": "Learn how we handle your information in this educational project."
+    },
+    "Dmca": {
+      "Title": "DMCA Notice | Film O'Clock",
+      "Description": "Understand how we handle DMCA content complaints."
+    },
+    "ContentRemoval": {
+      "Title": "Content Removal | Film O'Clock",
+      "Description": "Find out how to request removal of content shown in this demo."
     }
   }
 }
