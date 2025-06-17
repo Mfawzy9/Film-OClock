@@ -80,7 +80,7 @@ const TopOneCard = ({
             lg:pe-6 py-2 rounded-md"
         >
           {/* Name and social links */}
-          <div className="flex items-center justify-between flex-wrap gap-1">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
             {/* name and homepage */}
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-righteous">{topOne?.name}</h1>

@@ -47,9 +47,7 @@ const PopularPpl = () => {
 
   // Compute featured cast once
   const filteredCast = useMemo(() => {
-    return popular
-      ?.filter((person) => person.known_for_department === "Acting")
-      .slice(1, 11);
+    return popular?.filter((person) => person.profile_path).slice(1, 11);
   }, [popular]);
 
   // get top one and featured cast only from the first page
