@@ -172,7 +172,7 @@ const WatchTv = ({
             duration > 0 ? Math.min((watched / duration) * 100, 100) : 0,
         },
         watchedAt: now.toLocaleDateString(),
-        watchedTime: now.toLocaleTimeString(),
+        watchedTime: now.toLocaleTimeString(undefined, { hour12: true }),
         watchedCount: 1,
         releaseDate: currentEpisode?.air_date ?? null,
         rating: tvShow?.vote_average,

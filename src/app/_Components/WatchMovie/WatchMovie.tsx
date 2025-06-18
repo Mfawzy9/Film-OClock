@@ -202,7 +202,7 @@ const WatchMovie = ({
             duration > 0 ? Math.min((watched / duration) * 100, 100) : 0,
         },
         watchedAt: now.toLocaleDateString(),
-        watchedTime: now.toLocaleTimeString(),
+        watchedTime: now.toLocaleTimeString(undefined, { hour12: true }),
         watchedCount: 1,
         releaseDate: movie.release_date ?? null,
         rating: movie?.vote_average,
