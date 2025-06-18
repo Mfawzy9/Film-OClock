@@ -328,7 +328,7 @@ const TvDetails = ({
             {/* rating date seasons */}
             <h6 className="flex items-center gap-2 flex-wrap">
               <FaStar className="text-yellow-500" title="Rating" />
-              {tvShow?.vote_average.toFixed(1)}
+              {tvShow?.vote_average?.toFixed(1)}
               <span className="text-gray-400">|</span>
               {tvShow?.last_air_date && (
                 <>
@@ -346,7 +346,7 @@ const TvDetails = ({
                 className="text-lg"
                 title={t("TvShowLanguage")}
               />
-              {tvShow?.original_language.toUpperCase()}
+              {tvShow?.original_language?.toUpperCase()}
             </h6>
 
             {/* genres */}

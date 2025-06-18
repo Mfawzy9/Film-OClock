@@ -183,7 +183,7 @@ const MoreTvDetails = ({
                 {t("Status.OriginalLanguage")}
               </h4>
               <p className="text-white font-semibold text-lg">
-                {tvShow?.original_language.toUpperCase() || "N/A"}
+                {tvShow?.original_language?.toUpperCase() || "N/A"}
               </p>
             </div>
           </div>
