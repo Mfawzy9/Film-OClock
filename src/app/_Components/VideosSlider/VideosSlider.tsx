@@ -7,7 +7,7 @@ import {
 } from "@/app/interfaces/apiInterfaces/discoverInterfaces";
 import PageSection from "../PageSection/PageSection";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Virtual } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
 import { useLazyGetVideosQuery } from "@/lib/Redux/apiSlices/tmdbSlice";
 import { VideosResults } from "@/app/interfaces/apiInterfaces/videosInterfaces";
@@ -16,6 +16,8 @@ import useIsArabic from "@/app/hooks/useIsArabic";
 import VideosSkelsetonSlider from "./VideosSkelsetonSlider";
 import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
 import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/Redux/store";
 
 interface VideoResult {
   showId: number;
@@ -45,6 +47,7 @@ const VideosSlider = ({
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const { isOpen } = useSelector((state: RootState) => state.videoModalReducer);
   const handleNavigate = useCallback(
     (direction: "next" | "prev") =>
       direction === "prev"
@@ -112,6 +115,10 @@ const VideosSlider = ({
     }
   }, [theShows, videosResults]);
 
+  useEffect(() => {
+    swiperRef.current?.autoplay[isOpen ? "stop" : "start"]();
+  }, [isOpen]);
+
   if (isLoading || !videosResults || loading) {
     return <VideosSkelsetonSlider />;
   }
@@ -132,7 +139,7 @@ const VideosSlider = ({
           onInit={handleSwiper}
           onSlideChange={handleSlideChange}
           onSwiper={handleSwiper}
-          modules={[Virtual, Autoplay]}
+          modules={[Autoplay]}
           autoplay={{ delay: 12000, disableOnInteraction: false }}
           spaceBetween={20}
           slidesPerView={1}
@@ -144,7 +151,6 @@ const VideosSlider = ({
             1600: { slidesPerView: 5, spaceBetween: 10, slidesPerGroup: 5 },
           }}
           navigation={false}
-          virtual
           lazyPreloadPrevNext={2}
           className="!py-5 !px-2"
         >
@@ -164,8 +170,9 @@ const VideosSlider = ({
               if (!videoKey) return null;
 
               return (
-                <SwiperSlide key={idx} virtualIndex={idx}>
+                <SwiperSlide key={idx}>
                   <TrailerCard
+                    idx={idx}
                     name={show.showName}
                     showId={show.showId}
                     showType={showType}

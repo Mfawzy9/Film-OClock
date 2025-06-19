@@ -20,9 +20,7 @@ const PublicError = () => {
         onClick={() =>
           caches
             .keys()
-            .then((keys) => {
-              return Promise.all(keys.map((key) => caches.delete(key)));
-            })
+            .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
             .finally(() => window.location.reload())
         }
         className="px-6 py-2 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors

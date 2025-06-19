@@ -19,6 +19,7 @@ interface TrailerCardProps {
   name: string;
   showId: number;
   showType: "movie" | "tv";
+  idx: number;
 }
 
 const TrailerCard = ({
@@ -26,6 +27,7 @@ const TrailerCard = ({
   showType,
   name,
   videoKey,
+  idx,
 }: TrailerCardProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -44,7 +46,7 @@ const TrailerCard = ({
         <div className="relative overflow-hidden" title={name} role="button">
           {!isImgLoaded && <BgPlaceholder />}
           <Image
-            loading="lazy"
+            loading={idx === 0 ? "eager" : "lazy"}
             src={getVideoThumbnail(videoKey)}
             alt={name + " | " + name}
             width={350}
