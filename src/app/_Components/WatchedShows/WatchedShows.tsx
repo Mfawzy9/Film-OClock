@@ -11,7 +11,6 @@ import { useEffect, useMemo, useState } from "react";
 import { setWatchedShows } from "@/lib/Redux/localSlices/librarySlice";
 import MainLoader from "../MainLoader/MainLoader";
 import Title from "../Title/Title";
-import PageHeader from "../PageHeader/PageHeader";
 import EmptyWatchedShows from "./EmptyWatchedShows";
 import LibSearch from "../Library/LibSearch/LibSearch";
 import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
@@ -52,7 +51,6 @@ const WatchedShows = () => {
 
   return (
     <>
-      <PageHeader />
       {watchedShows?.length === 0 ? (
         <EmptyWatchedShows />
       ) : (

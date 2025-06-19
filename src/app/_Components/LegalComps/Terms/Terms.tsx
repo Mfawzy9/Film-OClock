@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 const sectionKeys = [
@@ -11,21 +10,12 @@ const sectionKeys = [
   { title: "Section7Title", desc: "Section7Description" },
 ] as const;
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations("MetaData.Terms");
-
-  return {
-    title: t("Title"),
-    description: t("Description"),
-  };
-};
-
 const TermsPage = async () => {
   const t = await getTranslations("Legal.TermsPage");
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-6">{t("Title")}</h1>
+      {/* <h1 className="text-3xl font-bold mb-6">{t("Title")}</h1> */}
 
       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mb-6">
         <h2 className="text-xl font-semibold text-yellow-400 mb-2">

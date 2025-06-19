@@ -11,6 +11,7 @@ import {
   PreloadedQuery,
   RTKPreloader,
 } from "@/app/_Components/helpers/RTKPreloader";
+import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 
 interface SearchPageProps {
   params: Promise<{
@@ -128,6 +129,7 @@ export async function generateMetadata({
 
 const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
   const { locale, query } = await params;
+  const t = await getTranslations("SearchPage");
   const { page, results } = await searchParams;
   const pageNumber = Number(page) || 1;
   const decodedQuery = decodeURIComponent(query);
@@ -215,6 +217,7 @@ const SearchPage = async ({ params, searchParams }: SearchPageProps) => {
 
   return (
     <>
+      <PageHeader title={t("Header")} />
       <RTKPreloader preloadedQueries={rtkArr as PreloadedQuery[]} />
       {initialMovies && (
         <article className="sr-only">

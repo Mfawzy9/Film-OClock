@@ -1,4 +1,5 @@
 import LibraryClient from "@/app/_Components/Library/LibraryClient/LibraryClient";
+import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
@@ -26,7 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const page = async () => {
-  return <LibraryClient />;
+  return (
+    <>
+      <PageHeader />
+      <LibraryClient />
+    </>
+  );
 };
 
 export default page;

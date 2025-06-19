@@ -1132,19 +1132,19 @@
       "movie": "Movies",
       "tv": "TV Shows"
     },
-    "Terms": {
+    "terms": {
       "Title": "Terms of Service | Film O'Clock",
       "Description": "Review the terms and conditions of using this demo project."
     },
-    "Privacy": {
+    "privacy": {
       "Title": "Privacy Policy | Film O'Clock",
       "Description": "Learn how we handle your information in this educational project."
     },
-    "Dmca": {
+    "dmca": {
       "Title": "DMCA Notice | Film O'Clock",
       "Description": "Understand how we handle DMCA content complaints."
     },
-    "ContentRemoval": {
+    "content-removal": {
       "Title": "Content Removal | Film O'Clock",
       "Description": "Find out how to request removal of content shown in this demo."
     }

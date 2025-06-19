@@ -1,6 +1,5 @@
 "use client";
 import CardsSlider from "@/app/_Components/CardsSlider/CardsSlider";
-import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 import Pagination from "@/app/_Components/Pagination/Pagination";
 import {
   Movie,
@@ -110,7 +109,6 @@ const SearchPageComp = ({ query, page, results }: SearchPageCompProps) => {
 
   return (
     <>
-      <PageHeader title={t("Header")} />
       <section className="px-3 sm:px-7 pt-20 lg:max-w-screen-xl mx-auto flex flex-col gap-11 mb-10">
         {hasNoResults && !isLoadingAll ? (
           <p className="text-center text-4xl font-bold my-28">

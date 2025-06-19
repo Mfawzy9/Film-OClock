@@ -3,7 +3,6 @@
 import { useGetLibraryQuery } from "@/lib/Redux/apiSlices/firestoreSlice";
 import { RootState } from "@/lib/Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "../../PageHeader/PageHeader";
 import PageSection from "../../PageSection/PageSection";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -91,7 +90,6 @@ const LibraryClient = () => {
 
   return (
     <>
-      <PageHeader />
       {/* Empty */}
       {libraryType === "watchlist" && watchlist.length === 0 ? (
         <EmptyWl />

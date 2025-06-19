@@ -1,3 +1,4 @@
+import PageHeader from "@/app/_Components/PageHeader/PageHeader";
 import WatchedShows from "@/app/_Components/WatchedShows/WatchedShows";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -23,7 +24,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const WatchedShowsPage = () => {
-  return <WatchedShows />;
+  return (
+    <>
+      <PageHeader />
+      <WatchedShows />
+    </>
+  );
 };
 
 export default WatchedShowsPage;

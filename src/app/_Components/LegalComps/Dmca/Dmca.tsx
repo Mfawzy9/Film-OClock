@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 const sectionKeys = [
@@ -23,22 +22,11 @@ const sectionKeys = [
   },
 ] as const;
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations("MetaData.Dmca");
-
-  return {
-    title: t("Title"),
-    description: t("Description"),
-  };
-};
-
 const DmcaPage = async () => {
   const t = await getTranslations("Legal.DmcaPage");
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4">{t("Title")}</h1>
-
       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mb-6">
         <h2 className="text-xl font-semibold text-yellow-500 mb-2">
           {t("IntroTitle")}

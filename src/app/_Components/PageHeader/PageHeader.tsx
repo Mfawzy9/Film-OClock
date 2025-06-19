@@ -1,10 +1,10 @@
-"use client";
-import useIsArabic from "@/app/hooks/useIsArabic";
 import { JSX } from "react";
 import Image from "next/image";
+import { getLocale } from "next-intl/server";
 
-const PageHeader = ({ title }: { title?: string | JSX.Element }) => {
-  const { isArabic } = useIsArabic();
+const PageHeader = async ({ title }: { title?: string | JSX.Element }) => {
+  const locale = await getLocale();
+  const isArabic = locale === "ar";
   return (
     <div className="relative flex items-center justify-center pt-44 pb-12">
       <div className="absolute inset-0 overflow-hidden">
