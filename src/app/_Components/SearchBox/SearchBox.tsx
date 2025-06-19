@@ -256,7 +256,7 @@ const SearchBox = () => {
         <main className="fixed inset-0 bg-black/20" onClick={closeSearch}>
           <div
             className="fixed top-20 start-2 end-2 sm:hidden bg-black max-h-96 overflow-y-auto border-2
-              border-gray-800 rounded-lg custom-scrollbar"
+              border-gray-800 rounded-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <ResultContent
@@ -329,7 +329,7 @@ const SearchBox = () => {
               className={`fixed lg:absolute top-20 lg:top-12 w-full md:w-[70%] lg:w-[200%] xl:w-[150%]
               ${isArabic ? "end-1/2" : "start-1/2"} lg:start-0 transform -translate-x-1/2
               lg:translate-x-0 bg-black max-h-96 border-2 border-gray-800 rounded-lg min-h-20
-              overflow-y-auto custom-scrollbar shadow-blueGlow shadow-blue-700/50`}
+              overflow-y-auto shadow-blueGlow shadow-blue-700/50`}
               onClick={(e) => e.stopPropagation()}
             >
               <ResultContent

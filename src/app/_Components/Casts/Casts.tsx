@@ -189,7 +189,7 @@ const Casts = ({
 
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto gap-4 scroll-smooth py-5 custom-scrollbar overflow-y-hidden"
+            className="flex overflow-x-auto gap-4 scroll-smooth py-5 overflow-y-hidden"
           >
             {allCastsHaveNoProfilePath
               ? castsToShow.map((cast, idx) => {

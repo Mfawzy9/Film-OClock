@@ -94,7 +94,7 @@ const WatchHistorySection = ({
   <PageSection className="!pt-10 !pb-3">
     <Title title={t("WatchHistorySliderTitle")} />
     <div
-      className={`flex gap-4 flex-nowrap overflow-x-auto custom-scrollbar py-2 px-1 ${
+      className={`flex gap-4 flex-nowrap overflow-x-auto py-2 px-1 ${
         watchHistory.length > 5 ? " pb-3" : "" }`}
     >
       {watchHistory?.map((show) => {

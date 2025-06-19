@@ -5,7 +5,7 @@ const WatchHistorySkeleton = ({ length = 4 }: { length?: number }) => {
     <PageSection className="!pt-10 !pb-3">
       <div className="h-6 w-48 bg-gray-700 animate-pulse rounded-md mb-4" />
 
-      <div className="flex gap-4 flex-nowrap overflow-x-auto custom-scrollbar py-2 px-1">
+      <div className="flex gap-4 flex-nowrap overflow-x-auto py-2 px-1">
         {Array.from({ length }).map((_, i) => (
           <div
             key={i}

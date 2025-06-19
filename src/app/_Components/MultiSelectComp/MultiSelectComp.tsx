@@ -130,7 +130,7 @@ const MultiSelectComp = ({
       {isOpen && (
         <div
           className="absolute mt-1 w-full bg-gray-900 border border-gray-600 rounded-md shadow-md
-            max-h-80 overflow-y-auto z-40 custom-scrollbar"
+            max-h-80 overflow-y-auto z-40"
         >
           <div className="sticky top-0 bg-gray-900 p-2 border-b border-gray-600">
             <div className="relative">

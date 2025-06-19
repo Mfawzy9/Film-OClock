@@ -159,7 +159,7 @@ const MovieDetails = ({
                 length={
                   movie?.videos?.results?.filter(
                     (video) => video.type === "Trailer",
-                  )?.length
+                  )?.length ?? 4
                 }
               />
             }

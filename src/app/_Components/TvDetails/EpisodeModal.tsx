@@ -87,7 +87,7 @@ const EpisodeModal = ({
         exit={{ scale: 0.9, opacity: 0 }}
         className="relative bg-gray-950 text-white p-6 rounded-lg shadow-lg w-full max-w-lg
           3xl:max-w-3xl max-h-[100vh] xs:max-h-[auto] overflow-y-auto xs:overflow-hidden
-          sm:max-w-xl md:max-w-2xl custom-scrollbar"
+          sm:max-w-xl md:max-w-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -167,7 +167,7 @@ const EpisodeModal = ({
           <h2 className="mt-4 text-lg sm:text-xl font-bold text-blue-300">
             {episode.name}
           </h2>
-          <p className="mt-2 text-gray-300 text-sm sm:text-base overflow-auto max-h-96 custom-scrollbar">
+          <p className="mt-2 text-gray-300 text-sm sm:text-base overflow-auto max-h-96">
             {translationsLoading ? (
               <span className="flex items-center gap-2">
                 <CgSpinner className="animate-spin" />{" "}

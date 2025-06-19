@@ -106,7 +106,7 @@ const AdsModal = () => {
               {t("description")}
             </p>
 
-            <div className="space-y-3 text-sm max-h-[400px] overflow-y-auto custom-scrollbar">
+            <div className="space-y-3 text-sm max-h-[400px] overflow-y-auto">
               <div className="bg-gray-800/50 px-4 py-0.5">
                 <h3 className="font-semibold">{t("chrome")}</h3>
                 <p>{t("chromeTips")}</p>

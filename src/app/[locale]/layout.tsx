@@ -129,7 +129,11 @@ export default async function LocaleLayout({
   const isArabic = locale === "ar";
 
   return (
-    <html lang={locale} dir={isArabic ? "rtl" : "ltr"} className="dark">
+    <html
+      lang={locale}
+      dir={isArabic ? "rtl" : "ltr"}
+      className="dark custom-scrollbar"
+    >
       <head>
         {/* JSON-LD Structured Data */}
         <script
@@ -172,7 +176,7 @@ export default async function LocaleLayout({
         <body
           suppressHydrationWarning
           className={` ${righteous.variable} ${cairo.variable} ${roboto.variable}
-            ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50`}
+            ${isArabic ? "font-cairo" : "font-roboto"} antialiased bg-gray-950 text-gray-50 `}
         >
           <NextIntlClientProvider>
             <ChunkErrorBoundary>
