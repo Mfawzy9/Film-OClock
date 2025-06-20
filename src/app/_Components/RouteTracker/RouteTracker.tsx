@@ -15,7 +15,11 @@ const RouteTracker = () => {
       (subPage === "login" ||
         subPage === "signup" ||
         subPage === "forgotPassword");
-    if (!isAuthPage) {
+    const isProtectedPage =
+      page === "profile" || page === "watchedShows" || page === "library";
+    if (isProtectedPage) {
+      sessionStorage.setItem("previousRoute", "/");
+    } else if (!isAuthPage && !isProtectedPage) {
       sessionStorage.setItem("previousRoute", pathname);
     }
   }, [pathname]);

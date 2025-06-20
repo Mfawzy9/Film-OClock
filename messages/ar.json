@@ -622,7 +622,7 @@
       "DeleteAccount": "متابعة الحذف",
       "ToastsAndMessages": {
         "VerificationEmailSentSuccessfully": "تم إرسال رسالة التحقق. يرجى التحقق من صندوق الوارد (بما في ذلك مجلد البريد العشوائي).",
-        "ProfileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح!",
+        "ProfileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح! ، يرجى إعادة تسجيل الدخول لإظهار التغييرات.",
         "ReloginToUpdateError": "يرجى تسجيل الدخول مرة أخرى لتحديث الملف الشخصي.",
         "email-already-in-useError": "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر.",
         "VerifyTheNewEmailFirstError": "يرجى تأكيد البريد الإلكتروني الجديد قبل تغييره.",

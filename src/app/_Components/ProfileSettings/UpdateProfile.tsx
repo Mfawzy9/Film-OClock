@@ -1,18 +1,17 @@
-import { logout, setUser, User } from "@/lib/Redux/localSlices/authSlice";
+import { logout, User } from "@/lib/Redux/localSlices/authSlice";
 import Title from "../Title/Title";
 import {
   updateEmail,
   updatePassword,
   deleteUser,
   updateProfile,
-  reload,
   sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase/config";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { sanitizeFirebaseUser } from "@/lib/firebase/authService";
+import { signOutUser } from "@/lib/firebase/authService";
 import { useState } from "react";
 import { UpdateFields, updateSchema } from "@/app/validation/updateValidation";
 import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
@@ -74,23 +73,15 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           displayName: userName,
         }),
       );
-    } else {
-      return;
     }
     setLoading(true);
     await Promise.all(promises)
       .then(async () => {
-        await reload(auth.currentUser!);
+        await signOutUser();
+        router.push("/auth/login");
         toast.success(
           t("SettingsPart.ToastsAndMessages.ProfileUpdatedSuccessfully"),
         );
-        setresponseSucess(
-          t("SettingsPart.ToastsAndMessages.ProfileUpdatedSuccessfully"),
-        );
-        const updatedUser = sanitizeFirebaseUser(
-          auth.currentUser as unknown as User,
-        );
-        dispatch(setUser(updatedUser));
       })
       .catch((error) => {
         if (error.code === "auth/requires-recent-login") {

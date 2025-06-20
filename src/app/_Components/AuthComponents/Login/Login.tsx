@@ -123,10 +123,11 @@ const Login = () => {
   // get email and password from cookies
   useEffect(() => {
     const getEmailAndPasswordFromCookies = async () => {
+      if (initialized) return;
       const response = await fetch("/api/auth/rememberMe");
       const { email, password } = await response.json();
 
-      if (email && password && !initialized) {
+      if (email && password) {
         formik.setValues({ email, password });
         setRememberMe(true);
         setInitialized(true);
