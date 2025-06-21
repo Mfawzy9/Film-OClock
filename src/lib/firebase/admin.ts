@@ -26,7 +26,12 @@ function createFirebaseAdminApp() {
     );
   }
 
-  return initializeApp({ credential: cert(serviceAccount) });
+  return initializeApp({
+    credential: cert(serviceAccount),
+    projectId: process.env.FIREBASE_PROJECT_ID,
+  });
 }
 
-export const auth = getAuth(createFirebaseAdminApp());
+export const app = createFirebaseAdminApp();
+
+export const auth = getAuth(app);

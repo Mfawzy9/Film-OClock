@@ -297,6 +297,43 @@ export const firestoreApi = createApi({
         { type: "WatchedShows", id: userId },
       ],
     }),
+    deleteUserDataFromDatabase: builder.mutation<
+      SuccessResponse | ErrorResponse,
+      { userId: string }
+    >({
+      async queryFn({ userId }) {
+        const subcollections = ["watchlist", "favorites", "watched"];
+
+        try {
+          // 1. Delete all subcollection docs
+          await Promise.all(
+            subcollections.map(async (name) => {
+              const snapshot = await getDocs(
+                collection(db, "users", userId, name),
+              );
+              await Promise.all(snapshot.docs.map((doc) => deleteDoc(doc.ref)));
+            }),
+          );
+
+          // 2. Delete the main user document
+          await deleteDoc(doc(db, "users", userId));
+
+          return {
+            data: {
+              success: true,
+              message: "User deleted successfully",
+            },
+          };
+        } catch (error) {
+          return {
+            error: {
+              message: error instanceof Error ? error.message : "Unknown error",
+              code: (error as any)?.code,
+            },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -314,6 +351,8 @@ export const {
   useRemoveFromWatchedMutation,
   useIsInWatchedQuery,
   useLazyIsInWatchedQuery,
+
+  useDeleteUserDataFromDatabaseMutation,
 } = firestoreApi;
 
 export default firestoreApi;

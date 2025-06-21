@@ -102,6 +102,7 @@ const HomeSliderContent = ({
           {/* Text Content */}
           {isActive && (
             <MotionWrapper
+              isDesktop={isDesktop}
               motionProps={{
                 variants: contentVariants,
                 initial: "hidden",
@@ -149,6 +150,7 @@ const HomeSliderContent = ({
           {/* Poster (Desktop Only) */}
           {isActive && isDesktop && (
             <MotionWrapper
+              isDesktop={isDesktop}
               motionProps={{
                 variants: imgVariants,
                 initial: "hidden",

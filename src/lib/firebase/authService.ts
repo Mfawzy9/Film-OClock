@@ -131,7 +131,7 @@ export const signUpWithEmail = async (
 };
 
 // Sign Out
-export const signOutUser = async (t?: TFunction) => {
+export const signOutUser = async (t?: TFunction, isDeleting?: boolean) => {
   try {
     store.dispatch(setLoading(true));
     const deleteCookie = await fetch("/api/auth/session", {
@@ -142,7 +142,7 @@ export const signOutUser = async (t?: TFunction) => {
       throw new Error("Failed to delete session cookie");
     }
     document.cookie = "loggedOut=true; path=/;";
-    await signOut(auth);
+    if (!isDeleting) await signOut(auth);
     if (t) toast.success(t("LogOutSuccess"));
     store.dispatch(firestoreApi.util.resetApiState());
     store.dispatch(logout());

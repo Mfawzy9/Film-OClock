@@ -623,7 +623,7 @@
       "DeleteAccount": "Continue with deletion",
       "ToastsAndMessages": {
         "VerificationEmailSentSuccessfully": "Verification email sent. Please check your inbox.(including spam folder)",
-        "ProfileUpdatedSuccessfully": "Profile updated successfully!, please re-login to see the changes.",
+        "ProfileUpdatedSuccessfully": "Profile updated successfully!, please re-login to apply the changes.",
         "ReloginToUpdateError": "Please re-login to update your profile.",
         "email-already-in-useError": "The email address is already in use by another account.",
         "VerifyTheNewEmailFirstError": "Please verify the new email before changing email.",

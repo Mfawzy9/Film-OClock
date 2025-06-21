@@ -1,4 +1,4 @@
-import { logout, User } from "@/lib/Redux/localSlices/authSlice";
+import { User } from "@/lib/Redux/localSlices/authSlice";
 import Title from "../Title/Title";
 import {
   updateEmail,
@@ -10,7 +10,6 @@ import {
 import { auth } from "@/lib/firebase/config";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { signOutUser } from "@/lib/firebase/authService";
 import { useState } from "react";
 import { UpdateFields, updateSchema } from "@/app/validation/updateValidation";
@@ -18,13 +17,13 @@ import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
-import { clearLibrary } from "@/lib/Redux/localSlices/librarySlice";
 import { FaCheckCircle } from "@react-icons/all-files/fa/FaCheckCircle";
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import { useDeleteUserDataFromDatabaseMutation } from "@/lib/Redux/apiSlices/firestoreSlice";
 
 const UpdateProfile = ({ user }: { user: User | null }) => {
   const t = useTranslations("Account");
@@ -36,8 +35,8 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   const [loading, setLoading] = useState(false);
   const [responseError, setResponseError] = useState<string | null>(null);
   const [responseSucess, setresponseSucess] = useState<string | null>(null);
-  const dispatch = useDispatch();
   const router = useRouter({ customRouter: useNextIntlRouter });
+  const [deleteUserDataFromDatabase] = useDeleteUserDataFromDatabaseMutation();
 
   const handleVerify = async () => {
     if (!auth.currentUser) return;
@@ -126,20 +125,16 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
 
   // delete account
   const handleDelete = async () => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser || !user) return;
     try {
+      await deleteUserDataFromDatabase({ userId: user.uid }).unwrap();
       await deleteUser(auth.currentUser);
       router.push("/");
-      dispatch(logout());
-      dispatch(clearLibrary());
+      await signOutUser(undefined, true);
       toast.success(
         t("SettingsPart.ToastsAndMessages.AccountDeletedSuccessfully"),
       );
       await fetch("/api/auth/session", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-      await fetch("/api/auth/rememberMe", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -153,6 +148,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
       }
     }
   };
+
   if (!user) return null;
   return (
     <main className="w-full bg-black shadow-blueGlow shadow-white/20 p-3 sm:p-5">

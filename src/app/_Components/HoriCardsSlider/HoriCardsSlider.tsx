@@ -19,6 +19,7 @@ import MotionWrapper from "../helpers/MotionWrapper";
 import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft";
 import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight";
 import dynamic from "next/dynamic";
+import useIsDesktop from "@/app/hooks/useIsDesktop";
 
 const HoriSkeletonSlider = dynamic(() => import("./HoriSkeletonSlider"));
 
@@ -50,6 +51,7 @@ const HoriCardsSlider = ({
   const [isEnd, setIsEnd] = useState(false);
   const [activeBackdrop, setActiveBackdrop] = useState<string | null>(null);
   const { isArabic } = useIsArabic();
+  const isDesktop = useIsDesktop();
 
   const handleNavigate = useCallback(
     (direction: "next" | "prev") =>
@@ -133,6 +135,7 @@ const HoriCardsSlider = ({
         <AnimatePresence>
           {activeBackdrop && (
             <MotionWrapper
+              isDesktop={isDesktop}
               motionProps={{
                 variants: bgVariants,
                 initial: "hidden",

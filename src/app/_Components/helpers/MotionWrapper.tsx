@@ -1,5 +1,4 @@
 import { ReactNode, HTMLAttributes } from "react";
-import useIsDesktop from "@/app/hooks/useIsDesktop";
 import { motion, type HTMLMotionProps } from "framer-motion";
 
 type Props = {
@@ -7,6 +6,7 @@ type Props = {
   motionProps?: HTMLMotionProps<"div"> & { key?: React.Key };
   fallbackProps?: HTMLAttributes<HTMLDivElement>;
   className?: string;
+  isDesktop?: boolean;
 };
 
 export default function MotionWrapper({
@@ -14,9 +14,8 @@ export default function MotionWrapper({
   motionProps = {},
   fallbackProps,
   className,
+  isDesktop,
 }: Props) {
-  const isDesktop = useIsDesktop();
-
   if (isDesktop) {
     const { key, ...rest } = motionProps;
     return (
