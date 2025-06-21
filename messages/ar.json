@@ -620,6 +620,7 @@
       "DeleteAccountWarning": "تابع بحذر!",
       "DeleteAccountMessage": "سنقوم بمسح جميع بياناتك بالكامل. لا يمكن الوصول إلى حسابك بعد هذا الإجراء.",
       "DeleteAccount": "متابعة الحذف",
+      "DeletingAccount": "جاري حذف الحساب",
       "ToastsAndMessages": {
         "VerificationEmailSentSuccessfully": "تم إرسال رسالة التحقق. يرجى التحقق من صندوق الوارد (بما في ذلك مجلد البريد العشوائي).",
         "ProfileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح! ، يرجى إعادة تسجيل الدخول لتطبيق التغييرات.",

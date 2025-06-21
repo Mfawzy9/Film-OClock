@@ -621,6 +621,7 @@
       "DeleteAccountWarning": "Proceed with caution!",
       "DeleteAccountMessage": "We will completely wipe your data. There is no way to access your account after this action.",
       "DeleteAccount": "Continue with deletion",
+      "DeletingAccount": "Deleting account",
       "ToastsAndMessages": {
         "VerificationEmailSentSuccessfully": "Verification email sent. Please check your inbox.(including spam folder)",
         "ProfileUpdatedSuccessfully": "Profile updated successfully!, please re-login to apply the changes.",

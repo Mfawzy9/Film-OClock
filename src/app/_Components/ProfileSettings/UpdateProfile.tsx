@@ -3,7 +3,6 @@ import Title from "../Title/Title";
 import {
   updateEmail,
   updatePassword,
-  deleteUser,
   updateProfile,
   sendEmailVerification,
 } from "firebase/auth";
@@ -36,7 +35,8 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   const [responseError, setResponseError] = useState<string | null>(null);
   const [responseSucess, setresponseSucess] = useState<string | null>(null);
   const router = useRouter({ customRouter: useNextIntlRouter });
-  const [deleteUserDataFromDatabase] = useDeleteUserDataFromDatabaseMutation();
+  const [deleteUserDataFromDatabase, { isLoading }] =
+    useDeleteUserDataFromDatabaseMutation();
 
   const handleVerify = async () => {
     if (!auth.currentUser) return;
@@ -52,6 +52,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
       console.error(error.message);
     }
   };
+
   //handle submit
   const handleSubmit = async (inputs: UpdateFields) => {
     const { userName, email, password, rePassword } = inputs;
@@ -109,6 +110,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
       })
       .finally(() => setLoading(false));
   };
+
   //formik
   const formik = useFormik({
     initialValues: {
@@ -127,17 +129,15 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   const handleDelete = async () => {
     if (!auth.currentUser || !user) return;
     try {
-      await deleteUserDataFromDatabase({ userId: user.uid }).unwrap();
-      await deleteUser(auth.currentUser);
+      await deleteUserDataFromDatabase({
+        userId: user.uid,
+        user: auth.currentUser,
+      }).unwrap();
       router.push("/");
       await signOutUser(undefined, true);
       toast.success(
         t("SettingsPart.ToastsAndMessages.AccountDeletedSuccessfully"),
       );
-      await fetch("/api/auth/session", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
     } catch (err: any) {
       if (err.code === "auth/requires-recent-login") {
         toast.error(t("SettingsPart.ToastsAndMessages.ReLoginToDeleteError"));
@@ -150,6 +150,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   };
 
   if (!user) return null;
+
   return (
     <main className="w-full bg-black shadow-blueGlow shadow-white/20 p-3 sm:p-5">
       {!user.emailVerified &&
@@ -391,11 +392,20 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           {t("SettingsPart.DeleteAccountMessage")}
         </p>
         <button
+          disabled={isLoading}
           type="button"
           onClick={handleDelete}
-          className="text-red-500 hover:underline w-fit"
+          className={`text-red-500 hover:underline disabled:no-underline w-fit disabled:opacity-70
+            disabled:cursor-not-allowed`}
         >
-          {t("SettingsPart.DeleteAccount")}
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <SiSpinrilla className="animate-spin text-2xl" />
+              {t("SettingsPart.DeletingAccount")}
+            </span>
+          ) : (
+            t("SettingsPart.DeleteAccount")
+          )}
         </button>
       </div>
     </main>

@@ -10,6 +10,7 @@ import {
 import { db } from "@/lib/firebase/config";
 
 import { FirestoreTheShowI } from "@/app/hooks/useLibrary";
+import { deleteUser, User } from "firebase/auth";
 
 type LibraryType = "watchlist" | "favorites";
 type TheShowType = FirestoreTheShowI;
@@ -299,9 +300,9 @@ export const firestoreApi = createApi({
     }),
     deleteUserDataFromDatabase: builder.mutation<
       SuccessResponse | ErrorResponse,
-      { userId: string }
+      { userId: string; user: User }
     >({
-      async queryFn({ userId }) {
+      async queryFn({ userId, user }) {
         const subcollections = ["watchlist", "favorites", "watched"];
 
         try {
@@ -317,6 +318,9 @@ export const firestoreApi = createApi({
 
           // 2. Delete the main user document
           await deleteDoc(doc(db, "users", userId));
+
+          // 3. Delete the user from firebase auth
+          await deleteUser(user);
 
           return {
             data: {
