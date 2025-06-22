@@ -45,7 +45,10 @@ const MovieCollectionComp = async ({
         )
         ?.data?.overview?.trim();
       return locale === "ar"
-        ? arabicSaOverview || arabicAeOverview || ""
+        ? arabicSaOverview ||
+            arabicAeOverview ||
+            collectionDetails.overview ||
+            ""
         : collectionDetails.overview || "";
     } else {
       return collectionDetails?.overview || null;
