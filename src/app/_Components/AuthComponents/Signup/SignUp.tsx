@@ -104,8 +104,13 @@ const Signup = () => {
       }
     });
 
-    return () => unsubscribe();
-  }, [router]);
+    return () => {
+      unsubscribe();
+      if (error) {
+        dispatch(setError(""));
+      }
+    };
+  }, [router, dispatch, error]);
 
   return (
     <>

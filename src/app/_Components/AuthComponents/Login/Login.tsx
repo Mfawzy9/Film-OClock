@@ -142,6 +142,14 @@ const Login = ({ email, password }: { email?: string; password?: string }) => {
     }
   }, [email, password, formik]);
 
+  useEffect(() => {
+    return () => {
+      if (error) {
+        dispatch(setError(""));
+      }
+    };
+  }, [router, dispatch, error]);
+
   return (
     <>
       <LoginForm

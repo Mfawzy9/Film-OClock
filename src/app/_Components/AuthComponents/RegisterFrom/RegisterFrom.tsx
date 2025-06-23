@@ -30,6 +30,13 @@ const RegisterFrom = ({
   const t = useTranslations("Register");
   const router = useRouter();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+    if (error) {
+      dispatch(setError(""));
+    }
+  };
+
   return (
     <PageSection className="px-0 flex items-center h-full w-full">
       <div
@@ -55,10 +62,7 @@ const RegisterFrom = ({
               id="userName"
               type="text"
               value={formik.values.userName}
-              onChange={(e) => {
-                dispatch(setError(null));
-                formik.handleChange(e);
-              }}
+              onChange={handleChange}
               onBlur={formik.handleBlur}
             />
             <label
@@ -92,10 +96,7 @@ const RegisterFrom = ({
               id="email"
               type="text"
               value={formik.values.email}
-              onChange={(e) => {
-                dispatch(setError(null));
-                formik.handleChange(e);
-              }}
+              onChange={handleChange}
               onBlur={formik.handleBlur}
             />
             <label
@@ -124,10 +125,7 @@ const RegisterFrom = ({
             name="password"
             label={t("Form.Password")}
             value={formik.values.password}
-            onChange={(e) => {
-              dispatch(setError(null));
-              formik.handleChange(e);
-            }}
+            onChange={handleChange}
             onBlur={formik.handleBlur}
             error={formik.errors.password}
             touched={formik.touched.password}
@@ -139,10 +137,7 @@ const RegisterFrom = ({
             name="rePassword"
             label={t("Form.ConfirmPassword")}
             value={formik.values.rePassword}
-            onChange={(e) => {
-              dispatch(setError(null));
-              formik.handleChange(e);
-            }}
+            onChange={handleChange}
             onBlur={formik.handleBlur}
             error={formik.errors.rePassword}
             touched={formik.touched.rePassword}

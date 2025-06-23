@@ -34,6 +34,13 @@ const LoginForm = ({
   const t = useTranslations("Login");
   const router = useRouter();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+    if (error) {
+      dispatch(setError(""));
+    }
+  };
+
   return (
     <>
       <PageSection className="!px-2 flex items-center h-full w-full">
@@ -59,10 +66,7 @@ const LoginForm = ({
                 id="email"
                 type="text"
                 value={formik.values.email}
-                onChange={(e) => {
-                  dispatch(setError(null));
-                  formik.handleChange(e);
-                }}
+                onChange={handleChange}
                 onBlur={formik.handleBlur}
               />
               <label
@@ -91,10 +95,7 @@ const LoginForm = ({
               name="password"
               label={t("Form.Password")}
               value={formik.values.password}
-              onChange={(e) => {
-                dispatch(setError(null));
-                formik.handleChange(e);
-              }}
+              onChange={handleChange}
               onBlur={formik.handleBlur}
               error={formik.errors.password}
               touched={formik.touched.password}
