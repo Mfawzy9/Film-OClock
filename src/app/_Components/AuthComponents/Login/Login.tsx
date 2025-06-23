@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import {
   setError,
@@ -28,6 +28,7 @@ const decrypt = (value: string) =>
 const Login = ({ email, password }: { email?: string; password?: string }) => {
   const t = useTranslations("Login");
   const [rememberMe, setRememberMe] = useState(false);
+  const isInitialized = useRef(false);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error, isGoogleLoading } = useSelector(
@@ -124,6 +125,7 @@ const Login = ({ email, password }: { email?: string; password?: string }) => {
   });
 
   useEffect(() => {
+    if (isInitialized.current) return;
     if (email && password) {
       const decryptedEmail = decrypt(email);
       const decryptedPassword = decrypt(password);
@@ -135,6 +137,7 @@ const Login = ({ email, password }: { email?: string; password?: string }) => {
           email: decryptedEmail,
           password: decryptedPassword,
         });
+      isInitialized.current = true;
       setRememberMe(true);
     }
   }, [email, password, formik]);
