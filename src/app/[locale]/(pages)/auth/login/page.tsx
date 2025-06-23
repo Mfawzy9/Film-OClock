@@ -1,6 +1,7 @@
 import Login from "@/app/_Components/AuthComponents/Login/Login";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 type Props = {
   params: Promise<{
@@ -18,8 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const LoginPage = () => {
-  return <Login />;
+const LoginPage = async () => {
+  const cookiesStore = await cookies();
+  const email = cookiesStore.get("email")?.value;
+  const password = cookiesStore.get("password")?.value;
+  return <Login email={email} password={password} />;
 };
 
 export default LoginPage;

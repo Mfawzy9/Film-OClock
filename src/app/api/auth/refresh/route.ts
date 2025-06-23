@@ -1,17 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import admin from "firebase-admin";
-
-// Initialize Firebase Admin if not already done
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    }),
-  });
-}
+import { auth } from "@/lib/firebase/admin";
 
 export async function POST() {
   const cookieStore = await cookies();
@@ -26,18 +15,20 @@ export async function POST() {
 
   try {
     // Verify the session cookie
-    const decodedClaims = await admin
-      .auth()
-      .verifySessionCookie(sessionToken, true /* checkRevoked */);
+    const decodedClaims = await auth.verifySessionCookie(
+      sessionToken,
+      true /* checkRevoked */,
+    );
 
     // Get the user to check if custom claims need to be refreshed
-    await admin.auth().getUser(decodedClaims.uid);
+    await auth.getUser(decodedClaims.uid);
 
     // Create a new session cookie with extended expiration
     const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
-    const newSessionCookie = await admin
-      .auth()
-      .createSessionCookie(decodedClaims.token, { expiresIn });
+    const newSessionCookie = await auth.createSessionCookie(
+      decodedClaims.token,
+      { expiresIn },
+    );
 
     const response = NextResponse.json({
       success: true,

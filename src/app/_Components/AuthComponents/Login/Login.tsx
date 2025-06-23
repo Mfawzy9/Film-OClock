@@ -20,10 +20,13 @@ import { isTokenExpired } from "../../../../../helpers/checkToken";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@bprogress/next/app";
 import { GoShield } from "@react-icons/all-files/go/GoShield";
+import CryptoJS from "crypto-js";
 
-const Login = () => {
+const decrypt = (value: string) =>
+  CryptoJS.AES.decrypt(value, "SECRET_KEY").toString(CryptoJS.enc.Utf8);
+
+const Login = ({ email, password }: { email?: string; password?: string }) => {
   const t = useTranslations("Login");
-  const [initialized, setInitialized] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -120,23 +123,21 @@ const Login = () => {
     onSubmit: handleSubmit,
   });
 
-  // get email and password from cookies
   useEffect(() => {
-    const getEmailAndPasswordFromCookies = async () => {
-      if (initialized) return;
-      const response = await fetch("/api/auth/rememberMe");
-      const { email, password } = await response.json();
-
-      if (email && password) {
-        formik.setValues({ email, password });
-        setRememberMe(true);
-        setInitialized(true);
-      }
-    };
-
-    getEmailAndPasswordFromCookies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialized]);
+    if (email && password) {
+      const decryptedEmail = decrypt(email);
+      const decryptedPassword = decrypt(password);
+      if (
+        formik.values.email !== decryptedEmail ||
+        formik.values.password !== decryptedPassword
+      )
+        formik.setValues({
+          email: decryptedEmail,
+          password: decryptedPassword,
+        });
+      setRememberMe(true);
+    }
+  }, [email, password, formik]);
 
   return (
     <>
