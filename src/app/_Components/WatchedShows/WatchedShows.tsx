@@ -14,12 +14,15 @@ import Title from "../Title/Title";
 import EmptyWatchedShows from "./EmptyWatchedShows";
 import LibSearch from "../Library/LibSearch/LibSearch";
 import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next";
+import { getCookie } from "../../../../helpers/helpers";
 
 const WatchedShows = () => {
+  const router = useRouter({ customRouter: useNextIntlRouter });
   const dispatch = useDispatch();
   const t = useTranslations("Library.WatchedList");
-  const { handleClick, watchedShows, isLoading, user, userStatusLoading } =
-    useWatchedList({});
+  const { handleClick, watchedShows, isLoading, user } = useWatchedList({});
 
   // get watched shows
   const {
@@ -46,7 +49,15 @@ const WatchedShows = () => {
     );
   }, [watchedShows, searchTerm]);
 
-  if (watchedShowsLoading || userStatusLoading) {
+  useEffect(() => {
+    const isLoggedOut = getCookie("loggedOut") === "true";
+
+    if (isLoggedOut) {
+      router.push("/auth/login");
+    }
+  }, [router]);
+
+  if (watchedShowsLoading || !user) {
     return <MainLoader />;
   }
 

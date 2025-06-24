@@ -20,20 +20,22 @@ import EmptyFav from "../EmptyFav/EmptyFav";
 import LibSearch from "../LibSearch/LibSearch";
 import { useTranslations } from "next-intl";
 import CardsSlider from "../../CardsSlider/CardsSlider";
+import { useRouter as useNextIntlRouter } from "@/i18n/navigation";
+import { useRouter } from "@bprogress/next";
+import { getCookie } from "../../../../../helpers/helpers";
 
 const LibraryClient = () => {
   const { libraryType } = useParams<{
     libraryType: "watchlist" | "favorites";
   }>();
+  const router = useRouter({ customRouter: useNextIntlRouter });
 
   if (libraryType !== "watchlist" && libraryType !== "favorites") notFound();
 
   const t = useTranslations("Library");
 
   const dispatch = useDispatch();
-  const { user, userStatusLoading } = useSelector(
-    (state: RootState) => state.authReducer,
-  );
+  const { user } = useSelector((state: RootState) => state.authReducer);
 
   // prevent refetch on mount/focus
   const {
@@ -88,7 +90,15 @@ const LibraryClient = () => {
     );
   }, [watchlist, searchTerm]);
 
-  if (isLoading || userStatusLoading) return <MainLoader />;
+  useEffect(() => {
+    const isLoggedOut = getCookie("loggedOut") === "true";
+
+    if (isLoggedOut) {
+      router.push("/auth/login");
+    }
+  }, [router]);
+
+  if (isLoading || !user) return <MainLoader />;
 
   return (
     user && (
