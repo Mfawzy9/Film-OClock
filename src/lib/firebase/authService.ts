@@ -161,33 +161,36 @@ export const signOutUser = async (t?: TFunction) => {
 
 // Listen for Auth Changes
 export const listenToAuthChanges = async () => {
-  const storeUser = store.getState().authReducer.user;
   store.dispatch(setUserStatusLoading(true));
 
   const res = await fetch("/api/auth/check-auth");
   const { isAuthenticated } = await res.json();
 
-  if (storeUser && isAuthenticated) {
-    document.cookie = "loggedOut=false; path=/;";
+  console.log("isAuthenticated", isAuthenticated);
+
+  if (!isAuthenticated) {
+    document.cookie = "loggedOut=true; path=/;";
+
+    await signOutUser();
+
     store.dispatch(setUserStatusLoading(false));
     return () => {}; // No-op unsubscribe
-  } else if (!storeUser && !isAuthenticated) {
-    document.cookie = "loggedOut=true; path=/;";
-    store.dispatch(setUserStatusLoading(false));
-    return () => {}; // No-op unsubscribe
-  } else if (!isAuthenticated && storeUser) {
-    document.cookie = "loggedOut=true; path=/;";
+  } else if (isAuthenticated) {
     const currentUser = auth.currentUser;
+    console.log("currentUser", currentUser);
     if (currentUser) {
+      const updatedUser = sanitizeFirebaseUser(currentUser as unknown as User);
+      if (updatedUser) {
+        store.dispatch(setUser(updatedUser));
+      }
+      document.cookie = "loggedOut=false; path=/;";
+    } else if (!currentUser) {
+      document.cookie = "loggedOut=true; path=/;";
       await signOutUser();
     }
+
     store.dispatch(setUserStatusLoading(false));
-    return () => {}; // No-op unsubscribe
-  } else if (isAuthenticated && !storeUser) {
-    document.cookie = "loggedOut=true; path=/;";
-    await signOutUser();
-    store.dispatch(setUserStatusLoading(false));
-    return () => {}; // No-op unsubscribe
+    return () => {};
   }
 
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
