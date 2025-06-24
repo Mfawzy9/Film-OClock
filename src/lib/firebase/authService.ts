@@ -145,8 +145,10 @@ export const signOutUser = async (t?: TFunction) => {
       throw new Error("Failed to delete session cookie");
     }
     document.cookie = "loggedOut=true; path=/;";
-    await signOut(auth);
-    if (t) toast.success(t("LogOutSuccess"));
+    if (auth.currentUser) {
+      await signOut(auth);
+      if (t) toast.success(t("LogOutSuccess"));
+    }
     store.dispatch(firestoreApi.util.resetApiState());
     store.dispatch(logout());
     store.dispatch(clearLibrary());
@@ -163,60 +165,36 @@ export const signOutUser = async (t?: TFunction) => {
 export const listenToAuthChanges = async () => {
   store.dispatch(setUserStatusLoading(true));
 
-  const res = await fetch("/api/auth/check-auth");
-  const { isAuthenticated } = await res.json();
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const idToken = await user.getIdToken();
 
-  if (!isAuthenticated) {
-    document.cookie = "loggedOut=true; path=/;";
+      // Optional: confirm session is valid (server-side)
+      const sessionCheck = await fetch("/api/auth/check-auth");
+      const { isAuthenticated } = await sessionCheck.json();
 
-    await signOutUser();
+      if (!isAuthenticated) {
+        // Restore session if needed
+        const sessionRes = await fetch("/api/auth/session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken }),
+        });
 
-    store.dispatch(setUserStatusLoading(false));
-    return () => {}; // No-op unsubscribe
-  } else if (isAuthenticated) {
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      const updatedUser = sanitizeFirebaseUser(currentUser as unknown as User);
-      if (updatedUser) {
-        store.dispatch(setUser(updatedUser));
+        if (!sessionRes.ok) {
+          await signOutUser();
+          throw new Error("Session creation failed");
+        }
       }
+
+      const sanitizedUser = sanitizeFirebaseUser(user as unknown as User);
+      store.dispatch(setUser(sanitizedUser));
       document.cookie = "loggedOut=false; path=/;";
-    } else if (!currentUser) {
+    } else {
       document.cookie = "loggedOut=true; path=/;";
       await signOutUser();
     }
 
-    store.dispatch(setUserStatusLoading(false));
-    return () => {};
-  }
-
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      document.cookie = "loggedOut=false; path=/;";
-      const sanitizedUser = sanitizeFirebaseUser(user as unknown as User);
-      if (sanitizedUser) {
-        const sessionRes = await fetch("/api/auth/session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken: await user.getIdToken() }),
-        });
-        if (!sessionRes.ok) {
-          throw new Error("Session creation failed");
-        }
-        store.dispatch(setUser(sanitizedUser));
-      } else {
-        store.dispatch(logout());
-      }
-    } else {
-      document.cookie = "loggedOut=true; path=/;";
-      await fetch("/api/auth/session", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-      store.dispatch(logout());
-      store.dispatch(clearLibrary());
-      store.dispatch(firestoreApi.util.resetApiState());
-    }
     store.dispatch(setUserStatusLoading(false));
   });
 

@@ -3,6 +3,22 @@ import type { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
+async function verifySession(
+  sessionToken: string,
+  origin: string,
+): Promise<boolean> {
+  try {
+    const res = await fetch(`${origin}/api/auth/verify`, {
+      headers: { Cookie: `session=${sessionToken}` },
+      next: { revalidate: 300 }, // Cache for 5 mins
+    });
+    return res.ok;
+  } catch (error) {
+    console.error("Session verification failed:", error);
+    return false;
+  }
+}
+
 const intlMiddleware = createMiddleware(routing);
 
 const AUTH_ROUTES = ["/auth"];
@@ -10,7 +26,6 @@ const PROTECTED_ROUTES = ["/library", "/profile", "/watchedShows"];
 const supportedLocales = ["en", "ar"];
 
 export async function middleware(request: NextRequest) {
-  // Skip middleware for non-page routes and if already processed
   if (
     request.headers.get("x-middleware-cache") ||
     request.nextUrl.pathname.includes(".")
@@ -18,7 +33,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle internationalization first
+  // i18n middleware first
   const response = intlMiddleware(request);
   response.headers.set("x-current-pathname", request.nextUrl.pathname);
 
@@ -33,18 +48,15 @@ export async function middleware(request: NextRequest) {
     ? pathLocale
     : request.cookies.get("NEXT_LOCALE")?.value || "en";
 
-  // Skip if navigating to same page
   const referer = request.headers.get("referer");
   if (referer && new URL(referer).pathname === pathname) {
     return response;
   }
 
-  // Get path without locale for matching
   const currentPath = pathname.startsWith(`/${locale}`)
     ? pathname.slice(locale.length + 1)
     : pathname;
 
-  // Check if current path needs protection
   const isAuthRoute = AUTH_ROUTES.some((route) =>
     currentPath.startsWith(route),
   );
@@ -58,28 +70,17 @@ export async function middleware(request: NextRequest) {
 
   const sessionToken = request.cookies.get("session")?.value;
   const isLoggedOut = request.cookies.get("loggedOut")?.value === "true";
-  // Handle auth routes (login/signup)
-  if (isAuthRoute && sessionToken && !isLoggedOut) {
-    try {
-      // Cache verification for 5 minutes
-      const authCheck = await fetch(
-        `${request.nextUrl.origin}/api/auth/verify`,
-        {
-          headers: { Cookie: `session=${sessionToken}` },
-          next: { revalidate: 300 }, // 5 minutes cache
-        },
-      );
 
-      if (authCheck.ok) {
-        return NextResponse.redirect(new URL(`/${locale}`, request.url));
-      }
-    } catch (error) {
-      console.error("Auth verification failed:", error);
+  // Auth routes: redirect if already logged in
+  if (isAuthRoute && sessionToken && !isLoggedOut) {
+    const isValid = await verifySession(sessionToken, request.nextUrl.origin);
+    if (isValid) {
+      return NextResponse.redirect(new URL(`/${locale}`, request.url));
     }
     return response;
   }
 
-  // Handle protected routes
+  // Protected routes: block if not logged in
   if (isProtectedRoute) {
     if (!sessionToken) {
       return NextResponse.redirect(
@@ -87,17 +88,10 @@ export async function middleware(request: NextRequest) {
       );
     }
 
-    try {
-      // Cache verification for 5 minutes
-      const authCheck = await fetch(
-        `${request.nextUrl.origin}/api/auth/verify`,
-        {
-          headers: { Cookie: `session=${sessionToken}` },
-          next: { revalidate: 300 }, // 5 minutes cache
-        },
-      );
+    const isValid = await verifySession(sessionToken, request.nextUrl.origin);
 
-      if (!authCheck.ok) {
+    if (!isValid) {
+      try {
         const refreshResponse = await fetch(
           `${request.nextUrl.origin}/api/auth/refresh`,
           {
@@ -122,9 +116,9 @@ export async function middleware(request: NextRequest) {
         );
         redirectResponse.cookies.delete("session");
         return redirectResponse;
+      } catch (error) {
+        console.error("Auth refresh failed:", error);
       }
-    } catch (error) {
-      console.error("Auth verification failed:", error);
     }
   }
 
