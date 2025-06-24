@@ -166,8 +166,6 @@ export const listenToAuthChanges = async () => {
   const res = await fetch("/api/auth/check-auth");
   const { isAuthenticated } = await res.json();
 
-  console.log("isAuthenticated", isAuthenticated);
-
   if (!isAuthenticated) {
     document.cookie = "loggedOut=true; path=/;";
 
@@ -177,7 +175,6 @@ export const listenToAuthChanges = async () => {
     return () => {}; // No-op unsubscribe
   } else if (isAuthenticated) {
     const currentUser = auth.currentUser;
-    console.log("currentUser", currentUser);
     if (currentUser) {
       const updatedUser = sanitizeFirebaseUser(currentUser as unknown as User);
       if (updatedUser) {
