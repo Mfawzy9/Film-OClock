@@ -6,11 +6,11 @@ import { RegisterFormFields } from "@/app/validation/registerValidation";
 import { setError } from "@/lib/Redux/localSlices/authSlice";
 import { signInWithGoogle } from "@/lib/firebase/authService";
 import PasswordInput from "../../PasswordInput/PasswordInput";
-import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import { TFunction } from "../../../../../global";
 
 interface RegisterFormProps {
   formik: FormikProps<RegisterFormFields>;
@@ -18,6 +18,7 @@ interface RegisterFormProps {
   isGoogleLoading: boolean;
   dispatch: AppDispatch;
   error: string | null;
+  t: TFunction;
 }
 
 const RegisterFrom = ({
@@ -26,8 +27,8 @@ const RegisterFrom = ({
   dispatch,
   error,
   isGoogleLoading,
+  t,
 }: RegisterFormProps) => {
-  const t = useTranslations("Register");
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,7 +180,7 @@ const RegisterFrom = ({
             <span>{t("Form.Or")}</span>
             <button
               disabled={isGoogleLoading || isLoading || formik.isSubmitting}
-              onClick={() => signInWithGoogle({ router })}
+              onClick={() => signInWithGoogle({ router, t })}
               type="button"
               className="w-full py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-md shadow-lg text-white
                 font-semibold transition duration-200 flex items-center justify-center gap-2

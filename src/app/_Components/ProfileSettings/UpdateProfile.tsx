@@ -22,7 +22,6 @@ import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 import { IoWarningOutline } from "@react-icons/all-files/io5/IoWarningOutline";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
-import { useDeleteUserDataFromDatabaseMutation } from "@/lib/Redux/apiSlices/firestoreSlice";
 
 const UpdateProfile = ({ user }: { user: User | null }) => {
   const t = useTranslations("Account");
@@ -31,12 +30,13 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
     rePassword: false,
   });
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({
+    submitLoading: false,
+    deleteLoading: false,
+  });
   const [responseError, setResponseError] = useState<string | null>(null);
   const [responseSucess, setresponseSucess] = useState<string | null>(null);
   const router = useRouter({ customRouter: useNextIntlRouter });
-  const [deleteUserDataFromDatabase, { isLoading }] =
-    useDeleteUserDataFromDatabaseMutation();
 
   const handleVerify = async () => {
     if (!auth.currentUser) return;
@@ -74,7 +74,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
         }),
       );
     }
-    setLoading(true);
+    setIsLoading({ ...isLoading, submitLoading: true });
     await Promise.all(promises)
       .then(async () => {
         await signOutUser();
@@ -108,7 +108,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           setResponseError(error.message);
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading({ ...isLoading, submitLoading: false }));
   };
 
   //formik
@@ -128,16 +128,17 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   // delete account
   const handleDelete = async () => {
     if (!auth.currentUser || !user) return;
+    setIsLoading({ ...isLoading, deleteLoading: true });
     try {
-      await deleteUserDataFromDatabase({
-        userId: user.uid,
-        user: auth.currentUser,
-      }).unwrap();
-      router.push("/");
-      await signOutUser(undefined, true);
+      await fetch("/api/auth/delete-account", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
       toast.success(
         t("SettingsPart.ToastsAndMessages.AccountDeletedSuccessfully"),
       );
+      router.push("/");
+      await signOutUser();
     } catch (err: any) {
       if (err.code === "auth/requires-recent-login") {
         toast.error(t("SettingsPart.ToastsAndMessages.ReLoginToDeleteError"));
@@ -146,6 +147,8 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           err.message || t("SettingsPart.ToastsAndMessages.DefaultDeleteError"),
         );
       }
+    } finally {
+      setIsLoading({ ...isLoading, deleteLoading: false });
     }
   };
 
@@ -367,9 +370,9 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           className="w-fit py-2 px-4 bg-blue-700 hover:bg-blue-600 rounded-md shadow-lg text-white
             font-semibold transition duration-200 disabled:opacity-70
             disabled:cursor-not-allowed disabled:hover:bg-blue-700"
-          disabled={loading || !formik.dirty}
+          disabled={isLoading.submitLoading || !formik.dirty}
         >
-          {loading ? (
+          {isLoading.submitLoading ? (
             <span className="flex items-center gap-2 justify-center">
               <SiSpinrilla className="animate-spin text-lg" /> In Progress
             </span>
@@ -392,13 +395,13 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
           {t("SettingsPart.DeleteAccountMessage")}
         </p>
         <button
-          disabled={isLoading}
+          disabled={isLoading.deleteLoading}
           type="button"
           onClick={handleDelete}
           className={`text-red-500 hover:underline disabled:no-underline w-fit disabled:opacity-70
             disabled:cursor-not-allowed`}
         >
-          {isLoading ? (
+          {isLoading.deleteLoading ? (
             <span className="flex items-center gap-2">
               <SiSpinrilla className="animate-spin text-2xl" />
               {t("SettingsPart.DeletingAccount")}

@@ -22,7 +22,9 @@ import {
 const useWatchedList = ({ showId }: { showId?: number }) => {
   const t = useTranslations("Library.WatchedList");
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.authReducer);
+  const { user, userStatusLoading } = useSelector(
+    (state: RootState) => state.authReducer,
+  );
   const { watchedShows, watchedShowsLoading } = useSelector(
     (state: RootState) => state.libraryReducer,
   );
@@ -117,6 +119,7 @@ const useWatchedList = ({ showId }: { showId?: number }) => {
     handleClick,
     isLoading,
     watchedShows,
+    userStatusLoading,
   };
 };
 

@@ -6,11 +6,11 @@ import { setError } from "@/lib/Redux/localSlices/authSlice";
 import { signInWithGoogle } from "@/lib/firebase/authService";
 import { AppDispatch } from "@/lib/Redux/store";
 import PasswordInput from "../../PasswordInput/PasswordInput";
-import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
 import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle";
 import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle";
 import { SiSpinrilla } from "@react-icons/all-files/si/SiSpinrilla";
+import { TFunction } from "../../../../../global";
 
 interface LoginFormProps {
   formik: FormikProps<LoginFormFields>;
@@ -20,6 +20,7 @@ interface LoginFormProps {
   isGoogleLoading: boolean;
   rememberMe: boolean;
   setRememberMe: React.Dispatch<React.SetStateAction<boolean>>;
+  t: TFunction;
 }
 
 const LoginForm = ({
@@ -30,8 +31,8 @@ const LoginForm = ({
   isGoogleLoading,
   rememberMe,
   setRememberMe,
+  t,
 }: LoginFormProps) => {
-  const t = useTranslations("Login");
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,7 +157,7 @@ const LoginForm = ({
               <span>{t("Form.Or")}</span>
               <button
                 disabled={isGoogleLoading || isLoading || formik.isSubmitting}
-                onClick={() => signInWithGoogle({ router })}
+                onClick={() => signInWithGoogle({ router, t })}
                 type="button"
                 className="w-full py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-md shadow-lg text-white
                   font-semibold transition duration-200 flex items-center justify-center gap-2

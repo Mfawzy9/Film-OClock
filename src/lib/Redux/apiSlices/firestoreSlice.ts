@@ -298,6 +298,7 @@ export const firestoreApi = createApi({
         { type: "WatchedShows", id: userId },
       ],
     }),
+    // --- delete user ---
     deleteUserDataFromDatabase: builder.mutation<
       SuccessResponse | ErrorResponse,
       { userId: string; user: User }
@@ -337,6 +338,11 @@ export const firestoreApi = createApi({
           };
         }
       },
+      invalidatesTags: (result, error, { userId }) => [
+        { type: "Watchlist", id: userId },
+        { type: "WatchedShows", id: userId },
+        { type: "Favorites", id: userId },
+      ],
     }),
   }),
 });

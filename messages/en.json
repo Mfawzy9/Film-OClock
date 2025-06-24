@@ -659,7 +659,8 @@
       "WrongPassword": "Wrong password.",
       "UserNotFound": "User not found.",
       "LoginFailed": " Login failed",
-      "SessionExpired": "Session expired, please log in again."
+      "SessionExpired": "Session expired, please log in again.",
+      "PopupClosedByUser": "Login by google failed , please try again."
     },
     "Form": {
       "Title": "Welcome Back",
@@ -770,7 +771,8 @@
       "RegistrationFailed": "Registration failed. Please try again later.",
       "EmailALreadyInUseError": "The email address is already in use by another account.",
       "WeakPasswordError": "Password must be at least 6 characters",
-      "DefaultError": "Registration failed. Please try again later."
+      "DefaultError": "Registration failed. Please try again later.",
+      "PopupClosedByUser": "Login by google failed , please try again."
     },
     "Validation": {
       "UserName": {

@@ -1,6 +1,5 @@
 // Firebase Auth functions
 import {
-  getAuth,
   signInWithEmailAndPassword,
   signOut,
   createUserWithEmailAndPassword,
@@ -9,7 +8,6 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { app } from "@/lib/firebase/config";
 import {
   logout,
   setError,
@@ -25,8 +23,7 @@ import { TFunction } from "../../../global";
 import { clearLibrary } from "../Redux/localSlices/librarySlice";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import firestoreApi from "../Redux/apiSlices/firestoreSlice";
-
-const auth = getAuth(app);
+import { auth } from "./config";
 
 // Helper function to safely access error message
 const getErrorMessage = (error: unknown): string => {
@@ -51,7 +48,6 @@ export const signInWithEmail = async (email: string, password: string) => {
     store.dispatch(setUser(updatedUser));
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    store.dispatch(setError(errorMessage));
     console.error("Error signing in with email:", errorMessage);
   } finally {
     store.dispatch(setLoading(false));
@@ -61,8 +57,10 @@ export const signInWithEmail = async (email: string, password: string) => {
 // Google Sign In
 export const signInWithGoogle = async ({
   router,
+  t,
 }: {
   router: AppRouterInstance;
+  t: TFunction;
 }) => {
   try {
     store.dispatch(setGoogleLoading(true));
@@ -91,7 +89,12 @@ export const signInWithGoogle = async ({
     store.dispatch(setUser(updatedUser));
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    store.dispatch(setError(errorMessage));
+    if (errorMessage === "Firebase: Error (auth/popup-closed-by-user).") {
+      store.dispatch(setError(t("ToastsOrMessages.PopupClosedByUser")));
+    } else {
+      store.dispatch(setError(errorMessage));
+    }
+
     console.error("Error signing in with Google:", errorMessage);
   } finally {
     store.dispatch(setGoogleLoading(false));
@@ -131,7 +134,7 @@ export const signUpWithEmail = async (
 };
 
 // Sign Out
-export const signOutUser = async (t?: TFunction, isDeleting?: boolean) => {
+export const signOutUser = async (t?: TFunction) => {
   try {
     store.dispatch(setLoading(true));
     const deleteCookie = await fetch("/api/auth/session", {
@@ -142,7 +145,7 @@ export const signOutUser = async (t?: TFunction, isDeleting?: boolean) => {
       throw new Error("Failed to delete session cookie");
     }
     document.cookie = "loggedOut=true; path=/;";
-    if (!isDeleting) await signOut(auth);
+    await signOut(auth);
     if (t) toast.success(t("LogOutSuccess"));
     store.dispatch(firestoreApi.util.resetApiState());
     store.dispatch(logout());
@@ -167,14 +170,6 @@ export const listenToAuthChanges = async () => {
     const currentUser = auth.currentUser;
     if (currentUser) {
       await signOutUser();
-      store.dispatch(logout());
-      store.dispatch(clearLibrary());
-      store.dispatch(firestoreApi.util.resetApiState());
-      document.cookie = "loggedOut=true; path=/;";
-      await fetch("/api/auth/session", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
     }
     store.dispatch(setUserStatusLoading(false));
     return () => {}; // No-op unsubscribe

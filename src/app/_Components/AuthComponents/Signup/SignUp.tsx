@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/Redux/store";
 import {
   setError,
+  setGoogleLoading,
   setLoading,
   setUser,
   User,
@@ -106,11 +107,13 @@ const Signup = () => {
 
     return () => {
       unsubscribe();
+      if (isLoading) dispatch(setLoading(false));
+      if (isGoogleLoading) dispatch(setGoogleLoading(false));
       if (error) {
         dispatch(setError(""));
       }
     };
-  }, [router, dispatch, error]);
+  }, [router, dispatch, error, isLoading, isGoogleLoading]);
 
   return (
     <>
@@ -120,6 +123,7 @@ const Signup = () => {
         error={error}
         isLoading={isLoading}
         isGoogleLoading={isGoogleLoading}
+        t={t}
       />
     </>
   );

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import {
   setError,
+  setGoogleLoading,
   setLoading,
   setUser,
   User,
@@ -144,11 +145,13 @@ const Login = ({ email, password }: { email?: string; password?: string }) => {
 
   useEffect(() => {
     return () => {
+      if (isLoading) dispatch(setLoading(false));
+      if (isGoogleLoading) dispatch(setGoogleLoading(false));
       if (error) {
         dispatch(setError(""));
       }
     };
-  }, [router, dispatch, error]);
+  }, [router, dispatch, error, isLoading, isGoogleLoading]);
 
   return (
     <>
@@ -160,6 +163,7 @@ const Login = ({ email, password }: { email?: string; password?: string }) => {
         isLoading={isLoading}
         setRememberMe={setRememberMe}
         rememberMe={rememberMe}
+        t={t}
       />
     </>
   );

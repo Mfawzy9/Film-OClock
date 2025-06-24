@@ -31,7 +31,9 @@ const LibraryClient = () => {
   const t = useTranslations("Library");
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.authReducer);
+  const { user, userStatusLoading } = useSelector(
+    (state: RootState) => state.authReducer,
+  );
 
   // prevent refetch on mount/focus
   const {
@@ -43,8 +45,14 @@ const LibraryClient = () => {
     { skip: !user },
   );
 
-  const { handleClearLibrary, isClearLoading, favorites, watchlist } =
-    useLibrary({});
+  const {
+    handleClearLibrary,
+    isClearLoading,
+    favorites,
+    watchlist,
+    favoritesLoading,
+    watchlistLoading,
+  } = useLibrary({});
 
   useEffect(() => {
     if (getLibrary) {
@@ -80,86 +88,94 @@ const LibraryClient = () => {
     );
   }, [watchlist, searchTerm]);
 
-  const isLibrarySynced =
-    libraryType === "watchlist"
-      ? watchlist.length === getLibrary?.length
-      : favorites.length === getLibrary?.length;
-
-  if (isLoading || !user || isFetching || !getLibrary || !isLibrarySynced)
-    return <MainLoader />;
+  if (isLoading || userStatusLoading) return <MainLoader />;
 
   return (
-    <>
-      {/* Empty */}
-      {libraryType === "watchlist" && watchlist.length === 0 ? (
-        <EmptyWl />
-      ) : libraryType === "favorites" && favorites.length === 0 ? (
-        <EmptyFav />
-      ) : (
-        <PageSection>
-          {/* Clear button */}
-          {(movies?.length > 0 || tvShows?.length > 0) && (
-            <TitleClearBtn
-              handleClearLibrary={handleClearLibrary}
-              libraryType={libraryType}
-              isClearLoading={isClearLoading}
-              watchlistLength={watchlist.length}
-              favoritesLength={favorites.length}
-            />
-          )}
+    user && (
+      <>
+        {/* Empty */}
+        {libraryType === "watchlist" && watchlist.length === 0 ? (
+          <EmptyWl />
+        ) : libraryType === "favorites" && favorites.length === 0 ? (
+          <EmptyFav />
+        ) : (
+          <PageSection>
+            {/* Clear button */}
+            {(movies?.length > 0 || tvShows?.length > 0) && (
+              <TitleClearBtn
+                handleClearLibrary={handleClearLibrary}
+                libraryType={libraryType}
+                isClearLoading={isClearLoading}
+                watchlistLength={watchlist.length}
+                favoritesLength={favorites.length}
+              />
+            )}
 
-          {/* Watchlist shows */}
-          {libraryType === "watchlist" && watchlist?.length > 0 && (
-            <>
-              {watchlist.length > 2 && (
-                <LibSearch
-                  setSearchTerm={setSearchTerm}
-                  searchTerm={searchTerm}
-                  libraryWord="Watchlist"
+            {/* Watchlist shows */}
+            {libraryType === "watchlist" && watchlist?.length > 0 && (
+              <>
+                {watchlist.length > 2 && (
+                  <LibSearch
+                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTerm}
+                    libraryWord="Watchlist"
+                  />
+                )}
+                <main className="grid place-items-center sm:place-items-start gap-y-10">
+                  {filteredWatchlist.map((show: FirestoreTheShowI) => (
+                    <motion.div
+                      className={`${isLoading || isFetching || watchlistLoading ? "pointer-events-none opacity-50 animate-pulse" : ""}`}
+                      key={`${libraryType}-${show.id}`}
+                      layout
+                    >
+                      <WlCard show={show} />
+                    </motion.div>
+                  ))}
+                </main>
+                {filteredWatchlist.length === 0 && (
+                  <p className="text-center text-3xl py-5">
+                    {t("Watchlist.SearchNotFound")}
+                  </p>
+                )}
+              </>
+            )}
+
+            {/* Favorites movies */}
+            {libraryType === "favorites" && movies?.length > 0 && (
+              <div
+                className={`${isLoading || favoritesLoading || isFetching ? "pointer-events-none opacity-50 animate-pulse" : ""}`}
+              >
+                <CardsSlider
+                  theShows={movies}
+                  showType="movie"
+                  sliderType="movies"
+                  title={t("Favourites.Movies")}
+                  isLoading={false}
+                  arrLength={movies.length}
+                  className="mb-10"
                 />
-              )}
-              <main className="grid place-items-center sm:place-items-start gap-y-10">
-                {filteredWatchlist.map((show: FirestoreTheShowI) => (
-                  <motion.div key={`${libraryType}-${show.id}`} layout>
-                    <WlCard show={show} />
-                  </motion.div>
-                ))}
-              </main>
-              {filteredWatchlist.length === 0 && (
-                <p className="text-center text-3xl py-5">
-                  {t("Watchlist.SearchNotFound")}
-                </p>
-              )}
-            </>
-          )}
+              </div>
+            )}
 
-          {/* Favorites movies */}
-          {libraryType === "favorites" && movies?.length > 0 && (
-            <CardsSlider
-              theShows={movies}
-              showType="movie"
-              sliderType="movies"
-              title={t("Favourites.Movies")}
-              isLoading={isFetching || isLoading}
-              arrLength={movies.length}
-              className="mb-10"
-            />
-          )}
-
-          {/* Favorites tv shows */}
-          {libraryType === "favorites" && tvShows?.length > 0 && (
-            <CardsSlider
-              theShows={tvShows}
-              showType="tv"
-              sliderType="tvShows"
-              title={t("Favourites.TvShows")}
-              isLoading={isFetching || isLoading}
-              arrLength={tvShows.length}
-            />
-          )}
-        </PageSection>
-      )}
-    </>
+            {/* Favorites tv shows */}
+            {libraryType === "favorites" && tvShows?.length > 0 && (
+              <div
+                className={`${isLoading || favoritesLoading || isFetching ? "pointer-events-none opacity-50 animate-pulse" : ""}`}
+              >
+                <CardsSlider
+                  theShows={tvShows}
+                  showType="tv"
+                  sliderType="tvShows"
+                  title={t("Favourites.TvShows")}
+                  isLoading={false}
+                  arrLength={tvShows.length}
+                />
+              </div>
+            )}
+          </PageSection>
+        )}
+      </>
+    )
   );
 };
 
