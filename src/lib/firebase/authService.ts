@@ -161,16 +161,31 @@ export const signOutUser = async (t?: TFunction) => {
 
 // Listen for Auth Changes
 export const listenToAuthChanges = async () => {
+  const storeUser = store.getState().authReducer.user;
   store.dispatch(setUserStatusLoading(true));
 
   const res = await fetch("/api/auth/check-auth");
   const { isAuthenticated } = await res.json();
 
-  if (!isAuthenticated) {
+  if (storeUser && isAuthenticated) {
+    document.cookie = "loggedOut=false; path=/;";
+    store.dispatch(setUserStatusLoading(false));
+    return () => {}; // No-op unsubscribe
+  } else if (!storeUser && !isAuthenticated) {
+    document.cookie = "loggedOut=true; path=/;";
+    store.dispatch(setUserStatusLoading(false));
+    return () => {}; // No-op unsubscribe
+  } else if (!isAuthenticated && storeUser) {
+    document.cookie = "loggedOut=true; path=/;";
     const currentUser = auth.currentUser;
     if (currentUser) {
       await signOutUser();
     }
+    store.dispatch(setUserStatusLoading(false));
+    return () => {}; // No-op unsubscribe
+  } else if (isAuthenticated && !storeUser) {
+    document.cookie = "loggedOut=true; path=/;";
+    await signOutUser();
     store.dispatch(setUserStatusLoading(false));
     return () => {}; // No-op unsubscribe
   }
@@ -180,6 +195,14 @@ export const listenToAuthChanges = async () => {
       document.cookie = "loggedOut=false; path=/;";
       const sanitizedUser = sanitizeFirebaseUser(user as unknown as User);
       if (sanitizedUser) {
+        const sessionRes = await fetch("/api/auth/session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: await user.getIdToken() }),
+        });
+        if (!sessionRes.ok) {
+          throw new Error("Session creation failed");
+        }
         store.dispatch(setUser(sanitizedUser));
       } else {
         store.dispatch(logout());
