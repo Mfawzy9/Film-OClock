@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = () => {
     if (showType === "person")
       return (initialData as PersonDetailsResponse)?.biography;
-    if (initialData && initialTranslations) {
+    if (initialData && initialTranslations && locale === "ar") {
       const arabicSaOverview = initialTranslations.translations
         .find(
           (translation) =>

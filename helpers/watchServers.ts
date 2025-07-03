@@ -1,4 +1,6 @@
-export const serversNames = ({ tServerNames }: { tServerNames: any }) => [
+import { TFunction } from "../global";
+
+export const serversNames = ({ tServerNames }: { tServerNames: TFunction }) => [
   {
     query: tServerNames("server1"),
     name: tServerNames("server1"),

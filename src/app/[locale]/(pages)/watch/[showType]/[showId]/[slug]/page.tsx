@@ -62,7 +62,7 @@ export async function generateMetadata({
     };
 
   const description = () => {
-    if (initialData && initialTranslations) {
+    if (initialData && initialTranslations && locale === "ar") {
       const arabicSaOverview = initialTranslations.translations.find(
         (translation) =>
           translation.iso_639_1 === "ar" && translation.iso_3166_1 === "SA",
