@@ -630,7 +630,8 @@
         "VerifyTheNewEmailFirstError": "Please verify the new email before changing email.",
         "AccountDeletedSuccessfully": "Account deleted successfully.",
         "ReLoginToDeleteError": "Please re-login to delete your account.",
-        "DefaultDeleteError": "Failed to delete account"
+        "DefaultDeleteError": "Failed to delete account",
+        "NoChangesDetected": "No changes detected."
       },
       "Validation": {
         "UserName": {

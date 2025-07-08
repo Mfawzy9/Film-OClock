@@ -57,11 +57,13 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
   const handleSubmit = async (inputs: UpdateFields) => {
     const { userName, email, password, rePassword } = inputs;
     const promises = [];
-    if (
-      email !== user?.email &&
-      Yup.string().email().isValidSync(email) &&
-      user?.emailVerified
-    ) {
+    if (email !== user?.email && Yup.string().email().isValidSync(email)) {
+      if (!user?.emailVerified) {
+        toast.error(
+          t("SettingsPart.ToastsAndMessages.VerifyTheNewEmailFirstError"),
+        );
+        return;
+      }
       promises.push(updateEmail(auth.currentUser!, email));
     }
     if (password && password === rePassword) {
@@ -74,6 +76,12 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
         }),
       );
     }
+
+    if (promises.length === 0) {
+      toast.error(t("SettingsPart.ToastsAndMessages.NoChangesDetected"));
+      return;
+    }
+
     setIsLoading({ ...isLoading, submitLoading: true });
     await Promise.all(promises)
       .then(async () => {

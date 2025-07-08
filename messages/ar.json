@@ -629,7 +629,8 @@
         "VerifyTheNewEmailFirstError": "يرجى تأكيد البريد الإلكتروني الجديد قبل تغييره.",
         "AccountDeletedSuccessfully": "تم حذف الحساب بنجاح.",
         "ReLoginToDeleteError": "يرجى تسجيل الدخول مرة أخرى لحذف الحساب.",
-        "DefaultDeleteError": "فشل في حذف الحساب"
+        "DefaultDeleteError": "فشل في حذف الحساب",
+        "NoChangesDetected": "لا توجد تغييرات"
       },
       "Validation": {
         "UserName": {

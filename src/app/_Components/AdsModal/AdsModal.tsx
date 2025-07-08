@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 
-const extensions = {
+const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10;
+
+const EXTENSIONS = {
   chrome: [
     {
       name: "uBlock Origin Lite",
@@ -58,7 +60,38 @@ const extensions = {
   ],
 };
 
-const TEN_DAYS_MS = 1000 * 60 * 60 * 24 * 10;
+const Section = ({
+  titleKey,
+  tipsKey,
+  list,
+}: {
+  titleKey: string;
+  tipsKey: string;
+  list: { name: string; url: string }[];
+}) => {
+  const t = useTranslations("adsModal");
+
+  return (
+    <div className="bg-gray-800/50 px-4 py-0.5">
+      <h3 className="font-semibold">{t(titleKey as "title")}</h3>
+      <p>{t(tipsKey as "description")}</p>
+      <ul className="list-disc ms-5">
+        {list.map((ext) => (
+          <li key={ext.name}>
+            <a
+              href={ext.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              {ext.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const AdsModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +119,7 @@ const AdsModal = () => {
         >
           <div
             className="bg-white dark:bg-gray-900 rounded-md border border-gray-700 px-1 py-2 max-w-lg
-              w-full shadow-lg scroll-hidden overflow-y-auto max-h-[92vh] relative"
+              w-full shadow-lg overflow-y-auto max-h-[92vh] relative"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col mb-4 flex-wrap">
@@ -97,9 +130,7 @@ const AdsModal = () => {
               >
                 <IoClose />
               </button>
-              <h2 className="text-xl font-bold text-center">
-                {t("title")}
-              </h2>{" "}
+              <h2 className="text-xl font-bold text-center">{t("title")}</h2>
             </div>
 
             <p className="mb-4 text-center text-sm text-gray-700 dark:text-gray-300 px-2">
@@ -107,100 +138,16 @@ const AdsModal = () => {
             </p>
 
             <div className="space-y-3 text-sm max-h-[400px] overflow-y-auto">
-              <div className="bg-gray-800/50 px-4 py-0.5">
-                <h3 className="font-semibold">{t("chrome")}</h3>
-                <p>{t("chromeTips")}</p>
-                <ul className="list-disc ms-5">
-                  {extensions.chrome.map((ext) => (
-                    <li key={ext.name}>
-                      <a
-                        href={ext.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {ext.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-gray-800/50 px-4 py-0.5">
-                <h3 className="font-semibold">{t("firefox")}</h3>
-                <p>{t("firefoxTips")}</p>
-                <ul className="list-disc ms-5">
-                  {extensions.firefox.map((ext) => (
-                    <li key={ext.name}>
-                      <a
-                        href={ext.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {ext.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-gray-800/50 px-4 py-0.5">
-                <h3 className="font-semibold">{t("edge")}</h3>
-                <p>{t("edgeTips")}</p>
-                <ul className="list-disc ms-5">
-                  {extensions.edge.map((ext) => (
-                    <li key={ext.name}>
-                      <a
-                        href={ext.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {ext.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-gray-800/50 px-4 py-0.5">
-                <h3 className="font-semibold">{t("android")}</h3>
-                <p>{t("androidTips")}</p>
-                <ul className="list-disc ms-5">
-                  {extensions.android.map((ext) => (
-                    <li key={ext.name}>
-                      <a
-                        href={ext.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {ext.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-gray-800/50 px-4 py-0.5">
-                <h3 className="font-semibold">{t("ios")}</h3>
-                <p>{t("iosTips")}</p>
-                <ul className="list-disc ms-5">
-                  {extensions.ios.map((ext) => (
-                    <li key={ext.name}>
-                      <a
-                        href={ext.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {ext.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {Object.entries(EXTENSIONS).map(([key, value]) => {
+                return (
+                  <Section
+                    key={key}
+                    titleKey={key}
+                    tipsKey={`${key}Tips`}
+                    list={value}
+                  />
+                );
+              })}
             </div>
 
             <button
