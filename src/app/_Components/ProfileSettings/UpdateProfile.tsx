@@ -59,9 +59,7 @@ const UpdateProfile = ({ user }: { user: User | null }) => {
     const promises = [];
     if (email !== user?.email && Yup.string().email().isValidSync(email)) {
       if (!user?.emailVerified) {
-        toast.error(
-          t("SettingsPart.ToastsAndMessages.VerifyTheNewEmailFirstError"),
-        );
+        toast.error(t("SettingsPart.EmailAddressWarning"));
         return;
       }
       promises.push(updateEmail(auth.currentUser!, email));
