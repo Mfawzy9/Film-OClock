@@ -17,7 +17,7 @@ interface TvEpisodesProps {
   tvShowId: number;
   onWatchClick?: () => void;
   tvShowName: string;
-  isReleased: boolean;
+  isReleased: ({ episodeDate }: { episodeDate: string }) => boolean;
 }
 
 const EPISODES_PER_PAGE = 4;
@@ -116,9 +116,10 @@ const TvEpisodes = ({
                 mt-8 place-items-center"
             >
               {episodesToShow.map((episode) => {
+                console.log(episode.air_date);
                 return (
                   <EpisodeCard
-                    isReleased={isReleased}
+                    isReleased={isReleased({ episodeDate: episode.air_date })}
                     tvShowName={tvShowName}
                     episodeId={episode.id}
                     showId={tvShowId}
@@ -155,7 +156,9 @@ const TvEpisodes = ({
 
       {/* Modal for episode details */}
       <EpisodeModal
-        isReleased={isReleased}
+        isReleased={isReleased({
+          episodeDate: selectedEpisode?.air_date || "",
+        })}
         tvShowName={tvShowName}
         episodeId={selectedEpisode?.id || 0}
         showId={tvShowId}

@@ -29,6 +29,7 @@ const store = configureStore({
       videoDurationSlice.middleware,
       translationApi.middleware,
     ]),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;

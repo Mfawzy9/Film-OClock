@@ -135,7 +135,11 @@ const TvDetails = ({
   );
 
   const isReleased = useMemo(
-    () => new Date(tvShow?.first_air_date) <= new Date(),
+    () =>
+      ({ episodeDate }: { episodeDate?: string }) =>
+        episodeDate
+          ? new Date(episodeDate) <= new Date()
+          : new Date(tvShow?.first_air_date) <= new Date(),
     [tvShow],
   );
 
@@ -288,7 +292,7 @@ const TvDetails = ({
                 transition-[transform,opacity] duration-300 transform-gpu ease-out`}
               onLoad={handleImageLoad}
             />
-            {isReleased && (
+            {isReleased({}) && (
               <WatchedBtn
                 showId={showId}
                 showName={
@@ -440,7 +444,7 @@ const TvDetails = ({
             <WatchlistFavoriteBtns showId={showId} theShow={tvShow} />
             {/* Buttons */}
             <div className="flex flex-row items-center flex-wrap gap-3">
-              {isReleased && (
+              {isReleased({}) && (
                 <WatchBtn
                   name={
                     getShowTitle({

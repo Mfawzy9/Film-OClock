@@ -123,6 +123,13 @@ const WatchTv = ({
       : null;
   }, [seasonData?.episodes, episode]);
 
+  const nextEpisode = useMemo(() => {
+    const episodes = seasonData?.episodes;
+    return episodes && episode > 0 && episode < episodes.length
+      ? episodes[episode]
+      : null;
+  }, [seasonData?.episodes, episode]);
+
   const recommendations = useMemo(
     () => (tvShow?.recommendations?.results as TVShow[]) ?? [],
     [tvShow?.recommendations?.results],
@@ -300,7 +307,11 @@ const WatchTv = ({
   };
 
   const isReleased = useMemo(
-    () => new Date(tvShow?.first_air_date) <= new Date(),
+    () =>
+      ({ episodeDate }: { episodeDate?: string }) =>
+        episodeDate
+          ? new Date(episodeDate) <= new Date()
+          : new Date(tvShow?.first_air_date) <= new Date(),
     [tvShow],
   );
 
@@ -338,6 +349,7 @@ const WatchTv = ({
         <main ref={videoPlayerRef} className="flex flex-col gap-5">
           <WatchTvPlayer {...playerProps} />
           <WatchTvNavBtns
+            nextEpisode={nextEpisode}
             disableButtons={disableButtons}
             onWatchClick={scrollToPlayer}
             seasonData={seasonData as TvSeasonDetailsResponse}

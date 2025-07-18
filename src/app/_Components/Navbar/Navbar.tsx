@@ -181,7 +181,7 @@ const Navbar = ({ isDesktop }: { isDesktop: boolean }) => {
           {userStatusLoading ? (
             <div
               className={`w-9 h-9 flex items-center justify-center bg-gray-800 rounded-full ${
-                userStatusLoading && "pointer-events-none" }`}
+                userStatusLoading ? "pointer-events-none" : "" }`}
             >
               <FaCircle className="animate-ping" />
             </div>
