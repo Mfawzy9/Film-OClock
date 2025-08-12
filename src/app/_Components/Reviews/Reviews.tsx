@@ -75,7 +75,9 @@ const Reviews = ({
                   </p>
                 </span>
               </div>
-              <p className="leading-relaxed tracking-wide">{review.content}</p>
+              <p className="leading-relaxed tracking-wide max-w-full w-full overflow-hidden text-wrap">
+                {review.content}
+              </p>
             </div>
           ))}
 

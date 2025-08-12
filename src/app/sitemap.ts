@@ -69,14 +69,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           url: `${siteBaseUrl}/${locale}/details/movie/${movie.id}/${slug}`,
           lastModified: new Date(),
           changeFrequency: "monthly",
-          priority: 0.6,
+          priority: 0.8,
         });
 
         urls.push({
           url: `${siteBaseUrl}/${locale}/watch/movie/${movie.id}/${slug}`,
           lastModified: new Date(),
           changeFrequency: "monthly",
-          priority: 0.7,
+          priority: 0.8,
         });
       });
     },
@@ -114,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           url: `${siteBaseUrl}/${locale}/details/person/${person.id}/${slug}`,
           lastModified: new Date(),
           changeFrequency: "monthly",
-          priority: 0.6,
+          priority: 0.7,
         });
       });
     },

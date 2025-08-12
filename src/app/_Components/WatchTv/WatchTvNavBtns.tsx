@@ -43,7 +43,6 @@ const WatchTvNavBtns = ({
   if (!seasonData) return null;
   return (
     <>
-      {console.log(nextEpisode?.air_date)}
       <div className="flex items-center flex-wrap justify-between">
         {/* Previous Episode Button with tooltip */}
         <div className="relative group">

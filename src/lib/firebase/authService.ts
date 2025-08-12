@@ -76,12 +76,11 @@ export const signInWithGoogle = async ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idToken }),
     });
-    document.cookie = "loggedOut=false; path=/;";
 
     if (!sessionRes.ok) {
       throw new Error("Session creation failed");
     }
-
+    document.cookie = "loggedOut=false; path=/;";
     const updatedUser = sanitizeFirebaseUser(
       userCredential.user as unknown as User,
     );

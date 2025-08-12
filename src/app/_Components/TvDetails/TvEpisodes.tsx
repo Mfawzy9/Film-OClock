@@ -116,7 +116,6 @@ const TvEpisodes = ({
                 mt-8 place-items-center"
             >
               {episodesToShow.map((episode) => {
-                console.log(episode.air_date);
                 return (
                   <EpisodeCard
                     isReleased={isReleased({ episodeDate: episode.air_date })}
