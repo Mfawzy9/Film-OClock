@@ -68,7 +68,7 @@ const EpisodeModal = ({
 
   const arabicTranslation = useMemo(() => {
     if (episodeTranslations) {
-      return episodeTranslations.translations.find(
+      return episodeTranslations?.translations?.find(
         (translation) => translation.iso_639_1 === "ar",
       );
     }
