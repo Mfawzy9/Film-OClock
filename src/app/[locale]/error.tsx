@@ -4,7 +4,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { useEffect } from "react";
 import PublicError from "../_Components/PublicError/PublicError";
 import { useParams } from "next/navigation";
-
 import enMessages from "../../../messages/en.json";
 import arMessages from "../../../messages/ar.json";
 
