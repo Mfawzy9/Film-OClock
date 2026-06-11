@@ -154,7 +154,7 @@ const Footer = async () => {
           >
             {t("madeWith")} <span className="text-red-500">❤</span> {t("by")}{" "}
             <a
-              href="https://portfolio-one-xi.vercel.app/"
+              href="https://portfolio-one1.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-400 font-bold hover:underline"
